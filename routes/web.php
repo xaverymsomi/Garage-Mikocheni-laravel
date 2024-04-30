@@ -103,7 +103,7 @@ Route::group(['prefix' => 'stoke'], function () {
 
 // Customer 
 Route::group(['prefix' => 'customer'], function () {
-	Route::get('/add', ['as' => 'customer/add', 'uses' => 'Customercontroller@customeradd'])->middleware('can:customer_add');
+	Route::get('/add', ['as' => 'customer/add', 'uses' => 'Customercontroller@customer_vehicle'])->middleware('can:customer_add');
 	Route::post('/store', ['as' => 'customer/store', 'uses' => 'Customercontroller@storecustomer'])->middleware('can:customer_add');
 	Route::get('/list', ['as' => 'customer/list', 'uses' => 'Customercontroller@index'])->middleware('can:customer_view');
 	Route::get('/list/{id}', ['as' => 'customer/list/{id}', 'uses' => 'Customercontroller@customershow'])->middleware('can:customer_view');

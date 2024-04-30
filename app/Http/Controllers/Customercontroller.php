@@ -11,6 +11,8 @@ use App\Income;
 use App\Role;
 use App\Service;
 use App\Role_user;
+use App\Branch;
+use App\BranchSetting;
 use App\CustomField;
 use App\Invoice;
 use Illuminate\Http\Request;
@@ -37,6 +39,42 @@ class Customercontroller extends Controller
 
 		return view('customer.add', compact('country', 'onlycustomer', 'tbl_custom_fields'));
 	}
+
+
+	//customer addform
+	public function customer_vehicle()
+	{
+		$country = DB::table('tbl_countries')->get()->toArray();
+		$onlycustomer = DB::table('users')->where([['role', '=', 'Customer'], ['id', '=', Auth::User()->id]])->first();
+
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'customer'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		// dd($vehical_type);
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		if (isAdmin(Auth::User()->role_id)) {
+			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
+		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+			$branchDatas = Branch::get();
+		} else {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+		}
+
+		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
+		
+
+		return view('customer.customer_vehicle', compact('country', 'onlycustomer', 'tbl_custom_fields','customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
+	}
+
+
 	//customer store
 	public function storecustomer(CustomerAddEditFormRequest $request)
 	{

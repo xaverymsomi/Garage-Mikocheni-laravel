@@ -101,7 +101,7 @@
       <div class="nav_menu">
         <nav>
           <div class="nav toggle">
-              &nbsp;<a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup">{{ trans('message.Customers') }}</span>
+              &nbsp;<a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"> Clients </span>
               @can('customer_add')
               <a href="{!! url('/customer/add') !!}" id="">
                 <img src="{{ URL::asset('public/img/icons/plus Button.png') }}">

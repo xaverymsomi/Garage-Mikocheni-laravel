@@ -73,10 +73,10 @@
                                 </div>
 
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Customer Name') }} <label class="color-danger">*</label></label>
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Client Name') }} <label class="color-danger">*</label></label>
                                     <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                         <select name="Customername" id="cust_id" class="form-control select_vhi select_customer_auto_search form-select" cus_url="{!! url('service/get_vehi_name') !!}?v_id={{ request('v_id') }}" required>
-                                            <option value="">{{ trans('message.Select Customer') }}</option>
+                                            <option value="">{{ trans('Select Client') }}</option>
                                             @if (!empty($customer))
                                             @foreach ($customer as $customers)
                                             <option value="{{ $customers->id }}" {{ request()->input('c_id') == $customers->id ? 'selected' : '' }}>
@@ -126,10 +126,10 @@
 
                             <div class="row">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Repair Category') }} <label class="color-danger">*</label></label>
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Job Category') }} <label class="color-danger">*</label></label>
                                     <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                         <select name="repair_cat" class="form-control repair_category form-select" required>
-                                            <option value="">{{ trans('message.-- Select Repair Category--') }}
+                                            <option value="">{{ trans('-- Select Job Category--') }}
                                             </option>
 
                                             @if (!empty($repairCategoryList))
@@ -165,27 +165,7 @@
                                 </div>
                             </div>
 
-                            <div class="row row-mb-0">
-                                
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-labe col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Service Type') }}
-                                        <label class="color-danger">*</label></label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <!-- <label class="radio-inline free_service">
-                                            <input type="radio" name="service_type" id="free" value="free" class="free_service" required>{{ trans('message.Free') }}</label> -->
-                                        <label class="radio-inline">
-                                            <input type="radio" name="service_type" id="paid" value="paid" required checked> {{ trans('message.Paid') }}</label>
-                                    </div>
-                                    <div id="freeCouponList"></div>
-                                </div>
-                                <div id="dvCharge" class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('Charge') ? ' has-error' : '' }}">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 currency" for="last-name">{{ trans('message.Service Charge') }}
-                                        (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label></label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="charge_required" name="charge" class="form-control fixServiceCharge" placeholder="{{ trans('message.Enter Service Charge') }}" maxlength="8" required>
-                                    </div>
-                                </div>
-                            </div>
+                            
                     
                     <div class="row row-mb-0">
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -203,7 +183,7 @@
                         </div>
                    
                         <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                            <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="details">{{ trans('message.Details') }}</label>
+                            <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="details">{{ trans('NOTE') }}</label>
                             <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                 <textarea class="form-control mb-2" name="details" id="details" maxlength="100">{{ old('details') }}</textarea>
                             </div>
@@ -228,19 +208,8 @@
                             </div>
                         </div>
                         <!-- MOt Test Checkbox End-->
-                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Title') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" name="title" placeholder="{{ trans('message.Enter Title') }}" value="{{ old('title') }}" maxlength="50" class="form-control">
-                                    </div>
-                                </div>
-                      
-                    </div>
-                </div>
 
-
-                <!-- Wash Bay Feature -->
-                <div class="row row-mb-0">
+                        <!-- Wash Bay Feature -->
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                         <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 washbayLabel" for="washbay">{{ trans('message.Wash Bay') }} <label class="text-danger"></label></label>
                         <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 washbayInputDiv pt-0">
@@ -257,13 +226,24 @@
                             <span id="washbay_error_span" class="help-block error-help-block text-danger"></span>
                         </div>
                     </div>
-                </div>
                 <!-- Wash Bay Feature -->
+                        {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Title') }}</label>
+                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                        <input type="text" name="title" placeholder="{{ trans('message.Enter Title') }}" value="{{ old('title') }}" maxlength="50" class="form-control">
+                                    </div>
+                                </div> --}}
+                      
+                    </div>
+                </div>
+
+
+                
 
                 <!-- Service images  -->
                 <div class="row">
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Select Multiple Images') }} <label class="color-danger"></label></label>
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Upload Multiple Images') }} <label class="color-danger"></label></label>
                         <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                             <input type="file" name="image[]" class="form-control imageclass" id="images" onchange="preview_images();" data-max-file-size="5M" multiple />
                         </div>

@@ -449,19 +449,26 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                 <li class={{in_array($currentRoute,$inventoryRoutes) ? 'active' : ''}}><a href="{!! url('/') !!}"><i class="fa-solid fa-house margin-right-10px"></i>{{ trans('message.Dashboard') }}
                   </a></li>
 
-
-                  @canany(['customer_view', 'employee_view', 'supportstaff_view', 'accountant_view', 'branchAdmin_view'])
-                @php
-                $inventoryRoutes = ['/customer/list','/employee/list','/supportstaff/list','/accountant/list','/branchadmin/list','/customer/add','/employee/add','/supportstaff/add','/accountant/add','/branchadmin/add'];
+                  @php
+                $inventoryRoutes = ['/customer/add'];
                 @endphp
-                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/customer/list/') || Str::startsWith($currentRoute, '/employee/view/') || Str::startsWith($currentRoute, '/employee/edit/') || Str::startsWith($currentRoute, '/supportstaff/list/') || Str::startsWith($currentRoute, '/accountant/list/') || Str::startsWith($currentRoute, '/branchadmin/list/') ? 'active' : '' }}">
+                @can('customer_view')
+                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/customer/list/') ? 'active' : '' }}">
+                  <a href="{!! url('/customer/add') !!}"><i class="fa-regular fa-user margin-right-10px"></i> Client Creation
+                  </a>
+                </li>
+                @endcan
+
+                @canany(['employee_view', 'supportstaff_view', 'accountant_view', 'branchAdmin_view'])
+                @php
+                $inventoryRoutes = ['/employee/list','/supportstaff/list','/accountant/list','/branchadmin/list','/employee/add','/supportstaff/add','/accountant/add','/branchadmin/add'];
+                @endphp
+                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/employee/view/') || Str::startsWith($currentRoute, '/employee/edit/') || Str::startsWith($currentRoute, '/supportstaff/list/') || Str::startsWith($currentRoute, '/accountant/list/') || Str::startsWith($currentRoute, '/branchadmin/list/') ? 'active' : '' }}">
 
                   <div class="dropdown w-100">
-                    <a href="#"><i class="fa-regular fa-user margin-right-10px"></i> {{ trans('message.Users') }}<span class="fa fa-chevron-right dropdown-right-icon icon"> </span></a>
+                    <a href="#"><i class="fa-regular fa-user margin-right-10px"></i> Team <span class="fa fa-chevron-right dropdown-right-icon icon"> </span></a>
                     <div class="dropdown-content dropdown-content-user">
-                      @can('customer_view')
-                      <a href="{!! url('/customer/list')!!}">{{ trans('message.Customers') }}</a>
-                      @endcan
+                     
 
                       @can('employee_view')
                       <a href="{!! url('/employee/list') !!}">{{ trans('message.Employees') }}</a>
@@ -504,7 +511,7 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                 </li>
                 @endcanany
 
-                
+
                 @php
                 $inventoryRoutes = ['/quotation/list','/quotation/add'];
                 @endphp

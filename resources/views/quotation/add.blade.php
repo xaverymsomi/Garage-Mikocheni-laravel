@@ -117,10 +117,10 @@
                                 </div>
 
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Repair Category') }} <label class="color-danger">*</label></label>
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Job Category') }} <label class="color-danger">*</label></label>
                                     <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                         <select name="repair_cat" class="form-control repair_category form-select" required>
-                                            <option value="">{{ trans('message.-- Select Repair Category--') }}
+                                            <option value="">{{ trans('-- Select Job Category--') }}
                                             </option>
                                             @if (!empty($repairCategoryList))
                                             @foreach ($repairCategoryList as $repairCategoryListData)
@@ -140,14 +140,14 @@
                             </div>
 
                             <div class="row">
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 pt-0">{{ trans('message.Service Type') }}
                                         <label class="color-danger">*</label></label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                         <label class="radio-inline"><input type="radio" name="service_type" id="free" value="free" required>{{ trans('message.Free') }}</label>
                                         <label class="radio-inline"><input type="radio" name="service_type" checked id="paid" value="paid" required>{{ trans('message.Paid') }}</label>
                                     </div>
-                                </div>
+                                </div> --}}
  
                                 <div id="dvCharge" class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback 
                                     {{ $errors->has('charge') ? ' has-error' : '' }}">
@@ -164,6 +164,13 @@
                                     </div>
 
                                 </div>
+
+                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="details">{{ trans('NOTE') }}</label>
+                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                        <textarea class="form-control" name="details" id="details" maxlength="100">{{ old('details') }}</textarea>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row row-mb-0">
@@ -178,23 +185,11 @@
                                 </div>
                                 <!-- MOt Test Checkbox End-->
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="details">{{ trans('message.Details') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <textarea class="form-control" name="details" id="details" maxlength="100">{{ old('details') }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!-- Wash Bay Feature -->
-                            <div class="row row-mb-0">
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 washbayLabel" for="washbay">{{ trans('message.Wash Bay') }} <label class="text-danger"></label></label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 washbayInputDiv">
                                         <input type="checkbox" name="washbay" id="washBay" class="washBayCheckbox" {{ old('washbay') ? 'checked' : '' }} style="height:20px; width:20px; margin-right:5px; position: relative; top: 1px; margin-bottom: 12px;">
                                     </div>
                                 </div>
-
                                 <div id="washBayCharge" class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('washBayCharge') ? ' has-error' : '' }}">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 currency" for="washBayCharge">{{ trans('message.Wash Bay Charge') }} (<?php echo getCurrencySymbols(); ?>)
                                         <label class="color-danger">*</label></label>
@@ -205,9 +200,9 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <!-- Wash Bay Feature -->
-
-
                             <div class="row row-mb-0">
                                 <!-- Tax field start -->
                                 @if (!empty($tax))
@@ -233,14 +228,43 @@
                                 @endif
                                 <!-- New Tax field End-->
 
+                            </div>
+                            <!-- Wash Bay Feature -->
 
+
+                            {{-- <div class="row row-mb-0"/> --}}
+                                <!-- Tax field start -->
+                                {{-- @if (!empty($tax))
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="cus_name">{{ trans('message.Tax') }}</label>
+                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                        <table>
+                                            <tbody>
+                                                @foreach ($tax as $taxes)
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" id="tax_{{ $taxes->taxname }}" class="checkbox-inline check_tax sele_tax myCheckbox" name="Tax[]" value="<?php
+                                                                                                                                                                                        echo $taxes->id; ?>" taxrate="{{ $taxes->tax }}" taxName="{{ $taxes->taxname }}" style="height:20px; width:20px; margin-right:5px; position: relative; top: 6px; margin-bottom: 12px;">
+                                                        <?php
+                                                        echo $taxes->taxname . '&nbsp' . $taxes->tax; ?>%
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endif --}}
+                                <!-- New Tax field End-->
+
+
+                                {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Title') }}</label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                         <input type="text" name="title" placeholder="{{ trans('message.Enter Title') }}" value="{{ old('title') }}" maxlength="50" class="form-control titalQuotation">
                                     </div>
-                                </div>
-                            </div>
+                                </div> --}}
+                            {{-- </div> --}}
 
 
                             <!-- ************* MOT Module Starting ************* -->
