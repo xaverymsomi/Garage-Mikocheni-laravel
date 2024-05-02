@@ -805,7 +805,7 @@ if (!function_exists('getSupplierName')) {
 	{
 		$users = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Supplier']])->first();
 		if (!empty($users)) {
-			$supplier_name = $users->name . ' ' . $users->lastname;
+			$supplier_name = $users->name;
 			return $supplier_name;
 		}
 	}
@@ -817,7 +817,7 @@ if (!function_exists('getSupplierFullName')) {
 	{
 		$users = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Supplier']])->first();
 		if (!empty($users)) {
-			$supplier_name = $users->name . " " . $users->lastname;
+			$supplier_name = $users->name;
 			return $supplier_name;
 		}
 	}
@@ -1016,8 +1016,8 @@ if (!function_exists('getCustomerName')) {
 		$customer  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Customer']])->first();
 		if (!empty($customer)) {
 			$customer_name = $customer->name;
-			$customer_lname = $customer->lastname;
-			return $customer_name . ' ' . $customer_lname;
+			// $customer_lname = $customer->lastname;
+			return $customer_name;
 		}
 	}
 }
@@ -1029,8 +1029,8 @@ if (!function_exists('getAssignedName')) {
 		$assigned  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'employee']])->first();
 		if (!empty($assigned)) {
 			$assi_name = $assigned->name;
-			$assi_lname = $assigned->lastname;
-			return $assi_name . ' ' . $assi_lname;
+			// $assi_lname = $assigned->lastname;
+			return $assi_name;
 		}
 	}
 }
@@ -2844,7 +2844,7 @@ if (!function_exists('getVehicleNumberPlateFromSale')) {
 		{
 			$users = DB::table('users')->where('id', '=', $id)->first();
 			if (!empty($users)) {
-				$user_name = $users->name . " " . $users->lastname;
+				$user_name = $users->name;
 				return $user_name;
 			}
 		}
@@ -3390,17 +3390,17 @@ if (!function_exists('getVehicleNumberPlateFromSale')) {
 		}
 	}
 
-	//Get customer image
-	if (!function_exists('getCustomerImage')) {
-		function getCustomerImage($id)
-		{
-			$customer  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Customer']])->first();
-			if (!empty($customer)) {
-				$image = $customer->image;
-				return $image;
-			}
-		}
-	}
+	// //Get customer image
+	// if (!function_exists('getCustomerImage')) {
+	// 	function getCustomerImage($id)
+	// 	{
+	// 		$customer  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Customer']])->first();
+	// 		if (!empty($customer)) {
+	// 			$image = $customer->image;
+	// 			return $image;
+	// 		}
+	// 	}
+	// }
 
 	// Get  purchase date
 	if (!function_exists('getPurchaseProducts')) {

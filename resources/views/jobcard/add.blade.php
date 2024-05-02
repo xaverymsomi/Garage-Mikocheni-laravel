@@ -287,28 +287,32 @@
       });
 
 
-      $('body').on('click', '#vhi', function() {
+      $('body').on('change', '#vhi', function() {
 
-        var cus_id = $('.select_vhi').val();
+var vehi_id = $('#vhi').val(); // Changed selector to match the ID of the select element
 
-        var msg1 = "{{ trans('message.Customer') }}";
-        var msg2 = "{{ trans('message.Please select Customer!') }}";
-        var msg3 = "{{ trans('message.OK') }}";
+var url = '{{ url('service/getregistrationno') }}';
+$.ajax({
 
-        if (cus_id == "") {
-          swal({  
-                    title: msg1,  
-                    text: msg2,
-                    cancelButtonColor: '#C1C1C1',
-                    buttons: {
-                      cancel: msg3,
-                    },
-                    dangerMode: true,
-                });
-         
-          return false;
+    type: 'GET',
+    url: url,
+    data: {
+        vehi_id: vehi_id
+    },
+    success: function(response) {
+        var res = $.trim(response);
+        if (res == "") {
+            $('#reg_no').val(res);
+            $('#reg_no').removeAttr('readonly');
+        } else {
+            $('#reg_no').val(res);
+            $('#reg_no').attr('readonly', true);
         }
-      });
+    }
+});
+
+});
+
 
       $('body').on('change', '#vhi', function() {
 

@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use URL;
-use Auth;
-use Mail;
-use App\User;
-use App\Income;
 use App\Role;
-use App\Service;
-use App\Role_user;
+use App\User;
+use App\tbl_vehicle_discription_records;
+use App\tbl_vehicle_images;
+use App\tbl_vehicle_colors;
 use App\Branch;
-use App\BranchSetting;
-use App\CustomField;
+use App\Income;
 use App\Invoice;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Gate;
-use App\Http\Requests\CustomerAddEditFormRequest;
+use App\Service;
 use App\Vehicle;
+use Carbon\Carbon;
+use App\CustomField;
+use App\BranchSetting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\CustomerAddEditFormRequest;
+use App\Role_user;
 
 class Customercontroller extends Controller
 {
@@ -78,7 +81,7 @@ class Customercontroller extends Controller
 	//customer store
 	public function storecustomer(CustomerAddEditFormRequest $request)
 	{
-		//dd($request->all());
+		// dd($request->all());
 		/*$this->validate($request, [  
          'firstname' => 'regex:/^[(a-zA-Z\s)]+$/u',
 		 'lastname'=>'regex:/^[(a-zA-Z\s)]+$/u',
@@ -101,21 +104,20 @@ class Customercontroller extends Controller
 		]);*/
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
+		$password = $request->password;
+		$TIN = $request->TIN;
+		$password = $request->password;
 		$password = $request->password;
 		$gender = $request->gender;
 		$birthdate = $request->dob;
 		$email = $request->email;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country_id = $request->country_id;
 		$state_id = $request->state_id;
 		$city = $request->city;
-		$company_name = $request->company_name;
-		$image = $request->image;
-		$tax_id = $request->tax_id;
+		$NIDA = $request->NIDA;
+		$Driving = $request->Driving;
 
 		$dob = null;
 		if (!empty($birthdate)) {
@@ -137,29 +139,34 @@ class Customercontroller extends Controller
 
 		$customer = new User;
 		$customer->name = $firstname;
-		$customer->lastname = $lastname;
-		$customer->display_name = $displayname;
 		$customer->gender = $gender;
 		$customer->birth_date = $dob;
 		$customer->email = $email;
 		$customer->password = bcrypt($password);
 		$customer->mobile_no = $mobile;
-		$customer->landline_no = $landlineno;
 		$customer->address = $address;
 		$customer->country_id = $country_id;
 		$customer->state_id = $state_id;
 		$customer->city_id = $city;
-		$customer->company_name = $company_name;
-		$customer->tax_id = $tax_id;
+		$customer->TIN = $TIN;
 		$customer->create_by = Auth::User()->id;
 
-		if (!empty($image)) {
-			$file = $image;
+		if (!empty($Driving)) {
+			$file = $Driving;
 			$filename = $file->getClientOriginalName();
 			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
-			$customer->image = $filename;
+			$customer->Driving = $filename;
 		} else {
-			$customer->image = 'avtar.png';
+			$customer->Driving = 'drive.png';
+		}
+
+		if (!empty($NIDA)) {
+			$file = $NIDA;
+			$filename = $file->getClientOriginalName();
+			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
+			$customer->NIDA = $filename;
+		} else {
+			$customer->NIDA = 'NIDA.jpg';
 		}
 
 		$customer->role = "Customer";
@@ -254,6 +261,127 @@ class Customercontroller extends Controller
 				}
 			} catch (\Exception $e) {
 			}
+		}
+
+		// save Vehicle
+		
+		$vehical_type = $request->vehical_id;
+		$chasicno = $request->chasicno;
+		$vehicabrand = $request->vehicabrand;
+		$modelyear = $request->modelyear;
+		$fueltype = $request->fueltype;
+		$modelname = $request->modelname;
+		$price = $request->price;
+		// $odometerreading = $request->odometerreading;
+		// $gearbox = $request->gearbox;
+		// $gearboxno = $request->gearboxno;
+		$engineno = $request->engineno;
+		// $enginesize = $request->enginesize;
+		// $keyno = $request->keyno;
+		// $engine = $request->engine;
+		// $nogears = $request->gearno;
+		$numberPlate = $request->number_plate;
+		$customer = $request->customer;
+		$doms = $request->dom;
+
+		if (!empty($doms)) {
+			if (getDateFormat() == 'm-d-Y') {
+				$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
+			} else {
+				$dom = date('Y-m-d', strtotime($doms));
+			}
+		} else {
+			$dom = null;
+		}
+
+		$vehical = new Vehicle;
+		$vehical->vehicletype_id = $vehical_type;
+		$vehical->chassisno = $chasicno;
+		$vehical->vehiclebrand_id = $vehicabrand;
+		$vehical->modelyear = $modelyear;
+		$vehical->fuel_id = $fueltype;
+		$vehical->modelname = $modelname;
+		$vehical->price = $price;
+		// $vehical->odometerreading = $odometerreading;
+		$vehical->dom  = $dom;
+		// $vehical->gearbox = $gearbox;
+		// $vehical->gearboxno = $gearboxno;
+		$vehical->engineno = $engineno;
+		// $vehical->enginesize = $enginesize;
+		// $vehical->keyno  = $keyno;
+		// $vehical->engine = $engine;
+		// $vehical->nogears = $nogears;
+		$vehical->number_plate = $numberPlate;
+		$vehical->branch_id = $request->branch;
+		$vehical->customer_id = $request->customer;
+
+		//custom field save	
+		//$custom=Input::get('custom');
+		$custom = $request->custom;
+		$custom_fileld_value = array();
+		$custom_fileld_value_jason_array = array();
+		if (!empty($custom)) {
+			foreach ($custom as $key => $value) {
+				if (is_array($value)) {
+					$add_one_in = implode(",", $value);
+					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
+				} else {
+					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+				}
+			}
+
+			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
+
+			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
+				$vehicleData = $val1;
+			}
+			$vehical->custom_field = $vehicleData;
+		}
+		$vehical->save();
+
+		$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+		$id = $vehicles->id;
+
+		//$descriptionsdata = Input::get('description');
+		$descriptionsdata = $request->description;
+
+		foreach ($descriptionsdata as $key => $value) {
+			if ($descriptionsdata[$key] !== null) {
+				$desc = $descriptionsdata[$key];
+				$descriptions = new tbl_vehicle_discription_records;
+				$descriptions->vehicle_id = $id;
+				$descriptions->vehicle_description = $desc;
+				$descriptions->save();
+			}
+		}
+		$vehicals = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+		$id = $vehicles->id;
+
+		$image = $request->image;
+		if (!empty($image)) {
+			$files = $image;
+
+			foreach ($files as $file) {
+				$filename = $file->getClientOriginalName();
+				$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
+				$images = new tbl_vehicle_images;
+				$images->vehicle_id = $id;
+				$images->image = $filename;
+				$images->save();
+			}
+		}
+		$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+		$id = $vehicles->id;
+
+		//$colores = Input::get('color');
+		$colores = $request->color;
+
+		foreach ($colores as $key => $value) {
+			$colorse = $colores[$key];
+			$color1 = new tbl_vehicle_colors;
+			$color1->vehicle_id = $id;
+			$color1->color = $colorse;
+			$color1->save();
 		}
 
 		return redirect('/customer/list')->with('message', 'Customer Submitted Successfully');

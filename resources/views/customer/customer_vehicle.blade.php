@@ -27,694 +27,593 @@
          </div>
       </div>
    </div>
-   {{-- <div class="x_content">
-   <ul class="nav nav-tabs bar_tabs" role="tablist">
-   @can('customer_view')
-   <li role="presentation" class=""><a href="{!! url('/customer/list') !!}"><span class="visible-xs"></span><i
-      class="fa fa-list fa-lg">&nbsp;</i> {{ trans('message.Customer List') }}</a></li>
-   @endcan
-   @can('customer_add')
-   <li role="presentation" class="active" style="margin-left: 8px;"><a href="{!! url('/customer/add') !!}"><span class="visible-xs"></span><i class="fa fa-plus-circle fa-lg">&nbsp;</i>
-   <b>{{ trans('message.Add Customer') }}</b></a></li>
-   @endcan
-   </ul>
-   </div> --}}
+  
    <div class="row">
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
          <div class="x_panel">
             <div class="x_content">
-                <form id="demo-form2" action="{!! url('/customer/store') !!}" method="post" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left input_mask customerAddForm">
-                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
-                       <h4><b>{{ trans('message.PERSONAL INFORMATION') }}</b></h4>
-                       <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label> </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" id="firstname" name="firstname" class="firstname form-control" value="{{ old('firstname') }}" placeholder="{{ trans('message.Enter First Name') }}" maxlength="50">
-                             @if ($errors->has('firstname'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('firstname') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ old('lastname') }}" maxlength="50" class="form-control lastname">
-                             @if ($errors->has('lastname'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('lastname') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                          {{ trans('message.Gender') }}
-                          <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 gender">
-                             <input type="radio" name="gender" value="0" checked>
-                             {{ trans('message.Male') }}
-                             <input type="radio" name="gender" value="1"> {{ trans('message.Female') }}
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('mobile') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="mobile">{{ trans('message.Mobile No') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="mobile" placeholder="{{ trans('message.Enter Mobile No') }}" value="{{ old('mobile') }}" class="form-control" maxlength="16" minlength="6">
-                             @if ($errors->has('mobile'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('mobile') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="email">{{ trans('message.Email') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="email" placeholder="{{ trans('message.Enter Email') }}" value="{{ old('email') }}" class="form-control" maxlength="50">
-                             @if ($errors->has('email'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('email') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('password') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="password">{{ trans('message.Password') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="password" name="password" placeholder="{{ trans('message.Enter Password') }}" class="form-control col-md-7 col-xs-12" maxlength="20">
-                             @if ($errors->has('password'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('password') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 currency" style="" for="password_confirmation">{{ trans('message.Confirm Password') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="password" name="password_confirmation" placeholder="{{ trans('message.Enter Confirm Password') }}" class="form-control col-md-7 col-xs-12" maxlength="20">
-                             @if ($errors->has('password_confirmation'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('password_confirmation') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Date of Birth') }}
-                          </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
-                             {{-- <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> --}}
-                             <input type="text" id="date_of_birth" autocomplete="off" class="form-control datepicker" placeholder="<?php echo getDatepicker(); ?>" name="dob" value="{{ old('dob') }}" onkeypress="return false;" />
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('TIN-number') ? ' has-error' : '' }} ">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="TIN-number">{{ trans('TIN number') }} </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="TIN" placeholder="Enter TIN number'" value="{{ old('TIN number') }}" class="form-control TIN-number" maxlength="25">
-                             @if ($errors->has('TIN number'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('TIN number') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
-                          National Idenfication Card (NIDA) </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control chooseImage">
-                             <img src="{{ url('public/customer/nida.jpg') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
-                          Driving License </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control chooseImage">
-                             <img src="{{ url('public/customer/drive.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
-                       <h4><b>{{ trans('message.ADDRESS') }}</b></h4>
-                       <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
-                    </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('country_id') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="country_id">{{ trans('message.Country') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <select class="form-control select_country form-select" name="country_id" countryurl="{!! url('/getstatefromcountry') !!}">
-                                <option value="">{{ trans('message.Select Country') }}</option>
-                                @foreach ($country as $countrys)
-                                <option value="{{ $countrys->id }}">{{ $countrys->name }}</option>
-                                @endforeach
-                             </select>
-                             @if ($errors->has('country_id'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('country_id') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="state_id">{{ trans('message.State') }} </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <select class="form-control state_of_country form-select" name="state_id" stateurl="{!! url('/getcityfromstate') !!}">
-                                <option value="">{{ trans('message.Select State') }}</option>
-                             </select>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="city">{{ trans('message.Town/City') }}</label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <select class="form-control city_of_state form-select" name="city">
-                                <option value="">{{ trans('message.Select City') }}</option>
-                             </select>
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('address') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="address">{{ trans('message.Address') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <textarea class="form-control addressTextarea" id="address" name="address" maxlength="100">{{ old('address') }}</textarea>
-                             @if ($errors->has('address'))
-                             <span class="help-block">
-                             <strong>{{ $errors->first('address') }}</strong>
-                             </span>
-                             @endif
-                          </div>
-                       </div>
-                    </div>
-                    <!-- Custom field data  -->
-                    @if (!empty($tbl_custom_fields))
-                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
-                       <h4><b>{{ trans('message.CUSTOM FIELDS') }}</b></h4>
-                       <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
-                    </div>
-                    <?php
-                       $subDivCount = 0;
-                       ?>
-                    @foreach ($tbl_custom_fields as $myCounts => $tbl_custom_field)
-                    <?php
-                       if ($tbl_custom_field->required == 'yes') {
-                         $required = 'required';
-                         $red = '*';
-                       } else {
-                         $required = '';
-                         $red = '';
-                       }
-                       
-                       $subDivCount++;
-                       ?>
-                    @if ($myCounts % 2 == 0)
-                    <div class="row row-mb-0">
-                       @endif
-                       <div class="row form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 error_customfield_main_div_{{ $myCounts }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="account-no">{{ $tbl_custom_field->label }} <label class="color-danger">{{ $red }}</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             @if ($tbl_custom_field->type == 'textarea')
-                             <textarea name="custom[{{ $tbl_custom_field->id }}]" class="form-control textarea_{{ $tbl_custom_field->id }} textarea_simple_class common_simple_class common_value_is_{{ $myCounts }}" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="100" isRequire="{{ $required }}" type="textarea" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }}></textarea>
-                             <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display: none"></span>
-                             @elseif($tbl_custom_field->type == 'radio')
-                             <?php
-                                $radioLabelArrayList = getRadiolabelsList($tbl_custom_field->id);
-                                ?>
-                             @if (!empty($radioLabelArrayList))
-                             <div style="margin-top: 5px;">
-                                @foreach ($radioLabelArrayList as $k => $val)
-                                <label><input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" value="{{ $k }}" <?php if ($k == 0) {
-                                   echo 'checked';
-                                   } ?>>{{ $val }}</label>
-                                @endforeach
-                             </div>
-                             @endif
-                             @elseif($tbl_custom_field->type == 'checkbox')
-                             <?php
-                                $checkboxLabelArrayList = getCheckboxLabelsList($tbl_custom_field->id);
-                                $cnt = 0;
-                                ?>
-                             @if (!empty($checkboxLabelArrayList))
-                             <div class="required_checkbox_parent_div_{{ $tbl_custom_field->id }}" style="margin-top: 5px;">
-                                @foreach ($checkboxLabelArrayList as $k => $val)
-                                <label><input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}][]" value="{{ $val }}" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" custm_isd="{{ $tbl_custom_field->id }}" class="checkbox_{{ $tbl_custom_field->id }} required_checkbox_{{ $tbl_custom_field->id }} checkbox_simple_class common_value_is_{{ $myCounts }} common_simple_class" rows_id="{{ $myCounts }}">
-                                {{ $val }}</label> &nbsp;
-                                <?php $cnt++; ?>
-                                @endforeach
-                                <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display: none"></span>
-                             </div>
-                             <input type="hidden" name="checkboxCount" value="{{ $cnt }}">
-                             @endif
-                             @elseif($tbl_custom_field->type == 'textbox')
-                             <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" class="form-control textDate_{{ $tbl_custom_field->id }} textdate_simple_class common_value_is_{{ $myCounts }} common_simple_class" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="30" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }}>
-                             <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display:none"></span>
-                             @elseif($tbl_custom_field->type == 'date')
-                             <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" class="form-control textDate_{{ $tbl_custom_field->id }} date_simple_class common_value_is_{{ $myCounts }} common_simple_class" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="30" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }} onkeydown="return false">
-                             <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display:none"></span>
-                             @endif
-                          </div>
-                       </div>
-                       @if ($myCounts % 2 != 0)
-                    </div>
-                    @endif
-                    @endforeach
-                    <?php
-                       if ($subDivCount % 2 != 0) {
-                         echo '</div>';
-                       }
-                       ?>
-                    @endif
-                    <!-- Custom field data -->
-                    <div class="row">
-                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                       <div class="row">
-                          <!-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 my-1 mx-0">
-                             <a class="btn btn-primary customerAddcancleButton" href="{{ URL::previous() }}">{{ trans('message.CANCEL') }}</a>
-                             </div> -->
-                          <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 customerAddSubmitButton my-1 mx-0">
-                             <button type="submit" class="btn btn-success customerAddSubmitButton">{{ trans('message.SUBMIT') }}</button>
-                          </div>
-                       </div>
-                    </div>
-                 </form>
-                 {{-- End of Client form --}}
-
-                 {{-- Vehicle form --}}
-                 <form id="vehicleAdd-Form" action="{{ url('/vehicle/store') }}" method="post" enctype="multipart/form-data" class="form-horizontal upperform vehicleAddForm">
-                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
-                        <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
-                        <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+               <form id="demo-form2" action="{!! url('/customer/store') !!}" method="post" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left input_mask customerAddForm">
+                  <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
+                     <h4><b>{{ trans('message.PERSONAL INFORMATION') }}</b></h4>
+                     <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label> </label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="text" id="firstname" name="firstname" class="firstname form-control" value="{{ old('firstname') }}" placeholder="{{ trans('message.Enter First Name') }}" maxlength="50">
+                           @if ($errors->has('firstname'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('firstname') }}</strong>
+                           </span>
+                           @endif
+                        </div>
                      </div>
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ old('lastname') }}" maxlength="50" class="form-control lastname">
+                           @if ($errors->has('lastname'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('lastname') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                        {{ trans('message.Gender') }}
+                        <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 gender">
+                           <input type="radio" name="gender" value="0" checked>
+                           {{ trans('message.Male') }}
+                           <input type="radio" name="gender" value="1"> {{ trans('message.Female') }}
+                        </div>
+                     </div>
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('mobile') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="mobile">{{ trans('message.Mobile No') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="text" name="mobile" placeholder="{{ trans('message.Enter Mobile No') }}" value="{{ old('mobile') }}" class="form-control" maxlength="16" minlength="6">
+                           @if ($errors->has('mobile'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('mobile') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('email') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="email">{{ trans('message.Email') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="text" name="email" placeholder="{{ trans('message.Enter Email') }}" value="{{ old('email') }}" class="form-control" maxlength="50">
+                           @if ($errors->has('email'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('email') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('password') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="password">{{ trans('message.Password') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="password" name="password" placeholder="{{ trans('message.Enter Password') }}" class="form-control col-md-7 col-xs-12" maxlength="20">
+                           @if ($errors->has('password'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('password') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 currency" style="" for="password_confirmation">{{ trans('message.Confirm Password') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="password" name="password_confirmation" placeholder="{{ trans('message.Enter Confirm Password') }}" class="form-control col-md-7 col-xs-12" maxlength="20">
+                           @if ($errors->has('password_confirmation'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('password_confirmation') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Date of Birth') }}
+                        </label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
+                           {{-- <span class="input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> --}}
+                           <input type="text" id="date_of_birth" autocomplete="off" class="form-control datepicker" placeholder="<?php echo getDatepicker(); ?>" name="dob" value="{{ old('dob') }}" onkeypress="return false;" />
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('TIN-number') ? ' has-error' : '' }} ">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="TIN-number">{{ trans('TIN number') }} </label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="text" name="TIN" placeholder="Enter TIN number'" value="{{ old('TIN number') }}" class="form-control TIN-number" maxlength="25">
+                           @if ($errors->has('TIN number'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('TIN number') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
+                        National Idenfication Card (NIDA) </label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control chooseImage">
+                           <img src="{{ url('public/customer/nida.jpg') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
+                        </div>
+                     </div>
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
+                        Driving License </label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control chooseImage">
+                           <img src="{{ url('public/customer/drive.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
+                     <h4><b>{{ trans('message.ADDRESS') }}</b></h4>
+                     <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+                  </div>
+                  <div class="row row-mb-0">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('country_id') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="country_id">{{ trans('message.Country') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <select class="form-control select_country form-select" name="country_id" countryurl="{!! url('/getstatefromcountry') !!}">
+                              <option value="">{{ trans('message.Select Country') }}</option>
+                              @foreach ($country as $countrys)
+                              <option value="{{ $countrys->id }}">{{ $countrys->name }}</option>
+                              @endforeach
+                           </select>
+                           @if ($errors->has('country_id'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('country_id') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="state_id">{{ trans('message.State') }} </label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <select class="form-control state_of_country form-select" name="state_id" stateurl="{!! url('/getcityfromstate') !!}">
+                              <option value="">{{ trans('message.Select State') }}</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="city">{{ trans('message.Town/City') }}</label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <select class="form-control city_of_state form-select" name="city">
+                              <option value="">{{ trans('message.Select City') }}</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('address') ? ' has-error' : '' }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="address">{{ trans('message.Address') }} <label class="color-danger">*</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           <textarea class="form-control addressTextarea" id="address" name="address" maxlength="100">{{ old('address') }}</textarea>
+                           @if ($errors->has('address'))
+                           <span class="help-block">
+                           <strong>{{ $errors->first('address') }}</strong>
+                           </span>
+                           @endif
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
+                     <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
+                     <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+                  </div>
+                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                 <div class="row row-mb-0">
                     <div class="row row-mb-0">
-                       <div class="row row-mb-0">
-                          <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                             <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Vehicle For')}}<label class="color-danger"></label></label>
-                             <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 mb-0 pt-2">
-                                <input type="radio" name="vhi_for" value="0"  checked>{{ trans('message.Service') }}
-                                <!-- <input type="radio" name="vhi_for" value="1" > {{ trans('message.Sell') }} -->
-                             </div>
-                          </div>
-                       </div>
                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                             <div class="select-wrapper">
-                                <select class="form-control select_vehicaltype form-select" name="vehical_id" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}" required>
-                                   <option value="">{{ trans('message.Select Type') }}</option>
-                                   @if (!empty($vehical_type))
-                                   @foreach ($vehical_type as $vehical_types)
-                                   <option value="{{ $vehical_types->id }}">
-                                      {{ $vehical_types->vehicle_type }}
-                                   </option>
-                                   @endforeach
-                                   @endif
-                                </select>
-                                <div class="arrow-icon-vehicle"></div>
-                             </div>
-                          </div>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="number_plate" value="{{ old('number_plate') }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Vehicle For')}}<label class="color-danger"></label></label>
+                          <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 mb-0 pt-2">
+                             <input type="radio" name="vhi_for" value="0"  checked>{{ trans('message.Service') }}
+                             <!-- <input type="radio" name="vhi_for" value="1" > {{ trans('message.Sell') }} -->
                           </div>
                        </div>
                     </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                             <div class="select-wrapper">
-                                <select class="form-control select_vehicalbrand form-select" name="vehicabrand" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
-                                   <option value="">{{ trans('message.Select Brand') }}</option>
-                                </select>
-                                <div class="arrow-icon-vehicle"></div>
-                             </div>
-                          </div>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group" id="price-field">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">
-                          {{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label>
-                          </label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="price" value="{{ old('price') }}" placeholder="{{ trans('message.Enter Price') }}" class="form-control price_is" maxlength="10">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6" id="customer-field">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="customer">{{ trans('message.Select Customer') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <select class="form-control select_customer form-select" name="customer">
-                                <option value="">{{ trans('message.Select Customer') }}</option>
-                                @if (!empty($customer))
-                                @foreach ($customer as $customers)
-                                <option value="{{ $customers->id }}" {{ request()->input('c_id') == $customers->id ? 'selected' : '' }}>
-                                {{ getCustomerName($customers->id) }}
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                          <div class="select-wrapper">
+                             <select class="form-control select_vehicaltype form-select" name="vehical_id" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}" required>
+                                <option value="">{{ trans('message.Select Type') }}</option>
+                                @if (!empty($vehical_type))
+                                @foreach ($vehical_type as $vehical_types)
+                                <option value="{{ $vehical_types->id }}">
+                                   {{ $vehical_types->vehicle_type }}
                                 </option>
                                 @endforeach
                                 @endif
                              </select>
+                             <div class="arrow-icon-vehicle"></div>
                           </div>
+                       </div>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
                        </div>
                     </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Fuel Type') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                             <div class="select-wrapper">
-                                <select class="form-control select_fueltype form-select" name="fueltype" required>
-                                   <option value="">{{ trans('message.Select fuel') }} </option>
-                                   @if (!empty($fuel_type))
-                                   @foreach ($fuel_type as $fuel_types)
-                                   <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
-                                   </option>
-                                   @endforeach
-                                   @endif
-                                </select>
-                                <div class="arrow-icon-vehicle"></div>
-                             </div>
-                          </div>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-fuel" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <div class="select-wrapper">
-                                <select class="form-control select_branch form-select" name="branch">
-                                   @foreach ($branchDatas as $branchData)
-                                   <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
-                                   </option>
-                                   @endforeach
-                                </select>
-                                <div class="arrow-icon-branch"></div>
-                             </div>
-                          </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="number_plate" value="{{ old('number_plate') }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
                        </div>
                     </div>
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                             <div class="select-wrapper">
-                                <select class="form-control model_addname form-select" name="modelname" required>
-                                   <option value="">{{ trans('message.Select Model') }}</option>
-                                </select>
-                                <div class="arrow-icon-vehicle"></div>
-                             </div>
-                          </div>
-                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                 </div>
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                          <div class="select-wrapper">
+                             <select class="form-control select_vehicalbrand form-select" name="vehicabrand" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
+                                <option value="">{{ trans('message.Select Brand') }}</option>
+                             </select>
+                             <div class="arrow-icon-vehicle"></div>
                           </div>
                        </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="color-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
-                             <input type="text" name="modelyear" autocomplete="off" class="form-control" id="myDatepicker2" />
-                          </div>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
                        </div>
                     </div>
-                    {{-- 
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('odometerreading') ? ' has-error' : '' }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Odometer Reading') }} <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="odometerreading" value="{{ old('odometerreading') }}" placeholder="{{ trans('message.Enter Odometer Reading') }}" maxlength="20" class="form-control odometer_read">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Date of Manufacturing') }} <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 ">
-                             <input type="text" name="dom" autocomplete="off" class="form-control datepicker date" placeholder="<?php echo getDatepicker(); ?>" onkeypress="return false;" />
-                          </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group" id="price-field">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">
+                       {{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label>
+                       </label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="price" value="{{ old('price') }}" placeholder="{{ trans('message.Enter Price') }}" class="form-control price_is" maxlength="10">
                        </div>
                     </div>
-                    --}}
-                    {{-- 
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Gear Box') }} <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="gearbox" value="{{ old('gearbox') }}" placeholder="{{ trans('message.Enter Grear Box') }}" maxlength="30" class="form-control gear_box">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Gear Box No') }}.</label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="gearboxno" value="{{ old('gearboxno') }}" placeholder="{{ trans('message.Enter Gearbox No.') }}" maxlength="30" class="form-control gear_box_no">
-                          </div>
-                       </div>
-                    </div>
-                    --}}
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="engineno" value="{{ old('engineno') }}" placeholder="{{ trans('message.Enter Engine No.') }}" maxlength="30" class="form-control engine_no">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
-                          </div>
-                       </div>
-                       {{-- 
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Engine Size') }} <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="enginesize" value="{{ old('enginesize') }}" placeholder="{{ trans('message.Enter Engine Size') }}" maxlength="30" class="form-control engine_size">
-                          </div>
-                       </div>
-                       --}}
-                    </div>
-                    {{-- 
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Key No') }}. <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="keyno" value="{{ old('keyno') }}" placeholder="{{ trans('message.Enter Key No.') }}" maxlength="30" class="form-control key_no">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine') }} <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="engine" value="{{ old('engine') }}" placeholder="{{ trans('message.Enter Engine') }}" maxlength="30" class="form-control engineField">
-                          </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6" id="customer-field">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="customer">{{ trans('message.Select Customer') }} <label class="color-danger">*</label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <select class="form-control select_customer form-select" name="customer">
+                             <option value="">{{ trans('message.Select Customer') }}</option>
+                             @if (!empty($customer))
+                             @foreach ($customer as $customers)
+                             <option value="{{ $customers->id }}" {{ request()->input('c_id') == $customers->id ? 'selected' : '' }}>
+                             {{ getCustomerName($customers->id) }}
+                             </option>
+                             @endforeach
+                             @endif
+                          </select>
                        </div>
                     </div>
-                    --}}
-                    {{-- 
-                    <div class="row row-mb-0">
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
-                          </div>
-                       </div>
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number of Gear') }} <label class="text-danger"></label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             <input type="text" name="gearno" value="{{ old('gearno') }}" placeholder="{{ trans('message.Enter Number of Gear') }}" maxlength="5" class="form-control no_of_gear">
-                          </div>
-                       </div>
-                    </div>
-                    --}}
-                    <div class="row row-mb-0">
-                       <!-- Vehical images  -->
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Select Multiple Images') }}
-                          </label>
-                          <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                             <input type="file" name="image[]" class="form-control imageclass" id="images" onchange="preview_images();" data-max-file-size="5M" multiple />
-                          </div>
-                          <div class="row classimage mt-2" id="image_preview"></div>
-                       </div>
-                    </div>
-                    <div class="row row-mb-0">
-                       <!-- Vehicle Description  -->
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
-                          <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                             <h2 class="fw-bold">{{ trans('message.Vehicle Description') }}</h2>
-                             <br>
-                             <button type="button" id="add_new_description" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getDescription') !!}">{{ trans('+') }}</button>
-                          </div>
-                          <div class="table-responsive mt-3 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 table-bordered">
-                             <table class="table table-bordered addtaxtype" id="tab_decription_detail">
-                                <thead>
-                                   <tr>
-                                      <th class="all">{{ trans('message.Description') }}</th>
-                                      <th class="all">{{ trans('message.Action') }}</th>
-                                   </tr>
-                                </thead>
-                                <tbody>
-                                   <tr id="row_id_1">
-                                      <td>
-                                         <textarea name="description[]" class="form-control" maxlength="100" id="tax_1"></textarea>
-                                      </td>
-                                      <td>
-                                         <span class="d-none" data-id="1"><i class="fa fa-trash disabled"></i></span>
-                                      </td>
-                                   </tr>
-                                </tbody>
-                             </table>
-                          </div>
-                       </div>
-                       <!--vehicle color-->
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group ms-1">
-                          <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                             <h2 class="fw-bold">{{ trans('message.Vehicle Color') }} </h2>
-                             </span><br>
-                             <button type="button" id="add_new_color" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getcolor') !!}">{{ trans('+') }}
-                             </button>
-                          </div>
-                          <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 text-end mb-3">
-                             <button type="button" data-bs-target="#responsive-modal-color" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm newaddvehicledescription mt-1">{{ trans('message.Add/Remove') }}</button><br>
-                          </div>
-                          <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
-                             <table class="table table-bordered addtaxtype" id="tab_color">
-                                <thead>
-                                   <tr>
-                                      <th class="all">{{ trans('message.Colors') }}</th>
-                                      <th>{{ trans('message.Action') }}</th>
-                                   </tr>
-                                </thead>
-                                <tbody>
-                                   <tr id="color_id_1">
-                                      <td>
-                                         <select name="color[]" class="form-control color form-select" id="tax_1" data-id="1">
-                                            <option value="">{{ trans('message.Select Color') }}
-                                            </option>
-                                            @if (!empty($color))
-                                            @foreach ($color as $colors)
-                                            <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
-                                               {{ $colors->color }}
-                                            </option>
-                                            @endforeach
-                                            @endif
-                                         </select>
-                                      </td>
-                                      <td>
-                                      </td>
-                                   </tr>
-                                </tbody>
-                             </table>
-                          </div>
-                       </div>
-                    </div>
-                    <!-- Start Custom Field, (If register in Custom Field Module)  -->
-                    @if (!empty($tbl_custom_fields))
-                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
-                       <h4><b>{{ trans('message.Custom Fields') }}</b></h4>
-                       <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
-                    </div>
-                    <?php
-                       $subDivCount = 0;
-                       ?>
-                    @foreach ($tbl_custom_fields as $myCounts => $tbl_custom_field)
-                    <?php
-                       if ($tbl_custom_field->required == 'yes') {
-                           $required = 'required';
-                           $red = '*';
-                       } else {
-                           $required = '';
-                           $red = '';
-                       }
-                       
-                       $subDivCount++;
-                       ?>
-                    @if ($myCounts % 2 == 0)
-                    <div class="row row-mb-0">
-                       @endif
-                       <div class="row form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 error_customfield_main_div_{{ $myCounts }}">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="account-no">{{ $tbl_custom_field->label }} <label class="color-danger">{{ $red }}</label></label>
-                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                             @if ($tbl_custom_field->type == 'textarea')
-                             <textarea name="custom[{{ $tbl_custom_field->id }}]" class="form-control textarea_{{ $tbl_custom_field->id }} textarea_simple_class common_simple_class common_value_is_{{ $myCounts }}" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="100" isRequire="{{ $required }}" type="textarea" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }}></textarea>
-                             <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" span>
-                             @elseif($tbl_custom_field->type == 'radio')
-                             <?php
-                                $radioLabelArrayList = getRadiolabelsList($tbl_custom_field->id);
-                                ?>
-                             @if (!empty($radioLabelArrayList))
-                             <div class="mt-1">
-                                @foreach ($radioLabelArrayList as $k => $val)
-                                <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" value="{{ $k }}" <?php if ($k == 0) {
-                                   echo 'checked';
-                                   } ?>>{{ $val }} &nbsp;
+                 </div>
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Fuel Type') }} <label class="color-danger">*</label></label>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                          <div class="select-wrapper">
+                             <select class="form-control select_fueltype form-select" name="fueltype" required>
+                                <option value="">{{ trans('message.Select fuel') }} </option>
+                                @if (!empty($fuel_type))
+                                @foreach ($fuel_type as $fuel_types)
+                                <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
+                                </option>
                                 @endforeach
-                             </div>
-                             @endif
-                             @elseif($tbl_custom_field->type == 'checkbox')
-                             <?php
-                                $checkboxLabelArrayList = getCheckboxLabelsList($tbl_custom_field->id);
-                                $cnt = 0;
-                                ?>
-                             @if (!empty($checkboxLabelArrayList))
-                             <div class="mt-1 required_checkbox_parent_div_{{ $tbl_custom_field->id }}">
-                                @foreach ($checkboxLabelArrayList as $k => $val)
-                                <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}][]" value="{{ $val }}" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" custm_isd="{{ $tbl_custom_field->id }}" class="checkbox_{{ $tbl_custom_field->id }} required_checkbox_{{ $tbl_custom_field->id }} checkbox_simple_class common_value_is_{{ $myCounts }} common_simple_class" rows_id="{{ $myCounts }}"> {{ $val }}
-                                &nbsp;
-                                <?php $cnt++; ?>
-                                @endforeach
-                                <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger"></span>
-                             </div>
-                             <input type="hidden" name="checkboxCount" value="{{ $cnt }}">
-                             @endif
-                             @elseif($tbl_custom_field->type == 'textbox')
-                             <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" class="form-control textDate_{{ $tbl_custom_field->id }} textdate_simple_class common_value_is_{{ $myCounts }} common_simple_class" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="30" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }}>
-                             <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger"></span>
-                             @elseif($tbl_custom_field->type == 'date')
-                             <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" class="form-control textDate_{{ $tbl_custom_field->id }} date_simple_class common_value_is_{{ $myCounts }} common_simple_class" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="30" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }} onkeydown="return false">
-                             <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger"></span>
-                             @endif
+                                @endif
+                             </select>
+                             <div class="arrow-icon-vehicle"></div>
                           </div>
                        </div>
-                       @if ($myCounts % 2 != 0)
-                    </div>
-                    @endif
-                    @endforeach
-                    <?php
-                       if ($subDivCount % 2 != 0) {
-                           echo '</div>';
-                       }
-                       ?>
-                    @endif
-                    <!-- End Custom Field -->
-                    <div class="row">
-                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                       <!-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 my-1 mx-0">
-                          <a class="btn btn-primary vehicleAddCancleButton" href="{{ URL::previous() }}">{{ trans('message.CANCEL') }}</a>
-                          </div> -->
-                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 my-1 mx-0">
-                          <button type="submit" class="btn btn-success vehicleAddSubmitButton">{{ trans('message.SUBMIT') }}</button>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-fuel" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
                        </div>
                     </div>
-                 </form>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <div class="select-wrapper">
+                             <select class="form-control select_branch form-select" name="branch">
+                                @foreach ($branchDatas as $branchData)
+                                <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
+                                </option>
+                                @endforeach
+                             </select>
+                             <div class="arrow-icon-branch"></div>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                          <div class="select-wrapper">
+                             <select class="form-control model_addname form-select" name="modelname" required>
+                                <option value="">{{ trans('message.Select Model') }}</option>
+                             </select>
+                             <div class="arrow-icon-vehicle"></div>
+                          </div>
+                       </div>
+                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                       </div>
+                    </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="color-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
+                          <input type="text" name="modelyear" autocomplete="off" class="form-control" id="myDatepicker2" />
+                       </div>
+                    </div>
+                 </div>
+                 {{-- 
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('odometerreading') ? ' has-error' : '' }}">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Odometer Reading') }} <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="odometerreading" value="{{ old('odometerreading') }}" placeholder="{{ trans('message.Enter Odometer Reading') }}" maxlength="20" class="form-control odometer_read">
+                       </div>
+                    </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Date of Manufacturing') }} <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 ">
+                          <input type="text" name="dom" autocomplete="off" class="form-control datepicker date" placeholder="<?php echo getDatepicker(); ?>" onkeypress="return false;" />
+                       </div>
+                    </div>
+                 </div>
+                 --}}
+                 {{-- 
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Gear Box') }} <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="gearbox" value="{{ old('gearbox') }}" placeholder="{{ trans('message.Enter Grear Box') }}" maxlength="30" class="form-control gear_box">
+                       </div>
+                    </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Gear Box No') }}.</label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="gearboxno" value="{{ old('gearboxno') }}" placeholder="{{ trans('message.Enter Gearbox No.') }}" maxlength="30" class="form-control gear_box_no">
+                       </div>
+                    </div>
+                 </div>
+                 --}}
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="engineno" value="{{ old('engineno') }}" placeholder="{{ trans('message.Enter Engine No.') }}" maxlength="30" class="form-control engine_no">
+                       </div>
+                    </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
+                       </div>
+                    </div>
+                    {{-- 
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Engine Size') }} <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="enginesize" value="{{ old('enginesize') }}" placeholder="{{ trans('message.Enter Engine Size') }}" maxlength="30" class="form-control engine_size">
+                       </div>
+                    </div>
+                    --}}
+                 </div>
+                 {{-- 
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Key No') }}. <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="keyno" value="{{ old('keyno') }}" placeholder="{{ trans('message.Enter Key No.') }}" maxlength="30" class="form-control key_no">
+                       </div>
+                    </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine') }} <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="engine" value="{{ old('engine') }}" placeholder="{{ trans('message.Enter Engine') }}" maxlength="30" class="form-control engineField">
+                       </div>
+                    </div>
+                 </div>
+                 --}}
+                 {{-- 
+                 <div class="row row-mb-0">
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
+                       </div>
+                    </div>
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number of Gear') }} <label class="text-danger"></label></label>
+                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                          <input type="text" name="gearno" value="{{ old('gearno') }}" placeholder="{{ trans('message.Enter Number of Gear') }}" maxlength="5" class="form-control no_of_gear">
+                       </div>
+                    </div>
+                 </div>
+                 --}}
+                 <div class="row row-mb-0">
+                    <!-- Vehical images  -->
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Select Multiple Images') }}
+                       </label>
+                       <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <input type="file" name="image[]" class="form-control imageclass" id="images" onchange="preview_images();" data-max-file-size="5M" multiple />
+                       </div>
+                       <div class="row classimage mt-2" id="image_preview"></div>
+                    </div>
+                 </div>
+                 <div class="row row-mb-0">
+                    <!-- Vehicle Description  -->
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
+                       <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <h2 class="fw-bold">{{ trans('message.Vehicle Description') }}</h2>
+                          <br>
+                          <button type="button" id="add_new_description" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getDescription') !!}">{{ trans('+') }}</button>
+                       </div>
+                       <div class="table-responsive mt-3 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 table-bordered">
+                          <table class="table table-bordered addtaxtype" id="tab_decription_detail">
+                             <thead>
+                                <tr>
+                                   <th class="all">{{ trans('message.Description') }}</th>
+                                   <th class="all">{{ trans('message.Action') }}</th>
+                                </tr>
+                             </thead>
+                             <tbody>
+                                <tr id="row_id_1">
+                                   <td>
+                                      <textarea name="description[]" class="form-control" maxlength="100" id="tax_1"></textarea>
+                                   </td>
+                                   <td>
+                                      <span class="d-none" data-id="1"><i class="fa fa-trash disabled"></i></span>
+                                   </td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+                    <!--vehicle color-->
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group ms-1">
+                       <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <h2 class="fw-bold">{{ trans('message.Vehicle Color') }} </h2>
+                          </span><br>
+                          <button type="button" id="add_new_color" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getcolor') !!}">{{ trans('+') }}
+                          </button>
+                       </div>
+                       <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 text-end mb-3">
+                          <button type="button" data-bs-target="#responsive-modal-color" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm newaddvehicledescription mt-1">{{ trans('message.Add/Remove') }}</button><br>
+                       </div>
+                       <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
+                          <table class="table table-bordered addtaxtype" id="tab_color">
+                             <thead>
+                                <tr>
+                                   <th class="all">{{ trans('message.Colors') }}</th>
+                                   <th>{{ trans('message.Action') }}</th>
+                                </tr>
+                             </thead>
+                             <tbody>
+                                <tr id="color_id_1">
+                                   <td>
+                                      <select name="color[]" class="form-control color form-select" id="tax_1" data-id="1">
+                                         <option value="">{{ trans('message.Select Color') }}
+                                         </option>
+                                         @if (!empty($color))
+                                         @foreach ($color as $colors)
+                                         <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                                            {{ $colors->color }}
+                                         </option>
+                                         @endforeach
+                                         @endif
+                                      </select>
+                                   </td>
+                                   <td>
+                                   </td>
+                                </tr>
+                             </tbody>
+                          </table>
+                       </div>
+                    </div>
+                 </div>
+         
+                  <!-- Custom field data  -->
+                  @if (!empty($tbl_custom_fields))
+                  <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
+                     <h4><b>{{ trans('message.CUSTOM FIELDS') }}</b></h4>
+                     <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+                  </div>
+                  <?php
+                     $subDivCount = 0;
+                     ?>
+                  @foreach ($tbl_custom_fields as $myCounts => $tbl_custom_field)
+                  <?php
+                     if ($tbl_custom_field->required == 'yes') {
+                       $required = 'required';
+                       $red = '*';
+                     } else {
+                       $required = '';
+                       $red = '';
+                     }
+                     
+                     $subDivCount++;
+                     ?>
+                  @if ($myCounts % 2 == 0)
+                  <div class="row row-mb-0">
+                     @endif
+                     <div class="row form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 error_customfield_main_div_{{ $myCounts }}">
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="account-no">{{ $tbl_custom_field->label }} <label class="color-danger">{{ $red }}</label></label>
+                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                           @if ($tbl_custom_field->type == 'textarea')
+                           <textarea name="custom[{{ $tbl_custom_field->id }}]" class="form-control textarea_{{ $tbl_custom_field->id }} textarea_simple_class common_simple_class common_value_is_{{ $myCounts }}" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="100" isRequire="{{ $required }}" type="textarea" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }}></textarea>
+                           <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display: none"></span>
+                           @elseif($tbl_custom_field->type == 'radio')
+                           <?php
+                              $radioLabelArrayList = getRadiolabelsList($tbl_custom_field->id);
+                              ?>
+                           @if (!empty($radioLabelArrayList))
+                           <div style="margin-top: 5px;">
+                              @foreach ($radioLabelArrayList as $k => $val)
+                              <label><input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" value="{{ $k }}" <?php if ($k == 0) {
+                                 echo 'checked';
+                                 } ?>>{{ $val }}</label>
+                              @endforeach
+                           </div>
+                           @endif
+                           @elseif($tbl_custom_field->type == 'checkbox')
+                           <?php
+                              $checkboxLabelArrayList = getCheckboxLabelsList($tbl_custom_field->id);
+                              $cnt = 0;
+                              ?>
+                           @if (!empty($checkboxLabelArrayList))
+                           <div class="required_checkbox_parent_div_{{ $tbl_custom_field->id }}" style="margin-top: 5px;">
+                              @foreach ($checkboxLabelArrayList as $k => $val)
+                              <label><input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}][]" value="{{ $val }}" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" custm_isd="{{ $tbl_custom_field->id }}" class="checkbox_{{ $tbl_custom_field->id }} required_checkbox_{{ $tbl_custom_field->id }} checkbox_simple_class common_value_is_{{ $myCounts }} common_simple_class" rows_id="{{ $myCounts }}">
+                              {{ $val }}</label> &nbsp;
+                              <?php $cnt++; ?>
+                              @endforeach
+                              <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display: none"></span>
+                           </div>
+                           <input type="hidden" name="checkboxCount" value="{{ $cnt }}">
+                           @endif
+                           @elseif($tbl_custom_field->type == 'textbox')
+                           <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" class="form-control textDate_{{ $tbl_custom_field->id }} textdate_simple_class common_value_is_{{ $myCounts }} common_simple_class" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="30" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }}>
+                           <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display:none"></span>
+                           @elseif($tbl_custom_field->type == 'date')
+                           <input type="{{ $tbl_custom_field->type }}" name="custom[{{ $tbl_custom_field->id }}]" class="form-control textDate_{{ $tbl_custom_field->id }} date_simple_class common_value_is_{{ $myCounts }} common_simple_class" placeholder="{{ trans('message.Enter') }} {{ $tbl_custom_field->label }}" maxlength="30" isRequire="{{ $required }}" fieldNameIs="{{ $tbl_custom_field->label }}" rows_id="{{ $myCounts }}" {{ $required }} onkeydown="return false">
+                           <span id="common_error_span_{{ $myCounts }}" class="help-block error-help-block color-danger" style="display:none"></span>
+                           @endif
+                        </div>
+                     </div>
+                     @if ($myCounts % 2 != 0)
+                  </div>
+                  @endif
+                  @endforeach
+                  <?php
+                     if ($subDivCount % 2 != 0) {
+                       echo '</div>';
+                     }
+                     ?>
+                  @endif
+                  <!-- Custom field data -->
+                  <div class="row">
+                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                     <div class="row">
+                        <!-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 my-1 mx-0">
+                           <a class="btn btn-primary customerAddcancleButton" href="{{ URL::previous() }}">{{ trans('message.CANCEL') }}</a>
+                           </div> -->
+                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 customerAddSubmitButton my-1 mx-0">
+                           <button type="submit" class="btn btn-success customerAddSubmitButton">{{ trans('message.SUBMIT') }}</button>
+                        </div>
+                     </div>
+                  </div>
+               </form>
 
+
+               {{-- End of Client form --}}
             </div>
          </div>
       </div>

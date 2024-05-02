@@ -157,7 +157,6 @@
           @endcan
           <th>{{ trans('message.Image') }}</th>
           <th>{{ trans('message.First Name') }}</th>
-          <th>{{ trans('message.Last Name') }}</th>
           <th>{{ trans('message.Email') }}</th>
           <th>{{ trans('message.Mobile Number') }}</th>
           <th>{{ trans('message.Vehicle List') }}</th>
@@ -182,9 +181,7 @@
           <td><a href="{!! url('/customer/list/' . $customers->id) !!}">{{ $customers->name }} </a>
           <!-- <a data-toggle="tooltip" data-placement="bottom" title="First Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
         </td>
-          <td>{{ $customers->lastname }} 
-            <!-- <a data-toggle="tooltip" data-placement="bottom" title="Last Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-          </td>
+          
           <td>{{ $customers->email }} 
             <!-- <a data-toggle="tooltip" data-placement="bottom" title="Email" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
           </td>

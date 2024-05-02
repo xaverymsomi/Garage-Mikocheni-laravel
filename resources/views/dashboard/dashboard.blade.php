@@ -1083,7 +1083,10 @@
 
                                             <span class="jobdetails">{{ $sale1s->job_no }} |
                                                 {{ date(getDateFormat(), strtotime($dateservicepaid)) }} </span></br>
-                                            <span><img src="{{ url('public/customer/' . getCustomerImage($sale1s->customer_id) ) }}" width="25px" class="rounded-circle"> {{ getCustomerName($sale1s->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a></span>
+                                            <span>
+                                                {{-- <img src="{{ url('public/customer/' . getCustomerImage($sale1s->customer_id) ) }}" width="25px" class="rounded-circle">  --}}
+                                                {{ getCustomerName($sale1s->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a>
+                                            </span>
                                         </div>
                                         @if ($view_data == 'Yes')
                                     </a>
@@ -1327,7 +1330,8 @@
                                                 <?php $dateservicefree = date('Y-m-d', strtotime($saless->service_date)); ?>
                                                 <span class="jobdetails">{{ $saless->job_no }}
                                                     <i>&nbsp;&nbsp;{{ date(getDateFormat(), strtotime($dateservicefree)) }}</i> </span></br>
-                                                <span><img src="{{ url('public/customer/' . getCustomerImage($saless->customer_id) ) }}" width="25px" class="rounded-circle"> {{ getCustomerName($saless->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a></span>
+                                                <span>
+                                                    {{-- <img src="{{ url('public/customer/' . getCustomerImage($saless->customer_id) ) }}" width="25px" class="rounded-circle"> {{ getCustomerName($saless->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a></span> --}}
                                             </div>
                                             @if ($view_data == 'Yes')
                                         </a>
@@ -1403,7 +1407,9 @@
 
                                                 <span class="jobdetails">{{ $sale1s->job_no }}
                                                     <i>&nbsp;&nbsp;{{ date(getDateFormat(), strtotime($dateservicefree)) }}</i> </span></br>
-                                                <span><img src="{{ url('public/customer/' . getCustomerImage($sale1s->customer_id) ) }}" width="25px" class="rounded-circle"> {{ getCustomerName($sale1s->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a></span>
+                                                <span>
+                                                    {{-- <img src="{{ url('public/customer/' . getCustomerImage($sale1s->customer_id) ) }}" width="25px" class="rounded-circle"> --}}
+                                                     {{ getCustomerName($sale1s->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a></span>
                                             </div>
                                             @if ($view_data == 'Yes')
                                         </a>

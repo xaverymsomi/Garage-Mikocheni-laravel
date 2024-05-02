@@ -80,9 +80,9 @@
               </div>
 
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Plate Number') }} <label class="text-danger">*</label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="number_plate" value="{{ $vehicaledit->number_plate }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control">
+                  <input type="text" name="number_plate" value="{{ $vehicaledit->number_plate }}" placeholder="{{ trans('Enter Plate Number') }}" maxlength="30" class="form-control">
                 </div>
               </div>
 
