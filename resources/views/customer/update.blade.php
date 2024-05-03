@@ -245,20 +245,14 @@
 
           <div class="row row-mb-0">
             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label> </label>
+              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Full Name') }} <label class="color-danger">*</label> </label>
               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="text" id="firstname" name="firstname" placeholder="{{ trans('message.Enter First Name') }}" value="{{ $customer->name }}" class="form-control" maxlength="50">
+                <input type="text" id="firstname" name="firstname" placeholder="{{ trans('Enter Full Name') }}" value="{{ $customer->name }}" class="form-control" maxlength="50">
 
               </div>
             </div>
 
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Last Name') }} <label class="color-danger lastname">*</label></label>
-              <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ $customer->lastname }}" class="form-control" maxlength="50">
-
-              </div>
-            </div>
+            
           </div>
 
           
@@ -342,69 +336,12 @@
             </div>
           </div>
 
-          <div class="row row-mb-0">
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('displayname') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="displayname">{{ trans('message.Display Name') }} </label>
-              <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="text" name="displayname" placeholder="{{ trans('message.Enter Display Name') }}" value="{{ $customer->display_name }}" maxlength="25" class="form-control displayname">
-              </div>
-            </div>
+          
 
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('company_name') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="company_name">{{ trans('message.Company Name') }} <label class="color-danger"></label> </label>
-              <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="text" name="company_name" placeholder="{{ trans('message.Enter Company Name') }}" value="{{ $customer->company_name }}" maxlength="100" class="form-control companyname">
-                @if ($errors->has('company_name'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('company_name') }}</strong>
-                </span>
-                @endif
-              </div>
-            </div>
-          </div>
+          
+          
 
-          <div class="row row-mb-0">
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('landlineno') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="landlineno">{{ trans('message.Landline No') }} <label class="color-danger"></label></label>
-              <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="text" id="landlineno" name="landlineno" placeholder="{{ trans('message.Enter LandLine No') }}" value="{{ $customer->landline_no }}" maxlength="16" minlength="6" class="form-control">
-                @if ($errors->has('landlineno'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('landlineno') }}</strong>
-                </span>
-                @endif
-              </div>
-            </div>
-
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('tax_id') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="tax_id">{{ trans('message.Tax Id') }}</label>
-              <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="text" name="tax_id" placeholder="{{ trans('message.Enter Tax id') }}" value="{{ $customer->tax_id }}" class="form-control" maxlength="50">
-                @if ($errors->has('tax_id'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('tax_id') }}</strong>
-                </span>
-                @endif
-              </div>
-            </div>
-            
-          </div>
-
-          <div class="row row-mb-0">
-          <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('image') ? ' has-error' : '' }}">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">{{ trans('message.Image') }} </label>
-              <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                <input type="file" id="image" name="image" class="form-control chooseImage">
-                <img src="{{ url('public/customer/' . $customer->image) }}" width="52px" height="52px" id="imagePreview" class="datatable_img mt-2">
-
-                @if ($errors->has('image'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('image') }}</strong>
-                </span>
-                @endif
-              </div>
-            </div>                                          
-          </div>
+          
           <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 mt-3">
             <h4><b>{{ trans('message.Address') }}</b></h4>
             <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
@@ -634,39 +571,9 @@
     });
 
 
-    /*For image preview at selected image*/
-    function readUrl(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
+      
 
-        reader.onload = function(e) {
-          $('#imagePreview').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    $("#image").change(function() {
-      readUrl(this);
-      $("#imagePreview").css("display", "block");
-    });
-
-    $('body').on('change', '.chooseImage', function() {
-      var imageName = $(this).val();
-      var imageExtension = /(\.jpg|\.jpeg|\.png)$/i;
-
-      if (imageExtension.test(imageName)) {
-        $('.imageHideShow').css({
-          "display": ""
-        });
-      } else {
-        $('.imageHideShow').css({
-          "display": "none"
-        });
-      }
-    });
-
-    /*If any white space for companyname, firstname, lastname and addresstext are then make empty value of these all field*/
+    /*If any white space for companyname, firstname and addresstext are then make empty value of these all field*/
     $('body').on('keyup', '.addressTextarea', function() {
 
       var addressValue = $(this).val();
@@ -685,32 +592,7 @@
       }
     });
 
-    $('body').on('keyup', '#lastname', function() {
 
-      var lastName = $(this).val();
-
-      if (!lastName.replace(/\s/g, '').length) {
-        $(this).val("");
-      }
-    });
-
-    $('body').on('keyup', '.displayname', function() {
-
-      var displayName = $(this).val();
-
-      if (!displayName.replace(/\s/g, '').length) {
-        $(this).val("");
-      }
-    });
-
-    $('body').on('keyup', '.companyname', function() {
-
-      var companyName = $(this).val();
-
-      if (!companyName.replace(/\s/g, '').length) {
-        $(this).val("");
-      }
-    });
 
 
     /***** Custom Field manually validation ******/
@@ -726,8 +608,7 @@
         function(index) {
           var input = $(this);
 
-          if (input.attr('name') == "firstname" || input.attr('name') == "lastname" || input.attr('name') ==
-            "email" || input.attr('name') == "password" || input.attr('name') == "password_confirmation" ||
+          if (input.attr('name') == "firstname" || input.attr('name') =="email" || input.attr('name') == "password" || input.attr('name') == "password_confirmation" ||
             input.attr('name') == "mobile" || input.attr('name') == "country_id" || input.attr('name') ==
             "address") {
             if (input.val() == "") {

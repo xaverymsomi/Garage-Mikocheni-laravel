@@ -202,9 +202,27 @@ class JobCardcontroller extends Controller
 	//jobcard add form
 	public function jobcard_add()
 	{
-		$characters = '0123456789';
-		$code =  'J' . '' . substr(str_shuffle($characters), 0, 6);
+		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->first();
 
+if (!empty($last_order)) {
+    // Get the last jobcard number
+    $lastJobcardNumber = $last_order->job_no;
+
+    // Extract the numeric part of the jobcard number
+    $lastNumber = intval(substr($lastJobcardNumber, -4));
+
+    // Increment the last number
+    $incrementedNumber = $lastNumber + 1;
+
+    // Generate jobcard number with format RMAL-RP-24-<increment>
+    $prefix = 'RMAL-RP-24-';
+    $new_number = $prefix . str_pad($incrementedNumber, 4, '0', STR_PAD_LEFT);
+} else {
+    // If no previous jobcard found, start from 001
+    $new_number = 'RMAL-RP-24-0001';
+}
+
+$code = $new_number;
 		$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', '=', 0]])->get()->toArray();
 
 		$customer = DB::table('tbl_sales')->groupBy('customer_id')->get()->toArray();

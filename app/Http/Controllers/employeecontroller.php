@@ -120,27 +120,16 @@ class employeecontroller extends Controller
 
 		$user = new User;
 		$user->name = $firstname;
-		$user->lastname = $request->lastname;
-		$user->display_name = $request->displayname;
 		$user->gender = $request->gender;
 		$user->birth_date = $dob;
 		$user->email = $email;
 		$user->password = bcrypt($password);
 		$user->mobile_no = $request->mobile;
-		$user->landline_no = $request->landlineno;
 		$user->address = $request->address;
 		$user->branch_id = $request->branch;
 		$user->create_by = Auth::User()->id;
 
-		if (!empty($request->image)) {
-			$file = $request->image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/employee/', $file->getClientOriginalName());
-			$user->image = $filename;
-		} else {
-			$user->image = 'avtar.png';
-		}
-
+		
 		$user->join_date = $join_date;
 		$user->designation = $request->designation;
 		$user->left_date = $left_date;
@@ -363,8 +352,6 @@ class employeecontroller extends Controller
 
 		$user = User::find($id);
 		$user->name = $firstname;
-		$user->lastname = $request->lastname;
-		$user->display_name = $request->displayname;
 		$user->gender = $request->gender;
 		$user->birth_date = $dob;
 		$user->email = $email;
@@ -374,16 +361,9 @@ class employeecontroller extends Controller
 		}
 
 		$user->mobile_no = $request->mobile;
-		$user->landline_no = $request->landlineno;
 		$user->address = $request->address;
 
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/employee/', $file->getClientOriginalName());
-			$user->image = $filename;
-		}
+		
 
 		$user->country_id = $request->country_id;
 		$user->state_id = $request->state;

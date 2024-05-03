@@ -25,15 +25,12 @@ class CustomerAddEditFormRequest extends FormRequest
     {
         return [
             'firstname' => 'required|regex:/^[(a-zA-Z\s)\p{L}]+$/u|max:50',
-            'lastname' => 'required|regex:/^[(a-zA-Z\s)\p{L}]+$/u|max:50',
-            'displayname' => 'nullable|regex:/^[(a-zA-Z\s)\p{L}]+$/u|max:50',
-            //'company_name' => 'nullable|max:100|regex:/^[a-zA-Z][a-zA-Z0-9\s\.\@\-\_]*$',
-            'company_name' => 'nullable|max:100|regex:/^[(a-zA-Z\s)\p{N}\p{L}]+$/u',
+            
             'email' => 'required|email|custom_email|unique:users,email,NULL,id,soft_delete,0' . $this->id,
             'password'=> ($this->id)?'nullable|min:6|max:12|regex:/^(?=.*[a-zA-Z\p{L}])(?=.*\d).+$/u':'required|min:6|max:12|regex:/^(?=.*[a-zA-Z\p{L}])(?=.*\d).+$/u',
             'password_confirmation' => ($this->id)?'same:password':'required|same:password',
             'mobile' => 'required|min:6|max:16|regex:/^[- +()]*[0-9][- +()0-9]*$/',
-            'landlineno' => 'nullable|min:6|max:16|regex:/^[- +()]*[0-9][- +()0-9]*$/',
+            
             'image' => 'nullable|mimes:jpg,png,jpeg',
             'country_id' => 'required',
             'address' => 'required',            

@@ -155,7 +155,6 @@
           @can('customer_delete')
           <th> </th>
           @endcan
-          <th>{{ trans('message.Image') }}</th>
           <th>{{ trans('message.First Name') }}</th>
           <th>{{ trans('message.Email') }}</th>
           <th>{{ trans('message.Mobile Number') }}</th>
@@ -177,7 +176,7 @@
             </label>
           </td>
           @endcan
-          <td><a href="{!! url('/customer/list/' . $customers->id) !!}"><img src="{{ url('public/customer/' . $customers->image) }}" width="50px" height="50px" class="datatable_img"></a></td>
+          
           <td><a href="{!! url('/customer/list/' . $customers->id) !!}">{{ $customers->name }} </a>
           <!-- <a data-toggle="tooltip" data-placement="bottom" title="First Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
         </td>

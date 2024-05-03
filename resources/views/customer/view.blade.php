@@ -251,12 +251,12 @@
     <div class="row">
       <div class="col-xl-10 col-md-9 col-sm-10">
         <div class="user_profile_header_left">
-          <img class="user_view_profile_image" src="{{ URL::asset('public/customer/' . $customer->image) }}">
+          {{-- <img class="user_view_profile_image" src="{{ URL::asset('public/customer/' . $customer->image) }}"> --}}
           <div class="row">
             <div class="view_top1">
               <div class="col-xl-12 col-md-12 col-sm-12">
                 <label class="nav_text h5 user-name fh5">
-                  {{ $customer->name . ' ' . $customer->lastname }}&nbsp;
+                  {{ $customer->name }}&nbsp;
                 </label>
                 @can('customer_edit')
                 <div class="view_user_edit_btn d-inline">
@@ -369,7 +369,7 @@
       <div class="row margin_top_15px mx-1">
         <div class="col-xl-3 col-md-3 col-sm-6">
           <label class="">{{ trans('message.Display Name') }} </label><br>
-          <label class="fw-bold">{{ $customer->display_name  ?? $customer->name }}<br></label>
+          <label class="fw-bold">{{ $customer->name }}<br></label>
         </div>
         <div class="col-xl-3 col-md-3 col-sm-6">
           <label class="">{{ trans('message.Date of Birth') }}</label><br>
@@ -398,18 +398,8 @@
 
             <p class="fw-bold overflow-visible h5"> {{ trans('message.More Info') }}. </p>
             <div class="row">
-              <div class="col-xl-12 col-md-12 col-sm-12 mt-1">
-                <label class=""> {{ trans('message.Landline No.') }} : </label>
-                <label class="fw-bold">
-                  {{ $customer->landline_no ?? trans('message.Not Added') }}
-                </label>
-              </div>
-              <div class="col-xl-12 col-md-12 col-sm-12 mt-1">
-                <label class=""> {{ trans('message.Tax Id') }} : </label>
-                <label class="fw-bold">
-                  {{ $customer->tax_id ?? trans('message.Not Added') }}
-                </label>
-              </div>
+              
+              
 
               @if (!$tbl_custom_fields->count() !== 0)
               @foreach ($tbl_custom_fields as $tbl_custom_field)
@@ -667,7 +657,9 @@
                       @endif
                       @endif
                       {{ getVehicleNumberPlate($invoice->vehicle_id) }}</i></p>
-                  <p><img src="{{ URL::asset('public/customer/' . $customer->image) }}" width="20px" height="20px" class="rounded-circle"> {{ getCustomerName($invoice->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="{{ getCustomerName($jobCard->customer_id); }}" class="text-primary"><img src="{{ URL::asset('public/img/dashboard/icon.png') }}" width="14px"></a></p>
+                  <p>
+                    {{-- <img src="{{ URL::asset('public/customer/' . $customer->image) }}" width="20px" height="20px" class="rounded-circle"> --}}
+                    {{ getCustomerName($invoice->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="{{ getCustomerName($jobCard->customer_id); }}" class="text-primary"><img src="{{ URL::asset('public/img/dashboard/icon.png') }}" width="14px"></a></p>
                 </div>
                 @if ($invoice->payment_status == 0)
                 <div style="margin-left: auto; background: rgba(255, 144, 84, 0.1); color:#E56E19" class="p-2">

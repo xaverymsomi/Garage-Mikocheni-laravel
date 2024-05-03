@@ -120,7 +120,7 @@
       <div class="nav_menu">
         <nav>
           <div class="nav toggle">
-            <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/supportstaff/list') !!}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $supportstaff->name . ' ' . $supportstaff->lastname }}</span>
+            <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/supportstaff/list') !!}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $supportstaff->name }}</span>
           </div>
           @include('dashboard.profile')
         </nav>
@@ -131,12 +131,12 @@
     <div class="row">
       <div class="col-xl-10 col-md-9 col-sm-10">
         <div class="user_profile_header_left">
-          <img class="user_view_profile_image" src="{{ URL::asset('public/supportstaff/' . $supportstaff->image) }}">
+          {{-- <img class="user_view_profile_image" src="{{ URL::asset('public/supportstaff/' . $supportstaff->image) }}"> --}}
           <div class="row">
             <div class="view_top1">
               <div class="col-xl-12 col-md-12 col-sm-12">
                 <label class="nav_text h5 user-name">
-                  {{ $supportstaff->name . ' ' . $supportstaff->lastname }}&nbsp;
+                  {{ $supportstaff->name }}&nbsp;
                 </label>
                 @can('supportstaff_edit')
                 <div class="view_user_edit_btn d-inline">
@@ -227,12 +227,7 @@
           <div class="guardian_div mb-3">
             <div class="row">
               <p class="fw-bold overflow-visible h5"> {{ trans('message.More Info') }}. </p>
-              <div class="col-xl-6 col-md-6 col-sm-12 mt-1">
-                <label class=""> {{ trans('message.Landline No.') }} : </label>
-                <label class="fw-bold">
-                  {{ $supportstaff->landline_no ?? trans('message.Not Added') }}
-                </label>
-              </div>
+              
 
 
               @if (!$tbl_custom_fields->count() !== 0)

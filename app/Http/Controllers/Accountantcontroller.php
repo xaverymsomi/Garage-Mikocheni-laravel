@@ -93,32 +93,25 @@ class Accountantcontroller extends Controller
 		}
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$email = $request->email;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
 		$city = $request->city;
-		$image = $request->image;
 
 		//Get user role id from Role table
 		$getRoleId = Role::where('role_name', '=', 'Accountant')->first();
 
 		$accountant = new User;
 		$accountant->name = $firstname;
-		$accountant->lastname = $lastname;
-		$accountant->display_name = $displayname;
 		$accountant->gender = $gender;
 		$accountant->birth_date = $dob;
 		$accountant->email = $email;
 		$accountant->password = bcrypt($password);
 		$accountant->mobile_no = $mobile;
-		$accountant->landline_no = $landlineno;
 		$accountant->address = $address;
 		$accountant->country_id = $country;
 		$accountant->state_id = $state;
@@ -126,14 +119,7 @@ class Accountantcontroller extends Controller
 		$accountant->branch_id = $request->branch;
 		$accountant->create_by = Auth::User()->id;
 
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/accountant/', $file->getClientOriginalName());
-			$accountant->image = $filename;
-		} else {
-			$accountant->image = 'avtar.png';
-		}
+		
 
 		$accountant->role = "accountant";
 		$accountant->role_id = $getRoleId->id; /*Store Role table User Role Id*/
@@ -334,13 +320,10 @@ class Accountantcontroller extends Controller
 	public function accountantupdate($id, AccountantAddEditFormRequest $request)
 	{
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$emails = $request->email;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
@@ -367,8 +350,6 @@ class Accountantcontroller extends Controller
 
 		$accountant = User::find($id);
 		$accountant->name = $firstname;
-		$accountant->lastname = $lastname;
-		$accountant->display_name = $displayname;
 		$accountant->gender = $gender;
 		$accountant->birth_date = $dob;
 		$accountant->email = $email;
@@ -378,20 +359,13 @@ class Accountantcontroller extends Controller
 		}
 
 		$accountant->mobile_no = $mobile;
-		$accountant->landline_no = $landlineno;
 		$accountant->address = $address;
 		$accountant->country_id = $country;
 		$accountant->state_id = $state;
 		$accountant->city_id = $city;
 		$accountant->branch_id = $request->branch;
 
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/accountant/', $file->getClientOriginalName());
-			$accountant->image = $filename;
-		}
+		
 
 		$accountant->role = "accountant";
 

@@ -85,18 +85,28 @@ class ServicesControler extends Controller
 	//service add form
 	public function index()
 	{
-		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->get()->first();
+		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->first();
 
-		if (!empty($last_order)) {
+if (!empty($last_order)) {
+    // Get the last jobcard number
+    $lastJobcardNumber = $last_order->job_no;
 
-			$last_full_job_number = $last_order->job_no;
-			$last_job_number_digit = substr($last_full_job_number, 1);
-			$new_number = "J" . str_pad($last_job_number_digit + 1, 6, 0, STR_PAD_LEFT);
-		} else {
-			$new_number = 'J000001';
-		}
+    // Extract the numeric part of the jobcard number
+    $lastNumber = intval(substr($lastJobcardNumber, -4));
 
-		$code = $new_number;
+    // Increment the last number
+    $incrementedNumber = $lastNumber + 1;
+
+    // Generate jobcard number with format RMAL-RP-24-<increment>
+    $prefix = 'RMAL-RP-24-';
+    $new_number = $prefix . str_pad($incrementedNumber, 4, '0', STR_PAD_LEFT);
+} else {
+    // If no previous jobcard found, start from 001
+    $new_number = 'RMAL-RP-24-0001';
+}
+
+$code = $new_number;
+
 
 		//Customer add
 		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
@@ -341,15 +351,38 @@ class ServicesControler extends Controller
 		$option = explode(",", $arr);
 
 		foreach ($option as $value) {
-			$num = "$value";
-			$n = explode("/", $num);
-			$isSelected = ($n[3] == $selectedVId) ? 'selected' : '';
-?>
-			<option value="<?php echo $n[3]; ?>" class="modelnms" <?php echo $isSelected; ?>>
-				<?php echo $value; ?>
-			</option>
-<?php
+			// Split the value into number plate and vehicle model
+			$parts = explode("/", $value);
+		
+			// Check if the parts array has at least four elements
+			if (count($parts) >= 4) {
+				// Extract the number plate and vehicle model
+				$numberPlate = $parts[2]; // Assuming the number plate is in the third part
+				$vehicleModel = $parts[1];
+				
+				// Check if the current option is selected
+				$isSelected = ($parts[3] == $selectedVId) ? 'selected' : '';
+				?>
+				<option value="<?php echo $parts[3]; ?>" class="modelnms" <?php echo $isSelected; ?>>
+					<?php echo "$numberPlate / $vehicleModel"; ?>
+				</option>
+				<?php
+			} else {
+				// If the parts array doesn't contain enough elements, log an error or handle it appropriately
+				error_log("Invalid option value: $value");
+				// Output the value for debugging
+				?>
+				<option value="<?php echo $selectedVId; ?>" class="modelnms">
+					<?php echo "DEBUG: $value"; ?>
+				</option>
+				<?php
+			}
 		}
+		
+		
+		
+		
+		
 	}
 
 

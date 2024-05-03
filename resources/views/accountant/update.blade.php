@@ -32,21 +32,14 @@
 
             <div class="row row-mb-0">
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label></label>
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Full Name') }} <label class="color-danger">*</label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="firstname" name="firstname" placeholder="{{ trans('message.Enter First Name') }}" value="{{ $accountant->name }}" class="form-control" maxlength="50">
+                  <input type="text" id="firstname" name="firstname" placeholder="{{ trans('Enter Full Name') }}" value="{{ $accountant->name }}" class="form-control" maxlength="50">
                   @if ($errors->has('firstname'))
                   <span class="help-block">
                     <strong>{{ $errors->first('firstname') }}</strong>
                   </span>
                   @endif
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }}">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ $accountant->lastname }}" class="form-control" maxlength="50">
                 </div>
               </div>
             </div>
@@ -149,40 +142,7 @@
                   @endif
                 </div>
               </div>
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('displayname') ? ' has-error' : '' }}">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="displayname">{{ trans('message.Display Name') }} </label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="displayname" id="displayname" placeholder="{{ trans('message.Enter Display Name') }}" value="{{ $accountant->display_name }}" maxlength="25" class="form-control ">
-                </div>
-              </div>
             </div>
-
-            <div class="row row-mb-0">
-            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('landlineno') ? ' has-error' : '' }}">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="landlineno">{{ trans('message.Landline No') }} <label class="color-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="landlineno" name="landlineno" placeholder="{{ trans('message.Enter LandLine No') }}" value="{{ $accountant->landline_no }}" class="form-control" maxlength="16" minlength="6">
-                  @if ($errors->has('landlineno'))
-                  <span class="help-block">
-                    <strong>{{ $errors->first('landlineno') }}</strong>
-                  </span>
-                  @endif
-                </div>
-              </div>
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('image') ? ' has-error' : '' }}">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">{{ trans('message.Image') }}</label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="file" id="image" name="image" class="form-control chooseImage">
-                  <img src="{{ url('public/accountant/' . $accountant->image) }}" width="52px" height="52px" id="datatable_img" class="datatable_img mt-2">
-                  @if ($errors->has('image'))
-                  <span class="help-block">
-                    <strong> {{ $errors->first('image') }}</strong>
-                  </span>
-                  @endif
-                </div>
-              </div>
-            </div>
-
 
             <div class="mt-3 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ">
               <h4><b>{{ trans('message.ADDRESS') }}</b></h4>
@@ -444,7 +404,7 @@
       }
     });
 
-    /*If any white space for companyname, firstname, lastname and addresstext are then make empty value of these all field*/
+    /*If any white space for companyname, firstname and addresstext are then make empty value of these all field*/
     $('body').on('keyup', '.addressTextarea', function() {
       var addressValue = $(this).val();
 
@@ -458,24 +418,6 @@
       var firstName = $(this).val();
 
       if (!firstName.replace(/\s/g, '').length) {
-        $(this).val("");
-      }
-    });
-
-    $('body').on('keyup', '#lastname', function() {
-
-      var lastName = $(this).val();
-
-      if (!lastName.replace(/\s/g, '').length) {
-        $(this).val("");
-      }
-    });
-
-    $('body').on('keyup', '#displayname', function() {
-
-      var displayName = $(this).val();
-
-      if (!displayName.replace(/\s/g, '').length) {
         $(this).val("");
       }
     });
@@ -495,7 +437,7 @@
           function(index) {
             var input = $(this);
 
-            if (input.attr('name') == "firstname" || input.attr('name') == "lastname" ||
+            if (input.attr('name') == "firstname" ||
               input.attr('name') ==
               "email" || input.attr('name') == "password" || input.attr('name') ==
               "password_confirmation" ||

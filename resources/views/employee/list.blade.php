@@ -48,9 +48,7 @@
               @can('employee_delete')
               <th> </th>
               @endcan
-              <th>{{ trans('message.Image') }}</th>
               <th>{{ trans('message.First Name') }}</th>
-              <th>{{ trans('message.Last Name') }}</th>
               <th>{{ trans('message.Email') }}</th>
               <th>{{ trans('message.Mobile Number') }}</th>
               <th>{{ trans('message.Action') }}</th>
@@ -70,13 +68,10 @@
                 </label> 
               </td>
               @endcan
-              <td><a href="{!! url('/employee/view/' . $users->id) !!}"><img src="{{ URL::asset('public/employee/' . $users->image) }}" width="52px" height="52px" class="datatable_img"></a></td>
               <td><a href="{!! url('/employee/view/' . $users->id) !!}">{{ $users->name }} </a>
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="First Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td>
-              <td>{{ $users->lastname }} 
-                <!-- <a data-toggle="tooltip" data-placement="bottom" title="Last Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-              </td>
+              
               <td>{{ $users->email }} 
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Email" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td>

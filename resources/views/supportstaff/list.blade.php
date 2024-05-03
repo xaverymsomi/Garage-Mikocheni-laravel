@@ -42,9 +42,7 @@
               @can('supportstaff_delete')
               <th> </th>
               @endcan
-              <th>{{ trans('message.Image') }}</th>
               <th>{{ trans('message.First Name') }}</th>
-              <th>{{ trans('message.Last Name') }}</th>
               <th>{{ trans('message.Email') }}</th>
               <th>{{ trans('message.Mobile Number') }}</th>
               <th>{{ trans('message.Action') }}</th>
@@ -62,15 +60,11 @@
                   </label>
                 </td>
               @endcan
-              <td>
-              <a href="{!! url('/supportstaff/list/' . $supportstaffs->id) !!}"><img src="{{ url('public/supportstaff/' . $supportstaffs->image) }}" width="52px" height="52px" class="datatable_img"></a>
-              </td>
+              
               <td> <a href="{!! url('/supportstaff/list/' . $supportstaffs->id) !!}">{{ $supportstaffs->name }} </a>
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="First Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>
-              <td>{{ $supportstaffs->lastname }} 
-                <!-- <a data-toggle="tooltip" data-placement="bottom" title="Last Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-              </td>
+              
               <td>{{ $supportstaffs->email }} 
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Email" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td>

@@ -80,17 +80,27 @@ class QuotationController extends Controller
 	public function index()
 	{
 		//Get last Jobcard data
-		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->get()->first();
+		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->first();
 
-		if (!empty($last_order)) {
-			$last_full_job_number = $last_order->job_no;
-			$last_job_number_digit = substr($last_full_job_number, 1);
-			$new_number = "Q" . str_pad($last_job_number_digit + 1, 6, 0, STR_PAD_LEFT);
-		} else {
-			$new_number = 'Q000001';
-		}
+if (!empty($last_order)) {
+    // Get the last jobcard number
+    $lastJobcardNumber = $last_order->job_no;
 
-		$code = $new_number;
+    // Extract the numeric part of the jobcard number
+    $lastNumber = intval(substr($lastJobcardNumber, -4));
+
+    // Increment the last number
+    $incrementedNumber = $lastNumber + 1;
+
+    // Generate jobcard number with format RMAL-RP-24-<increment>
+    $prefix = 'RMAL-RP-24-';
+    $new_number = $prefix . str_pad($incrementedNumber, 4, '0', STR_PAD_LEFT);
+} else {
+    // If no previous jobcard found, start from 001
+    $new_number = 'RMAL-RP-24-0001';
+}
+
+$code = $new_number;
 		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
 		$country = DB::table('tbl_countries')->get()->toArray();
 		$onlycustomer = DB::table('users')->where([['role', '=', 'Customer'], ['id', '=', Auth::User()->id]])->first();

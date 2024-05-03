@@ -65,13 +65,10 @@ class BranchAdminController extends Controller
 		//dd($request->all());
 		$email = $request->email;
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$birthdate = $request->dob;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
@@ -91,14 +88,11 @@ class BranchAdminController extends Controller
 
 		$branchadmin = new User;
 		$branchadmin->name = $firstname;
-		$branchadmin->lastname = $lastname;
-		$branchadmin->display_name = $displayname;
 		$branchadmin->gender = $gender;
 		$branchadmin->birth_date = $dob;
 		$branchadmin->email = $email;
 		$branchadmin->password = bcrypt($password);
 		$branchadmin->mobile_no = $mobile;
-		$branchadmin->landline_no = $landlineno;
 		$branchadmin->address = $address;
 		$branchadmin->country_id = $country;
 		$branchadmin->state_id = $state;
@@ -106,15 +100,7 @@ class BranchAdminController extends Controller
 		$branchadmin->branch_id = $request->branch;
 		$branchadmin->create_by = Auth::User()->id;
 
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/branch_admin/', $file->getClientOriginalName());
-			$branchadmin->image = $filename;
-		} else {
-			$branchadmin->image = 'avtar.png';
-		}
+		
 
 		$branchadmin->role_id = $getRoleId->id; /*Store Role table User Role Id*/
 
@@ -298,13 +284,10 @@ class BranchAdminController extends Controller
 		$email = $usimgdtaa->email;
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$email = $request->email;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
@@ -322,8 +305,6 @@ class BranchAdminController extends Controller
 
 		$branchadmin = User::find($id);
 		$branchadmin->name = $firstname;
-		$branchadmin->lastname = $lastname;
-		$branchadmin->display_name = $displayname;
 		$branchadmin->gender = $gender;
 		$branchadmin->birth_date = $dob;
 		$branchadmin->email = $email;
@@ -333,20 +314,13 @@ class BranchAdminController extends Controller
 		}
 
 		$branchadmin->mobile_no = $mobile;
-		$branchadmin->landline_no = $landlineno;
 		$branchadmin->address = $address;
 		$branchadmin->country_id = $country;
 		$branchadmin->state_id = $state;
 		$branchadmin->city_id = $city;
 		$branchadmin->branch_id = $request->branch;
 
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/branch_admin/', $file->getClientOriginalName());
-			$branchadmin->image = $filename;
-		}
+		
 		$branchadmin->role = "branch_admin";
 
 		//custom field	

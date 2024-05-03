@@ -32,17 +32,6 @@ class Customercontroller extends Controller
 		$this->middleware('auth');
 	}
 
-	//customer addform
-	public function customeradd()
-	{
-		$country = DB::table('tbl_countries')->get()->toArray();
-		$onlycustomer = DB::table('users')->where([['role', '=', 'Customer'], ['id', '=', Auth::User()->id]])->first();
-
-		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'customer'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
-
-		return view('customer.add', compact('country', 'onlycustomer', 'tbl_custom_fields'));
-	}
-
 
 	//customer addform
 	public function customer_vehicle()
@@ -82,27 +71,7 @@ class Customercontroller extends Controller
 	public function storecustomer(CustomerAddEditFormRequest $request)
 	{
 		// dd($request->all());
-		/*$this->validate($request, [  
-         'firstname' => 'regex:/^[(a-zA-Z\s)]+$/u',
-		 'lastname'=>'regex:/^[(a-zA-Z\s)]+$/u',
-		 'displayname'=>'regex:/^[(a-zA-Z\s)]+$/u',
-		 //'mobile'=>'required|max:12|min:6|regex:/^[- +()]*[0-9][- +()0-9]*$/',
-		 'mobile'=>'required|max:12|min:6|regex:/^[0-9]*$/',
-		 //Solved by Mukesh [Bug list row number: 625 (New Add time also)]
-         //'landlineno'=>'nullable|max:12|min:6|regex:/^[- +()]*[0-9][- +()0-9]*$/',
-         'landlineno'=>'nullable|max:12|min:6|regex:/^[0-9]*$/',
-		 'image' => 'image|mimes:jpg,png,jpeg',
-		 'password'=>'required|min:6',
-		 'password_confirmation' => 'required|same:password',
-		 'company_name' => 'nullable|regex:/^[a-zA-Z][a-zA-Z\s\.]*$/',
-		 ],[
-			 'displayname.regex' => 'Enter valid display name',
-			 'firstname.regex' => 'Enter valid first name',
-			 'lastname.regex' => 'Enter valid last name',
-			 'landlineno.regex' => 'Enter valid landline no',
-			 'company_name.regex' => 'Enter only alphabets, space and dot',
-		]);*/
-
+		
 		$firstname = $request->firstname;
 		$password = $request->password;
 		$TIN = $request->TIN;
@@ -777,20 +746,15 @@ class Customercontroller extends Controller
 		]);*/
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
 		$city = $request->city;
-		$companyName = $request->company_name;
 		$updated_email = $request->email;
 		$updated_dob = $request->dob;
-		$tax_id = $request->tax_id;
 
 
 		$usimgdtaa = DB::table('users')->where('id', '=', $id)->first();
@@ -814,11 +778,8 @@ class Customercontroller extends Controller
 
 		$customer = User::find($id);
 		$customer->name = $firstname;
-		$customer->lastname = $lastname;
-		$customer->display_name = $displayname;
 		$customer->gender = $gender;
 		$customer->birth_date = $dob;
-		$customer->company_name = $companyName;
 		$customer->email = $updated_email;
 
 		if (!empty($password)) {
@@ -826,20 +787,10 @@ class Customercontroller extends Controller
 		}
 
 		$customer->mobile_no = $mobile;
-		$customer->landline_no = $landlineno;
 		$customer->address = $address;
 		$customer->country_id = $country;
 		$customer->state_id = $state;
 		$customer->city_id = $city;
-		$customer->tax_id = $tax_id;
-
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
-			$customer->image = $filename;
-		}
 
 		$customer->role = "Customer";
 
@@ -868,58 +819,6 @@ class Customercontroller extends Controller
 		}
 
 		$customer->save();
-
-		// if (!empty($updated_email)) {
-		// 	//email format
-		// 	$logo = DB::table('tbl_settings')->first();
-		// 	$systemname = $logo->system_name;
-		// 	$emailformats = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
-		// 	if ($emailformats->is_send == 0) {
-		// 		if ($customer->save()) {
-		// 			$emailformat = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
-		// 			$mail_format = $emailformat->notification_text;
-		// 			$mail_subjects = $emailformat->subject;
-		// 			$mail_send_from = $emailformat->send_from;
-		// 			$search1 = array('{ system_name }');
-		// 			$replace1 = array($systemname);
-		// 			$mail_sub = str_replace($search1, $replace1, $mail_subjects);
-
-		// 			$systemlink = URL::to('/');
-
-		// 			$search = array('{ system_name }', '{ user_name }', '{ email }', '{ Password }', '{ system_link }');
-		// 			$replace = array($systemname, $firstname, $email, $password, $systemlink);
-
-		// 			$email_content = str_replace($search, $replace, $mail_format);
-
-
-		// 			$actual_link = $_SERVER['HTTP_HOST'];
-		// 			$startip = '0.0.0.0';
-		// 			$endip = '255.255.255.255';
-		// 			if (($actual_link == 'localhost' || $actual_link == 'localhost:8080') || ($actual_link >= $startip && $actual_link <= $endip)) {
-		// 				//local format email					
-		// 				$data = array(
-		// 					'email' => $email,
-		// 					'mail_sub1' => $mail_sub,
-		// 					'email_content1' => $email_content,
-		// 					'emailsend' => $mail_send_from,
-		// 				);
-		// 				$data1 = Mail::send('customer.customermail', $data, function ($message) use ($data) {
-
-		// 					$message->from($data['emailsend'], 'noreply');
-		// 					$message->to($data['email'])->subject($data['mail_sub1']);
-		// 				});
-		// 				//dd($data1);
-		// 			} else {
-		// 				//Live format email
-		// 				$headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		// 				$headers .= 'From:' . $mail_send_from . "\r\n";
-		// 				$sended = mail($email, $mail_sub, $email_content, $headers);
-
-		// 				//dd($sended);
-		// 			}
-		// 		}
-		// 	}
-		// }
 
 		return redirect('/customer/list')->with('message', 'Customer Updated Successfully');
 	}

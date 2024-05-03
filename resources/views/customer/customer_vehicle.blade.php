@@ -39,23 +39,12 @@
                   </div>
                   <div class="row row-mb-0">
                      <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label> </label>
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Full Name') }} <label class="color-danger">*</label> </label>
                         <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                           <input type="text" id="firstname" name="firstname" class="firstname form-control" value="{{ old('firstname') }}" placeholder="{{ trans('message.Enter First Name') }}" maxlength="50">
+                           <input type="text" id="firstname" name="firstname" class="firstname form-control" value="{{ old('firstname') }}" placeholder="{{ trans('Enter Full Name') }}" maxlength="50">
                            @if ($errors->has('firstname'))
                            <span class="help-block">
                            <strong>{{ $errors->first('firstname') }}</strong>
-                           </span>
-                           @endif
-                        </div>
-                     </div>
-                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }}">
-                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                           <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ old('lastname') }}" maxlength="50" class="form-control lastname">
-                           @if ($errors->has('lastname'))
-                           <span class="help-block">
-                           <strong>{{ $errors->first('lastname') }}</strong>
                            </span>
                            @endif
                         </div>
@@ -351,39 +340,7 @@
                        </div>
                     </div>
                  </div>
-                 {{-- 
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('odometerreading') ? ' has-error' : '' }}">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Odometer Reading') }} <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="odometerreading" value="{{ old('odometerreading') }}" placeholder="{{ trans('message.Enter Odometer Reading') }}" maxlength="20" class="form-control odometer_read">
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Date of Manufacturing') }} <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 ">
-                          <input type="text" name="dom" autocomplete="off" class="form-control datepicker date" placeholder="<?php echo getDatepicker(); ?>" onkeypress="return false;" />
-                       </div>
-                    </div>
-                 </div>
-                 --}}
-                 {{-- 
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Gear Box') }} <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="gearbox" value="{{ old('gearbox') }}" placeholder="{{ trans('message.Enter Grear Box') }}" maxlength="30" class="form-control gear_box">
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Gear Box No') }}.</label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="gearboxno" value="{{ old('gearboxno') }}" placeholder="{{ trans('message.Enter Gearbox No.') }}" maxlength="30" class="form-control gear_box_no">
-                       </div>
-                    </div>
-                 </div>
-                 --}}
-                 <div class="row row-mb-0">
+                             <div class="row row-mb-0">
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
                        <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
@@ -675,7 +632,7 @@
    
    
    
-     /*If any white space for companyname, firstname, lastname and addresstext are then make empty value of these all field*/
+     /*If any white space for companyname, firstname and addresstext are then make empty value of these all field*/
      $('body').on('keyup', '.addressTextarea', function() {
    
        var addressValue = $(this).val();
@@ -693,32 +650,8 @@
        }
      });
    
-     $('body').on('keyup', '#lastname', function() {
+    
    
-       var lastName = $(this).val();
-   
-       if (!lastName.replace(/\s/g, '').length) {
-         $(this).val("");
-       }
-     });
-   
-     $('body').on('keyup', '.displayname', function() {
-   
-       var displayName = $(this).val();
-   
-       if (!displayName.replace(/\s/g, '').length) {
-         $(this).val("");
-       }
-     });
-   
-     $('body').on('keyup', '.companyname', function() {
-   
-       var companyName = $(this).val();
-   
-       if (!companyName.replace(/\s/g, '').length) {
-         $(this).val("");
-       }
-     });
    
      $('body').on('change', '.chooseImage', function() {
        var imageName = $(this).val();
@@ -750,7 +683,7 @@
          function(index) {
            var input = $(this);
    
-           if (input.attr('name') == "firstname" || input.attr('name') == "lastname" ||
+           if (input.attr('name') == "firstname" ||
              input.attr('name') ==
              "email" || input.attr('name') == "password" || input.attr('name') ==
              "password_confirmation" ||

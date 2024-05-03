@@ -42,10 +42,8 @@
               @can('branchAdmin_delete')
               <th> </th>
               @endcan
-              <th>{{ trans('message.Image') }}</th>
               <th>{{ trans('message.Branch') }}</th>
-              <th>{{ trans('message.First Name') }}</th>
-              <th>{{ trans('message.Last Name') }}</th>
+              <th>{{ trans('message.Full Name') }}</th>
               <th>{{ trans('message.Email') }}</th>
               <th>{{ trans('message.Mobile Number') }}</th>
               <th>{{ trans('message.Action') }}</th>
@@ -63,17 +61,12 @@
                 </label>
               </td>
             @endcan
-              <td>
-              <a href="{!! url('/branchadmin/list/' . $branchadmin->id) !!}"><img src="{{ url('public/branch_admin/' . $branchadmin->image) }}" width="52px" height="52px" class="datatable_img"></a>
-              </td>
+              
               <td><a href="{!! url('/branchadmin/list/' . $branchadmin->id) !!}">{{ getBranchName($branchadmin->branch_id) }}</a> 
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Branch" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td>
               <td>{{ $branchadmin->name }} 
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="First Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-              </td>
-              <td>{{ $branchadmin->lastname }} 
-                <!-- <a data-toggle="tooltip" data-placement="bottom" title="Last Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td>
               <td>{{ $branchadmin->email }} 
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Email" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->

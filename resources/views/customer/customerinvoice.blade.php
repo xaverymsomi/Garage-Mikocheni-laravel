@@ -251,39 +251,39 @@
         <div class="row">
             <div class="col-xl-10 col-md-9 col-sm-10">
                 <div class="user_profile_header_left">
-                    <img class="user_view_profile_image" src="{{ URL::asset('public/customer/' . $customer->image) }}">
+                    {{-- <img class="user_view_profile_image" src="{{ URL::asset('public/customer/' . $customer->image) }}"> --}}
                     <div class="row">
-                        <div class="view_top1">
-                            <div class="col-xl-12 col-md-12 col-sm-12">
-                                <label class="nav_text h5 user-name fh5">
-                                    {{ $customer->name . ' ' . $customer->lastname }}&nbsp;
-                                </label>
-                                @can('customer_edit')
-                                <div class="view_user_edit_btn d-inline">
-                                    <a href="{!! url('/customer/list/edit/' . $customer->id) !!}">
-                                        <img src="{{ URL::asset('public/img/dashboard/Edit.png') }}">
-                                    </a>
-                                </div>
-                                @endcan
-                            </div>
-                            <div class="col-xl-12 col-md-12 col-sm-12 nav_text mt-2">
-                                <div class="d-lg-inline">
-                                    <i class=" fa fa-phone"></i> {{ $customer->mobile_no }}
-                                </div>
-                                <div class="d-lg-inline">
-                                    <i class=" fa fa-envelope"></i> {{ $customer->email }}
-                                </div>
-                            </div>
-                            <div class="col-xl-12 col-md-12 col-sm-12 heading_view mt-3" style="width: 90%;">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <lable class="">
-                                    {{ $customer->address }}
-                                    <!-- , <?php echo getCityName($customer->city_id) != null ? getCityName($customer->city_id) . ',' : ''; ?>{{ getStateName($customer->state_id) }}, {{ getCountryName($customer->country_id) }}. -->
-                                </lable>
-                            </div>
+                      <div class="view_top1">
+                        <div class="col-xl-12 col-md-12 col-sm-12">
+                          <label class="nav_text h5 user-name fh5">
+                            {{ $customer->name }}&nbsp;
+                          </label>
+                          @can('customer_edit')
+                          <div class="view_user_edit_btn d-inline">
+                            <a href="{!! url('/customer/list/edit/' . $customer->id) !!}">
+                              <img src="{{ URL::asset('public/img/dashboard/Edit.png') }}">
+                            </a>
+                          </div>
+                          @endcan
                         </div>
+                        <div class="col-xl-12 col-md-12 col-sm-12 nav_text mt-2">
+                          <div class="d-lg-inline">
+                            <i class=" fa fa-phone"></i> {{ $customer->mobile_no }}
+                          </div>
+                          <div class="d-lg-inline">
+                            <i class=" fa fa-envelope"></i> {{ $customer->email }}
+                          </div>
+                        </div>
+                        <div class="col-xl-12 col-md-12 col-sm-12 heading_view mt-3" style="width: 90%;">
+                          <i class="fa-solid fa-location-dot"></i>
+                          <lable class="">
+                            {{ $customer->address }}
+                            <!-- , <?php echo getCityName($customer->city_id) != null ? getCityName($customer->city_id) . ',' : ''; ?>{{ getStateName($customer->state_id) }}, {{ getCountryName($customer->country_id) }}. -->
+                          </lable>
+                        </div>
+                      </div>
                     </div>
-                </div>
+                  </div>
             </div>
             <div class="col-xl-2 col-lg-3 col-md-3 col-sm-2">
                 <div class="group_thumbs">
