@@ -241,16 +241,7 @@
                                     <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4"></div>
                                 </div>
                                 @endif
-                                <div class="row mt-2">
-                                    <label class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-3 col-xs-3">{{ trans('message.KMS Run') }}:<label class="text-danger">*</label></label>
-                                    <div class="col-md-5 col-lg-5 col-xl-5 col-xxl-5 col-sm-5 col-xs-5">
-                                        <input type="text" min='0' id="kms" name="kms" value="<?php if (!empty($job)) {
-                                                                                                    echo "$job->kms_run";
-                                                                                                } ?>" maxlength="10" class="form-control" required>
-                                    </div>
-
-                                    <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4"></div>
-                                </div>
+                                
                                
                                 @if ($service_data->service_type == 'free')
                                 <div class="row mt-2 ">

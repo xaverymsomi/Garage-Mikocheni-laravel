@@ -70,7 +70,7 @@
       <div class="nav_menu">
         <nav>
           <div class="nav toggle">
-            <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/employee/list') !!}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $user->name .}}</span>
+            <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/employee/list') !!}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $user->name }}</span>
           </div>
           @include('dashboard.profile')
         </nav>

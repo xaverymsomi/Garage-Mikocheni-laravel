@@ -54,25 +54,10 @@ class QuotationController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (!isAdmin(Auth::User()->role_id)) {
-			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
-				if (Gate::allows('quotation_owndata')) {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'J%'], ['customer_id', '=', Auth::User()->id], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
-				} else {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'J%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
-				}
-			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee' || getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
-				if (Gate::allows('quotation_owndata')) {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'J%'], ['create_by', '=', Auth::User()->id], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
-				} else {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'J%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
-				}
-			}
-		} else {
-			$service = DB::table('tbl_services')->where([['job_no', 'like', 'J%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
-		}
+		
+		$service = DB::table('tbl_services')->where([['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'ASC')->get()->toArray();
 
-		return view('/quotation/list', compact('service', 'available', 'current_month', 'servi_id'));
+		return view('quotation/list', compact('service', 'available', 'current_month', 'servi_id'));
 	}
 
 
@@ -82,7 +67,7 @@ class QuotationController extends Controller
 		//Get last Jobcard data
 		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->first();
 
-if (!empty($last_order)) {
+	if (!empty($last_order)) {
     // Get the last jobcard number
     $lastJobcardNumber = $last_order->job_no;
 
@@ -95,12 +80,12 @@ if (!empty($last_order)) {
     // Generate jobcard number with format RMAL-RP-24-<increment>
     $prefix = 'RMAL-RP-24-';
     $new_number = $prefix . str_pad($incrementedNumber, 4, '0', STR_PAD_LEFT);
-} else {
-    // If no previous jobcard found, start from 001
-    $new_number = 'RMAL-RP-24-0001';
-}
+		} else {
+    // If no previous jobcard found, start from 0001
+    $new_number = 'RMAL-RP-Q-24-0001';
+		}
 
-$code = $new_number;
+       $code = $new_number;
 		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
 		$country = DB::table('tbl_countries')->get()->toArray();
 		$onlycustomer = DB::table('users')->where([['role', '=', 'Customer'], ['id', '=', Auth::User()->id]])->first();
@@ -145,6 +130,7 @@ $code = $new_number;
 		$service_category = $request->repair_cat;
 		$ser_type = $request->service_type;
 		$details = $request->details;
+		$charge = $request->charge;
 		$color = null;
 
 		//Ckecking MOT Test Check box, if it is checked or not
@@ -161,13 +147,7 @@ $code = $new_number;
 			$date = date('Y-m-d H:i:s', strtotime($request->date));
 		}
 
-		if ($ser_type == 'free') {
-			$charge = "0";
-		}
-		if ($ser_type == 'paid') {
-			$charge = $request->charge;
-		}
-
+		
 		$services = new Service;
 		$services->job_no = $job;
 		$services->vehicle_id = $vehicalname;
@@ -349,7 +329,7 @@ $code = $new_number;
 	{
 		$job_no = 'J' . substr($request->job_no, 1);
 		$service_id = $request->service_id;
-		$kms = $request->kms;
+		// $kms = $request->kms;
 		$coupan_no = $request->coupan_no;
 		$product2 = $request->product2;
 		$chargeable = $request->yesno_;
@@ -434,10 +414,12 @@ $code = $new_number;
 						$tbl_service_pros->total_price = $pri;
 						$tbl_service_pros->type = 1;
 						$tbl_service_pros->save();
+
+						if ($tbl_service_pros->save()) {
+							$checking_servicePro = 1;
+						}
 					}
-					if ($tbl_service_pros->save()) {
-						$checking_servicePro = 1;
-					}
+					
 				}
 			}
 		}
@@ -453,7 +435,7 @@ $code = $new_number;
 			$tbl_jobcard_details->service_id = $service_id;
 			$tbl_jobcard_details->jocard_no = $job_no;
 			$tbl_jobcard_details->in_date = $in_date;
-			$tbl_jobcard_details->kms_run = $kms;
+			// $tbl_jobcard_details->kms_run = $kms;
 			if (!empty($coupan_no)) {
 				$tbl_jobcard_details->coupan_no = $coupan_no;
 			}

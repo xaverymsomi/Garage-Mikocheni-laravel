@@ -157,16 +157,7 @@
 
                                             
                                         </div>
-                                        <div class="row row-mb-0">
-                                                                                                                        
-                                        <label class="jobcardmargintop col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.KMS Run') }}:
-                                                <label class="color-danger">*</label></label>
-                                            <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                                <input type="text" min='' pattern="\d*" maxlength="10" id="kms" name="kms" value="<?php if (!empty($job)) {
-                                                                                                                                        echo "$job->kms_run";
-                                                                                                                                    } ?>" class="form-control kilometre" readonly>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space1">

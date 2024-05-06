@@ -130,37 +130,19 @@
                         </div>
 
                         <div class="row row-mb-0">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Service Type') }}
-                                    <label class="color-danger">*</label></label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <label class="radio-inline">
-                                        <input type="radio" name="service_type" id="free" value="free" required <?php if ($service->service_type == 'free') {
-                                                                                                                    echo 'checked';
-                                                                                                                } ?>>{{ trans('message.Free') }}</label>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="service_type" id="paid" value="paid" required <?php if ($service->service_type == 'paid') {
-                                                                                                                    echo 'checked';
-                                                                                                                } ?>> {{ trans('message.Paid') }}</label>
-                                </div>
-                            </div>
-
-                            <div id="dvCharge" style="display: none" class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('charge') ? ' has-error' : '' }} my-form-group">
+                           
+                            <div id="dvCharge"class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('charge') ? ' has-error' : '' }} my-form-group">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 currency" for="last-name">{{ trans('message.Fix Service Charge') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                     <input type="text" id="charge_required" name="charge" class="form-control fixServiceCharge" placeholder="{{ trans('message.Enter Fix Service Charge') }}" maxlength="8" value="{{ $service->charge }}">
-                                    @if ($errors->has('charge'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('charge') }}</strong>
-                                    </span>
-                                    @endif
+                                    
                                 </div>
                             </div>
                         </div>
 
                         <div class="row row-mb-0">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Details') }}</label>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('NOTE') }}</label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                     <textarea name="details" class="form-control details" maxlength="100">{{ $service->detail }}</textarea>
                                 </div>
@@ -225,12 +207,6 @@
                             </div>
                             @endif
                             <!-- New Tax field End-->
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 row-mb-0">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Title') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="title" placeholder="{{ trans('message.Enter Title') }}" maxlength="30" value="{{ $service->title }}" class="form-control titalQuotation">
-                                </div>
-                            </div>
                             
                         </div>
                         <!-- ************* MOT Module Starting ************* -->

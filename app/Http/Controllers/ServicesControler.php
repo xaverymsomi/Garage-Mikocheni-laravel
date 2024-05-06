@@ -59,27 +59,29 @@ class ServicesControler extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (!isAdmin(Auth::User()->role_id)) {
-			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
-				$service = Service::where([['job_no', 'like', 'J%'], ['customer_id', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'DESC')->get();
-			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
-				if (Gate::allows('service_owndata')) {
-					$service = Service::where([['job_no', 'like', 'J%'], ['assign_to', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
-				} else {
-					$service = Service::where([['job_no', 'like', 'J%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
-				}
-			} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
-				if (Gate::allows('service_owndata')) {
-					$service = Service::where([['job_no', 'like', 'J%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
-				} else {
-					$service = Service::where([['job_no', 'like', 'J%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
-				}
-			}
-		} else {
-			$service = Service::where([['job_no', 'like', 'J%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
-		}
+		// if (!isAdmin(Auth::User()->role_id)) {
+		// 	if (getUsersRole(Auth::user()->role_id) == 'Customer') {
+		// 		$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['customer_id', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'DESC')->get();
+		// 	} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
+		// 		if (Gate::allows('service_owndata')) {
+		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['assign_to', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+		// 		} else {
+		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+		// 		}
+		// 	} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+		// 		if (Gate::allows('service_owndata')) {
+		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+		// 		} else {
+		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+		// 		}
+		// 	}
+		// } else {
+		// 	$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+		// }
 
-		return view('/service/list', compact('service', 'available', 'current_month', 'servi_id'));
+		$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'ASC')->get();
+
+		return view('service/list', compact('service', 'available', 'current_month', 'servi_id'));
 	}
 
 	//service add form
@@ -393,7 +395,7 @@ $code = $new_number;
 		$service_id = $request->service_id;
 		$cus_id = $request->cust_id;
 		$vehi_id = $request->vehi_id;
-		$kms = $request->kms;
+		// $kms = $request->kms;
 		$coupan_no = $request->coupan_no;
 		$product = $request->product;
 		$sub_product = $request->sub_product;
@@ -437,7 +439,7 @@ $code = $new_number;
 		$tbl_jobcard_details->jocard_no = $job_no;
 		$tbl_jobcard_details->in_date = $in_dat;
 		$tbl_jobcard_details->out_date = $out_dat;
-		$tbl_jobcard_details->kms_run = $kms;
+		// $tbl_jobcard_details->kms_run = $kms;
 
 		if (!empty($coupan_no)) {
 			$tbl_jobcard_details->coupan_no = $coupan_no;
@@ -534,7 +536,7 @@ $code = $new_number;
 			}
 		} catch (\Exception $e) {
 		}
-		return redirect('jobcard/list')->with('message', 'Service Submitted Successfully');
+		return redirect('/jobcard/list')->with('message', 'Service Submitted Successfully');
 	}
 
 
@@ -721,7 +723,7 @@ $code = $new_number;
 		} else {
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $veh_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
 		}
-		return view('/service/jobcard_form', compact('service_data', 'vehical', 'tbl_checkout_categories', 'sale_date', 'color', 'obs_point', 'free_coupan', 'logo', 'inspection_points_library_data', 'washbay_price'));
+		return view('service/jobcard_form', compact('service_data', 'vehical', 'tbl_checkout_categories', 'sale_date', 'color', 'obs_point', 'free_coupan', 'logo', 'inspection_points_library_data', 'washbay_price'));
 	}
 
 	//select checkpoints
@@ -852,7 +854,7 @@ $code = $new_number;
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', "=", 0]])->get()->toArray();
 
-		return view('/service/edit', compact('service', 'vehical', 'employee', 'customer', 'regi_no', 'tbl_custom_fields', 'washbayPrice', 'branchDatas', 'repairCategoryList', 'images1'));
+		return view('service/edit', compact('service', 'vehical', 'employee', 'customer', 'regi_no', 'tbl_custom_fields', 'washbayPrice', 'branchDatas', 'repairCategoryList', 'images1'));
 	}
 
 	//service update

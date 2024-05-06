@@ -75,12 +75,7 @@
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Type" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>
                 <!-- <td>{{ $vehicals->price ?? trans('message.Not Added') }}</td> -->
-                <td>
-                  @if (!empty($vehicals->dom))
-                  {{ date(getDateFormat(), strtotime($vehicals->dom)) }}
-                  @else
-                  {{ trans('message.Not Added') }}
-                  @endif
+                <td>{{ $vehicals->modelyear ?? trans('message.Not Added') }}
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Date Of Manufacturing" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>
                 <td>{{ $vehicals->engineno ?? trans('message.Not Added') }} 

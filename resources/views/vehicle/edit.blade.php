@@ -146,15 +146,6 @@
               </div>
 
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number of Gear') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="gearno" value="{{ $vehicaledit->nogears }}" placeholder="{{ trans('message.Enter Number of Gear') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
-            </div>
-
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
 
@@ -174,27 +165,11 @@
                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
                 </div>
               </div>
-
-              <div class="row {{ $errors->has('price') ? ' has-error' : '' }} col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="price" value="{{ $vehicaledit->price ?? trans('0') }}" placeholder="{{ trans('message.Enter Price') }}" maxlength="10" class="form-control">
-                </div>
-              </div>
+              
             </div>
 
             <div class="row row-mb-0">
-              <div class="row {{ $errors->has('odometerreading') ? ' has-error' : '' }} col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Odometer Reading') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="odometerreading" value="{{ $vehicaledit->odometerreading }}" placeholder="{{ trans('message.Enter Odometer Reading') }}" class="form-control" maxlength="30">
-                  @if ($errors->has('odometerreading'))
-                  <span class="help-block">
-                    <strong>{{ $errors->first('odometerreading') }}</strong>
-                  </span>
-                  @endif
-                </div>
-              </div>
+              
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6" id="customer-field">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="customer">{{ trans('message.Select Customer') }} <label class="color-danger"></label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
@@ -210,49 +185,14 @@
                   </select>
                 </div>
               </div>
-            </div>
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6"> 
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Gear Box') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="gearbox" value="{{ $vehicaledit->gearbox }}" placeholder="{{ trans('message.Enter Grear Box') }}" maxlength="20" class="form-control">
-                </div>
-              </div>
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Gear Box No') }}. </label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="gearboxno" value="{{ $vehicaledit->gearboxno }}" placeholder="{{ trans('message.Enter Gearbox No.') }}" maxlength="20" class="form-control">
-                </div>
-              </div>
-            </div>
 
-            <div class="row row-mb-0">
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                   <input type="text" name="engineno" value="{{ $vehicaledit->engineno }}" placeholder="{{ trans('message.Enter Engine No.') }}" maxlength="30" class="form-control">
                 </div>
               </div>
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Engine Size') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="enginesize" value="{{ $vehicaledit->enginesize }}" placeholder="{{ trans('message.Enter Engine Size') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
-            </div>
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Key No') }}. <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="keyno" value="{{ $vehicaledit->keyno }}" placeholder="{{ trans('message.Enter Key No.') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="engine" value="{{ $vehicaledit->engine }}" placeholder="{{ trans('message.Enter Engine') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
+              
             </div>
 
             <div class="row row-mb-0">
@@ -290,16 +230,6 @@
                     @endforeach
                     @endif
                   </div>
-                </div>
-              </div>
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Date of Manufacturing') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 input-group-date date ">
-                  @if ($vehicaledit->dom)
-                  <input type="text" name="dom" autocomplete="off" placeholder="<?php echo getDateFormat(); ?>" value="{{ date(getDateFormat(), strtotime($vehicaledit->dom)) }}" class="form-control datepicker" onkeypress="return false;" />
-                  @else
-                  <input type="text" id="datepicker " autocomplete="off" class="form-control datepicker" placeholder="<?php echo getDateFormat(); ?>" value="" name="dom" onkeypress="return false;" />
-                  @endif
                 </div>
               </div>
              

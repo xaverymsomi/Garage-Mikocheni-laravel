@@ -282,7 +282,10 @@ class Customercontroller extends Controller
 		// $vehical->nogears = $nogears;
 		$vehical->number_plate = $numberPlate;
 		$vehical->branch_id = $request->branch;
-		$vehical->customer_id = $request->customer;
+
+		$lastID = User::latest()->value('id');
+		$increament = $lastID;
+		$vehical->customer_id = $increament;
 
 		//custom field save	
 		//$custom=Input::get('custom');
@@ -323,7 +326,7 @@ class Customercontroller extends Controller
 				$descriptions->save();
 			}
 		}
-		$vehicals = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+		$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
 		$id = $vehicles->id;
 
 		$image = $request->image;
@@ -375,6 +378,8 @@ class Customercontroller extends Controller
 					$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 				}
 			}
+
+		
 		} else {
 			$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 		}

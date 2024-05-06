@@ -280,18 +280,8 @@ if(
                                                     class="form-control" value="{{ $vehicale->engineno }}" readonly>
                                             </div>
 
-                                            <label
-                                                class="jobcardmargintop col-md-2 col-sm-2 col-xs-12">{{ trans('message.KMS Run') }}
-                                                :
-                                                <label class="text-danger">*</label></label>
-                                            <div class="col-md-4 col-sm-4 col-xs-12">
-
-                                                <input type="number" min='0' id="kms" name="kms"
-                                                    value="<?php if (!empty($job)) {
-                                                        echo "$job->kms_run";
-                                                    } ?>" class="form-control" required>
-
-                                            </div>
+                                            {{-- <label class="text-danger">*</label></label> --}}
+                                            
                                         </div>
 
                                         <div class="col-md-12 col-sm-12 col-xs-12 divId" id="divId"

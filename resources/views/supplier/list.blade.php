@@ -51,10 +51,7 @@
               @can('supplier_delete')
               <th> </th>
               @endcan
-              <th>{{ trans('message.Image') }}</th>
-              <th>{{ trans('message.First Name') }}</th>
-              <th>{{ trans('message.Last Name') }}</th>
-              <th>{{ trans('message.Company Name') }}</th>
+              <th>{{ trans('Full Name') }}</th>
               <th>{{ trans('message.Email') }}</th>
               <th>{{ trans('message.Product Name') }}</th>
               <th>{{ trans('message.Action') }}</th>
@@ -74,19 +71,19 @@
               </td>
               @endcan
 
-              <td><a href="{!! url('/supplier/list/' . $users->id) !!}"><img src="{{ URL::asset('public/supplier/' . $users->image) }}" width="52px" height="52px" class="datatable_img"></a></td>
+              {{-- <td><a href="{!! url('/supplier/list/' . $users->id) !!}"><img src="{{ URL::asset('public/supplier/' . $users->image) }}" width="52px" height="52px" class="datatable_img"></a></td> --}}
               <td><a href="{!! url('/supplier/list/' . $users->id) !!}">{{ $users->name }}
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="First Name" class="text-primary">
                   <i class="fa fa-info-circle" style="color:#D9D9D9"></i>
                 </a> -->
               </a>
-              </td>
+              {{-- </td>
               <td>{{ $users->lastname }}
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Last Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-              </td>
-              <td>{{ $users->company_name }}
+              </td> --}}
+              {{-- <td>{{ $users->company_name }}
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Company Name" class="text-danger"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-              </td>
+              </td> --}}
               <td>{{ $users->email }}
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Email" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td>

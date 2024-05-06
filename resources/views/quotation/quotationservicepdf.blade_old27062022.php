@@ -272,7 +272,7 @@
           <tr>
             <!-- <th align="center" style="padding:8px;">{{ trans('message.Assigned To') }}</th> -->
             <th align="center"
-              style="padding:8px;">{{ trans('message.Repair Category') }}</th>
+              style="padding:8px;">{{ trans('Job Category') }}</th>
             <th align="center"
               style="padding:8px;">{{ trans('message.Service Type') }}</th>
             <th align="center"

@@ -209,11 +209,6 @@
                 <b>{{ trans('message.Company Name') }}:</b>
                 <?php echo getCustomerCompanyName($tbl_services->customer_id); ?>
                 @endif
-                <br>
-                @if(($customer->tax_id) != '')
-                <b>{{ trans('message.Tax Id') }} :</b>
-                <?php echo $customer->tax_id; ?>
-                @endif
               </span>
             </td>
           </tr>

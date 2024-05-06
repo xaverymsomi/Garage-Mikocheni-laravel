@@ -43,92 +43,94 @@ class JobCardcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (!isAdmin(Auth::User()->role_id)) {
-			if (getUsersRole(Auth::User()->role_id) == "Customer") {
-				if (!empty($request->free)) {
-					$services = Service::orderBy('service_date', 'asc')
-						->where([['job_no', 'like', 'J%'], ['service_type', '=', 'free']])
-						->where('customer_id', '=', Auth::User()->id)
-						->where('soft_delete', '=', 0)
-						->whereNotIn('quotation_modify_status', [1])
-						->get();
-				} elseif (!empty($request->paid)) {
-					$services = Service::orderBy('service_date', 'asc')
-						->where([['job_no', 'like', 'J%'], ['service_type', '=', 'paid']])
-						->where('customer_id', '=', Auth::User()->id)
-						->where('soft_delete', '=', 0)
-						->whereNotIn('quotation_modify_status', [1])
-						->get();
-				} elseif (!empty($request->repeatjob)) {
-					$services = Service::orderBy('service_date', 'asc')
-						->where([['job_no', 'like', 'J%'], ['service_category', '=', 'repeat job']])
-						->where('customer_id', '=', Auth::User()->id)
-						->where('soft_delete', '=', 0)
-						->whereNotIn('quotation_modify_status', [1])
-						->get();
-				} else {
-					$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'J%'], ['customer_id', '=', Auth::User()->id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-				}
-			} elseif (getUsersRole(Auth::User()->role_id) == "Employee") {
-				if (Gate::allows('jobcard_owndata')) {
-					if (!empty($request->free)) {
-						$services = Service::orderBy('service_date', 'asc')
-							->where([['job_no', 'like', 'J%'], ['service_type', '=', 'free'], ['branch_id', $currentUser->branch_id]])
-							->where('assign_to', '=', Auth::User()->id)
-							->where('soft_delete', '=', 0)
-							->whereNotIn('quotation_modify_status', [1])
-							->get();
-					} elseif (!empty($request->paid)) {
-						$services = Service::orderBy('service_date', 'asc')
-							->where([['job_no', 'like', 'J%'], ['service_type', '=', 'paid'], ['branch_id', $currentUser->branch_id]])
-							->where('assign_to', '=', Auth::User()->id)
-							->where('soft_delete', '=', 0)
-							->whereNotIn('quotation_modify_status', [1])
-							->get();
-					} elseif (!empty($request->repeatjob)) {
-						$services = Service::orderBy('service_date', 'asc')
-							->where([['job_no', 'like', 'J%'], ['service_category', '=', 'repeat job'], ['branch_id', $currentUser->branch_id]])
-							->where('assign_to', '=', Auth::User()->id)
-							->where('soft_delete', '=', 0)
-							->whereNotIn('quotation_modify_status', [1])
-							->get();
-					} else {
-						$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'J%'], ['assign_to', '=', Auth::User()->id], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-					}
-				} else {
-					if (!empty($request->free)) {
-						$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_type', '=', 'free'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
-					} elseif (!empty($request->paid)) {
-						$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_type', '=', 'paid'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
-					} elseif (!empty($request->repeatjob)) {
-						$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_category', '=', 'repeat job'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
-					} else {
-						$services = Service::where([['soft_delete', 0], ['job_no', 'like', 'J%'], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->orderBy('id', 'desc')->get();
-					}
-				}
-			} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+		// if (!isAdmin(Auth::User()->role_id)) {
+		// 	if (getUsersRole(Auth::User()->role_id) == "Customer") {
+		// 		if (!empty($request->free)) {
+		// 			$services = Service::orderBy('service_date', 'asc')
+		// 				->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'free']])
+		// 				->where('customer_id', '=', Auth::User()->id)
+		// 				->where('soft_delete', '=', 0)
+		// 				->whereNotIn('quotation_modify_status', [1])
+		// 				->get();
+		// 		} elseif (!empty($request->paid)) {
+		// 			$services = Service::orderBy('service_date', 'asc')
+		// 				->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'paid']])
+		// 				->where('customer_id', '=', Auth::User()->id)
+		// 				->where('soft_delete', '=', 0)
+		// 				->whereNotIn('quotation_modify_status', [1])
+		// 				->get();
+		// 		} elseif (!empty($request->repeatjob)) {
+		// 			$services = Service::orderBy('service_date', 'asc')
+		// 				->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_category', '=', 'repeat job']])
+		// 				->where('customer_id', '=', Auth::User()->id)
+		// 				->where('soft_delete', '=', 0)
+		// 				->whereNotIn('quotation_modify_status', [1])
+		// 				->get();
+		// 		} else {
+		// 			$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', Auth::User()->id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+		// 		}
+		// 	} elseif (getUsersRole(Auth::User()->role_id) == "Employee") {
+		// 		if (Gate::allows('jobcard_owndata')) {
+		// 			if (!empty($request->free)) {
+		// 				$services = Service::orderBy('service_date', 'asc')
+		// 					->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'free'], ['branch_id', $currentUser->branch_id]])
+		// 					->where('assign_to', '=', Auth::User()->id)
+		// 					->where('soft_delete', '=', 0)
+		// 					->whereNotIn('quotation_modify_status', [1])
+		// 					->get();
+		// 			} elseif (!empty($request->paid)) {
+		// 				$services = Service::orderBy('service_date', 'asc')
+		// 					->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'paid'], ['branch_id', $currentUser->branch_id]])
+		// 					->where('assign_to', '=', Auth::User()->id)
+		// 					->where('soft_delete', '=', 0)
+		// 					->whereNotIn('quotation_modify_status', [1])
+		// 					->get();
+		// 			} elseif (!empty($request->repeatjob)) {
+		// 				$services = Service::orderBy('service_date', 'asc')
+		// 					->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_category', '=', 'repeat job'], ['branch_id', $currentUser->branch_id]])
+		// 					->where('assign_to', '=', Auth::User()->id)
+		// 					->where('soft_delete', '=', 0)
+		// 					->whereNotIn('quotation_modify_status', [1])
+		// 					->get();
+		// 			} else {
+		// 				$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['assign_to', '=', Auth::User()->id], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+		// 			}
+		// 		} else {
+		// 			if (!empty($request->free)) {
+		// 				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'free'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
+		// 			} elseif (!empty($request->paid)) {
+		// 				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'paid'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
+		// 			} elseif (!empty($request->repeatjob)) {
+		// 				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_category', '=', 'repeat job'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
+		// 			} else {
+		// 				$services = Service::where([['soft_delete', 0], ['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->orderBy('id', 'desc')->get();
+		// 			}
+		// 		}
+		// 	} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
 
-				if (!empty($request->free)) {
-					$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_type', '=', 'free'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-				} elseif (!empty($request->paid)) {
-					$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_type', '=', 'paid'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-				} elseif (!empty($request->repeatjob)) {
-					$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_category', '=', 'repeat job'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-				} else {
-					$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'J%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-				}
-			}
-		} else {
-			if (!empty($request->free)) {
-				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_type', '=', 'free'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
-			} elseif (!empty($request->paid)) {
-				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_type', '=', 'paid'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
-			} elseif (!empty($request->repeatjob)) {
-				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['service_category', '=', 'repeat job'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
-			} else {
-				$services = Service::where([['soft_delete', 0], ['job_no', 'like', 'J%'], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->orderBy('id', 'desc')->get();
-			}
-		}
+		// 		if (!empty($request->free)) {
+		// 			$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'free'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+		// 		} elseif (!empty($request->paid)) {
+		// 			$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'paid'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+		// 		} elseif (!empty($request->repeatjob)) {
+		// 			$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_category', '=', 'repeat job'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+		// 		} else {
+		// 			$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+		// 		}
+		// 	}
+		// } else {
+		// 	if (!empty($request->free)) {
+		// 		$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'free'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
+		// 	} elseif (!empty($request->paid)) {
+		// 		$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_type', '=', 'paid'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
+		// 	} elseif (!empty($request->repeatjob)) {
+		// 		$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_category', '=', 'repeat job'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
+		// 	} else {
+		// 		$services = Service::where([['soft_delete', 0], ['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->orderBy('id', 'desc')->get();
+		// 	}
+		// }
+
+		$services = Service::where('quotation_modify_status', '=', 0)->latest()->get();
 
 		$month = date('m');
 		$year = date('Y');
@@ -459,7 +461,7 @@ $code = $new_number;
 	//jobcard list
 	public function indexid($id)
 	{
-		$services = DB::table('tbl_services')->orderBy('id', 'desc')->where([['id', '=', $id], ['job_no', 'like', 'J%']])->get()->toArray();
+		$services = DB::table('tbl_services')->orderBy('id', 'desc')->where([['id', '=', $id], ['job_no', 'like', 'RMAL-RP-24-%']])->get()->toArray();
 		$month = date('m');
 		$year = date('Y');
 		$start_date = "$year/$month/01";
@@ -553,7 +555,7 @@ $code = $new_number;
 			$in_date = date('Y-m-d H:i:s', strtotime($request->in_date));
 			$odate = date('Y-m-d H:i:s', strtotime($request->out_date));
 		}
-		$kms = $request->kms;
+		// $kms = $request->kms;
 		$coupan_no = $request->coupan_no;
 
 		$out_date = DB::update("update tbl_jobcard_details set out_date='$odate' where service_id=$service_id");
@@ -648,7 +650,7 @@ $code = $new_number;
 			$tbl_jobcard_details->jocard_no = $job_no;
 			$tbl_jobcard_details->in_date = $in_date;
 			$tbl_jobcard_details->out_date = $odate;
-			$tbl_jobcard_details->kms_run = $kms;
+			// $tbl_jobcard_details->kms_run = $kms;
 			if (!empty($coupan_no)) {
 				$tbl_jobcard_details->coupan_no = $coupan_no;
 			}
@@ -656,7 +658,7 @@ $code = $new_number;
 		} else {
 			DB::table('tbl_jobcard_details')
 				->where('service_id', $service_id)
-				->update(['out_date' => $odate, 'kms_run' => $kms]);
+				->update(['out_date' => $odate]);
 		}
 
 		DB::update("update `tbl_services` set done_status=1 where id=$service_id");
@@ -1153,7 +1155,7 @@ $code = $new_number;
 
 				$customer_job = DB::table('tbl_jobcard_details')->where([['service_id', $id], ['soft_delete', 0]])->first();
 				// dd($customer_job);
-				$job = DB::table('tbl_services')->where([['job_no', '=', $customer_job->jocard_no], ['done_status', '=', 1], ['job_no', 'like', 'J%']])->first();
+				$job = DB::table('tbl_services')->where([['job_no', '=', $customer_job->jocard_no], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%']])->first();
 				// dd($job);
 				$ser_id = $job->id;
 				$cus_id = $job->customer_id;

@@ -108,7 +108,6 @@
               <tr>
                 <!-- <th> </th> -->
                 <th>{{ trans('message.Job Card No') }}.</th>
-                <th>{{ trans('message.Service Type') }}</th>
                 <th>{{ trans('message.Customer Name') }}</th>
                 <th>{{ trans('message.Service Date') }}</th>
                 <th>{{ trans('message.Status') }}</th>
@@ -130,10 +129,6 @@
                 </td> -->
                 <td>{{ $servicess->job_no }} 
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Job Card No." class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-                </td>
-                <td>
-                  {{ trans('message.' . ucwords($servicess->service_type)) }} 
-                  <!-- <a data-toggle="tooltip" data-placement="bottom" title="Service Type" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>
                 <td>{{ getCustomerName($servicess->customer_id) }} 
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->

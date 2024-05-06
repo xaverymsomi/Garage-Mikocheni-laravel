@@ -29,10 +29,10 @@
                         <!-- FirstName and LastName Field -->
                         <div class="row row-mb-0">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label></label>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Supplier Name') }} <label class="color-danger">*</label></label>
 
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="firstname" name="firstname" max="5" class="form-control" value="{{ old('firstname') }}" placeholder="{{ trans('message.Enter First Name') }}" maxlength="50">
+                                    <input type="text" id="firstname" name="firstname" max="5" class="form-control" value="{{ old('firstname') }}" placeholder="{{ trans('Enter Supplier Name') }}" maxlength="50">
 
                                     @if ($errors->has('firstname'))
                                     <span class="help-block">
@@ -41,40 +41,11 @@
                                     @endif 
                                 </div>
                             </div>
-
-                            <div class=" row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="lastname" name="lastname" class="form-control" value="{{ old('lastname') }}" placeholder="{{ trans('message.Enter Last Name') }}" maxlength="50">
-
-                                    @if ($errors->has('lastname'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('lastname') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
                         </div>
                         <!-- FirstName and LastName Field End-->
 
                         <!-- CompanyName and Email Field -->
                         <div class="row row-mb-0">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label for="displayname" class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Company Name') }}
-                                    <label class="color-danger">*</label></label>
-
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="displayname" class="form-control companyname" name="displayname" value="{{ old('displayname') }}" placeholder="{{ trans('message.Enter Company Name') }}" maxlength="100">
-
-                                    @if ($errors->has('displayname'))
-                                    <span class="help-block" style="color:#a94442">
-                                        <strong>{{ $errors->first('displayname') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="email">{{ trans('message.Email') }} <label class="color-danger">*</label></label>
 
@@ -107,32 +78,11 @@
                                 </div>
                             </div>
 
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('landlineno') ? ' has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="landlineno">{{ trans('message.Landline No') }}<label class="color-danger"></label></label>
-
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="landlineno" name="landlineno" class="form-control" value="{{ old('landlineno') }}" maxlength="16" minlength="6" placeholder="{{ trans('message.Enter LandLine No') }}">
-
-                                    @if ($errors->has('landlineno'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('landlineno') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                            
                         </div>
                         <!-- Mobile and Landline Field End -->
                         <div class="row row-mb-0">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('image') ? ' has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">{{ trans('message.Image') }} </label>
-
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <!--  <input type="file" id="input-file-max-fs"  name="image"  class="form-control dropify" data-max-file-size="5M"> -->
-                                    <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control chooseImage">
-
-                                    <img src="{{ url('public/supplier/avtar.png') }}" id="imagePreview" alt="User Image" class="imageHideShow" style="width: 20%; padding-top: 8px;">
-                                </div>
-                            </div>
+                           
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
                                     {{ trans('message.Gender') }}

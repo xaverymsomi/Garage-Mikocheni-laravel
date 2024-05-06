@@ -461,27 +461,11 @@ class VehicalControler extends Controller
 		$modelyear = $request->modelyear;
 		$fueltype = $request->fueltype;
 		$modelname = $request->modelname;
-		$price = $request->price;
-		$odometerreading = $request->odometerreading;
-		$gearbox = $request->gearbox;
-		$gearboxno = $request->gearboxno;
 		$engineno = $request->engineno;
-		$enginesize = $request->enginesize;
-		$keyno = $request->keyno;
-		$engine = $request->engine;
-		$nogears = $request->gearno;
 		$numberPlate = $request->number_plate;
 		$customer = $request->customer;
 
-		$doms = $request->dom;
-		$dom = null;
-		if (!empty($doms)) {
-			if (getDateFormat() == 'm-d-Y') {
-				$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
-			} else {
-				$dom = date('Y-m-d', strtotime($doms));
-			}
-		}
+		
 
 		$vehical = Vehicle::find($id);
 		$vehical->vehicletype_id = $vehical_type;
@@ -490,16 +474,7 @@ class VehicalControler extends Controller
 		$vehical->modelyear = $modelyear;
 		$vehical->fuel_id = $fueltype;
 		$vehical->modelname = $modelname;
-		$vehical->price = $price;
-		$vehical->odometerreading = $odometerreading;
-		$vehical->dom = $dom;
-		$vehical->gearbox = $gearbox;
-		$vehical->gearboxno = $gearboxno;
 		$vehical->engineno = $engineno;
-		$vehical->enginesize = $enginesize;
-		$vehical->keyno = $keyno;
-		$vehical->engine = $engine;
-		$vehical->nogears = $nogears;
 		$vehical->number_plate = $numberPlate;
 		$vehical->branch_id = $request->branch;
 		$vehical->customer_id = $request->customer;

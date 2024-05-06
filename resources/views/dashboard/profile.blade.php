@@ -48,7 +48,7 @@
     <div class="vr display-none"></div>
     <a href="javascript:;" class=" dropdown_profile pt-2 pb-2 authpic" data-bs-toggle="dropdown" aria-expanded="false">
       @if (!empty(Auth::user()->id))
-      @if (Auth::user()->role == 'admin')
+      {{-- @if (Auth::user()->role == 'admin')
       <img src="{{ URL::asset('public/admin/' . Auth::user()->image) }}" alt="admin" width="40px" height="40px" class="rounded  display-right">
       @endif
 
@@ -78,7 +78,8 @@
 
       @if (Auth::user()->role == '')
       <img src="{{ URL::asset('public/customer/' . Auth::user()->image) }}" alt="customer" width="40px" height="40px" class="rounded  display-right">
-      @endif
+      @endif --}}
+      {{ Auth::user()->name }}
       @endif
 
 

@@ -2771,7 +2771,7 @@ if (!function_exists('getVehicleNumberPlateFromSale')) {
 		{
 			$customer  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Customer']])->first();
 			if (!empty($customer)) {
-				return $customer->company_name;
+				return $customer->name;
 			}
 		}
 	}
