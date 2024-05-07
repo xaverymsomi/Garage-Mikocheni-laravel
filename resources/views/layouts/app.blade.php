@@ -459,37 +459,7 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                 </li>
                 @endcan
 
-                @canany(['employee_view', 'supportstaff_view', 'accountant_view', 'branchAdmin_view'])
-                @php
-                $inventoryRoutes = ['/employee/list','/supportstaff/list','/accountant/list','/branchadmin/list','/employee/add','/supportstaff/add','/accountant/add','/branchadmin/add'];
-                @endphp
-                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/employee/view/') || Str::startsWith($currentRoute, '/employee/edit/') || Str::startsWith($currentRoute, '/supportstaff/list/') || Str::startsWith($currentRoute, '/accountant/list/') || Str::startsWith($currentRoute, '/branchadmin/list/') ? 'active' : '' }}">
-
-                  <div class="dropdown w-100">
-                    <a href="#"><i class="fa-regular fa-user margin-right-10px"></i> Team <span class="fa fa-chevron-right dropdown-right-icon icon"> </span></a>
-                    <div class="dropdown-content dropdown-content-user">
-                     
-
-                      @can('employee_view')
-                      <a href="{!! url('/employee/list') !!}">{{ trans('message.Employees') }}</a>
-                      @endcan
-
-                      @can('supportstaff_view')
-                      <a href="{!! url('/supportstaff/list') !!}">{{ trans('message.Support Staff') }}</a>
-                      @endcan
-
-                      @can('accountant_view')
-                      <a href="{!! url('/accountant/list') !!}">{{ trans('message.Accountant') }}</a>
-                      @endcan
-
-                      @can('branchAdmin_view')
-                      <a href="{!! url('/branchadmin/list') !!}">{{ trans('message.Branch Admin') }}</a>
-                      @endcan
-
-                    </div>
-                  </div>
-                </li>
-                @endcanany
+                
 
 
                 @canany(['jobcard_view', 'gatepass_view'])
@@ -521,6 +491,38 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                   </a>
                 </li>
                 @endcan
+
+                @canany(['employee_view', 'supportstaff_view', 'accountant_view', 'branchAdmin_view'])
+                @php
+                $inventoryRoutes = ['/employee/list','/supportstaff/list','/accountant/list','/branchadmin/list','/employee/add','/supportstaff/add','/accountant/add','/branchadmin/add'];
+                @endphp
+                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/employee/view/') || Str::startsWith($currentRoute, '/employee/edit/') || Str::startsWith($currentRoute, '/supportstaff/list/') || Str::startsWith($currentRoute, '/accountant/list/') || Str::startsWith($currentRoute, '/branchadmin/list/') ? 'active' : '' }}">
+
+                  <div class="dropdown w-100">
+                    <a href="#"><i class="fa-regular fa-user margin-right-10px"></i> Team <span class="fa fa-chevron-right dropdown-right-icon icon"> </span></a>
+                    <div class="dropdown-content dropdown-content-user">
+                     
+
+                      @can('employee_view')
+                      <a href="{!! url('/employee/list') !!}">{{ trans('message.Employees') }}</a>
+                      @endcan
+
+                      @can('supportstaff_view')
+                      <a href="{!! url('/supportstaff/list') !!}">{{ trans('message.Support Staff') }}</a>
+                      @endcan
+
+                      @can('accountant_view')
+                      <a href="{!! url('/accountant/list') !!}">{{ trans('message.Accountant') }}</a>
+                      @endcan
+
+                      @can('branchAdmin_view')
+                      <a href="{!! url('/branchadmin/list') !!}">{{ trans('message.Branch Admin') }}</a>
+                      @endcan
+
+                    </div>
+                  </div>
+                </li>
+                @endcanany
 
                 @canany(['supplier_view', 'product_view', 'purchase_view', 'stock_view'])
                 @php

@@ -200,269 +200,227 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
-                     <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
-                     <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
-                  </div>
-                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                 <div class="row row-mb-0">
+                  
+                  <div class="vehicleInfo">
+                    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
+                        <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
+                        <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+                     </div>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="row row-mb-0">
                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Vehicle For')}}<label class="color-danger"></label></label>
-                          <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 mb-0 pt-2">
-                             <input type="radio" name="vhi_for" value="0"  checked>{{ trans('message.Service') }}
-                             <!-- <input type="radio" name="vhi_for" value="1" > {{ trans('message.Sell') }} -->
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                             <div class="select-wrapper">
+                                <select class="form-control  select_vehicaltype form-select" name="vehical_id" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}" required>
+                                   <option value="">{{ trans('message.Select Type') }}</option>
+                                   @if (!empty($vehical_type))
+                                   @foreach ($vehical_type as $vehical_types)
+                                   <option value="{{ $vehical_types->id }}">
+                                      {{ $vehical_types->vehicle_type }}
+                                   </option>
+                                   @endforeach
+                                   @endif
+                                </select>
+                                <div class="arrow-icon-vehicle"></div>
+                             </div>
+                          </div>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                          </div>
+                       </div>
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                             <input type="text" name="number_plate" value="{{ old('number_plate') }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
                           </div>
                        </div>
                     </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                          <div class="select-wrapper">
-                             <select class="form-control select_vehicaltype form-select" name="vehical_id" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}" required>
-                                <option value="">{{ trans('message.Select Type') }}</option>
-                                @if (!empty($vehical_type))
-                                @foreach ($vehical_type as $vehical_types)
-                                <option value="{{ $vehical_types->id }}">
-                                   {{ $vehical_types->vehicle_type }}
-                                </option>
-                                @endforeach
-                                @endif
-                             </select>
-                             <div class="arrow-icon-vehicle"></div>
+                    <div class="row row-mb-0">
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                             <div class="select-wrapper">
+                                <select class="form-control select_vehicalbrand form-select" name="vehicabrand" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
+                                   <option value="">{{ trans('message.Select Brand') }}</option>
+                                </select>
+                                <div class="arrow-icon-vehicle"></div>
+                             </div>
+                          </div>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
                           </div>
                        </div>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="number_plate" value="{{ old('number_plate') }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
-                       </div>
-                    </div>
-                 </div>
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                          <div class="select-wrapper">
-                             <select class="form-control select_vehicalbrand form-select" name="vehicabrand" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
-                                <option value="">{{ trans('message.Select Brand') }}</option>
-                             </select>
-                             <div class="arrow-icon-vehicle"></div>
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group" id="price-field">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">
+                          {{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label>
+                          </label>
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                             <input type="text" name="price" value="{{ old('price') }}" placeholder="{{ trans('message.Enter Price') }}" class="form-control price_is" maxlength="10">
                           </div>
                        </div>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                       
+                    </div>
+                    <div class="row row-mb-0">
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Fuel Type') }} <label class="color-danger">*</label></label>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                             <div class="select-wrapper">
+                                <select class="form-control select_fueltype form-select" name="fueltype" required>
+                                   <option value="">{{ trans('message.Select fuel') }} </option>
+                                   @if (!empty($fuel_type))
+                                   @foreach ($fuel_type as $fuel_types)
+                                   <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
+                                   </option>
+                                   @endforeach
+                                   @endif
+                                </select>
+                                <div class="arrow-icon-vehicle"></div>
+                             </div>
+                          </div>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-fuel" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                          </div>
+                       </div>
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                             <div class="select-wrapper">
+                                <select class="form-control select_branch form-select" name="branch">
+                                   @foreach ($branchDatas as $branchData)
+                                   <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
+                                   </option>
+                                   @endforeach
+                                </select>
+                                <div class="arrow-icon-branch"></div>
+                             </div>
+                          </div>
                        </div>
                     </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group" id="price-field">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">
-                       {{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label>
-                       </label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="price" value="{{ old('price') }}" placeholder="{{ trans('message.Enter Price') }}" class="form-control price_is" maxlength="10">
+                    <div class="row row-mb-0">
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                             <div class="select-wrapper">
+                                <select class="form-control model_addname form-select" name="modelname" required>
+                                   <option value="">{{ trans('message.Select Model') }}</option>
+                                </select>
+                                <div class="arrow-icon-vehicle"></div>
+                             </div>
+                          </div>
+                          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                             <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                          </div>
+                       </div>
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="color-danger"></label></label>
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
+                             <input type="text" name="modelyear" autocomplete="off" class="form-control" id="myDatepicker2" />
+                          </div>
+                       </div>
+                    </div>
+                                <div class="row row-mb-0">
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                             <input type="text" name="engineno" value="{{ old('engineno') }}" placeholder="{{ trans('message.Enter Engine No.') }}" maxlength="30" class="form-control engine_no">
+                          </div>
+                       </div>
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                             <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
+                          </div>
                        </div>
                     </div>
                     
-                 </div>
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Fuel Type') }} <label class="color-danger">*</label></label>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                          <div class="select-wrapper">
-                             <select class="form-control select_fueltype form-select" name="fueltype" required>
-                                <option value="">{{ trans('message.Select fuel') }} </option>
-                                @if (!empty($fuel_type))
-                                @foreach ($fuel_type as $fuel_types)
-                                <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
-                                </option>
-                                @endforeach
-                                @endif
-                             </select>
-                             <div class="arrow-icon-vehicle"></div>
+                    <div class="row row-mb-0">
+                       <!-- Vehical images  -->
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                          <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Select Multiple Images') }}
+                          </label>
+                          <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                             <input type="file" name="image[]" class="form-control imageclass" id="images" onchange="preview_images();" data-max-file-size="5M" multiple />
+                          </div>
+                          <div class="row classimage mt-2" id="image_preview"></div>
+                       </div>
+                    </div>
+                    <div class="row row-mb-0">
+                       <!-- Vehicle Description  -->
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
+                          <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                             <h2 class="fw-bold">{{ trans('message.Vehicle Description') }}</h2>
+                             <br>
+                             <button type="button" id="add_new_description" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getDescription') !!}">{{ trans('+') }}</button>
+                          </div>
+                          <div class="table-responsive mt-3 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 table-bordered">
+                             <table class="table table-bordered addtaxtype" id="tab_decription_detail">
+                                <thead>
+                                   <tr>
+                                      <th class="all">{{ trans('message.Description') }}</th>
+                                      <th class="all">{{ trans('message.Action') }}</th>
+                                   </tr>
+                                </thead>
+                                <tbody>
+                                   <tr id="row_id_1">
+                                      <td>
+                                         <textarea name="description[]" class="form-control" maxlength="100" id="tax_1"></textarea>
+                                      </td>
+                                      <td>
+                                         <span class="d-none" data-id="1"><i class="fa fa-trash disabled"></i></span>
+                                      </td>
+                                   </tr>
+                                </tbody>
+                             </table>
                           </div>
                        </div>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-fuel" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <div class="select-wrapper">
-                             <select class="form-control select_branch form-select" name="branch">
-                                @foreach ($branchDatas as $branchData)
-                                <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
-                                </option>
-                                @endforeach
-                             </select>
-                             <div class="arrow-icon-branch"></div>
+                       <!--vehicle color-->
+                       <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group ms-1">
+                          <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                             <h2 class="fw-bold">{{ trans('message.Vehicle Color') }} </h2>
+                             </span><br>
+                             <button type="button" id="add_new_color" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getcolor') !!}">{{ trans('+') }}
+                             </button>
+                          </div>
+                          <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 text-end mb-3">
+                             <button type="button" data-bs-target="#responsive-modal-color" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm newaddvehicledescription mt-1">{{ trans('message.Add/Remove') }}</button><br>
+                          </div>
+                          <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
+                             <table class="table table-bordered addtaxtype" id="tab_color">
+                                <thead>
+                                   <tr>
+                                      <th class="all">{{ trans('message.Colors') }}</th>
+                                      <th>{{ trans('message.Action') }}</th>
+                                   </tr>
+                                </thead>
+                                <tbody>
+                                   <tr id="color_id_1">
+                                      <td>
+                                         <select name="color[]" class="form-control color form-select" id="tax_1" data-id="1">
+                                            <option value="">{{ trans('message.Select Color') }}
+                                            </option>
+                                            @if (!empty($color))
+                                            @foreach ($color as $colors)
+                                            <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                                               {{ $colors->color }}
+                                            </option>
+                                            @endforeach
+                                            @endif
+                                         </select>
+                                      </td>
+                                      <td>
+                                      </td>
+                                   </tr>
+                                </tbody>
+                             </table>
                           </div>
                        </div>
                     </div>
-                 </div>
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                          <div class="select-wrapper">
-                             <select class="form-control model_addname form-select" name="modelname" required>
-                                <option value="">{{ trans('message.Select Model') }}</option>
-                             </select>
-                             <div class="arrow-icon-vehicle"></div>
-                          </div>
-                       </div>
-                       <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="color-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
-                          <input type="text" name="modelyear" autocomplete="off" class="form-control" id="myDatepicker2" />
-                       </div>
-                    </div>
-                 </div>
-                             <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="engineno" value="{{ old('engineno') }}" placeholder="{{ trans('message.Enter Engine No.') }}" maxlength="30" class="form-control engine_no">
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
-                       </div>
-                    </div>
-                    {{-- 
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Engine Size') }} <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="enginesize" value="{{ old('enginesize') }}" placeholder="{{ trans('message.Enter Engine Size') }}" maxlength="30" class="form-control engine_size">
-                       </div>
-                    </div>
-                    --}}
-                 </div>
-                 {{-- 
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Key No') }}. <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="keyno" value="{{ old('keyno') }}" placeholder="{{ trans('message.Enter Key No.') }}" maxlength="30" class="form-control key_no">
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine') }} <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="engine" value="{{ old('engine') }}" placeholder="{{ trans('message.Enter Engine') }}" maxlength="30" class="form-control engineField">
-                       </div>
-                    </div>
-                 </div>
-                 --}}
-                 {{-- 
-                 <div class="row row-mb-0">
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="color-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="chasicno" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
-                       </div>
-                    </div>
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number of Gear') }} <label class="text-danger"></label></label>
-                       <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                          <input type="text" name="gearno" value="{{ old('gearno') }}" placeholder="{{ trans('message.Enter Number of Gear') }}" maxlength="5" class="form-control no_of_gear">
-                       </div>
-                    </div>
-                 </div>
-                 --}}
-                 <div class="row row-mb-0">
-                    <!-- Vehical images  -->
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                       <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Select Multiple Images') }}
-                       </label>
-                       <div class="form-group col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <input type="file" name="image[]" class="form-control imageclass" id="images" onchange="preview_images();" data-max-file-size="5M" multiple />
-                       </div>
-                       <div class="row classimage mt-2" id="image_preview"></div>
-                    </div>
-                 </div>
-                 <div class="row row-mb-0">
-                    <!-- Vehicle Description  -->
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
-                       <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <h2 class="fw-bold">{{ trans('message.Vehicle Description') }}</h2>
-                          <br>
-                          <button type="button" id="add_new_description" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getDescription') !!}">{{ trans('+') }}</button>
-                       </div>
-                       <div class="table-responsive mt-3 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 table-bordered">
-                          <table class="table table-bordered addtaxtype" id="tab_decription_detail">
-                             <thead>
-                                <tr>
-                                   <th class="all">{{ trans('message.Description') }}</th>
-                                   <th class="all">{{ trans('message.Action') }}</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr id="row_id_1">
-                                   <td>
-                                      <textarea name="description[]" class="form-control" maxlength="100" id="tax_1"></textarea>
-                                   </td>
-                                   <td>
-                                      <span class="d-none" data-id="1"><i class="fa fa-trash disabled"></i></span>
-                                   </td>
-                                </tr>
-                             </tbody>
-                          </table>
-                       </div>
-                    </div>
-                    <!--vehicle color-->
-                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group ms-1">
-                       <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                          <h2 class="fw-bold">{{ trans('message.Vehicle Color') }} </h2>
-                          </span><br>
-                          <button type="button" id="add_new_color" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getcolor') !!}">{{ trans('+') }}
-                          </button>
-                       </div>
-                       <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 text-end mb-3">
-                          <button type="button" data-bs-target="#responsive-modal-color" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm newaddvehicledescription mt-1">{{ trans('message.Add/Remove') }}</button><br>
-                       </div>
-                       <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
-                          <table class="table table-bordered addtaxtype" id="tab_color">
-                             <thead>
-                                <tr>
-                                   <th class="all">{{ trans('message.Colors') }}</th>
-                                   <th>{{ trans('message.Action') }}</th>
-                                </tr>
-                             </thead>
-                             <tbody>
-                                <tr id="color_id_1">
-                                   <td>
-                                      <select name="color[]" class="form-control color form-select" id="tax_1" data-id="1">
-                                         <option value="">{{ trans('message.Select Color') }}
-                                         </option>
-                                         @if (!empty($color))
-                                         @foreach ($color as $colors)
-                                         <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
-                                            {{ $colors->color }}
-                                         </option>
-                                         @endforeach
-                                         @endif
-                                      </select>
-                                   </td>
-                                   <td>
-                                   </td>
-                                </tr>
-                             </tbody>
-                          </table>
-                       </div>
-                    </div>
-                 </div>
-         
+                  </div>
+                  
+                  <div id="vehicleInfoContainer"></div>
+                  {{-- <button type="button" id="addVehicleBtn" class="btn btn-primary">Add Vehicle</button> --}}
+                  <button type="button" id="addVehicleBtn" class="btn btn-success">Add Another Vehicle</button>
                   <!-- Custom field data  -->
                   @if (!empty($tbl_custom_fields))
                   <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
@@ -553,8 +511,10 @@
                         </div>
                      </div>
                   </div>
+                  
                </form>
 
+               
 
                {{-- End of Client form --}}
             </div>
@@ -2569,6 +2529,19 @@
        textInput.value = `custom${cleanedColorCode}`;
        colorPickerChanged = true;
    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#addVehicleBtn').on('click', function() {
+      // Clone the vehicle information fields and append them to the container
+      var clonedVehicleInfo = $('.vehicleInfo').first().clone();
+    // Reset the values of brand and model selections in the cloned vehicle info
+    clonedVehicleInfo.find('.select_vehicalbrand').val('');
+    clonedVehicleInfo.find('.select_vehicalmodel').empty().append('<option value="">Select Model</option>');
+    $('#vehicleInfoContainer').append(clonedVehicleInfo);
+    });
+  });
 </script>
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\VehicleAddEditFormRequest', '#demo-form2') !!}
