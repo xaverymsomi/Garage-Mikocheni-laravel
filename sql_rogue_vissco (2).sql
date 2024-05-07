@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2024 at 03:30 PM
+-- Generation Time: May 07, 2024 at 03:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54803,7 +54803,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `gender`, `birth_date`, `email`, `contact_person`, `password`, `mobile_no`, `address`, `Driving`, `NIDA`, `TIN`, `join_date`, `designation`, `left_date`, `account_no`, `ifs_code`, `branch_name`, `tin_no`, `pan_no`, `gst_no`, `country_id`, `state_id`, `city_id`, `role`, `role_id`, `language`, `timezone`, `custom_field`, `soft_delete`, `branch_id`, `create_by`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'SHEDDY', 0, NULL, 'admin@rogue.africa', '', '$2y$10$nSyVHTES8nHg7GiLc4mW..jvwveZ8qt3OjYdSVryFh4QAK2jhw3xq', '', 'MIKOCHENI', 'system_m.png', NULL, NULL, NULL, '', NULL, '', '', '', '', '', 'ltr', 0, 0, 0, 'admin', 1, 'en', 'UTC', '', 0, 2, NULL, '9D2xG1zLEzjTDknIeQyJlr31PIBN32KzWibfONCzniPlIXqpkaU26WAM6D5y', NULL, NULL),
+(1, 'SHEDDY', 0, NULL, 'admin@rogue.africa', '', '$2y$10$nSyVHTES8nHg7GiLc4mW..jvwveZ8qt3OjYdSVryFh4QAK2jhw3xq', '', 'MIKOCHENI', 'system_m.png', NULL, NULL, NULL, '', NULL, '', '', '', '', '', 'ltr', 0, 0, 0, 'admin', 1, 'en', 'UTC', '', 0, 2, NULL, 'a3iYrpzR31ELXEurzbPIZByxCwRBUeqZEmvEwuFf1y09zZ4QXAejPTLaPwp3', NULL, NULL),
 (2, 'Test', 0, NULL, 'testcust@rogue.africa', NULL, '$2y$10$S1RKaTEdhKTEpzo1pBQTSu/1uGvubnFLbR4Plzd7cpzcoMTeR4kXe', '+255 712 586 65', 'Mikocheni', 'avtar.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3506, NULL, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-03-26 11:27:41', '2024-03-26 11:27:41'),
 (4, 'ADMIN', 1, NULL, 'robert.msangi@rogue.africa', NULL, '$2y$10$lrfS71XJolwCqnCvR8GlsOwF4rySeAOvSE3tekHTSwd6sluDjsxfa', '+255 712 586 65', 'Mikocheni', 'avtar.png', NULL, NULL, '2024-03-26', 'Manager', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3506, NULL, 'branch_admin', 6, 'en', 'UTC', NULL, 0, 2, 1, NULL, '2024-03-26 11:31:02', '2024-03-27 12:30:11'),
 (5, 'Test', 1, NULL, 'testmployee@rogue.africa', NULL, '$2y$10$HC37fa4LrqVCGR.t2hvSM.JMzJrDyVmgP2wK5vfMEklneBmS99PRC', '+255 712 586 65', 'Mikocheni', 'avtar.png', NULL, NULL, '2024-03-26', 'Test Employee', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3506, NULL, 'employee', 3, 'en', 'UTC', NULL, 1, 2, 1, NULL, '2024-03-26 11:32:54', '2024-03-26 11:44:54'),
