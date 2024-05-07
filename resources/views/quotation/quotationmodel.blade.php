@@ -112,31 +112,12 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        @if (getCustomerCompanyName($custo_info->id) != '')
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                                <p class="fw-bold mb-0">{{ trans('message.Company') }}:</p>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9 col-xs-9">
-                                                <p class="cname mb-0"><?php echo getCustomerCompanyName($custo_info->id); ?></p>
-                                            </div>
-                                        </div>
-                                        @endif
+                                        
 
-                                        <?php
-                                        if ($custo_info->tax_id !== null) {
-                                        ?>
+                                        
 
-                                            <div class="row">
-                                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                                    <p class="fw-bold mb-0">{{ trans('message.Tax Id') }} :</p>
-                                                </div>
-                                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                                    <p class="cname mb-0"><?php echo $custo_info->tax_id; ?></p>
-                                                </div>
-                                            </div>
-                                        <?php
-                                        } ?>
+                                     
+                                        
 
                                         <!-- @if (getCustomerCompanyName($custo_info->id) != '')
                                         <tr>
@@ -185,7 +166,7 @@
                                 <span class="border-0">
                                     <thead>
                                         <tr>
-                                            <th class="cname text-left">{{ trans('message.Repair Category') }}</th>
+                                            <th class="cname text-left">{{ trans('Job Category') }}</th>
                                             <th class="cname text-left">{{ trans('message.Service Type') }}</th>
                                             <th class="cname text-left">{{ trans('message.Details') }}</th>
                                             <th class="cname text-left"> </th>
