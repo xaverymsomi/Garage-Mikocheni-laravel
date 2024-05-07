@@ -1235,9 +1235,7 @@
                             @if (count($Customere) !== 0)
                             @foreach ($Customere as $user)
                             <div class="x_content mb-0">
-                                <a class="userpic">
-                                    <img src="{{ URL::asset('public/customer/' . $user->image) }}" style="width: 40px; height: 40px;margin-right: 18px;" class="rounded">
-                                </a>
+                                
                                 <div>
                                     <a class="title" href="customer/list/{{ $user->id }}"><strong>{{ $user->name }}&nbsp;{{ $user->lastname }}</a>
                                     </strong>

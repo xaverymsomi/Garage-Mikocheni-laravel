@@ -54,8 +54,25 @@ class QuotationController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
+		if (!isAdmin(Auth::User()->role_id)) {
+			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
+				if (Gate::allows('quotation_owndata')) {
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', Auth::User()->id], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+				} else {
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+				}
+			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee' || getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+				if (Gate::allows('quotation_owndata')) {
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['create_by', '=', Auth::User()->id], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+				} else {
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+				}
+			}
+		} else {
+			$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'ASC')->get()->toArray();
+		}
 		
-		$service = DB::table('tbl_services')->where([['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'ASC')->get()->toArray();
+		
 
 		return view('quotation/list', compact('service', 'available', 'current_month', 'servi_id'));
 	}
@@ -930,21 +947,21 @@ class QuotationController extends Controller
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', 0]])->get()->toArray();
 
-		return view('/quotation/edit', compact('service', 'vehical', 'employee', 'customer', 'regi_no', 'tbl_custom_fields', 'tax', 'inspection_points_library_data', 'mot_inspections_answers', 'washbayPrice', 'branchDatas', 'repairCategoryList'));
+		return view('quotation/edit', compact('service', 'vehical', 'employee', 'customer', 'regi_no', 'tbl_custom_fields', 'tax', 'inspection_points_library_data', 'mot_inspections_answers', 'washbayPrice', 'branchDatas', 'repairCategoryList'));
 	}
 
 	//Quotation update (Quotation service add first step update)
 	public function quotationUpdate(Request $request, $id)
 	{
-		$job = 'J' . substr($request->jobno, 1);
+		$job = $request->jobno;
 		$Customername = $request->Customername;
 		$vehicalname = $request->vehicalname;
-		$title = $request->title;
+		$charge = $request->charge;
 		$service_category = $request->repair_cat;
 		$ser_type = $request->service_type;
-		$donestatus = $request->donestatus;
+		// $donestatus = $request->donestatus;
 		$details = $request->details;
-		$taxId = $request->Tax;
+		// $taxId = $request->Tax;
 		$mot_test_status = $request->motTestStatusCheckbox;
 		if (getDateFormat() == 'm-d-Y') {
 			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
@@ -952,17 +969,12 @@ class QuotationController extends Controller
 			$date = date('Y-m-d H:i:s', strtotime($request->date));
 		}
 
-		if ($ser_type == 'free') {
-			$charge = "0";
-		}
-		if ($ser_type == 'paid') {
-			$charge = $request->charge;
-		}
+		
 
 		$services = Service::find($id);
 		$services->job_no = $job;
 		$services->service_date = $date;
-		$services->title = $title;
+		// $services->title = $title;
 		$services->service_category = $service_category;
 		$services->charge = $charge;
 		$services->detail = $details;
