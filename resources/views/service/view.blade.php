@@ -312,12 +312,6 @@
                                             </label>
                                         </div>
                                         <div class="col-xl-12 col-md-12 col-sm-12 mt-1">
-                                            <label class=""> {{ trans('message.Service Type') }} :</label>
-                                            <label class="fw-bold">
-                                                {{ trans('message.' . ucwords($service->service_type)) }}
-                                            </label>
-                                        </div>
-                                        <div class="col-xl-12 col-md-12 col-sm-12 mt-1">
                                             <label class=""> {{ trans('message.Details') }} :</label>
                                             <label class="fw-bold">
                                                 {{ $service->detail ?? trans('message.Not Added') }}

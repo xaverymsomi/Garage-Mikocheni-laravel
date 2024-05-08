@@ -32,7 +32,7 @@ class VehicleAddEditFormRequest extends FormRequest
             'image' => 'nullable|mimes:jpg,png,jpeg',
             'branch' => 'required',
             'number_plate' => 'required|unique:tbl_vehicles,number_plate' . ($this->id ? ',' . $this->id : ''),
-            'customer' => 'required',
+            // 'customer' => 'required',
             // 'vhi_for' => 'required',
         ];
     }

@@ -55,7 +55,7 @@
                     <option value="">{{ trans('message.select supplier') }}</option>
                     @if (!empty($supplier))
                     @foreach ($supplier as $suppliers)
-                    <option value="{{ $suppliers->id }}">{{ $suppliers->company_name }}</option>
+                    <option value="{{ $suppliers->id }}">{{ $suppliers->name }}</option>
                     @endforeach
                     @endif
                   </select>

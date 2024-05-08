@@ -124,8 +124,7 @@
                 <thead>
                     <tr>
                         <th class="cname text-start">{{ trans('message.Assigned To') }}</th>
-                        <th class="cname text-start">{{ trans('message.Repair Category') }}</th>
-                        <th class="cname text-start">{{ trans('message.Service Type') }}</th>
+                        <th class="cname text-start">{{ trans('Job Category') }}</th>
                         <th class="cname text-start">{{ trans('message.Details') }}</th>
                         <th class="cname text-start"> </th>
                         <th class="cname text-start"> </th>
@@ -136,10 +135,7 @@
                     <tr>
                         <td class="cname text-start fw-bold"><?php echo getAssignedName($vhi_no->assign_to); ?></td>
                         <td class="cname text-start fw-bold"><?php echo ucwords($vhi_no->service_category); ?></td>
-                        <td class="cname text-start fw-bold">
-                            {{ trans('message.' . ucwords($vhi_no->service_type)) }}
-
-                        </td>
+                         
                         <td class="cname text-start fw-bold"><?php echo $vhi_no->detail; ?></td>
                         <td class="cname text-start fw-bold"> </td>
                         <td class="cname text-start fw-bold"> </td>

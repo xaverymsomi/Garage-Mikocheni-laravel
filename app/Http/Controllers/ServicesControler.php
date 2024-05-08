@@ -59,27 +59,27 @@ class ServicesControler extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		// if (!isAdmin(Auth::User()->role_id)) {
-		// 	if (getUsersRole(Auth::user()->role_id) == 'Customer') {
-		// 		$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['customer_id', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'DESC')->get();
-		// 	} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
-		// 		if (Gate::allows('service_owndata')) {
-		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['assign_to', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
-		// 		} else {
-		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
-		// 		}
-		// 	} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
-		// 		if (Gate::allows('service_owndata')) {
-		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
-		// 		} else {
-		// 			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
-		// 		}
-		// 	}
-		// } else {
-		// 	$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
-		// }
+		if (!isAdmin(Auth::User()->role_id)) {
+			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
+				$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['customer_id', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'DESC')->get();
+			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
+				if (Gate::allows('service_owndata')) {
+					$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['assign_to', '=', Auth::User()->id], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+				} else {
+					$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+				}
+			} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+				if (Gate::allows('service_owndata')) {
+					$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $currentUser->branch_id], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+				} else {
+					$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+				}
+			}
+		} else {
+			$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'DESC')->get();
+		}
 
-		$service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'ASC')->get();
+		// $service = Service::where([['job_no', 'like', 'RMAl-RP-24-%'], ['soft_delete', '=', 0], ['is_quotation', '=', 0]])->orderBy('id', 'ASC')->get();
 
 		return view('service/list', compact('service', 'available', 'current_month', 'servi_id'));
 	}
@@ -148,18 +148,14 @@ $code = $new_number;
 	public function customeradd(Request $request)
 	{
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$email = $request->email;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
 		$city = $request->city;
-		$company_name = $request->company_name;
 
 		$dobs = $request->dob;
 		if (getDateFormat() == 'm-d-Y') {
@@ -173,19 +169,15 @@ $code = $new_number;
 
 		$customer = new User;
 		$customer->name = $firstname;
-		$customer->lastname = $lastname;
-		$customer->display_name = $displayname;
 		$customer->gender = $gender;
 		$customer->birth_date = $dob;
 		$customer->email = $email;
 		$customer->password = bcrypt($password);
 		$customer->mobile_no = $mobile;
-		$customer->landline_no = $landlineno;
 		$customer->address = $address;
 		$customer->country_id = $country;
 		$customer->state_id = $state;
 		$customer->city_id = $city;
-		$customer->company_name = $company_name;
 
 		$images = $request->image;
 		if (!empty($images)) {
@@ -229,27 +221,13 @@ $code = $new_number;
 		$fueltype = $request->fueltype1;
 		$modelname = $request->modelname1;
 		$price = $request->price1;
-		$odometerreading = $request->odometerreading1;
 		$domm = $request->dom1;
-		$gearbox = $request->gearbox1;
-		$gearboxno = $request->gearboxno1;
 		$engineno = $request->engineno1;
-		$enginesize = $request->enginesize1;
-		$keyno = $request->keyno1;
-		$engine = $request->engine1;
-		$nogears = $request->gearno1;
 		$numberPlate = $request->numberPlate;
 		$customer_id = $request->customer_id;
 		$select_branch_vehicle = $request->branch_id_vehicle;
 
-		$dom = '';
-		if (!empty($domm)) {
-			if (getDateFormat() == 'm-d-Y') {
-				$dom = date('Y-m-d', strtotime(str_replace('-', '/', $domm)));
-			} else {
-				$dom = date('Y-m-d', strtotime($domm));
-			}
-		}
+		
 
 		$vehical = new Vehicle;
 		$vehical->vehicletype_id = $vehical_type;
@@ -259,15 +237,7 @@ $code = $new_number;
 		$vehical->fuel_id  = $fueltype;
 		$vehical->modelname = $modelname;
 		$vehical->price = $price;
-		$vehical->odometerreading = $odometerreading;
-		$vehical->dom = $dom;
-		$vehical->gearbox = $gearbox;
-		$vehical->gearboxno = $gearboxno;
 		$vehical->engineno = $engineno;
-		$vehical->enginesize = $enginesize;
-		$vehical->keyno = $keyno;
-		$vehical->engine = $engine;
-		$vehical->nogears = $nogears;
 		$vehical->number_plate = $numberPlate;
 		$vehical->added_by_service = 1;
 		$vehical->customer_id = $customer_id;
@@ -879,12 +849,7 @@ $code = $new_number;
 			$date = date('Y-m-d H:i:s', strtotime($date));
 		}
 
-		if ($ser_type == 'free') {
-			$charge = "0";
-		}
-		if ($ser_type == 'paid') {
-			$charge = $request->charge;
-		}
+		
 
 		if ($mot_test_status == "") {
 			$mot_test_status = 0;

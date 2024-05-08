@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 /*New code for Accessrights*/
 
 //Get User Role From Id
@@ -841,7 +844,7 @@ if (!function_exists('getCompanyNames')) {
 	{
 		$users = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Supplier']])->first();
 		if (!empty($users)) {
-			$display_name = $users->company_name;
+			$display_name = $users->name;
 			return $display_name;
 		}
 	}

@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use URL;
-use Auth;
 use App\User;
 use App\Branch;
 use App\Service;
 use App\Vehicle;
+use Mpdf\Tag\Input;
+use App\CustomField;
 use App\Vehicletype;
 use App\Vehiclebrand;
 use App\BranchSetting;
-use App\Http\Requests\VehicleAddEditFormRequest;
 use App\tbl_fuel_types;
 use App\tbl_model_names;
 use App\tbl_vehicle_images;
 use App\tbl_vehicle_colors;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\tbl_vehicle_discription_records;
+use App\Http\Requests\VehicleAddEditFormRequest;
+
 
 class VehicalControler extends Controller
 {
@@ -55,6 +59,260 @@ class VehicalControler extends Controller
 		return view('vehicle.list', compact('vehical'));
 	}
 
+	public function adding_cust_vehicle(){
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		// dd($vehical_type);
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		if (isAdmin(Auth::User()->role_id)) {
+			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
+		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+			$branchDatas = Branch::get();
+		} else {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+		}
+
+		$customer = DB::table('users')->where([['role', 'Customer']])->latest()->value('id');
+
+		return view('vehicle.another_vehicle', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
+	}
+
+	public function store_cust_vehicle(VehicleAddEditFormRequest $request) {
+		if ($request->has('add_another') && $request->input('add_another') === 'true') {
+
+			// dd($request->all());
+						// save Vehicle
+					
+						$vehical_type = $request->vehical_id;
+						$chasicno = $request->chasicno;
+						$vehicabrand = $request->vehicabrand;
+						$modelyear = $request->modelyear;
+						$fueltype = $request->fueltype;
+						$modelname = $request->modelname;
+						$price = $request->price;
+						$engineno = $request->engineno;
+						$numberPlate = $request->number_plate;
+						$customer = $request->customer;
+						$doms = $request->dom;
+			
+						if (!empty($doms)) {
+							if (getDateFormat() == 'm-d-Y') {
+								$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
+							} else {
+								$dom = date('Y-m-d', strtotime($doms));
+							}
+						} else {
+							$dom = null;
+						}
+			
+						$vehical = new Vehicle;
+						$vehical->vehicletype_id = $vehical_type;
+						$vehical->chassisno = $chasicno;
+						$vehical->vehiclebrand_id = $vehicabrand;
+						$vehical->modelyear = $modelyear;
+						$vehical->fuel_id = $fueltype;
+						$vehical->modelname = $modelname;
+						$vehical->price = $price;
+						$vehical->dom  = $dom;
+						$vehical->engineno = $engineno;
+						$vehical->number_plate = $numberPlate;
+						$vehical->branch_id = $request->branch;
+			
+						$lastID = User::latest()->value('id');
+						$increament = $lastID;
+						$vehical->customer_id = $increament;
+			
+						//custom field save	
+						//$custom=Input::get('custom');
+						$custom = $request->custom;
+						$custom_fileld_value = array();
+						$custom_fileld_value_jason_array = array();
+						if (!empty($custom)) {
+							foreach ($custom as $key => $value) {
+								if (is_array($value)) {
+									$add_one_in = implode(",", $value);
+									$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
+								} else {
+									$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+								}
+							}
+			
+							$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
+			
+							foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
+								$vehicleData = $val1;
+							}
+							$vehical->custom_field = $vehicleData;
+						}
+						$vehical->save();
+			
+						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+						$id = $vehicles->id;
+			
+						//$descriptionsdata = Input::get('description');
+						$descriptionsdata = $request->description;
+			
+						foreach ($descriptionsdata as $key => $value) {
+							if ($descriptionsdata[$key] !== null) {
+								$desc = $descriptionsdata[$key];
+								$descriptions = new tbl_vehicle_discription_records;
+								$descriptions->vehicle_id = $id;
+								$descriptions->vehicle_description = $desc;
+								$descriptions->save();
+							}
+						}
+						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+						$id = $vehicles->id;
+			
+						$image = $request->image;
+						if (!empty($image)) {
+							$files = $image;
+			
+							foreach ($files as $file) {
+								$filename = $file->getClientOriginalName();
+								$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
+								$images = new tbl_vehicle_images;
+								$images->vehicle_id = $id;
+								$images->image = $filename;
+								$images->save();
+							}
+						}
+						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+						$id = $vehicles->id;
+			
+						//$colores = Input::get('color');
+						$colores = $request->color;
+			
+						foreach ($colores as $key => $value) {
+							$colorse = $colores[$key];
+							$color1 = new tbl_vehicle_colors;
+							$color1->vehicle_id = $id;
+							$color1->color = $colorse;
+							$color1->save();
+						}
+						return redirect()->route('customer.vehicle');
+
+		} else {
+			// dd($request->all());
+						// save Vehicle
+					
+						$vehical_type = $request->vehical_id;
+						$chasicno = $request->chasicno;
+						$vehicabrand = $request->vehicabrand;
+						$modelyear = $request->modelyear;
+						$fueltype = $request->fueltype;
+						$modelname = $request->modelname;
+						$price = $request->price;
+						$engineno = $request->engineno;
+						$numberPlate = $request->number_plate;
+						$customer = $request->customer;
+						$doms = $request->dom;
+			
+						if (!empty($doms)) {
+							if (getDateFormat() == 'm-d-Y') {
+								$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
+							} else {
+								$dom = date('Y-m-d', strtotime($doms));
+							}
+						} else {
+							$dom = null;
+						}
+			
+						$vehical = new Vehicle;
+						$vehical->vehicletype_id = $vehical_type;
+						$vehical->chassisno = $chasicno;
+						$vehical->vehiclebrand_id = $vehicabrand;
+						$vehical->modelyear = $modelyear;
+						$vehical->fuel_id = $fueltype;
+						$vehical->modelname = $modelname;
+						$vehical->price = $price;
+						$vehical->dom  = $dom;
+						$vehical->engineno = $engineno;
+						$vehical->number_plate = $numberPlate;
+						$vehical->branch_id = $request->branch;
+			
+						$lastID = User::latest()->value('id');
+						$increament = $lastID;
+						$vehical->customer_id = $increament;
+			
+						//custom field save	
+						//$custom=Input::get('custom');
+						$custom = $request->custom;
+						$custom_fileld_value = array();
+						$custom_fileld_value_jason_array = array();
+						if (!empty($custom)) {
+							foreach ($custom as $key => $value) {
+								if (is_array($value)) {
+									$add_one_in = implode(",", $value);
+									$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
+								} else {
+									$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+								}
+							}
+			
+							$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
+			
+							foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
+								$vehicleData = $val1;
+							}
+							$vehical->custom_field = $vehicleData;
+						}
+						$vehical->save();
+			
+						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+						$id = $vehicles->id;
+			
+						//$descriptionsdata = Input::get('description');
+						$descriptionsdata = $request->description;
+			
+						foreach ($descriptionsdata as $key => $value) {
+							if ($descriptionsdata[$key] !== null) {
+								$desc = $descriptionsdata[$key];
+								$descriptions = new tbl_vehicle_discription_records;
+								$descriptions->vehicle_id = $id;
+								$descriptions->vehicle_description = $desc;
+								$descriptions->save();
+							}
+						}
+						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+						$id = $vehicles->id;
+			
+						$image = $request->image;
+						if (!empty($image)) {
+							$files = $image;
+			
+							foreach ($files as $file) {
+								$filename = $file->getClientOriginalName();
+								$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
+								$images = new tbl_vehicle_images;
+								$images->vehicle_id = $id;
+								$images->image = $filename;
+								$images->save();
+							}
+						}
+						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+						$id = $vehicles->id;
+			
+						//$colores = Input::get('color');
+						$colores = $request->color;
+			
+						foreach ($colores as $key => $value) {
+							$colorse = $colores[$key];
+							$color1 = new tbl_vehicle_colors;
+							$color1->vehicle_id = $id;
+							$color1->color = $colorse;
+							$color1->save();
+						}
+			return redirect('/customer/list')->with('message', 'Customer Submitted Successfully');
+		}
+	}
 
 	//Vehicle add form
 	public function index()

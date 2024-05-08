@@ -126,8 +126,7 @@ class JobCardcontroller extends Controller
 			} elseif (!empty($request->repeatjob)) {
 				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['service_category', '=', 'repeat job'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
 			} else {
-			$services = Service::where('quotation_modify_status', '=', 0)->latest()->get();
-				
+				$services = Service::where([['soft_delete', 0], ['job_no', 'like', 'RMAL-RP-24-%']])->whereNotIn('quotation_modify_status', [1])->orderBy('id', 'desc')->get();
 			}
 		}
 
