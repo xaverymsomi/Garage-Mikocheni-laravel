@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2024 at 03:19 PM
+-- Generation Time: May 08, 2024 at 03:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -479,7 +479,23 @@ INSERT INTO `role_users` (`user_id`, `role_id`, `created_at`, `updated_at`) VALU
 (24, 2, '2024-05-06 09:33:24', '2024-05-06 09:33:24'),
 (25, 2, '2024-05-06 09:40:45', '2024-05-06 09:40:45'),
 (26, 2, '2024-05-06 09:43:49', '2024-05-06 09:43:49'),
-(27, 2, '2024-05-06 10:26:59', '2024-05-06 10:26:59');
+(27, 2, '2024-05-06 10:26:59', '2024-05-06 10:26:59'),
+(28, 2, '2024-05-08 04:52:12', '2024-05-08 04:52:12'),
+(29, 2, '2024-05-08 05:07:00', '2024-05-08 05:07:00'),
+(30, 2, '2024-05-08 05:17:50', '2024-05-08 05:17:50'),
+(31, 2, '2024-05-08 05:32:49', '2024-05-08 05:32:49'),
+(32, 2, '2024-05-08 05:50:29', '2024-05-08 05:50:29'),
+(33, 2, '2024-05-08 06:50:49', '2024-05-08 06:50:49'),
+(34, 2, '2024-05-08 06:59:43', '2024-05-08 06:59:43'),
+(35, 2, '2024-05-08 07:29:08', '2024-05-08 07:29:08'),
+(36, 2, '2024-05-08 07:36:48', '2024-05-08 07:36:48'),
+(37, 2, '2024-05-08 07:42:07', '2024-05-08 07:42:07'),
+(38, 2, '2024-05-08 07:49:07', '2024-05-08 07:49:07'),
+(39, 2, '2024-05-08 07:58:48', '2024-05-08 07:58:48'),
+(40, 2, '2024-05-08 08:05:44', '2024-05-08 08:05:44'),
+(41, 2, '2024-05-08 08:10:15', '2024-05-08 08:10:15'),
+(42, 2, '2024-05-08 08:50:56', '2024-05-08 08:50:56'),
+(43, 2, '2024-05-08 09:34:40', '2024-05-08 09:34:40');
 
 -- --------------------------------------------------------
 
@@ -49694,7 +49710,7 @@ CREATE TABLE `tbl_jobcard_details` (
 INSERT INTO `tbl_jobcard_details` (`id`, `service_id`, `jocard_no`, `customer_id`, `vehicle_id`, `in_date`, `out_date`, `delay_date`, `next_date`, `kms_run`, `next_kms_run`, `done_status`, `coupan_no`, `soft_delete`, `reminder_sent`, `created_at`, `updated_at`) VALUES
 (4, 6, 'JMAL-RP-24-0006', 10, 7, '2024-05-06 07:52:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 04:54:14', '2024-05-06 04:54:14'),
 (3, 5, 'JMAL-RP-24-0005', 10, 7, '2024-05-03 13:52:27', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-03 10:55:37', '2024-05-03 10:55:37'),
-(5, 7, 'RMAL-RP-24-0007', 10, 14, '2024-05-06 08:33:13', '2024-05-06 08:34:54', NULL, NULL, '67', NULL, NULL, NULL, 0, 0, '2024-05-06 05:35:18', '2024-05-06 05:35:18'),
+(5, 7, 'RMAL-RP-24-0007', 10, 14, '2024-05-06 08:33:13', '2024-05-06 08:34:54', NULL, NULL, '67', NULL, 1, NULL, 0, 0, '2024-05-06 05:35:18', '2024-05-06 05:35:18'),
 (6, 4, 'RMAL-RP-24-0004', 13, 9, '2024-05-02 12:41:41', '2024-05-06 15:48:21', NULL, NULL, '455', NULL, 1, NULL, 0, 0, '2024-05-06 05:48:57', '2024-05-06 05:48:57'),
 (7, 8, 'RMAL-RP-24-0008', 10, 7, '2024-05-06 08:35:36', '2024-05-06 15:49:07', NULL, NULL, '67', NULL, 1, NULL, 0, 0, '2024-05-06 05:49:28', '2024-05-06 05:49:28'),
 (8, 9, 'RMAL-RP-24-0009', 11, 8, '2024-05-06 08:52:24', '2024-05-06 09:01:27', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 06:06:03', '2024-05-06 06:06:03'),
@@ -49702,7 +49718,9 @@ INSERT INTO `tbl_jobcard_details` (`id`, `service_id`, `jocard_no`, `customer_id
 (10, 2, 'RMAL-RP-24-0002', 10, 14, '2024-05-06 09:59:35', '2024-05-06 10:00:35', NULL, NULL, '667', NULL, 1, NULL, 0, 0, '2024-05-06 07:00:49', '2024-05-06 07:00:49'),
 (11, 3, 'JMAL-RP-24-0003', 10, 7, '2024-05-06 10:37:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 07:38:27', '2024-05-06 07:38:27'),
 (12, 4, 'JMAL-RP-24-0004', 11, 8, '2024-05-06 11:45:02', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 08:47:49', '2024-05-06 08:47:49'),
-(13, 5, 'RMAL-RP-24-0005', 24, 19, '2024-05-06 13:19:27', '2024-05-06 13:20:05', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 10:20:31', '2024-05-06 10:20:31');
+(13, 5, 'RMAL-RP-24-0005', 24, 19, '2024-05-06 13:19:27', '2024-05-06 13:20:05', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 10:20:31', '2024-05-06 10:20:31'),
+(14, 6, 'RMAL-RP-24-0006', 24, 19, '2024-05-08 06:50:15', '2024-05-08 06:51:30', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-08 03:51:49', '2024-05-08 03:51:49'),
+(15, 7, 'RMAL-RP-24-0007', 22, 16, '2024-05-08 07:04:56', '2024-05-06 08:34:54', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-08 04:05:41', '2024-05-08 04:05:41');
 
 -- --------------------------------------------------------
 
@@ -49898,7 +49916,8 @@ INSERT INTO `tbl_points` (`id`, `checkout_subpoints`, `check_outsubpoint_id`, `v
 (4, 'qqy', 1, 15, 'Bandari', 1, NULL, NULL, 0, 1, '2024-05-06 08:16:05', '2024-05-06 08:16:05'),
 (5, 'qqy', 1, 17, 'Bandari', 1, NULL, NULL, 0, 1, '2024-05-06 08:16:05', '2024-05-06 08:16:05'),
 (6, 'qqy', 2, 7, 'Bandari', 1, NULL, NULL, 0, 1, '2024-05-06 10:10:04', '2024-05-06 10:10:04'),
-(7, 'qqy', 3, 14, 'Bandari', 1, NULL, NULL, 0, 1, '2024-05-06 10:10:24', '2024-05-06 10:10:24');
+(7, 'qqy', 3, 14, 'Bandari', 1, NULL, NULL, 0, 1, '2024-05-06 10:10:24', '2024-05-06 10:10:24'),
+(8, 'qqy', 1, 7, 'Mivinjeni', 1, NULL, NULL, 0, 1, '2024-05-08 03:53:09', '2024-05-08 03:53:09');
 
 -- --------------------------------------------------------
 
@@ -50062,7 +50081,8 @@ CREATE TABLE `tbl_purchases` (
 --
 
 INSERT INTO `tbl_purchases` (`id`, `purchase_no`, `date`, `supplier_id`, `mobile`, `email`, `address`, `custom_field`, `branch_id`, `create_by`, `created_at`, `updated_at`) VALUES
-(7, 'P932415', '2024-04-08', 12, '12345678', 'toyotadenso@ghmail.com', 'DAR ES SALAAM', NULL, 2, 4, '2024-04-08 13:04:04', '2024-04-08 13:04:04');
+(7, 'P932415', '2024-04-08', 12, '12345678', 'toyotadenso@ghmail.com', 'DAR ES SALAAM', NULL, 2, 4, '2024-04-08 13:04:04', '2024-04-08 13:04:04'),
+(8, 'P370926', '2024-05-08', 12, '12345678', 'toyotadenso@ghmail.com', 'DAR ES SALAAM', NULL, 1, 1, '2024-05-08 03:40:14', '2024-05-08 03:40:14');
 
 -- --------------------------------------------------------
 
@@ -50089,7 +50109,8 @@ CREATE TABLE `tbl_purchase_history_records` (
 --
 
 INSERT INTO `tbl_purchase_history_records` (`id`, `purchase_id`, `product_id`, `qty`, `vat`, `category`, `price`, `total_amount`, `branch_id`, `created_at`, `updated_at`) VALUES
-(7, 7, 48, 1, '0', 1, '27455.4', '27455.4', 2, '2024-04-08 13:04:04', '2024-04-08 13:04:04');
+(7, 7, 48, 1, '0', 1, '27455.4', '27455.4', 2, '2024-04-08 13:04:04', '2024-04-08 13:04:04'),
+(8, 8, 34, 4, '0.18', 1, '27992.44', '132124.3168', 1, '2024-05-08 03:40:14', '2024-05-08 03:40:14');
 
 -- --------------------------------------------------------
 
@@ -50109,6 +50130,13 @@ CREATE TABLE `tbl_rto_taxes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_rto_taxes`
+--
+
+INSERT INTO `tbl_rto_taxes` (`id`, `vehicle_id`, `registration_tax`, `number_plate_charge`, `muncipal_road_tax`, `custom_field`, `soft_delete`, `branch_id`, `created_at`, `updated_at`) VALUES
+(1, 14, '18', '40', '10', NULL, 0, 1, '2024-05-08 04:08:07', '2024-05-08 04:08:07');
 
 -- --------------------------------------------------------
 
@@ -50236,7 +50264,9 @@ INSERT INTO `tbl_services` (`id`, `job_no`, `quo_no`, `service_type`, `sales_id`
 (2, 'RMAL-RP-24-0002', NULL, NULL, NULL, '2024-05-06 09:59:35', NULL, NULL, 9, 'refills', '1', NULL, 10, 14, 1, 'RHENZDGNXFGNXFHDJR', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-06 07:00:35', '2024-05-06 07:50:24'),
 (3, 'JMAL-RP-24-0003', NULL, NULL, NULL, '2024-05-06 10:37:50', NULL, NULL, NULL, 'bodyworks', '0', '20000', 10, 7, 1, NULL, NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-06 07:38:20', '2024-05-06 07:38:20'),
 (4, 'JMAL-RP-24-0004', NULL, NULL, NULL, '2024-05-06 11:45:02', NULL, NULL, NULL, 'serviceandmaintenance', '0', '35000', 11, 8, 1, 'wow', NULL, NULL, NULL, 0, 0, 1, 2, NULL, 1, '2024-05-06 08:45:38', '2024-05-06 09:04:17'),
-(5, 'RMAL-RP-24-0005', NULL, NULL, NULL, '2024-05-06 13:19:27', NULL, NULL, 9, 'serviceandmaintenance', '0', NULL, 24, 19, 1, 'jkhyuy87uuiohj', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-06 10:20:05', '2024-05-06 10:20:05');
+(5, 'RMAL-RP-24-0005', NULL, NULL, NULL, '2024-05-06 13:19:27', NULL, NULL, 9, 'serviceandmaintenance', '0', NULL, 24, 19, 1, 'jkhyuy87uuiohj', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-06 10:20:05', '2024-05-06 10:20:05'),
+(6, 'RMAL-RP-24-0006', NULL, NULL, NULL, '2024-05-08 06:50:15', NULL, NULL, 9, 'refills', '0', NULL, 24, 19, 1, 'Wow', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 1, '2024-05-08 03:51:29', '2024-05-08 03:51:29'),
+(7, 'RMAL-RP-24-0007', NULL, NULL, NULL, '2024-05-08 07:04:56', NULL, NULL, 9, 'trackingsysteminstallations', '1', NULL, 22, 16, 1, 'Monday', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-08 04:05:33', '2024-05-08 04:06:18');
 
 -- --------------------------------------------------------
 
@@ -50264,7 +50294,8 @@ INSERT INTO `tbl_service_images` (`id`, `service_id`, `image`, `created_at`, `up
 (5, 7, 'Thumbs.db', '2024-05-06 05:34:53', '2024-05-06 05:34:53'),
 (6, 8, 'Print.png', '2024-05-06 05:36:11', '2024-05-06 05:36:11'),
 (7, 9, 'avtar.png', '2024-05-06 05:53:06', '2024-05-06 05:53:06'),
-(8, 9, 'avtar.png', '2024-05-06 06:01:27', '2024-05-06 06:01:27');
+(8, 9, 'avtar.png', '2024-05-06 06:01:27', '2024-05-06 06:01:27'),
+(9, 6, 'supplier.png', '2024-05-08 03:51:29', '2024-05-08 03:51:29');
 
 -- --------------------------------------------------------
 
@@ -54529,7 +54560,8 @@ CREATE TABLE `tbl_stock_records` (
 --
 
 INSERT INTO `tbl_stock_records` (`id`, `product_id`, `supplier_id`, `no_of_stoke`, `branch_id`, `created_at`, `updated_at`) VALUES
-(6, 48, 12, 1, 2, '2024-04-08 13:04:04', '2024-04-08 13:04:04');
+(6, 48, 12, 1, 2, '2024-04-08 13:04:04', '2024-04-08 13:04:04'),
+(7, 34, 12, 4, 1, '2024-05-08 03:40:14', '2024-05-08 03:40:14');
 
 -- --------------------------------------------------------
 
@@ -54581,11 +54613,28 @@ INSERT INTO `tbl_vehicles` (`id`, `vehicletype_id`, `chassisno`, `number_plate`,
 (13, 7, 'GRS1800017572', 'T 571 DYW', 7, NULL, 3, 'Crown Athlete', NULL, NULL, '4GR0042131', NULL, NULL, NULL, 0, 17, 0, NULL, 2, '2024-04-08 12:05:08', '2024-04-08 12:05:08'),
 (14, 10, '887hhh', 'T 571 DYG', NULL, '2000', 3, 'IST', '333000', NULL, '5566tr7', NULL, NULL, '', 0, 10, 0, NULL, 1, '2024-05-02 07:44:43', '2024-05-02 07:44:43'),
 (15, 8, 'C11222217', 'T 298GHY', 9, '2020', 3, 'Tiida', NULL, NULL, 'HR15054905B', NULL, NULL, NULL, 0, 22, 0, NULL, 1, '2024-05-06 09:14:14', '2024-05-06 09:14:14'),
-(16, 8, 'C778530987', 'mmmmm', 9, '2020', 3, 'Tiida', NULL, NULL, 'HR15054905B', NULL, NULL, NULL, 0, 22, 0, NULL, 1, '2024-05-06 09:22:18', '2024-05-06 09:22:18'),
+(16, 8, 'C778530987', 'mmmmm', 9, '2020', 3, 'Tiida', NULL, NULL, 'HR15054905B', NULL, NULL, '', 0, 22, 0, NULL, 1, '2024-05-06 09:22:18', '2024-05-06 09:22:18'),
 (17, 7, 'C11222217', 'T 298GHY', 7, '2019', 4, 'IST', NULL, NULL, 'HR15054905B', NULL, NULL, NULL, 0, 1, 0, NULL, 1, '2024-05-06 09:33:28', '2024-05-06 09:33:28'),
 (18, 7, 'C778530987', 'T 298API', 7, '2023', 3, 'Crown Athlete', NULL, NULL, '5566tr7', NULL, NULL, NULL, 0, 26, 0, NULL, 1, '2024-05-06 09:40:47', '2024-05-06 09:40:47'),
 (19, 7, 'C11222217', 'T298 YRT', 7, '2022', 3, 'IST', NULL, NULL, 'HR15054905B', NULL, NULL, '', 0, 24, 0, NULL, 1, '2024-05-06 09:43:51', '2024-05-06 09:59:40'),
-(20, 7, NULL, 'T209 RTP', 7, '2007', 3, 'IST', NULL, NULL, 'HR150T3445R', NULL, NULL, NULL, 0, 27, 0, NULL, 1, '2024-05-06 10:27:07', '2024-05-06 10:27:07');
+(20, 7, NULL, 'T209 RTP', 7, '2007', 3, 'IST', NULL, NULL, 'HR150T3445R', NULL, NULL, NULL, 0, 27, 0, NULL, 1, '2024-05-06 10:27:07', '2024-05-06 10:27:07'),
+(21, 7, 'P2098TUI45', 'T309 ERT', 7, '2002', 4, 'IST', NULL, NULL, 'ALPHA809UT', NULL, NULL, NULL, 0, 28, 0, NULL, 1, '2024-05-08 04:52:17', '2024-05-08 04:52:17'),
+(22, 8, 'WTD22409HT', 'T409 VOP', 9, '2004', 3, 'Tiida', NULL, NULL, 'JUT208POG2', NULL, NULL, NULL, 0, 29, 0, NULL, 1, '2024-05-08 05:07:04', '2024-05-08 05:07:04'),
+(23, 8, 'YTS417YPK', 'T444 SOP', 9, '2008', 4, 'Tiida', NULL, NULL, 'SKLT5654', NULL, NULL, NULL, 0, 30, 0, NULL, 1, '2024-05-08 05:17:53', '2024-05-08 05:17:53'),
+(24, 8, 'YTS417YP9', 'T398 QWR', 9, '1998', 3, 'Tiida', NULL, NULL, 'SKLT5659', NULL, NULL, NULL, 0, 31, 0, NULL, 1, '2024-05-08 05:32:52', '2024-05-08 05:32:52'),
+(25, 7, 'P2098TUI43', 'T298 APY', 7, '1809', 3, 'IST', NULL, NULL, 'HR15054905A', NULL, NULL, NULL, 0, 32, 0, NULL, 1, '2024-05-08 05:50:33', '2024-05-08 05:50:33'),
+(26, 8, 'WTD22409', 'T 298GHQ', 9, '2007', 3, 'Tiida', NULL, NULL, 'JUT208POG6', NULL, NULL, NULL, 0, 33, 0, NULL, 1, '2024-05-08 06:50:59', '2024-05-08 06:50:59'),
+(27, 8, 'C11VICENT', 'T 298AP9', 9, '2000', 3, 'Tiida', NULL, NULL, 'HR150T34', NULL, NULL, NULL, 0, 34, 0, NULL, 1, '2024-05-08 06:59:47', '2024-05-08 06:59:47'),
+(28, 8, '887ATYE2231', 'T298 GHT', 9, '1998', 3, 'Tiida', NULL, NULL, 'SKLT565490', NULL, NULL, NULL, 0, 35, 0, NULL, 1, '2024-05-08 07:29:13', '2024-05-08 07:29:13'),
+(29, 8, 'YTS417YPK', 'T 298GHY', 9, '2020', 3, 'Tiida', NULL, NULL, 'SKLT5654', NULL, NULL, NULL, 0, 36, 0, NULL, 1, '2024-05-08 07:36:52', '2024-05-08 07:36:52'),
+(30, 7, 'FHGDS987456H', 'T 298KKL', 7, '2009', 3, 'IST', NULL, NULL, '345DFGSD', NULL, NULL, NULL, 0, 37, 0, NULL, 1, '2024-05-08 07:42:10', '2024-05-08 07:42:10'),
+(31, 7, 'C11222217', 'T 298GHQ', 7, '2020', 3, 'Crown Athlete', NULL, NULL, 'HR150T3445R', NULL, NULL, NULL, 0, 38, 0, NULL, 1, '2024-05-08 07:49:09', '2024-05-08 07:49:09'),
+(32, 7, 'C77853098Y', 'T298 YUI', 7, '2000', 3, 'IST', NULL, NULL, 'HR15054905Y', NULL, NULL, NULL, 0, 39, 0, NULL, 1, '2024-05-08 07:58:52', '2024-05-08 07:58:52'),
+(33, 8, 'P2098TUI45', 'T 298API', 9, '2020', 3, 'Tiida', NULL, NULL, 'JUT208POG', NULL, NULL, NULL, 0, 40, 0, NULL, 1, '2024-05-08 08:05:47', '2024-05-08 08:05:47'),
+(34, 8, 'WTD22409HT', 'T 298GHA', 9, '1787', 3, 'Tiida', NULL, NULL, 'JUT208POG2', NULL, NULL, NULL, 0, 41, 0, NULL, 1, '2024-05-08 08:10:19', '2024-05-08 08:10:19'),
+(35, 7, '887hhh', 'T 298API', 7, '2021', 3, 'IST', NULL, NULL, 'ALPHA809UT', NULL, NULL, NULL, 0, 42, 0, NULL, 1, '2024-05-08 08:50:57', '2024-05-08 08:50:57'),
+(36, 8, 'YTS47YPK', 'T 298GHQ', 9, '2019', 3, 'Tiida', NULL, NULL, 'SKLT5655', NULL, NULL, NULL, 0, 43, 0, NULL, 1, '2024-05-08 09:34:47', '2024-05-08 09:34:47'),
+(37, 7, 'C11222217', 'T 298GHE', 7, '2020', 3, 'IST', NULL, NULL, 'HR15054905B', NULL, NULL, NULL, 0, 43, 0, NULL, 1, '2024-05-08 09:55:56', '2024-05-08 09:55:56');
 
 -- --------------------------------------------------------
 
@@ -54660,7 +54709,24 @@ INSERT INTO `tbl_vehicle_colors` (`id`, `vehicle_id`, `color`, `created_at`, `up
 (24, 17, 1, '2024-05-06 09:33:28', '2024-05-06 09:33:28'),
 (25, 18, 2, '2024-05-06 09:40:47', '2024-05-06 09:40:47'),
 (27, 19, NULL, '2024-05-06 09:59:40', '2024-05-06 09:59:40'),
-(28, 20, NULL, '2024-05-06 10:27:07', '2024-05-06 10:27:07');
+(28, 20, NULL, '2024-05-06 10:27:07', '2024-05-06 10:27:07'),
+(29, 21, 2, '2024-05-08 04:52:17', '2024-05-08 04:52:17'),
+(30, 22, 2, '2024-05-08 05:07:04', '2024-05-08 05:07:04'),
+(31, 23, 4, '2024-05-08 05:17:53', '2024-05-08 05:17:53'),
+(32, 24, 2, '2024-05-08 05:32:52', '2024-05-08 05:32:52'),
+(33, 25, 2, '2024-05-08 05:50:33', '2024-05-08 05:50:33'),
+(34, 26, 3, '2024-05-08 06:50:59', '2024-05-08 06:50:59'),
+(35, 27, 2, '2024-05-08 06:59:47', '2024-05-08 06:59:47'),
+(36, 28, 2, '2024-05-08 07:29:13', '2024-05-08 07:29:13'),
+(37, 29, 2, '2024-05-08 07:36:52', '2024-05-08 07:36:52'),
+(38, 30, 2, '2024-05-08 07:42:10', '2024-05-08 07:42:10'),
+(39, 31, 1, '2024-05-08 07:49:09', '2024-05-08 07:49:09'),
+(40, 32, 1, '2024-05-08 07:58:52', '2024-05-08 07:58:52'),
+(41, 33, 2, '2024-05-08 08:05:47', '2024-05-08 08:05:47'),
+(42, 34, 2, '2024-05-08 08:10:19', '2024-05-08 08:10:19'),
+(43, 35, 3, '2024-05-08 08:50:58', '2024-05-08 08:50:58'),
+(44, 36, 2, '2024-05-08 09:34:47', '2024-05-08 09:34:47'),
+(45, 37, 2, '2024-05-08 09:55:57', '2024-05-08 09:55:57');
 
 -- --------------------------------------------------------
 
@@ -54685,7 +54751,24 @@ INSERT INTO `tbl_vehicle_discription_records` (`id`, `vehicle_id`, `vehicle_desc
 (2, 16, 'nkbkjghi', '2024-05-06 09:22:18', '2024-05-06 09:22:18'),
 (3, 17, 'jggfugyrttyr5t7', '2024-05-06 09:33:28', '2024-05-06 09:33:28'),
 (4, 18, 'uigiugihuo', '2024-05-06 09:40:47', '2024-05-06 09:40:47'),
-(6, 19, 'yugyuyuiouio', '2024-05-06 09:59:40', '2024-05-06 09:59:40');
+(6, 19, 'yugyuyuiouio', '2024-05-06 09:59:40', '2024-05-06 09:59:40'),
+(7, 21, 'amaizing car', '2024-05-08 04:52:17', '2024-05-08 04:52:17'),
+(8, 22, 'OH lord bless my hands', '2024-05-08 05:07:04', '2024-05-08 05:07:04'),
+(9, 23, 'RAMATHAN CAREEM', '2024-05-08 05:17:53', '2024-05-08 05:17:53'),
+(10, 24, 'WOW AMAIZING', '2024-05-08 05:32:52', '2024-05-08 05:32:52'),
+(11, 25, 'njkfajsdj', '2024-05-08 05:50:33', '2024-05-08 05:50:33'),
+(12, 26, 'uoigyfuufgiuio', '2024-05-08 06:50:59', '2024-05-08 06:50:59'),
+(13, 27, 'KHUDFYFGHJK', '2024-05-08 06:59:47', '2024-05-08 06:59:47'),
+(14, 28, 'CDA\\GHCIDAHVUDI', '2024-05-08 07:29:13', '2024-05-08 07:29:13'),
+(15, 29, 'gyrstdyfghj', '2024-05-08 07:36:52', '2024-05-08 07:36:52'),
+(16, 30, 'HJHUGCAS', '2024-05-08 07:42:10', '2024-05-08 07:42:10'),
+(17, 31, 'QRFWAVDSV', '2024-05-08 07:49:09', '2024-05-08 07:49:09'),
+(18, 32, 'FYGHJKL', '2024-05-08 07:58:52', '2024-05-08 07:58:52'),
+(19, 33, 'refasdfsf', '2024-05-08 08:05:47', '2024-05-08 08:05:47'),
+(20, 34, 'feqADSVDG', '2024-05-08 08:10:19', '2024-05-08 08:10:19'),
+(21, 35, 'hjjik', '2024-05-08 08:50:57', '2024-05-08 08:50:57'),
+(22, 36, 'eadfsdv', '2024-05-08 09:34:47', '2024-05-08 09:34:47'),
+(23, 37, 'UTFYGJFJV', '2024-05-08 09:55:56', '2024-05-08 09:55:56');
 
 -- --------------------------------------------------------
 
@@ -54803,7 +54886,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `gender`, `birth_date`, `email`, `contact_person`, `password`, `mobile_no`, `address`, `Driving`, `NIDA`, `TIN`, `join_date`, `designation`, `left_date`, `account_no`, `ifs_code`, `branch_name`, `tin_no`, `pan_no`, `gst_no`, `country_id`, `state_id`, `city_id`, `role`, `role_id`, `language`, `timezone`, `custom_field`, `soft_delete`, `branch_id`, `create_by`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'SHEDDY', 0, NULL, 'admin@rogue.africa', '', '$2y$10$nSyVHTES8nHg7GiLc4mW..jvwveZ8qt3OjYdSVryFh4QAK2jhw3xq', '', 'MIKOCHENI', 'system_m.png', NULL, NULL, NULL, '', NULL, '', '', '', '', '', 'ltr', 0, 0, 0, 'admin', 1, 'en', 'UTC', '', 0, 2, NULL, 'a3iYrpzR31ELXEurzbPIZByxCwRBUeqZEmvEwuFf1y09zZ4QXAejPTLaPwp3', NULL, NULL),
+(1, 'SHEDDY', 0, NULL, 'admin@rogue.africa', '', '$2y$10$nSyVHTES8nHg7GiLc4mW..jvwveZ8qt3OjYdSVryFh4QAK2jhw3xq', '', 'MIKOCHENI', 'system_m.png', NULL, NULL, NULL, '', NULL, '', '', '', '', '', 'ltr', 0, 0, 0, 'admin', 1, 'en', 'UTC', '', 0, 2, NULL, '6z7CjvnDK7zoK0KMTyr07xtExgDBHtNRxki1SqKyX4vuUgZ9OCNSJ5hVS5jc', NULL, NULL),
 (2, 'Test', 0, NULL, 'testcust@rogue.africa', NULL, '$2y$10$S1RKaTEdhKTEpzo1pBQTSu/1uGvubnFLbR4Plzd7cpzcoMTeR4kXe', '+255 712 586 65', 'Mikocheni', 'avtar.png', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3506, NULL, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-03-26 11:27:41', '2024-03-26 11:27:41'),
 (4, 'ADMIN', 1, NULL, 'robert.msangi@rogue.africa', NULL, '$2y$10$lrfS71XJolwCqnCvR8GlsOwF4rySeAOvSE3tekHTSwd6sluDjsxfa', '+255 712 586 65', 'Mikocheni', 'avtar.png', NULL, NULL, '2024-03-26', 'Manager', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3506, NULL, 'branch_admin', 6, 'en', 'UTC', NULL, 0, 2, 1, NULL, '2024-03-26 11:31:02', '2024-03-27 12:30:11'),
 (5, 'Test', 1, NULL, 'testmployee@rogue.africa', NULL, '$2y$10$HC37fa4LrqVCGR.t2hvSM.JMzJrDyVmgP2wK5vfMEklneBmS99PRC', '+255 712 586 65', 'Mikocheni', 'avtar.png', NULL, NULL, '2024-03-26', 'Test Employee', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3506, NULL, 'employee', 3, 'en', 'UTC', NULL, 1, 2, 1, NULL, '2024-03-26 11:32:54', '2024-03-26 11:44:54'),
@@ -54823,7 +54906,23 @@ INSERT INTO `users` (`id`, `name`, `gender`, `birth_date`, `email`, `contact_per
 (22, 'VINCENT MSOMI', 0, NULL, 'msomivicent@gmail.com', NULL, '$2y$10$z8foIEeRu2PEEPidbOiCSOixwrjfnuWXMZpA1ntfNuylKLmkIwvQa', '0655193352', 'nyegezi mwanza', 'drive.png', 'NIDA.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, NULL, NULL, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-02 07:44:32', '2024-05-03 06:21:37'),
 (25, 'Kelvin Manono', 0, '2024-04-30', 'kelvin@gmail.com', NULL, '$2y$10$u2NrSGK7zfMiWWFPDmqfDefiAKUdPb5iPKvLrrmx8TlUHQwvPCyXC', '0715608453', 'arusha', 'drive.png', 'NIDA.jpg', '10008nnbxd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3505, 39768, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-06 09:40:45', '2024-05-06 09:40:45'),
 (26, 'Asha Kisilani', 1, '2020-12-07', 'ashabioko@gmail.com', NULL, '$2y$10$b/rdwPEKggjid7u.7DmajOZUjUM97yKBC6vHNTguCLbvcI6qxqPPq', '092314614', 'manyoni', 'drive.png', 'NIDA.jpg', '10008nnbxd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3522, 39814, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-06 09:43:49', '2024-05-06 09:43:49'),
-(27, 'Jemedari Mwenda', 0, '2024-04-29', 'emiry@gmail.com', NULL, '$2y$10$reFBMecKEP0OFt1/SivQkuDJ9YtXSXuB9.dij7tYuYQ1rR0wohRA2', '77755632747', 'kilosa', 'drive.png', 'NIDA.jpg', '10008nnbxd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3515, 39790, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-06 10:26:59', '2024-05-06 10:26:59');
+(27, 'Jemedari Mwenda', 0, '2024-04-29', 'emiry@gmail.com', NULL, '$2y$10$reFBMecKEP0OFt1/SivQkuDJ9YtXSXuB9.dij7tYuYQ1rR0wohRA2', '77755632747', 'kilosa', 'drive.png', 'NIDA.jpg', '10008nnbxd', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3515, 39790, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-06 10:26:59', '2024-05-06 10:26:59'),
+(28, 'Mariam Ndaki', 1, '2024-05-01', 'mariam@gmail.com', NULL, '$2y$10$CLs5QiEnDnnTSDOq35kbReEcB2BZWPH5WGTVYSBiDqyyOuCfMNULe', '0977332998', 'magu mjini', 'drive.png', 'NIDA.jpg', '19221088WTYA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3517, 39797, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 04:52:12', '2024-05-08 04:52:12'),
+(29, 'Diana Mlagwa', 1, '2024-04-29', 'diana@gmail.com', NULL, '$2y$10$KLP68ZHVnMitHX162ma3juAIKCK/v2f6gS/3Aviv/W0IEn.7XBP7S', '0665123410', 'city town', 'drive.png', 'NIDA.jpg', 'QRP109YT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3505, 39768, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 05:07:00', '2024-05-08 05:07:00'),
+(30, 'Joshua Michael', 0, '2024-04-30', 'joshuamichael@gmail.com', NULL, '$2y$10$fF7TEXwyaYpfkiQPpt25LO01J3nM8ciJqf6pfMDel2/HTIUknexXu', '0789109675', 'Ujiji kigoma', 'drive.png', 'NIDA.jpg', '7093TYK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3510, 39779, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 05:17:50', '2024-05-08 05:17:50'),
+(31, 'Saraphina Malunde', 1, '2024-04-28', 'saraphina@gmail.com', NULL, '$2y$10$pIDr1l7IJ16Q.KgbKetMNeUulpX8dM2smAwwoIAFBm2ZdTukJqhUq', '0655193352', 'musoma', 'drive.png', 'NIDA.jpg', 'WWYYT3342290', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3513, 39785, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 05:32:49', '2024-05-08 05:32:49'),
+(32, 'Yusuph Mlandizi', 0, '2024-04-30', 'yusuph@gmail.com', NULL, '$2y$10$lIF2gbOwQ37AGPG8m2veceT6XhmIww82D7qjpNLG0gNmHqF.m8.3K', '094552331', 'singida', 'drive.png', 'NIDA.jpg', '19221088WTY8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3522, 39815, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 05:50:29', '2024-05-08 05:50:29'),
+(33, 'Peter Msomi', 0, '2024-04-29', 'peter@gmail.com', NULL, '$2y$10$E/evcQx6VIXXPM2EB/8hke/NUXvu82JF3N6EjgN28paWwlTwRH5nS', '0756048090', 'arusha', 'drive.png', 'NIDA.jpg', 'WWYYT3342214', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3505, 39768, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 06:50:48', '2024-05-08 06:50:48'),
+(34, 'Pius Desidell', 0, '2024-05-05', 'dell@gmail.com', NULL, '$2y$10$v3gIuzOihRFeClb/x8yq3uDq5NHqLVzKCSFW0ghBnT8wkldYOrnvu', '078944227', 'mpwapwa', 'drive.png', 'NIDA.jpg', '19221088W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3507, 39771, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 06:59:43', '2024-05-08 06:59:43'),
+(35, 'Lugano Mwakapuku', 0, '2024-04-29', 'lugie@gmail.com', NULL, '$2y$10$1pQvbawnPrmJsx7qGErmge7WG8vORA3Ko82YdECbdSVMJOIsJBZcK', '0721453786', 'iringa mafiga', 'drive.png', 'NIDA.jpg', '1922SAE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3508, 39773, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 07:29:08', '2024-05-08 07:29:08'),
+(36, 'George Sengana', 0, '2024-01-29', 'george@gmail.com', NULL, '$2y$10$x5t4R4.a6bzX.t/ia8r2OuylOLVCtMMFEVBgPmlFXOaVu45H2wjIu', '0655193352', 'nyegezi mwanza', 'drive.png', 'NIDA.jpg', 'WWYYT3342216', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3517, 39798, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 07:36:48', '2024-05-08 07:36:48'),
+(37, 'James Yona', 0, '2024-05-03', 'jamesyona@gmail.com', NULL, '$2y$10$LkMj43PAHB78dhxcxX31VOWByNmgpGDlbgLK1PqhLVQzLQCOvfgNO', '0655193352', 'nyegezi mwanza', 'drive.png', 'NIDA.jpg', '19221088WTYA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3505, 39768, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 07:42:07', '2024-05-08 07:42:07'),
+(38, 'Halima Mdee', 1, '2020-01-27', 'halima@gmail.com', NULL, '$2y$10$lZb5atwBnNRmxkdBRPo5z.gaxXaPgto1exutnVcWRvzkqkpM0ecTy', '098767654', 'mjini', 'drive.png', 'NIDA.jpg', '19221088WTYA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3509, 39774, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 07:49:07', '2024-05-08 07:49:07'),
+(39, 'Jannet Mussa', 0, '2024-05-01', 'janneth@gmail.com', NULL, '$2y$10$ClMbNbQfKCHAK3eGv54n8OqaLt3JE8nMWKT7qg.g4.gROPe84A0Ta', '456789231243', 'kondoa', 'drive.png', 'NIDA.jpg', 'WWYYT3342216', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3507, 39770, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 07:58:48', '2024-05-08 07:58:48'),
+(40, 'Ashadull Amani', 1, '2024-04-29', 'dulla@gmail.com', NULL, '$2y$10$s5tSyo8h65yamOUreX1kpeI4.WzEQ63ci9O3fgvbmXAxXR6XVzwmm', '4567321232', 'moshi', 'drive.png', 'NIDA.jpg', 'QRP109YT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3511, 39780, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 08:05:44', '2024-05-08 08:05:44'),
+(41, 'Irene Maganga', 1, '2024-05-02', 'irenemaganga@gmail.com', NULL, '$2y$10$BcN.CEDfN3xuXf7hqba8teFz9LmHzd0nTfwcSEgG07WT6PijYdvjC', '09876542', 'arusha', 'drive.png', 'NIDA.jpg', 'WWYYT3342', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3505, 39768, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 08:10:15', '2024-05-08 08:10:15'),
+(42, 'John Doe', 0, '2024-04-29', 'johndoe@gmail.com', NULL, '$2y$10$pK82quukfdvTd607pJLBIuyk96wLeTkyCR/zYXzpOWSGNjwCj4dcu', '987654678', 'kahama', 'drive.png', 'NIDA.jpg', '19221088WTYA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3521, 39809, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 08:50:56', '2024-05-08 08:50:56'),
+(43, 'Annamakinda Jonson', 1, '2024-04-29', 'annamakinda@gmail.com', NULL, '$2y$10$XAHdA2M34r3hqoo6yMkxBOQjSQwracNdrD2VjmJXYQ8f1mZK3yr.S', '34567890987', 'lolo pop', 'drive.png', 'NIDA.jpg', '192088WTY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 216, 3507, 39770, 'Customer', 2, 'en', 'UTC', NULL, 0, NULL, 1, NULL, '2024-05-08 09:34:40', '2024-05-08 09:34:40');
 
 -- --------------------------------------------------------
 
@@ -55425,7 +55524,7 @@ ALTER TABLE `tbl_invoices`
 -- AUTO_INCREMENT for table `tbl_jobcard_details`
 --
 ALTER TABLE `tbl_jobcard_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_language_directions`
@@ -55473,7 +55572,7 @@ ALTER TABLE `tbl_payment_records`
 -- AUTO_INCREMENT for table `tbl_points`
 --
 ALTER TABLE `tbl_points`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
@@ -55497,19 +55596,19 @@ ALTER TABLE `tbl_product_units`
 -- AUTO_INCREMENT for table `tbl_purchases`
 --
 ALTER TABLE `tbl_purchases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_purchase_history_records`
 --
 ALTER TABLE `tbl_purchase_history_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_rto_taxes`
 --
 ALTER TABLE `tbl_rto_taxes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_sales`
@@ -55533,13 +55632,13 @@ ALTER TABLE `tbl_sale_parts`
 -- AUTO_INCREMENT for table `tbl_services`
 --
 ALTER TABLE `tbl_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_service_images`
 --
 ALTER TABLE `tbl_service_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_service_observation_points`
@@ -55575,13 +55674,13 @@ ALTER TABLE `tbl_states`
 -- AUTO_INCREMENT for table `tbl_stock_records`
 --
 ALTER TABLE `tbl_stock_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_vehicles`
 --
 ALTER TABLE `tbl_vehicles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tbl_vehicle_brands`
@@ -55593,13 +55692,13 @@ ALTER TABLE `tbl_vehicle_brands`
 -- AUTO_INCREMENT for table `tbl_vehicle_colors`
 --
 ALTER TABLE `tbl_vehicle_colors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `tbl_vehicle_discription_records`
 --
 ALTER TABLE `tbl_vehicle_discription_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `tbl_vehicle_images`
@@ -55617,7 +55716,7 @@ ALTER TABLE `tbl_vehicle_types`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `vehicle_mot_test_reports`
