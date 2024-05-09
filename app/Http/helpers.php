@@ -490,7 +490,7 @@ if (!function_exists('getUnitName')) {
 if (!function_exists('getInvoiceNumber')) {
 	function getInvoiceNumber($id)
 	{
-		$data = DB::table('tbl_invoices')->where([['sales_service_id', $id], ['job_card', 'NOT LIKE', 'J%'], ['type', 1], ['soft_delete', '=', 0]])->first();
+		$data = DB::table('tbl_invoices')->where([['sales_service_id', $id], ['job_card', 'NOT LIKE', 'RMAL-RP-24-%'], ['type', 1], ['soft_delete', '=', 0]])->first();
 
 		if (!empty($data)) {
 			$invoice = $data->invoice_number;
@@ -1574,7 +1574,7 @@ if (!function_exists('getCustomerJobcard')) {
 	function getCustomerJobcard($id)
 	{
 
-		$service = DB::table('tbl_services')->where([['customer_id', '=', $id], ['job_no', 'like', 'J%']])->get()->toArray();
+		$service = DB::table('tbl_services')->where([['customer_id', '=', $id], ['job_no', 'like', 'RMAL-RP-24-%']])->get()->toArray();
 
 		if (!empty($service)) {
 			return "yes";
@@ -1608,7 +1608,7 @@ if (!function_exists('getCustomerService')) {
 	function getCustomerService($id)
 	{
 
-		$service = DB::table('tbl_services')->where([['customer_id', '=', $id], ['job_no', 'like', 'J%']])->get()->toArray();
+		$service = DB::table('tbl_services')->where([['customer_id', '=', $id], ['job_no', 'like', 'RMAL-RP-24-%']])->get()->toArray();
 
 		if (!empty($service)) {
 			return "yes";
@@ -1629,7 +1629,7 @@ if (!function_exists('getCustomerList')) {
 		if (!empty($data)) {
 			$userrole = $data->role;
 			if ($userrole == 'Customer') {
-				$service = DB::table('tbl_services')->where([['customer_id', '=', $id], ['job_no', 'like', 'J%'], ['done_status', '=', 1]])->get()->toArray();
+				$service = DB::table('tbl_services')->where([['customer_id', '=', $id], ['job_no', 'like', 'RMAL-RP-24-%'], ['done_status', '=', 1]])->get()->toArray();
 				if (!empty($service)) {
 					return "yes";
 				} else {
@@ -2675,7 +2675,7 @@ if (!function_exists('getVehicleNumberPlateFromSale')) {
 		function getQuotationNumber($jobcard_no)
 		{
 			if (!empty($jobcard_no)) {
-				$quotationNumber = 'Q' . substr($jobcard_no, 1);
+				$quotationNumber = $jobcard_no;
 				return $quotationNumber;
 			}
 		}

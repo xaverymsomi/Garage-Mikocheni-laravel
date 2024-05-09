@@ -139,16 +139,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 pt-0">{{ trans('message.Service Type') }}
-                                        <label class="color-danger">*</label></label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <label class="radio-inline"><input type="radio" name="service_type" id="free" value="free" required>{{ trans('message.Free') }}</label>
-                                        <label class="radio-inline"><input type="radio" name="service_type" checked id="paid" value="paid" required>{{ trans('message.Paid') }}</label>
-                                    </div>
-                                </div> --}}
- 
+                            <div class="row"> 
                                 <div id="dvCharge" class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback 
                                     {{ $errors->has('charge') ? ' has-error' : '' }}">
 
@@ -173,9 +164,51 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- Checkbox for applying discount -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="applyDiscountCheckbox">
+                                        <label class="form-check-label" for="applyDiscountCheckbox">
+                                            Apply Discount
+                                        </label>
+                                    </div>
+                            
+                                    <!-- Options for discount -->
+                                    <div id="discountOptions" style="display: none;">
+                                        <div class="form-check">
+                                            <input class="form-check-input discountOption" type="radio" name="discountOption" id="discountOption1" value="option1">
+                                            <label class="form-check-label" for="discountOption1">
+                                                1 - 3 vehicles
+                                            </label>
+                                            <div id="discountOptionInput1" style="display: none;">
+                                                <input type="text" class="form-control" name="discountOptionInput1" placeholder="Enter discount percentage">
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input discountOption" type="radio" name="discountOption" id="discountOption2" value="option2">
+                                            <label class="form-check-label" for="discountOption2">
+                                                3 - 10 vehicles
+                                            </label>
+                                            <div id="discountOptionInput2" style="display: none;">
+                                                <input type="text" class="form-control" name="discountOptionInput2" placeholder="Enter discount percentage">
+                                            </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input discountOption" type="radio" name="discountOption" id="discountOption3" value="option3">
+                                            <label class="form-check-label" for="discountOption3">
+                                                10 + vehicles
+                                            </label>
+                                            <div id="discountOptionInput3" style="display: none;">
+                                                <input type="text" class="form-control" name="discountOptionInput3" placeholder="Enter discount percentage">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
                             <div class="row row-mb-0">
-
-
                                 <!-- MOt Test Checkbox Start-->
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 motTextLabel pt-0" for="">{{ trans('message.MOT Test') }}</label>
@@ -230,43 +263,6 @@
 
                             </div>
                             <!-- Wash Bay Feature -->
-
-
-                            {{-- <div class="row row-mb-0"/> --}}
-                                <!-- Tax field start -->
-                                {{-- @if (!empty($tax))
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="cus_name">{{ trans('message.Tax') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <table>
-                                            <tbody>
-                                                @foreach ($tax as $taxes)
-                                                <tr>
-                                                    <td>
-                                                        <input type="checkbox" id="tax_{{ $taxes->taxname }}" class="checkbox-inline check_tax sele_tax myCheckbox" name="Tax[]" value="<?php
-                                                                                                                                                                                        echo $taxes->id; ?>" taxrate="{{ $taxes->tax }}" taxName="{{ $taxes->taxname }}" style="height:20px; width:20px; margin-right:5px; position: relative; top: 6px; margin-bottom: 12px;">
-                                                        <?php
-                                                        echo $taxes->taxname . '&nbsp' . $taxes->tax; ?>%
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                @endif --}}
-                                <!-- New Tax field End-->
-
-
-                                {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Title') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" name="title" placeholder="{{ trans('message.Enter Title') }}" value="{{ old('title') }}" maxlength="50" class="form-control titalQuotation">
-                                    </div>
-                                </div> --}}
-                            {{-- </div> --}}
-
-
                             <!-- ************* MOT Module Starting ************* -->
                             <br /><br />
                             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 motMainPart" style="display: none">
@@ -559,10 +555,6 @@
                             </div>
 
                             <!-- ************* MOT Module Ending ************* -->
-
-
-
-
                             <!-- Start Custom Field, (If register in Custom Field Module)  -->
                             @if (!empty($tbl_custom_fields))
                             <div class="col-md-12 col-xs-12 col-sm-12 space">
@@ -688,21 +680,11 @@
                             </div>
                             <div class="row">
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.First Name') }} <label class="color-danger">*</label> </label>
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Full Name') }} <label class="color-danger">*</label> </label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="firstname" name="firstname" class="form-control" value="{{ old('firstname') }}" placeholder="{{ trans('message.Enter First Name') }}" maxlength="25" />
+                                        <input type="text" id="firstname" name="firstname" class="form-control" value="{{ old('firstname') }}" placeholder="{{ trans('Enter Full Name') }}" maxlength="25" />
                                         <span class="text-danger" id="errorlfirstname" style="display: none;">
-                                            {{ trans('message.First name is required.') }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 row form-group">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ old('lastname') }}" maxlength="25" class="form-control">
-                                        <span class="text-danger" id="errorllastname" style="display: none;">
-                                            {{ trans('message.Last name is required.') }}
-                                        </span>
+                                            {{ trans('Full name is required.') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -780,40 +762,6 @@
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="row">
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="display-name">{{ trans('message.Display Name') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="displayname" name="displayname" placeholder="{{ trans('message.Enter Display Name') }}" value="{{ old('displayname') }}" class="form-control" maxlength="25">
-                                        <span class="color-danger" id="errorldisplayname"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 row form-group">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="display-name">{{ trans('message.Company Name') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="company_name" name="company_name" placeholder="{{ trans('message.Enter Company Name') }}" value="{{ old('company_name') }}" class="form-control" maxlength="25">
-                                        <span class="color-danger" id="errorlcompanyName"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group {{ $errors->has('landlineno') ? ' has-error' : '' }}">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="landline-no">{{ trans('message.Landline No.') }} </label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="landlineno" name="landlineno" placeholder="{{ trans('message.Enter LandLine No') }}" value="{{ old('landlineno') }}" class="form-control">
-                                        <span class="color-danger" id="errorllandlineno"></span>
-                                    </div>
-                                </div>
-
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
-                                        {{ trans('message.Image') }} </label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control ">
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
@@ -954,21 +902,6 @@
                                 </div>
                             </div>
 
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">
-                                    {{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label>
-                                </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="price" id="price1" value="{{ old('price') }}" placeholder="{{ trans('message.Enter Price') }}" class="form-control" maxlength="10">
-                                    <span class="color-danger" id="ppe"></span>
-                                    @if ($errors->has('price'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('price') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
-
                         </div>
                         <div class="row mt-3">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -1021,48 +954,6 @@
                                     </button>
                                 </div>
                             </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.No of Grear') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="gearno" id="gearno1" value="{{ old('gearno') }}" placeholder="{{ trans('message.Enter No of Gear') }}" maxlength="5" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row mt-3">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('odometerreading') ? ' has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Odometer Reading') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="odometerreading" id="odometerreading1" value="{{ old('odometerreading') }}" placeholder="{{ trans('message.Enter Odometer Reading') }}" maxlength="20" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Date Of Manufacturing') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date ">
-                                    {{-- <span class="input-group-addon"><i
-                                            class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> --}}
-                                    <input type="text" name="dom" id="dom1" class="form-control datepicker1" placeholder="<?php echo getDatepicker(); ?>" onkeypress="return false;" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Gear Box') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="gearbox" id="gearbox1" value="{{ old('gearbox') }}" placeholder="{{ trans('message.Enter Grear Box') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Gear Box No') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="gearboxno" id="gearboxno1" value="{{ old('gearboxno') }}" placeholder="{{ trans('message.Enter Gearbox No') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
                         </div>
 
                         <div class="row mt-3">
@@ -1071,29 +962,6 @@
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                     <input type="text" name="engineno" id="engineno1" value="{{ old('engineno') }}" placeholder="{{ trans('message.Enter Engine No') }}" maxlength="30" class="form-control">
                                     <span class="color-danger" id="errorlengineno1"></span>
-                                </div>
-                            </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Engine Size') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="enginesize" id="enginesize1" value="{{ old('enginesize') }}" placeholder="{{ trans('message.Enter Engine Size') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Key No') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="keyno" id="keyno1" value="{{ old('keyno') }}" placeholder="{{ trans('message.Enter Key No') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="engine" id="engine1" value="{{ old('engine') }}" placeholder="{{ trans('message.Enter Engine') }}" maxlength="30" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -1346,14 +1214,14 @@
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ trans('message.Add Repair Category') }}</h4>
+                        <h4 class="modal-title">{{ trans('Add Job Category') }}</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal" action="" method="">
                             <div class="row">
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 form-group data_popup">
-                                    <input type="text" class="form-control model_input repair_category_name" name="repair_category_name" placeholder="{{ trans('message.Enter repair category name') }}" maxlength="20" />
+                                    <input type="text" class="form-control model_input repair_category_name" name="repair_category_name" placeholder="{{ trans('Enter Job category name') }}" maxlength="20" />
                                 </div>
                                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 form-group data_popup">
                                     <button type="button" class="btn btn-success model_submit addcolor" colorurl="{!! url('/addRepairCategory') !!}">{{ trans('message.Submit') }}</button>
@@ -4073,7 +3941,70 @@
         handleCustomerChange();
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the checkbox for applying discount
+        var applyDiscountCheckbox = document.getElementById("applyDiscountCheckbox");
 
+        // Get the discount options container
+        var discountOptions = document.getElementById("discountOptions");
+
+        // Add event listener to the checkbox for applying discount
+        applyDiscountCheckbox.addEventListener("change", function () {
+            // Toggle display of discount options based on checkbox state
+            if (applyDiscountCheckbox.checked) {
+                discountOptions.style.display = "block";
+            } else {
+                discountOptions.style.display = "none";
+            }
+        });
+
+        // Get all discount option radio buttons
+        var discountOptionRadios = document.querySelectorAll(".discountOption");
+
+        // Add event listener to each discount option radio button
+        discountOptionRadios.forEach(function (radio) {
+            radio.addEventListener("change", function () {
+                // Get the input field associated with the selected discount option
+                var inputFieldId = "discountOptionInput" + radio.value.charAt(radio.value.length - 1);
+                var inputField = document.getElementById(inputFieldId);
+
+                // Display the input field associated with the selected radio button option
+                inputField.style.display = "block";
+
+                // Hide other input fields
+                var allOptionInputs = document.querySelectorAll('[id^="discountOptionInput"]');
+                allOptionInputs.forEach(function (field) {
+                    if (field.id !== inputFieldId) {
+                        field.style.display = "none";
+                    }
+                });
+            });
+        });
+
+        // Get the original charge input field
+        var chargeInput = document.getElementById("charge");
+
+        // Add event listener to the charge input field
+        chargeInput.addEventListener("input", function () {
+            // Get the entered charge value
+            var charge = parseFloat(chargeInput.value);
+
+            // Get the selected discount option and its input field
+            var selectedOption = document.querySelector('input[name="discountOption"]:checked');
+            var discountInputField = document.getElementById("discountOptionInput" + selectedOption.value.charAt(selectedOption.value.length - 1));
+
+            // Get the entered discount percentage
+            var discountPercentage = parseFloat(discountInputField.querySelector("input").value);
+
+            // Calculate the final charge after applying discount
+            var finalCharge = charge * (1 - discountPercentage / 100);
+
+            // Update the display with the final charge
+            document.getElementById("finalCharge").innerText = finalCharge.toFixed(2);
+        });
+    });
+</script>
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\StoreQuotationAddEditFormRequest', '#QuotationAdd-Form') !!}

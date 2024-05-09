@@ -71,7 +71,7 @@ class InvoiceController extends Controller
 				$logo = Setting::first();
 			}
 		} else {
-			$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+			$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 
 			$updatekey = Updatekey::first();
 			$logo = Setting::first();
@@ -116,7 +116,7 @@ class InvoiceController extends Controller
 
 				$customer_job = DB::table('tbl_jobcard_details')->where([['service_id', $id], ['soft_delete', 0]])->first();
 				// dd($customer_job);
-				$job = DB::table('tbl_services')->where([['job_no', '=', $customer_job->jocard_no], ['done_status', '=', 1], ['job_no', 'like', 'J%']])->first();
+				$job = DB::table('tbl_services')->where([['job_no', '=', $customer_job->jocard_no], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%']])->first();
 				// dd($job);
 				$ser_id = $job->id;
 				$cus_id = $job->customer_id;

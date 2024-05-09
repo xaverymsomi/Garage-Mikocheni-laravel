@@ -72,14 +72,14 @@ class Getpasscontroller extends Controller
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		if (isAdmin(Auth::User()->role_id)) {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
-				->where('tbl_invoices.job_card', 'like', 'J%')
+				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
 				->where('tbl_services.branch_id', '=', $adminCurrentBranch->branch_id)
 				->whereNotIn('tbl_invoices.job_card', $job_no)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
-			$jobno = DB::table('tbl_invoices')->where('job_card', 'like', 'J%')->whereNotIn('job_card', $job_no)->get()->toArray();
+			$jobno = DB::table('tbl_invoices')->where('job_card', 'like', 'RMAL-RP-24-%')->whereNotIn('job_card', $job_no)->get()->toArray();
 		} else {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
-				->where('tbl_invoices.job_card', 'like', 'J%')
+				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
 				->where('tbl_services.branch_id', '=', $currentUser->branch_id)
 				->whereNotIn('tbl_invoices.job_card', $job_no)->get();
 		}
@@ -151,13 +151,13 @@ class Getpasscontroller extends Controller
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		if (isAdmin(Auth::User()->role_id)) {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
-				->where('tbl_invoices.job_card', 'like', 'J%')
+				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
 				->where('tbl_services.branch_id', '=', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
-			$jobno = DB::table('tbl_invoices')->where('job_card', 'like', 'J%')->get()->toArray();
+			$jobno = DB::table('tbl_invoices')->where('job_card', 'like', 'RMAL-RP-24-%')->get()->toArray();
 		} else {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
-				->where('tbl_invoices.job_card', 'like', 'J%')
+				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
 				->where('tbl_services.branch_id', '=', $currentUser->branch_id)->get();
 		}
 
