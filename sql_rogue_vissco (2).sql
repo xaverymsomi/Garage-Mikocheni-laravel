@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2024 at 03:44 PM
+-- Generation Time: May 10, 2024 at 02:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -391,7 +391,8 @@ CREATE TABLE `mot_vehicle_inspection` (
 --
 
 INSERT INTO `mot_vehicle_inspection` (`id`, `answer_question_id`, `vehicle_id`, `service_id`, `jobcard_number`, `created_at`, `updated_at`) VALUES
-(1, '{\"1\":\"ok\",\"3\":\"ok\",\"5\":\"ok\",\"7\":\"ok\",\"9\":\"ok\",\"11\":\"ok\",\"13\":\"ok\",\"15\":\"ok\",\"17\":\"ok\",\"19\":\"ok\",\"21\":\"ok\",\"23\":\"ok\",\"25\":\"ok\",\"27\":\"ok\",\"2\":\"ok\",\"4\":\"ok\",\"6\":\"ok\",\"8\":\"ok\",\"10\":\"ok\",\"12\":\"ok\",\"14\":\"ok\",\"16\":\"ok\",\"18\":\"ok\",\"20\":\"ok\",\"22\":\"ok\",\"24\":\"ok\",\"26\":\"ok\",\"28\":\"r\",\"30\":\"ok\",\"32\":\"r\",\"34\":\"ok\",\"36\":\"ok\",\"38\":\"ok\",\"40\":\"ok\",\"42\":\"ok\",\"44\":\"ok\",\"46\":\"ok\",\"48\":\"ok\",\"50\":\"ok\",\"52\":\"ok\",\"54\":\"ok\",\"56\":\"ok\",\"58\":\"ok\",\"60\":\"ok\",\"62\":\"ok\",\"64\":\"ok\",\"66\":\"ok\",\"68\":\"ok\",\"70\":\"ok\",\"72\":\"ok\",\"29\":\"ok\",\"31\":\"ok\",\"33\":\"ok\",\"35\":\"ok\",\"37\":\"ok\",\"39\":\"ok\",\"41\":\"ok\",\"43\":\"ok\",\"45\":\"ok\",\"47\":\"ok\",\"49\":\"ok\",\"51\":\"ok\",\"53\":\"ok\",\"55\":\"ok\",\"57\":\"ok\",\"59\":\"ok\",\"61\":\"ok\",\"63\":\"ok\",\"65\":\"ok\",\"67\":\"ok\",\"69\":\"ok\",\"71\":\"ok\",\"73\":\"ok\"}', 7, 2, 'J000002', NULL, NULL);
+(1, '{\"1\":\"ok\",\"3\":\"ok\",\"5\":\"ok\",\"7\":\"ok\",\"9\":\"ok\",\"11\":\"ok\",\"13\":\"ok\",\"15\":\"ok\",\"17\":\"ok\",\"19\":\"ok\",\"21\":\"ok\",\"23\":\"ok\",\"25\":\"ok\",\"27\":\"ok\",\"2\":\"ok\",\"4\":\"ok\",\"6\":\"ok\",\"8\":\"ok\",\"10\":\"ok\",\"12\":\"ok\",\"14\":\"ok\",\"16\":\"ok\",\"18\":\"ok\",\"20\":\"ok\",\"22\":\"ok\",\"24\":\"ok\",\"26\":\"ok\",\"28\":\"r\",\"30\":\"ok\",\"32\":\"r\",\"34\":\"ok\",\"36\":\"ok\",\"38\":\"ok\",\"40\":\"ok\",\"42\":\"ok\",\"44\":\"ok\",\"46\":\"ok\",\"48\":\"ok\",\"50\":\"ok\",\"52\":\"ok\",\"54\":\"ok\",\"56\":\"ok\",\"58\":\"ok\",\"60\":\"ok\",\"62\":\"ok\",\"64\":\"ok\",\"66\":\"ok\",\"68\":\"ok\",\"70\":\"ok\",\"72\":\"ok\",\"29\":\"ok\",\"31\":\"ok\",\"33\":\"ok\",\"35\":\"ok\",\"37\":\"ok\",\"39\":\"ok\",\"41\":\"ok\",\"43\":\"ok\",\"45\":\"ok\",\"47\":\"ok\",\"49\":\"ok\",\"51\":\"ok\",\"53\":\"ok\",\"55\":\"ok\",\"57\":\"ok\",\"59\":\"ok\",\"61\":\"ok\",\"63\":\"ok\",\"65\":\"ok\",\"67\":\"ok\",\"69\":\"ok\",\"71\":\"ok\",\"73\":\"ok\"}', 7, 2, 'J000002', NULL, NULL),
+(2, '{\"1\":\"r\",\"3\":\"r\",\"5\":\"ok\",\"7\":\"ok\",\"9\":\"ok\",\"11\":\"ok\",\"13\":\"ok\",\"15\":\"ok\",\"17\":\"ok\",\"19\":\"ok\",\"21\":\"ok\",\"23\":\"ok\",\"25\":\"ok\",\"27\":\"ok\",\"2\":\"ok\",\"4\":\"ok\",\"6\":\"ok\",\"8\":\"ok\",\"10\":\"ok\",\"12\":\"ok\",\"14\":\"ok\",\"16\":\"ok\",\"18\":\"ok\",\"20\":\"ok\",\"22\":\"ok\",\"24\":\"ok\",\"26\":\"ok\",\"28\":\"r\",\"30\":\"ok\",\"32\":\"ok\",\"34\":\"ok\",\"36\":\"ok\",\"38\":\"ok\",\"40\":\"ok\",\"42\":\"ok\",\"44\":\"ok\",\"46\":\"ok\",\"48\":\"ok\",\"50\":\"ok\",\"52\":\"ok\",\"54\":\"ok\",\"56\":\"ok\",\"58\":\"ok\",\"60\":\"ok\",\"62\":\"ok\",\"64\":\"ok\",\"66\":\"ok\",\"68\":\"ok\",\"70\":\"ok\",\"72\":\"ok\",\"29\":\"ok\",\"31\":\"ok\",\"33\":\"ok\",\"35\":\"ok\",\"37\":\"ok\",\"39\":\"ok\",\"41\":\"ok\",\"43\":\"ok\",\"45\":\"ok\",\"47\":\"ok\",\"49\":\"ok\",\"51\":\"ok\",\"53\":\"ok\",\"55\":\"ok\",\"57\":\"ok\",\"59\":\"ok\",\"61\":\"ok\",\"63\":\"ok\",\"65\":\"ok\",\"67\":\"ok\",\"69\":\"ok\",\"71\":\"ok\",\"73\":\"ok\"}', 36, 8, 'JMAL-RP-24-0008', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -49627,6 +49628,17 @@ CREATE TABLE `tbl_incomes` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `tbl_incomes`
+--
+
+INSERT INTO `tbl_incomes` (`id`, `invoice_number`, `payment_number`, `customer_id`, `status`, `payment_type`, `date`, `main_label`, `custom_field`, `soft_delete`, `branch_id`, `created_at`, `updated_at`) VALUES
+(1, '00000001', 'P680914', 10, 2, '1', '2024-05-09', 'Service', NULL, 0, 2, '2024-05-09 05:06:43', '2024-05-09 05:06:43'),
+(2, '00000002', 'P513872', 22, 1, '1', '2024-05-09', 'Service', NULL, 0, 1, '2024-05-09 05:13:14', '2024-05-09 05:13:14'),
+(3, '00000003', 'P925346', 43, 1, NULL, '2024-05-09', 'Service', NULL, 0, 1, '2024-05-09 05:45:44', '2024-05-09 05:45:44'),
+(4, '00000003', 'P849672', 43, 0, '1', '2024-05-09', 'Service', NULL, 0, NULL, '2024-05-09 05:47:50', '2024-05-09 05:47:50'),
+(5, '00000004', 'P714580', 22, 2, '1', '2024-05-09', 'Service', NULL, 0, 1, '2024-05-09 05:51:19', '2024-05-09 05:51:19');
+
 -- --------------------------------------------------------
 
 --
@@ -49643,6 +49655,17 @@ CREATE TABLE `tbl_income_history_records` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_income_history_records`
+--
+
+INSERT INTO `tbl_income_history_records` (`id`, `tbl_income_id`, `income_amount`, `income_label`, `soft_delete`, `branch_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 120000.00, 'Service', 0, 2, '2024-05-09 05:06:43', '2024-05-09 05:06:43'),
+(2, 2, 130000.00, 'Service', 0, 1, '2024-05-09 05:13:14', '2024-05-09 05:13:14'),
+(3, 3, 17500.00, 'Service', 0, 1, '2024-05-09 05:45:44', '2024-05-09 05:45:44'),
+(4, 4, 17.00, 'Service', 0, NULL, '2024-05-09 05:47:50', '2024-05-09 05:47:50'),
+(5, 5, 70000.00, 'Service', 0, 1, '2024-05-09 05:51:19', '2024-05-09 05:51:19');
 
 -- --------------------------------------------------------
 
@@ -49677,6 +49700,16 @@ CREATE TABLE `tbl_invoices` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `tbl_invoices`
+--
+
+INSERT INTO `tbl_invoices` (`id`, `invoice_number`, `payment_number`, `customer_id`, `job_card`, `payment_type`, `payment_status`, `total_amount`, `grand_total`, `discount`, `paid_amount`, `amount_recevied`, `tax_name`, `date`, `details`, `type`, `charge_id`, `create_by`, `sales_service_id`, `custom_field`, `soft_delete`, `branch_id`, `created_at`, `updated_at`) VALUES
+(1, '00000001', 'P680914', '10', 'RMAL-RP-24-0001', '1', 2, 260000.00, 0.00, NULL, 120000.00, 120000.00, NULL, '2024-05-09', NULL, 0, NULL, 1, 1, NULL, 0, 2, '2024-05-09 05:06:43', '2024-05-09 05:06:43'),
+(2, '00000002', 'P513872', '22', 'RMAL-RP-24-0007', '1', 1, 260000.00, 0.00, 10.00, 130000.00, 130000.00, NULL, '2024-05-09', 'WRONG', 0, NULL, 1, 7, NULL, 0, 1, '2024-05-09 05:13:14', '2024-05-09 05:13:14'),
+(3, '00000003', 'P925346', '43', 'RMAL-RP-24-0010', '1', 1, 35000.00, 35000.00, NULL, 17517.00, 17517.00, NULL, '2024-05-09', NULL, 0, NULL, 1, 10, NULL, 0, 1, '2024-05-09 05:45:44', '2024-05-09 05:47:50'),
+(4, '00000004', 'P714580', '22', 'RMAL-RP-24-0011', '1', 2, 70000.00, 74340.00, 10.00, 70000.00, 70000.00, 'VAT 18', '2024-05-09', 'GGGG', 0, NULL, 1, 11, NULL, 0, 1, '2024-05-09 05:51:19', '2024-05-09 05:51:19');
+
 -- --------------------------------------------------------
 
 --
@@ -49708,19 +49741,29 @@ CREATE TABLE `tbl_jobcard_details` (
 --
 
 INSERT INTO `tbl_jobcard_details` (`id`, `service_id`, `jocard_no`, `customer_id`, `vehicle_id`, `in_date`, `out_date`, `delay_date`, `next_date`, `kms_run`, `next_kms_run`, `done_status`, `coupan_no`, `soft_delete`, `reminder_sent`, `created_at`, `updated_at`) VALUES
-(4, 6, 'JMAL-RP-24-0006', 10, 7, '2024-05-06 07:52:48', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 04:54:14', '2024-05-06 04:54:14'),
-(3, 5, 'JMAL-RP-24-0005', 10, 7, '2024-05-03 13:52:27', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-03 10:55:37', '2024-05-03 10:55:37'),
+(4, 6, 'JMAL-RP-24-0006', 10, 7, '2024-05-06 07:52:48', '2024-05-08 06:51:30', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-06 04:54:14', '2024-05-06 04:54:14'),
+(3, 5, 'JMAL-RP-24-0005', 10, 7, '2024-05-03 13:52:27', '2024-05-06 13:20:05', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-03 10:55:37', '2024-05-03 10:55:37'),
 (5, 7, 'RMAL-RP-24-0007', 10, 14, '2024-05-06 08:33:13', '2024-05-06 08:34:54', NULL, NULL, '67', NULL, 1, NULL, 0, 0, '2024-05-06 05:35:18', '2024-05-06 05:35:18'),
 (6, 4, 'RMAL-RP-24-0004', 13, 9, '2024-05-02 12:41:41', '2024-05-06 15:48:21', NULL, NULL, '455', NULL, 1, NULL, 0, 0, '2024-05-06 05:48:57', '2024-05-06 05:48:57'),
 (7, 8, 'RMAL-RP-24-0008', 10, 7, '2024-05-06 08:35:36', '2024-05-06 15:49:07', NULL, NULL, '67', NULL, 1, NULL, 0, 0, '2024-05-06 05:49:28', '2024-05-06 05:49:28'),
-(8, 9, 'RMAL-RP-24-0009', 11, 8, '2024-05-06 08:52:24', '2024-05-06 09:01:27', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 06:06:03', '2024-05-06 06:06:03'),
+(8, 9, 'RMAL-RP-24-0009', 11, 8, '2024-05-06 08:52:24', '2024-05-06 09:01:27', NULL, NULL, NULL, NULL, NULL, NULL, 1, 0, '2024-05-06 06:06:03', '2024-05-06 06:06:03'),
 (9, 1, 'RMAL-RP-24-0001', 10, 7, '2024-05-06 09:25:41', '2024-05-06 09:26:26', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-06 06:27:53', '2024-05-06 06:27:53'),
 (10, 2, 'RMAL-RP-24-0002', 10, 14, '2024-05-06 09:59:35', '2024-05-06 10:00:35', NULL, NULL, '667', NULL, 1, NULL, 0, 0, '2024-05-06 07:00:49', '2024-05-06 07:00:49'),
 (11, 3, 'JMAL-RP-24-0003', 10, 7, '2024-05-06 10:37:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 07:38:27', '2024-05-06 07:38:27'),
 (12, 4, 'JMAL-RP-24-0004', 11, 8, '2024-05-06 11:45:02', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 08:47:49', '2024-05-06 08:47:49'),
-(13, 5, 'RMAL-RP-24-0005', 24, 19, '2024-05-06 13:19:27', '2024-05-06 13:20:05', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-06 10:20:31', '2024-05-06 10:20:31'),
-(14, 6, 'RMAL-RP-24-0006', 24, 19, '2024-05-08 06:50:15', '2024-05-08 06:51:30', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-08 03:51:49', '2024-05-08 03:51:49'),
-(15, 7, 'RMAL-RP-24-0007', 22, 16, '2024-05-08 07:04:56', '2024-05-06 08:34:54', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-08 04:05:41', '2024-05-08 04:05:41');
+(13, 5, 'RMAL-RP-24-0005', 24, 19, '2024-05-06 13:19:27', '2024-05-06 13:20:05', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-06 10:20:31', '2024-05-06 10:20:31'),
+(14, 6, 'RMAL-RP-24-0006', 24, 19, '2024-05-08 06:50:15', '2024-05-08 06:51:30', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-08 03:51:49', '2024-05-08 03:51:49'),
+(15, 7, 'RMAL-RP-24-0007', 22, 16, '2024-05-08 07:04:56', '2024-05-06 08:34:54', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-08 04:05:41', '2024-05-08 04:05:41'),
+(16, 10, 'RMAL-RP-24-0010', 43, 36, '2024-05-09 08:37:18', '2024-05-09 15:43:03', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-09 05:42:04', '2024-05-09 05:42:04'),
+(17, 11, 'RMAL-RP-24-0011', 22, 15, '2024-05-09 08:48:30', '2024-05-09 15:50:33', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-09 05:49:44', '2024-05-09 05:49:44'),
+(18, 12, 'RMAL-RP-24-0012', 31, 24, '2024-05-09 08:52:23', '2024-05-09 15:53:33', NULL, NULL, NULL, NULL, 1, NULL, 0, 0, '2024-05-09 05:53:15', '2024-05-09 05:53:15'),
+(19, 13, 'RMAL-RP-24-0013', 43, 37, '2024-05-09 12:18:58', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-09 09:20:07', '2024-05-09 09:20:07'),
+(20, 14, 'RMAL-RP-24-0014', 41, 34, '2024-05-09 12:29:08', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-09 09:30:08', '2024-05-09 09:30:08'),
+(21, 15, 'RMAL-RP-24-0015', 10, 7, '2024-05-09 12:35:37', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-09 09:36:25', '2024-05-09 09:36:25'),
+(22, 16, 'RMAL-RP-24-0016', 10, 14, '2024-05-09 12:54:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-09 09:54:44', '2024-05-09 09:54:44'),
+(23, 17, 'RMAL-RP-24-0017', 10, 7, '2024-05-10 08:52:08', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-10 06:09:20', '2024-05-10 06:09:20'),
+(24, 18, 'RMAL-RP-24-0018', 10, 14, '2024-05-10 09:11:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-10 06:12:40', '2024-05-10 06:12:40'),
+(25, 19, 'RMAL-RP-24-0019', 10, 7, '2024-05-10 09:12:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2024-05-10 06:13:08', '2024-05-10 06:13:08');
 
 -- --------------------------------------------------------
 
@@ -49883,6 +49926,17 @@ CREATE TABLE `tbl_payment_records` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_payment_records`
+--
+
+INSERT INTO `tbl_payment_records` (`id`, `invoices_id`, `amount`, `payment_type`, `payment_date`, `payment_number`, `note`, `soft_delete`, `branch_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 120000.00, '1', '2024-05-09', 'P680914', NULL, 0, 2, '2024-05-09 05:06:43', '2024-05-09 05:06:43'),
+(2, 2, 130000.00, '1', '2024-05-09', 'P513872', NULL, 0, 1, '2024-05-09 05:13:14', '2024-05-09 05:13:14'),
+(3, 3, 17500.00, NULL, '2024-05-09', 'P925346', NULL, 0, 1, '2024-05-09 05:45:44', '2024-05-09 05:45:44'),
+(4, 3, 17.00, '1', '2024-05-09', 'P849672', 'ALREADY', 0, NULL, '2024-05-09 05:47:50', '2024-05-09 05:47:50'),
+(5, 4, 70000.00, '1', '2024-05-09', 'P714580', NULL, 0, 1, '2024-05-09 05:51:19', '2024-05-09 05:51:19');
 
 -- --------------------------------------------------------
 
@@ -50115,6 +50169,38 @@ INSERT INTO `tbl_purchase_history_records` (`id`, `purchase_id`, `product_id`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_rented_vehicle`
+--
+
+CREATE TABLE `tbl_rented_vehicle` (
+  `id` int(11) NOT NULL,
+  `Vehicle_Type` varchar(255) DEFAULT NULL,
+  `Vehicle_brand` varchar(255) DEFAULT NULL,
+  `Vehicle_model` varchar(255) DEFAULT NULL,
+  `model_year` varchar(255) DEFAULT NULL,
+  `License_Plate` varchar(255) DEFAULT NULL,
+  `Color` varchar(255) DEFAULT NULL,
+  `Status` enum('rented','available','under maintenance','') DEFAULT NULL,
+  `Rental_Start_Date` date DEFAULT NULL,
+  `Rental_End_Date` date DEFAULT NULL,
+  `Rental_Duration` varchar(255) DEFAULT NULL,
+  `Rental_Price` varchar(255) DEFAULT NULL,
+  `Customer_ID` int(11) DEFAULT NULL,
+  `Rental_Agreement_ID` int(11) DEFAULT NULL,
+  `Insurance_Information` text DEFAULT NULL,
+  `Additional_Notes` text DEFAULT NULL,
+  `Chassis_Number` varchar(255) DEFAULT NULL,
+  `Engine_Number` varchar(255) DEFAULT NULL,
+  `Fuel_Type` varchar(255) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `soft_delete` tinyint(3) DEFAULT 0 COMMENT '0=Not Deleted, 1=Deleted',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_rto_taxes`
 --
 
@@ -50264,9 +50350,21 @@ INSERT INTO `tbl_services` (`id`, `job_no`, `quo_no`, `service_type`, `sales_id`
 (2, 'RMAL-RP-24-0002', NULL, NULL, NULL, '2024-05-06 09:59:35', NULL, NULL, 9, 'refills', '1', NULL, 10, 14, 1, 'RHENZDGNXFGNXFHDJR', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-06 07:00:35', '2024-05-06 07:50:24'),
 (3, 'JMAL-RP-24-0003', NULL, NULL, NULL, '2024-05-06 10:37:50', NULL, NULL, NULL, 'bodyworks', '0', '20000', 10, 7, 1, NULL, NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-06 07:38:20', '2024-05-06 07:38:20'),
 (4, 'JMAL-RP-24-0004', NULL, NULL, NULL, '2024-05-06 11:45:02', NULL, NULL, NULL, 'serviceandmaintenance', '0', '35000', 11, 8, 1, 'wow', NULL, NULL, NULL, 0, 0, 1, 2, NULL, 1, '2024-05-06 08:45:38', '2024-05-06 09:04:17'),
-(5, 'RMAL-RP-24-0005', NULL, NULL, NULL, '2024-05-06 13:19:27', NULL, NULL, 9, 'serviceandmaintenance', '0', NULL, 24, 19, 1, 'jkhyuy87uuiohj', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-06 10:20:05', '2024-05-06 10:20:05'),
-(6, 'RMAL-RP-24-0006', NULL, NULL, NULL, '2024-05-08 06:50:15', NULL, NULL, 9, 'refills', '0', NULL, 24, 19, 1, 'Wow', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 1, '2024-05-08 03:51:29', '2024-05-08 03:51:29'),
-(7, 'RMAL-RP-24-0007', NULL, NULL, NULL, '2024-05-08 07:04:56', NULL, NULL, 9, 'trackingsysteminstallations', '1', NULL, 22, 16, 1, 'Monday', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-08 04:05:33', '2024-05-08 04:06:18');
+(5, 'RMAL-RP-24-0005', NULL, NULL, NULL, '2024-05-06 13:19:27', NULL, NULL, 9, 'serviceandmaintenance', '1', NULL, 24, 19, 1, 'jkhyuy87uuiohj', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-06 10:20:05', '2024-05-09 05:50:28'),
+(6, 'RMAL-RP-24-0006', NULL, NULL, NULL, '2024-05-08 06:50:15', NULL, NULL, 9, 'refills', '1', NULL, 24, 19, 1, 'Wow', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 1, '2024-05-08 03:51:29', '2024-05-09 05:50:17'),
+(7, 'RMAL-RP-24-0007', NULL, NULL, NULL, '2024-05-08 07:04:56', NULL, NULL, 9, 'trackingsysteminstallations', '1', NULL, 22, 16, 1, 'Monday', NULL, NULL, NULL, 0, 0, 0, 0, NULL, 2, '2024-05-08 04:05:33', '2024-05-08 04:06:18'),
+(8, 'JMAL-RP-24-0008', NULL, NULL, NULL, '2024-05-09 08:24:05', NULL, NULL, NULL, 'serviceandmaintenance', '0', '20000', 43, 36, 1, 'WOW', NULL, NULL, NULL, 1, 0, 1, 1, NULL, 1, '2024-05-09 05:25:25', '2024-05-09 05:25:25'),
+(9, 'RMAL-RP-24-MAL-RP-24-0009', NULL, NULL, NULL, '2024-05-09 08:33:27', NULL, NULL, NULL, 'bodyworks', '0', '35000', 43, 36, 1, NULL, NULL, NULL, NULL, 0, 1, 1, 1, NULL, 1, '2024-05-09 05:33:55', '2024-05-09 05:33:55'),
+(10, 'RMAL-RP-24-0010', NULL, NULL, NULL, '2024-05-09 08:37:18', NULL, NULL, 9, 'bodyworks', '1', '35000', 43, 36, 1, 'KJHGFD', NULL, NULL, NULL, 0, 0, 1, 2, NULL, 1, '2024-05-09 05:37:40', '2024-05-09 05:43:46'),
+(11, 'RMAL-RP-24-0011', NULL, NULL, NULL, '2024-05-09 08:48:30', NULL, NULL, 9, 'trackingsysteminstallations', '1', '50000', 22, 15, 1, 'IUYGFD', NULL, NULL, NULL, 0, 0, 1, 2, NULL, 1, '2024-05-09 05:49:06', '2024-05-09 05:50:45'),
+(12, 'RMAL-RP-24-0012', NULL, NULL, NULL, '2024-05-09 08:52:23', NULL, NULL, 9, 'refills', '1', '100000', 31, 24, 1, 'GGDZCVH', NULL, NULL, NULL, 0, 0, 1, 2, NULL, 1, '2024-05-09 05:53:08', '2024-05-09 05:53:42'),
+(13, 'RMAL-RP-24-0013', NULL, NULL, NULL, '2024-05-09 12:18:58', NULL, NULL, NULL, 'bodyworks', '0', '29000', 43, 37, 1, 'amaixop', NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-09 09:19:46', '2024-05-09 09:19:46'),
+(14, 'RMAL-RP-24-0014', NULL, NULL, NULL, '2024-05-09 12:29:08', NULL, NULL, NULL, 'bodyworks', '0', '54000', 41, 34, 1, 'tsdfghvj', NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-09 09:30:00', '2024-05-09 09:30:00'),
+(15, 'RMAL-RP-24-0015', NULL, NULL, NULL, '2024-05-09 12:35:37', NULL, NULL, NULL, 'serviceandmaintenance', '0', '45000', 10, 7, 1, NULL, NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-09 09:36:14', '2024-05-09 09:36:14'),
+(16, 'RMAL-RP-24-0016', NULL, NULL, NULL, '2024-05-09 12:54:00', NULL, NULL, NULL, 'trackingsysteminstallations', '0', '3000', 10, 14, 1, NULL, NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-09 09:54:31', '2024-05-09 09:54:31'),
+(17, 'RMAL-RP-24-0017', NULL, NULL, NULL, '2024-05-10 08:52:08', NULL, NULL, NULL, 'trackingsysteminstallations', '0', '10800', 10, 7, 1, 'hugvjbhn', NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-10 06:09:07', '2024-05-10 06:09:07'),
+(18, 'RMAL-RP-24-0018', NULL, NULL, NULL, '2024-05-10 09:11:28', NULL, NULL, NULL, 'trackingsysteminstallations', '0', '9000', 10, 14, 1, 'sdtfcgbj', NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-10 06:12:34', '2024-05-10 06:12:34'),
+(19, 'RMAL-RP-24-0019', NULL, NULL, NULL, '2024-05-10 09:12:45', NULL, NULL, NULL, 'serviceandmaintenance', '0', '20000', 10, 7, 1, 'sfhjk', NULL, NULL, NULL, 0, 0, 1, 1, NULL, 1, '2024-05-10 06:13:03', '2024-05-10 06:13:03');
 
 -- --------------------------------------------------------
 
@@ -50343,11 +50441,11 @@ CREATE TABLE `tbl_service_pros` (
 --
 
 INSERT INTO `tbl_service_pros` (`id`, `service_id`, `tbl_service_observation_points_id`, `category_comments`, `product_id`, `comment`, `quantity`, `price`, `service_charge`, `total_price`, `type`, `category`, `obs_point`, `chargeable`, `soft_delete`, `created_at`, `updated_at`) VALUES
-(4, 6, NULL, NULL, NULL, 'washing car', NULL, NULL, NULL, '50000', 1, NULL, NULL, NULL, 0, '2024-05-06 05:31:52', '2024-05-06 05:31:52'),
-(5, 5, NULL, NULL, NULL, 'washing car', NULL, NULL, NULL, '50000', 1, NULL, NULL, NULL, 0, '2024-05-06 05:32:41', '2024-05-06 05:32:41'),
-(7, 8, NULL, NULL, NULL, 'washing car', NULL, NULL, NULL, '78000', 1, NULL, NULL, NULL, 0, '2024-05-06 05:49:28', '2024-05-06 05:49:28'),
+(13, 6, NULL, NULL, NULL, 'washing car', NULL, NULL, NULL, '50000', 1, NULL, NULL, NULL, 0, '2024-05-09 05:50:17', '2024-05-09 05:50:17'),
+(14, 5, NULL, NULL, NULL, 'washing car', NULL, NULL, NULL, '50000', 1, NULL, NULL, NULL, 0, '2024-05-09 05:50:28', '2024-05-09 05:50:28'),
 (9, 4, NULL, NULL, NULL, 'Re filling fuel', NULL, NULL, NULL, '59000', 1, NULL, NULL, NULL, 0, '2024-05-06 09:02:34', '2024-05-06 09:02:34'),
-(11, 3, NULL, NULL, NULL, 'tishing iron', NULL, NULL, NULL, '1000', 1, NULL, NULL, NULL, 0, '2024-05-06 10:08:00', '2024-05-06 10:08:00');
+(11, 3, NULL, NULL, NULL, 'tishing iron', NULL, NULL, NULL, '1000', 1, NULL, NULL, NULL, 0, '2024-05-06 10:08:00', '2024-05-06 10:08:00'),
+(15, 11, NULL, NULL, NULL, 'Re filling fuel', NULL, NULL, NULL, '20000', 1, NULL, NULL, NULL, 0, '2024-05-09 05:50:45', '2024-05-09 05:50:45');
 
 -- --------------------------------------------------------
 
@@ -54947,7 +55045,8 @@ CREATE TABLE `vehicle_mot_test_reports` (
 --
 
 INSERT INTO `vehicle_mot_test_reports` (`id`, `vehicle_id`, `service_id`, `mot_vehicle_inspection_id`, `test_status`, `mot_test_number`, `date`, `created_at`, `updated_at`) VALUES
-(1, 7, 2, 1, 'fail', '448382099', '2024-04-24', NULL, NULL);
+(1, 7, 2, 1, 'fail', '448382099', '2024-04-24', NULL, NULL),
+(2, 36, 8, 2, 'fail', '1421731649', '2024-05-09', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -55228,6 +55327,12 @@ ALTER TABLE `tbl_purchase_history_records`
   ADD KEY `tbl_purchase_histores_ibfk_1` (`purchase_id`);
 
 --
+-- Indexes for table `tbl_rented_vehicle`
+--
+ALTER TABLE `tbl_rented_vehicle`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_rto_taxes`
 --
 ALTER TABLE `tbl_rto_taxes`
@@ -55398,7 +55503,7 @@ ALTER TABLE `email_logs`
 -- AUTO_INCREMENT for table `mot_vehicle_inspection`
 --
 ALTER TABLE `mot_vehicle_inspection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -55506,25 +55611,25 @@ ALTER TABLE `tbl_holidays`
 -- AUTO_INCREMENT for table `tbl_incomes`
 --
 ALTER TABLE `tbl_incomes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_income_history_records`
 --
 ALTER TABLE `tbl_income_history_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_invoices`
 --
 ALTER TABLE `tbl_invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_jobcard_details`
 --
 ALTER TABLE `tbl_jobcard_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_language_directions`
@@ -55566,7 +55671,7 @@ ALTER TABLE `tbl_payments`
 -- AUTO_INCREMENT for table `tbl_payment_records`
 --
 ALTER TABLE `tbl_payment_records`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_points`
@@ -55605,6 +55710,12 @@ ALTER TABLE `tbl_purchase_history_records`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `tbl_rented_vehicle`
+--
+ALTER TABLE `tbl_rented_vehicle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_rto_taxes`
 --
 ALTER TABLE `tbl_rto_taxes`
@@ -55632,7 +55743,7 @@ ALTER TABLE `tbl_sale_parts`
 -- AUTO_INCREMENT for table `tbl_services`
 --
 ALTER TABLE `tbl_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_service_images`
@@ -55650,7 +55761,7 @@ ALTER TABLE `tbl_service_observation_points`
 -- AUTO_INCREMENT for table `tbl_service_pros`
 --
 ALTER TABLE `tbl_service_pros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_service_taxes`
@@ -55722,7 +55833,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `vehicle_mot_test_reports`
 --
 ALTER TABLE `vehicle_mot_test_reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `washbays`

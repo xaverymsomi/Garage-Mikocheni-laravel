@@ -492,6 +492,17 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                 </li>
                 @endcan
 
+                {{-- Rent vehicles --}}
+                @php
+                $inventoryRoutes = ['/quotation/list','/quotation/add'];
+                @endphp
+                @can('quotation_view')
+                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/quotation/list/') ? 'active' : '' }}">
+                  <a href="{!! url('/quotation/list') !!}"><i class="fa-solid fa-file-invoice-dollar margin-right-10px"></i> {{ trans('message.Quotation') }}
+                  </a>
+                </li>
+                @endcan
+
                 @canany(['employee_view', 'supportstaff_view', 'accountant_view', 'branchAdmin_view'])
                 @php
                 $inventoryRoutes = ['/employee/list','/supportstaff/list','/accountant/list','/branchadmin/list','/employee/add','/supportstaff/add','/accountant/add','/branchadmin/add'];
