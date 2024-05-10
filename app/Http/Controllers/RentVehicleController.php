@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\RentVehicle;
 use App\BranchSetting;
 use Illuminate\Http\Request;
