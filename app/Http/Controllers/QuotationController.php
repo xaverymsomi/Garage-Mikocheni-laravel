@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use PDF;
-use Auth;
-use Mail;
-use URL;
 use App\User;
 use Mpdf\Mpdf;
-use Mpdf\Output\Destination;
 use App\Branch;
 use App\Service;
 use App\Washbay;
-use App\JobcardDetail;
 use App\BranchSetting;
+use App\JobcardDetail;
 use App\tbl_service_pros;
 use Illuminate\Http\Request;
+use Mpdf\Output\Destination;
+use PDF;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class QuotationController extends Controller
 {
@@ -138,168 +139,267 @@ class QuotationController extends Controller
 
 	/*Save Quotation Service Data inside Service Table (First step of add service)*/
 	public function store(Request $request)
-	{
-		// dd($request->all());
-		// $job = $request->jobno;
-		// $Customername = $request->Customername;
-		// $vehicalname = $request->vehicalname;
-		// $title = $request->title;
-		// $service_category = $request->repair_cat;
-		// $ser_type = $request->service_type;
-		// $details = $request->details;
-		// $charge = ;
-		// $color = null;
+{
+    // dd($request->discountPercentage);
+	$discountPercentage = $request->discountPercentage;
 
-		
+	if($discountPercentage){
+		$finalCharge = $request->charge;
+		$discountAmount = ($request->discountPercentage / 100) * $request->charge;
 
-		// Check if a discount was applied
-		$discountApplied = $request->has('applyDiscountCheckbox');
-		$charge = $request->charge;
-		// Initialize final charge
-		$finalCharge = $charge;
+		$job = $request->jobno;
+		$Customername = $request->Customername;
+		$vehicalname = $request->vehicalname;
+		$title = $request->title;
+		$service_category = $request->repair_cat;
+		$ser_type = $request->service_type;
+		$details = $request->details;
 
-		// Apply discount only if checkbox is checked
-		if ($discountApplied) {
-			// Extracting discount data based on selected option
-			$selectedOption = $request->input('discountOption');
-			switch ($selectedOption) {
-				case 'option1':
-					$discountPercentage = $request->input('discountOptionInput1', 0); // Default to 0 if input is empty
-					break;
-				case 'option2':
-					$discountPercentage = $request->input('discountOptionInput2', 0);
-					break;
-				case 'option3':
-					$discountPercentage = $request->input('discountOptionInput3', 0);
-					break;
-				default:
-					$discountPercentage = 0;
-					break;
-			}
+		// Subtract discount amount from the final charge
+		$finalCharge -= $discountAmount;
 
-			// Calculate discount amount based on percentage
-			$discountAmount = ($discountPercentage / 100) * $finalCharge;
-
-			// Subtract discount amount from the final charge
-			$finalCharge -= $discountAmount;
-
-			echo $discountAmount;
+		// Ckecking MOT Test Check box, if it is checked or not
+		$mot_test_status = $request->motTestStatusCheckbox;
+		if ($mot_test_status == "on") {
+			$mot_test_status = 1;
+		} else {
+			$mot_test_status = 0;
 		}
 
-		// Output the final charge (for debugging)
-		
-
-		//Ckecking MOT Test Check box, if it is checked or not
-		// $mot_test_status = $request->motTestStatusCheckbox;
-		// if ($mot_test_status == "on") {
-		// 	$mot_test_status = 1;
-		// } else {
-		// 	$mot_test_status = 0;
-		// }
-
-		// if (getDateFormat() == 'm-d-Y') {
-		// 	$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
-		// } else {
-		// 	$date = date('Y-m-d H:i:s', strtotime($request->date));
-		// }
+		if (getDateFormat() == 'm-d-Y') {
+			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
+		} else {
+			$date = date('Y-m-d H:i:s', strtotime($request->date));
+		}
 
 		
-		// $services = new Service;
-		// $services->job_no = $job;
-		// $services->vehicle_id = $vehicalname;
-		// $services->service_date = $date;
-		// $services->title = $title;
-		// $services->service_category = $service_category;
-		// $services->done_status = 0;
-		// $services->charge = $finalCharge; // Save the discounted charge
-		// $services->customer_id = $Customername;
-		// $services->detail = $details;
-		// $services->service_type = $ser_type;
-		// $services->mot_status = $mot_test_status;
-		// $services->is_quotation = 1;
-		// $services->quotation_modify_status = 1;
-		// $services->branch_id = $request->branch;
-		// $services->create_by = Auth::User()->id;
+		$services = new Service;
+		$services->job_no = $job;
+		$services->vehicle_id = $vehicalname;
+		$services->service_date = $date;
+		$services->title = $title;
+		$services->service_category = $service_category;
+		$services->done_status = 0;
+		$services->charge = $finalCharge; // Save the discounted charge
+		$services->customer_id = $Customername;
+		$services->detail = $details;
+		$services->service_type = $ser_type;
+		$services->mot_status = $mot_test_status;
+		$services->is_quotation = 1;
+		$services->quotation_modify_status = 1;
+		$services->branch_id = $request->branch;
+		$services->create_by = Auth::User()->id;
 		
-		//custom field save	
-		// $custom = $request->custom;
-		// $custom_fileld_value = array();
-		// $custom_fileld_value_jason_array = array();
-		// if (!empty($custom)) {
-		// 	foreach ($custom as $key => $value) {
-		// 		if (is_array($value)) {
-		// 			$add_one_in = implode(",", $value);
-		// 			$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-		// 		} else {
-		// 			$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-		// 		}
-		// 	}
+		// custom field save	
+		$custom = $request->custom;
+		$custom_fileld_value = array();
+		$custom_fileld_value_jason_array = array();
+		if (!empty($custom)) {
+			foreach ($custom as $key => $value) {
+				if (is_array($value)) {
+					$add_one_in = implode(",", $value);
+					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
+				} else {
+					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+				}
+			}
 
-		// 	$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-		// 	foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-		// 		$serviceData = $val1;
-		// 	}
-		// 	$services->custom_field = $serviceData;
-		// }
-		// if (!empty($request->Tax)) {
-		// 	$services->tax_id = implode(', ', $request->Tax);
-		// }
+			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
+			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
+				$serviceData = $val1;
+			}
+			$services->custom_field = $serviceData;
+		}
+		if (!empty($request->Tax)) {
+			$services->tax_id = implode(', ', $request->Tax);
+		}
 
-		// $services->save();
+		$services->save();
 
-		// $service_latest_data = Service::where('job_no', '=', $job)->first();
-		// $service_id = $service_latest_data->id;
-		// $job_no = $service_latest_data->job_no;
+		$service_latest_data = Service::where('job_no', '=', $job)->first();
+		$service_id = $service_latest_data->id;
+		$job_no = $service_latest_data->job_no;
 
-		// $inspection_data = array();
+		$inspection_data = array();
 
-		// if ($request->motTestStatusCheckbox == "on") {
-		// 	$inspection_data = $request->inspection;
-		// 	$data_for_db = json_encode($inspection_data);
+		if ($request->motTestStatusCheckbox == "on") {
+			$inspection_data = $request->inspection;
+			$data_for_db = json_encode($inspection_data);
 
-		// 	$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
+			$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
 
-		// 	$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
+			$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
 
-		// 	$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
+			$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
 
-		// 	$get_vehicle_current_id = $get_vehicle_inspection_id->id;
+			$get_vehicle_current_id = $get_vehicle_inspection_id->id;
 
-		// 	if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
-		// 		$mot_test_status = 'fail';
-		// 	} else {
-		// 		$mot_test_status = 'pass';
-		// 	}
+			if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
+				$mot_test_status = 'fail';
+			} else {
+				$mot_test_status = 'pass';
+			}
 
-		// 	$generateMotTestNumber = rand();
-		// 	$todayDate = date('Y-m-d');
+			$generateMotTestNumber = rand();
+			$todayDate = date('Y-m-d');
 
-		// 	$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
+			$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
 
-		// 	$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
-		// }
+			$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
+		}
 
-		// //get current service id for washbay data
-		// $get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
+		//get current service id for washbay data
+		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
 
-		// $washbay_status = $request->washbay;
+		$washbay_status = $request->washbay;
 
-		// /*Checking for Washbay status, if washbay status on then data store inside washbay table*/
-		// if ($washbay_status == 'on') {
-		// 	$washbay_charge = $request->washBayCharge;
+		/*Checking for Washbay status, if washbay status on then data store inside washbay table*/
+		if ($washbay_status == 'on') {
+			$washbay_charge = $request->washBayCharge;
 
-		// 	$washbays = new Washbay;
-		// 	$washbays->service_id = $get_service_id;
-		// 	$washbays->jobcard_no = $job;
-		// 	$washbays->vehicle_id = $vehicalname;
-		// 	$washbays->customer_id = $Customername;
-		// 	$washbays->price = $washbay_charge;
-		// 	$washbays->save();
-		// }
+			$washbays = new Washbay;
+			$washbays->service_id = $get_service_id;
+			$washbays->jobcard_no = $job;
+			$washbays->vehicle_id = $vehicalname;
+			$washbays->customer_id = $Customername;
+			$washbays->price = $washbay_charge;
+			$washbays->save();
+		}
 
-		// /*Redirect to direct quotation modify page*/
-		// return redirect()->route('quotation_modify', array('id' => $service_id));
+		/*Redirect to direct quotation modify page*/
+		return redirect()->route('quotation_modify', array('id' => $service_id));
+
+    	// dd($finalCharge);
+	} else {
+		$finalCharge = $request->charge;
+		// $discountAmount = ($request->discountPercentage / 100) * $request->charge;
+
+		$job = $request->jobno;
+		$Customername = $request->Customername;
+		$vehicalname = $request->vehicalname;
+		$title = $request->title;
+		$service_category = $request->repair_cat;
+		$ser_type = $request->service_type;
+		$details = $request->details;
+
+		// Subtract discount amount from the final charge
+		// $finalCharge -= $discountAmount;
+
+		// Ckecking MOT Test Check box, if it is checked or not
+		$mot_test_status = $request->motTestStatusCheckbox;
+		if ($mot_test_status == "on") {
+			$mot_test_status = 1;
+		} else {
+			$mot_test_status = 0;
+		}
+
+		if (getDateFormat() == 'm-d-Y') {
+			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
+		} else {
+			$date = date('Y-m-d H:i:s', strtotime($request->date));
+		}
+
+		
+		$services = new Service;
+		$services->job_no = $job;
+		$services->vehicle_id = $vehicalname;
+		$services->service_date = $date;
+		$services->title = $title;
+		$services->service_category = $service_category;
+		$services->done_status = 0;
+		$services->charge = $finalCharge; // Save the discounted charge
+		$services->customer_id = $Customername;
+		$services->detail = $details;
+		$services->service_type = $ser_type;
+		$services->mot_status = $mot_test_status;
+		$services->is_quotation = 1;
+		$services->quotation_modify_status = 1;
+		$services->branch_id = $request->branch;
+		$services->create_by = Auth::User()->id;
+		
+		// custom field save	
+		$custom = $request->custom;
+		$custom_fileld_value = array();
+		$custom_fileld_value_jason_array = array();
+		if (!empty($custom)) {
+			foreach ($custom as $key => $value) {
+				if (is_array($value)) {
+					$add_one_in = implode(",", $value);
+					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
+				} else {
+					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+				}
+			}
+
+			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
+			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
+				$serviceData = $val1;
+			}
+			$services->custom_field = $serviceData;
+		}
+		if (!empty($request->Tax)) {
+			$services->tax_id = implode(', ', $request->Tax);
+		}
+
+		$services->save();
+
+		$service_latest_data = Service::where('job_no', '=', $job)->first();
+		$service_id = $service_latest_data->id;
+		$job_no = $service_latest_data->job_no;
+
+		$inspection_data = array();
+
+		if ($request->motTestStatusCheckbox == "on") {
+			$inspection_data = $request->inspection;
+			$data_for_db = json_encode($inspection_data);
+
+			$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
+
+			$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
+
+			$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
+
+			$get_vehicle_current_id = $get_vehicle_inspection_id->id;
+
+			if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
+				$mot_test_status = 'fail';
+			} else {
+				$mot_test_status = 'pass';
+			}
+
+			$generateMotTestNumber = rand();
+			$todayDate = date('Y-m-d');
+
+			$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
+
+			$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
+		}
+
+		//get current service id for washbay data
+		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
+
+		$washbay_status = $request->washbay;
+
+		/*Checking for Washbay status, if washbay status on then data store inside washbay table*/
+		if ($washbay_status == 'on') {
+			$washbay_charge = $request->washBayCharge;
+
+			$washbays = new Washbay;
+			$washbays->service_id = $get_service_id;
+			$washbays->jobcard_no = $job;
+			$washbays->vehicle_id = $vehicalname;
+			$washbays->customer_id = $Customername;
+			$washbays->price = $washbay_charge;
+			$washbays->save();
+		}
+
+		/*Redirect to direct quotation modify page*/
+		return redirect()->route('quotation_modify', array('id' => $service_id));
 	}
+	// Calculate discount amount based on percentage
+	// dd($request->charge);
+}
+
 
 
 	//Quotation Modify Form(Observation Points and Other Products)

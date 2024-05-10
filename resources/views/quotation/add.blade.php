@@ -176,36 +176,23 @@
                             
                                     <!-- Options for discount -->
                                     <div id="discountOptions" style="display: none;">
-                                        <div class="form-check">
-                                            <input class="form-check-input discountOption" type="radio" name="discountOption" id="discountOption1" value="option1">
-                                            <label class="form-check-label" for="discountOption1">
-                                                1 - 3 vehicles
-                                            </label>
-                                            <div id="discountOptionInput1" style="display: none;">
-                                                <input type="text" class="form-control" name="discountOptionInput1" placeholder="Enter discount percentage">
-                                            </div>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input discountOption" type="radio" name="discountOption" id="discountOption2" value="option2">
-                                            <label class="form-check-label" for="discountOption2">
-                                                3 - 10 vehicles
-                                            </label>
-                                            <div id="discountOptionInput2" style="display: none;">
-                                                <input type="text" class="form-control" name="discountOptionInput2" placeholder="Enter discount percentage">
-                                            </div>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input discountOption" type="radio" name="discountOption" id="discountOption3" value="option3">
-                                            <label class="form-check-label" for="discountOption3">
-                                                10 + vehicles
-                                            </label>
-                                            <div id="discountOptionInput3" style="display: none;">
-                                                <input type="text" class="form-control" name="discountOptionInput3" placeholder="Enter discount percentage">
-                                            </div>
+                                        <label for="discountOption">Select discount option:</label>
+                                        <select class="form-select" id="discountOption">
+                                            <option value="none">Select an option</option>
+                                            <option value="option1">1 - 3 vehicles</option>
+                                            <option value="option2">4 - 10 vehicles</option>
+                                            <option value="option3">11 + vehicles</option>
+                                        </select>
+                                        <div id="discountPercentageInput" style="display: none;">
+                                            <label for="discountPercentage">Enter discount percentage:</label>
+                                            <input type="number" id="discountPercentage" name="discountPercentage" class="form-control" placeholder="Enter discount percentage" min="0" max="100">
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
+                            
+                            
                             
 
                             <div class="row row-mb-0">
@@ -3512,17 +3499,6 @@
                     },
                     dangerMode: true,
                 });
-            // } else if (!call_var_addcoloradd.addcolor_pattern.test(call_var_addcoloradd
-            //         .addcolor_value)) {
-            //     $('.repair_category_name').val("");
-            //     swal({
-            //         title: msg51,
-            //         cancelButtonColor: '#C1C1C1',
-            //         buttons: {
-            //             cancel: msg35,
-            //         },
-            //         dangerMode: true,
-            //     });
             } else if (!repair_category_name.replace(/\s/g, '').length) {
                 $('.repair_category_name').val("");
                 swal({
@@ -3533,17 +3509,6 @@
                     },
                     dangerMode: true,
                 });
-            // } else if (!call_var_addcoloradd.addcolor_pattern2.test(call_var_addcoloradd
-            //         .addcolor_value)) {
-            //     $('.repair_category_name').val("");
-            //     swal({
-            //         title: msg34,
-            //         cancelButtonColor: '#C1C1C1',
-            //         buttons: {
-            //             cancel: msg35,
-            //         },
-            //         dangerMode: true,
-            //     });
             } else {
                 $.ajax({
                     type: 'GET',
@@ -3941,71 +3906,39 @@
         handleCustomerChange();
     });
 </script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Get the checkbox for applying discount
-        var applyDiscountCheckbox = document.getElementById("applyDiscountCheckbox");
+    // Get the checkbox for applying discount
+    var applyDiscountCheckbox = document.getElementById("applyDiscountCheckbox");
 
-        // Get the discount options container
-        var discountOptions = document.getElementById("discountOptions");
+    // Get the discount options container
+    var discountOptions = document.getElementById("discountOptions");
 
-        // Add event listener to the checkbox for applying discount
-        applyDiscountCheckbox.addEventListener("change", function () {
-            // Toggle display of discount options based on checkbox state
-            if (applyDiscountCheckbox.checked) {
-                discountOptions.style.display = "block";
-            } else {
-                discountOptions.style.display = "none";
-            }
-        });
+    // Get the discount percentage input field
+    var discountPercentageInput = document.getElementById("discountPercentageInput");
 
-        // Get all discount option radio buttons
-        var discountOptionRadios = document.querySelectorAll(".discountOption");
-
-        // Add event listener to each discount option radio button
-        discountOptionRadios.forEach(function (radio) {
-            radio.addEventListener("change", function () {
-                // Get the input field associated with the selected discount option
-                var inputFieldId = "discountOptionInput" + radio.value.charAt(radio.value.length - 1);
-                var inputField = document.getElementById(inputFieldId);
-
-                // Display the input field associated with the selected radio button option
-                inputField.style.display = "block";
-
-                // Hide other input fields
-                var allOptionInputs = document.querySelectorAll('[id^="discountOptionInput"]');
-                allOptionInputs.forEach(function (field) {
-                    if (field.id !== inputFieldId) {
-                        field.style.display = "none";
-                    }
-                });
-            });
-        });
-
-        // Get the original charge input field
-        var chargeInput = document.getElementById("charge");
-
-        // Add event listener to the charge input field
-        chargeInput.addEventListener("input", function () {
-            // Get the entered charge value
-            var charge = parseFloat(chargeInput.value);
-
-            // Get the selected discount option and its input field
-            var selectedOption = document.querySelector('input[name="discountOption"]:checked');
-            var discountInputField = document.getElementById("discountOptionInput" + selectedOption.value.charAt(selectedOption.value.length - 1));
-
-            // Get the entered discount percentage
-            var discountPercentage = parseFloat(discountInputField.querySelector("input").value);
-
-            // Calculate the final charge after applying discount
-            var finalCharge = charge * (1 - discountPercentage / 100);
-
-            // Update the display with the final charge
-            document.getElementById("finalCharge").innerText = finalCharge.toFixed(2);
-        });
+    // Add event listener to the checkbox for applying discount
+    applyDiscountCheckbox.addEventListener("change", function () {
+        // Toggle display of discount options based on checkbox state
+        if (applyDiscountCheckbox.checked) {
+            discountOptions.style.display = "block";
+        } else {
+            discountOptions.style.display = "none";
+            discountPercentageInput.style.display = "none"; // Hide discount percentage input if checkbox is unchecked
+        }
     });
-</script>
 
+    // Add event listener to discount option select
+    var discountOptionSelect = document.getElementById("discountOption");
+    discountOptionSelect.addEventListener("change", function () {
+        // Show discount percentage input when an option is selected
+        discountPercentageInput.style.display = "block";
+    });
+});
+
+
+</script>
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\StoreQuotationAddEditFormRequest', '#QuotationAdd-Form') !!}
 <script type="text/javascript" src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
