@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2024 at 02:38 PM
+-- Generation Time: May 16, 2024 at 08:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50169,38 +50169,6 @@ INSERT INTO `tbl_purchase_history_records` (`id`, `purchase_id`, `product_id`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_rented_vehicle`
---
-
-CREATE TABLE `tbl_rented_vehicle` (
-  `id` int(11) NOT NULL,
-  `Vehicle_Type` varchar(255) DEFAULT NULL,
-  `Vehicle_brand` varchar(255) DEFAULT NULL,
-  `Vehicle_model` varchar(255) DEFAULT NULL,
-  `model_year` varchar(255) DEFAULT NULL,
-  `License_Plate` varchar(255) DEFAULT NULL,
-  `Color` varchar(255) DEFAULT NULL,
-  `Status` enum('rented','available','under maintenance','') DEFAULT NULL,
-  `Rental_Start_Date` date DEFAULT NULL,
-  `Rental_End_Date` date DEFAULT NULL,
-  `Rental_Duration` varchar(255) DEFAULT NULL,
-  `Rental_Price` varchar(255) DEFAULT NULL,
-  `Customer_ID` int(11) DEFAULT NULL,
-  `Rental_Agreement_ID` int(11) DEFAULT NULL,
-  `Insurance_Information` text DEFAULT NULL,
-  `Additional_Notes` text DEFAULT NULL,
-  `Chassis_Number` varchar(255) DEFAULT NULL,
-  `Engine_Number` varchar(255) DEFAULT NULL,
-  `Fuel_Type` varchar(255) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
-  `soft_delete` tinyint(3) DEFAULT 0 COMMENT '0=Not Deleted, 1=Deleted',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_rto_taxes`
 --
 
@@ -55327,12 +55295,6 @@ ALTER TABLE `tbl_purchase_history_records`
   ADD KEY `tbl_purchase_histores_ibfk_1` (`purchase_id`);
 
 --
--- Indexes for table `tbl_rented_vehicle`
---
-ALTER TABLE `tbl_rented_vehicle`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_rto_taxes`
 --
 ALTER TABLE `tbl_rto_taxes`
@@ -55708,12 +55670,6 @@ ALTER TABLE `tbl_purchases`
 --
 ALTER TABLE `tbl_purchase_history_records`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `tbl_rented_vehicle`
---
-ALTER TABLE `tbl_rented_vehicle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_rto_taxes`
