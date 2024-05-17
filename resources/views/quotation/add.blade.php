@@ -1268,15 +1268,10 @@
             function define_variable() {
                 return {
                     firstname: $("#firstname").val(),
-                    lastname: $("#lastname").val(),
-                    displayname: $("#displayname").val(),
-                    company_name: $("#company_name").val(),
                     email: $("#email").val(),
                     password: $("#password").val(),
                     password_confirmation: $("#password_confirmation").val(),
                     mobile: $("#mobile").val(),
-                    landlineno: $("#landlineno").val(),
-                    image: $("#image").val(),
                     country_id: $("#country_id option:selected").val(),
                     state_id: $("#state_id option:selected").val(),
                     city: $("#city option:selected").val(),
@@ -1338,115 +1333,14 @@
                 errro_msg = [];
             }
 
-            //last name
-            if (call_var_customeradd.lastname == "") {
-                var msg = "{{ trans('message.Last name is required.') }}";
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
-            if (!call_var_customeradd.name_pattern.test(call_var_customeradd.lastname)) {
-                var msg = "{{ trans('message.Last name is only alphabets and space.') }}";
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
+            
+            
 
-            if (!call_var_customeradd.lastname.replace(/\s/g, '').length) {
+            
 
-                var msg = "{{ trans('message.Only blank space not allowed') }}";
-                $("#lastname").val("");
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
+            
 
-            if (!call_var_customeradd.name_pattern2.test(call_var_customeradd.lastname)) {
-                var msg = "{{ trans('message.At first position only alphabets are allowed.') }}";
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
-
-            //Display name
-            if (call_var_customeradd.displayname != "") {
-
-                if (!call_var_customeradd.name_pattern.test(call_var_customeradd.displayname)) {
-                    var msg = "{{ trans('message.Display name is only alphabets and space.') }}";
-                    $("#displayname").val("");
-                    $('#errorldisplayname').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.displayname.replace(/\s/g, '').length) {
-
-                    var msg = "{{ trans('message.Only blank space not allowed') }}";
-                    $("#displayname").val("");
-                    $('#errorldisplayname').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.name_pattern2.test(call_var_customeradd
-                        .displayname)) {
-                    var msg =
-                        "{{ trans('message.At first position only alphabets are allowed.') }}";
-                    $("#displayname").val("");
-                    $('#errorldisplayname').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else {
-                    $('#errorldisplayname').html("");
-                    errro_msg = [];
-                }
-            } else {
-                $('#errorldisplayname').html("");
-                errro_msg = [];
-            }
-
-            //Company name
-            if (call_var_customeradd.company_name != "") {
-
-                if (!call_var_customeradd.company_name.replace(/\s/g, '').length) {
-
-                    var msg = "{{ trans('message.Only blank space not allowed') }}";
-                    $("#company_name").val("");
-                    $('#errorlcompanyName').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.company_patt.test(call_var_customeradd
-                        .company_name)) {
-                    var msg =
-                        "{{ trans('message.Only alphanumeric, space, dot, @, _, and - are allowed.') }}";
-                    $("#company_name").val("");
-                    $('#errorlcompanyName').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.name_pattern2.test(call_var_customeradd
-                        .company_name)) {
-                    var msg =
-                        "{{ trans('message.At first position only alphabets are allowed.') }}";
-                    $("#company_name").val("");
-                    $('#errorlcompanyName').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else {
-                    $('#errorlcompanyName').html("");
-                    errro_msg = [];
-                }
-            } else {
-                $('#errorlcompanyName').html("");
-                errro_msg = [];
-            }
+            
 
             //Email 
             if (call_var_customeradd.email == "") {
@@ -1548,38 +1442,7 @@
                 errro_msg = [];
             }
 
-            //LandLine number
-            if (call_var_customeradd.landlineno != "") {
-                if (!call_var_customeradd.mobile_pattern.test(call_var_customeradd.landlineno)) {
-                    var msg =
-                        "{{ trans('message.Landline number must be number, plus, minus and space only.') }}";
-                    $("#landlineno").val("");
-                    $('#errorllandlineno').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.lenghtLimit.test(call_var_customeradd
-                        .landlineno)) {
-                    var msg = "{{ trans('message.Landline number between 6 to 16 digits only') }}";
-                    $("#landlineno").val("");
-                    $('#errorllandlineno').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.landlineno.replace(/\s/g, '').length) {
-
-                    var msg = "{{ trans('message.Only blank space not allowed') }}";
-                    $("#landlineno").val("");
-                    $('#errorllandlineno').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else {
-                    $('#errorllandlineno').html("");
-                    errro_msg = [];
-                }
-            } else {
-                $('#errorllandlineno').html("");
-                errro_msg = [];
-            }
-
+            
             //Country 
             if (call_var_customeradd.country_id == "") {
                 var msg = "{{ trans('message.Country field is required.') }}";
@@ -1615,16 +1478,11 @@
 
             if (errro_msg == "") {
                 var firstname = $('#firstname').val();
-                var lastname = $('#lastname').val();
-                var displayname = $('#displayname').val();
-                var company_name = $('#company_name').val();
                 var gender = $(".gender:checked").val();
                 var dob = $("#datepicker").val();
                 var email = $("#email").val();
                 var password = $("#password").val();
                 var mobile = $("#mobile").val();
-                var landlineno = $("#landlineno").val();
-                var image = $("#image").val();
                 var country_id = $("#country_id option:selected").val();
                 var state_id = $("#state_id option:selected").val();
                 var city = $("#city option:selected").val();
@@ -1647,20 +1505,15 @@
                                 'customer_fullname'] + '</option>');
 
                         var firstname = $('#firstname').val('');
-                        var lastname = $('#lastname').val('');
-                        var displayname = $('#displayname').val('');
                         var gender = $(".gender:checked").val('');
                         var dob = $("#datepicker").val('');
                         var email = $("#email").val('');
                         var password = $("#password").val('');
                         var mobile = $("#mobile").val('');
-                        var landlineno = $("#landlineno").val('');
-                        var image = $("#image").val('');
                         var country_id = $("#country_id option:selected").val('');
                         var state_id = $("#state_id option:selected").val('');
                         var city = $("#city option:selected").val('');
                         var address = $("#address").val('');
-                        var company_name = $("#company_name").val('');
                         $(".addcustomermsg").removeClass("hide");
 
                         $('.hidden_customer_id').val(data['customerId']);
@@ -1724,23 +1577,7 @@
             });
         });
 
-        /*images show in multiple in for loop*/
-        $(".imageclass").click(function() {
-            $(".classimage").empty();
-        });
-
-
-        function preview_images() {
-            var total_file = document.getElementById("images").files.length;
-
-            for (var i = 0; i < total_file; i++) {
-
-                $('#image_preview').append(
-                    "<div class='col-md-3 col-sm-3 col-xs-12' style='padding:5px;'><img class='uploadImage' src='" +
-                    URL
-                    .createObjectURL(event.target.files[i]) + "' width='100px' height='60px'> </div>");
-            }
-        }
+        
 
         var msg100 = "{{ trans('message.An error occurred :') }}";
 
@@ -2866,32 +2703,8 @@
             }
         });
 
-        $('body').on('keyup', '#lastname', function() {
+       
 
-            var lastname = $(this).val();
-
-            if (!lastname.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#displayname', function() {
-
-            var displayname = $(this).val();
-
-            if (!displayname.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#company_name', function() {
-
-            var company_name = $(this).val();
-
-            if (!company_name.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
 
         $('body').on('keyup', '#mobile', function() {
 
@@ -2902,14 +2715,7 @@
             }
         });
 
-        $('body').on('keyup', '#landlineno', function() {
-
-            var landlineno = $(this).val();
-
-            if (!landlineno.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
+        
 
         $('body').on('keyup', '#address', function() {
 
@@ -3690,16 +3496,7 @@
                     "display": ""
                 });
             }
-            var lname = $('#lastname').val();
-            if (lname !== "") {
-                $('#errorllastname').css({
-                    "display": "none"
-                });
-            } else {
-                $('#errorllastname').css({
-                    "display": ""
-                });
-            }
+            
             var email = $('#email').val();
             if (email !== "") {
                 $('#errorlemail').css({
@@ -3773,17 +3570,7 @@
                 });
             }
         });
-        $('body').on('change', '#lastname', function() {
-            var lastname = $('#lastname').val();
-            if (lastname !== "") {
-                $('#errorllastname').css({
-                    "display": "none"
-                });
-            } else {
-                $('#errorllastname').css({
-                    "display": ""
-                });
-            }
+       
         });
         $('body').on('change', '#email', function() {
             var email = $('#email').val();

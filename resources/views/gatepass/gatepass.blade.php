@@ -59,16 +59,9 @@ $timezone	 = Auth::User()->timezone	;
 
             <div class="row row-mb-0">
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }} my-form-group">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label></label>
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Full Name') }} <label class="color-danger">*</label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="customer" name="Customername" value="{{ $customer }}" placeholder="{{ trans('message.Enter First Name') }}" class="form-control jobcard" required readonly>
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }} my-form-group">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="lastname" name="lastname" value="" placeholder="{{ trans('message.Enter Last Name') }}" class="form-control jobcard" readonly>
+                  <input type="text" id="customer" name="Customername" value="{{ $customer }}" placeholder="{{ trans('Enter Full Name') }}" class="form-control jobcard" required readonly>
                 </div>
               </div>
             </div>
@@ -120,14 +113,6 @@ $timezone	 = Auth::User()->timezone	;
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                   <input type="text" id="chassis" name="chassis" value="" placeholder="{{ trans('message.Enter Chassis No.') }}" class="form-control jobcard" readonly>
                 
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('kms_run') ? ' has-error' : '' }} my-form-group">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="kms">{{ trans('message.KMs.Run') }} <label class="color-danger">*</label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="kms" name="kms" placeholder="{{ trans('message.Enter Kms. Run') }}" class="form-control jobcard" readonly maxlength="10">
-                  
                 </div>
               </div>
             </div>
@@ -214,13 +199,11 @@ $timezone	 = Auth::User()->timezone	;
 
           // Update the values of various form fields based on the AJAX response.
           updateField('#customer', gaterecord.name);
-          updateField('#lastname', gaterecord.lastname);
           updateField('#email', gaterecord.email);
           updateField('#mobile', gaterecord.mobile_no);
           updateField('#vehicle', gaterecord.modelname);
           updateField('#veh_type', gaterecord.vehicle_type);
           updateField('#chassis', gaterecord.chassisno);
-          updateField('#kms', gaterecord.kms_run);
         },
     });
 

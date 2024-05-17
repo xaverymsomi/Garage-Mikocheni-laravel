@@ -66,7 +66,7 @@
                                             <option value="{{ $customers->id }}" <?php if ($customers->id == $sales->customer_id) {
                                                                                         echo 'selected';
                                                                                     } ?>>
-                                                {{ $customers->name . ' ' . $customers->lastname }}
+                                                {{ $customers->name }}
                                             </option>
                                             @endforeach
                                             @endif
@@ -83,7 +83,7 @@
                                             <option value="{{ $employees->id }}" <?php if ($employees->id == $sales->salesmanname) {
                                                                                         echo 'selected';
                                                                                     } ?>>
-                                                {{ $employees->name . ' ' . $employees->lastname }}
+                                                {{ $employees->name }}
                                             </option>
                                             @endforeach
                                             @endif
@@ -319,7 +319,7 @@
                                             <option value="{{ $employees->id }}" <?php if ($employees->id == $sales->assigne_to) {
                                                                                         echo 'selected';
                                                                                     } ?>>
-                                                {{ $employees->name . ' ' . $employees->lastname }}
+                                                {{ $employees->name }}
                                             </option>
                                             @endforeach
                                             @endif

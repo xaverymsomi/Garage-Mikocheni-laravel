@@ -127,7 +127,7 @@
                                                     @if (!empty($manufacture_name))
                                                     @foreach ($manufacture_name as $manufacture_nm)
                                                     <option value="{{ $manufacture_nm->id }}">
-                                                        {{ $manufacture_nm->type }}
+                                                        {{ $manufacture_nm->vehicle_type }}
                                                     </option>
                                                     @endforeach
                                                     @endif
@@ -141,7 +141,7 @@
                                                     </option>
                                                     @if (!empty($brand))
                                                     @foreach ($brand as $brands)
-                                                    <option value="{{ $brands->id }}">{{ $brands->name }}
+                                                    <option value="{{ $brands->id }}">{{ $brands->Model }}
                                                     </option>
                                                     @endforeach
                                                     @endif

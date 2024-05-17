@@ -27,7 +27,7 @@
       <div class="nav_menu">
         <nav>
           <div class="nav toggle">
-            <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup me-0"><a href="{!! url('/supplier/list') !!}"><i class=""><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="mb-0"></i></a><span class="titleup"> {{ $user->name . ' ' . $user->lastname }}</span>
+            <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup me-0"><a href="{!! url('/supplier/list') !!}"><i class=""><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="mb-0"></i></a><span class="titleup"> {{ $user->name }}</span>
           </div>
           @include('dashboard.profile')
         </nav>
@@ -43,7 +43,7 @@
             <div class="view_top1">
               <div class="col-xl-12 col-md-12 col-sm-12">
                 <label class="nav_text h5 user-name">
-                  {{ $user->name . ' ' . $user->lastname }}&nbsp;
+                  {{ $user->name }}&nbsp;
                 </label>
                 @can('supplier_edit')
                 <div class="view_user_edit_btn d-inline">

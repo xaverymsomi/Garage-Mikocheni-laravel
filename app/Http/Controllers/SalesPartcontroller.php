@@ -42,7 +42,7 @@ class SalesPartcontroller extends Controller
 				$sales = SalePart::where('product_id', '!=', '<>')->where('branch_id', '=', $currentUser->branch_id)->groupby('bill_no')->orderBy('id', 'DESC')->get();
 			}
 		} else {
-			$sales = SalePart::where('product_id', '!=', '<>')->where('branch_id', '=', $adminCurrentBranch->branch_id)->groupby('bill_no')->orderBy('id', 'DESC')->get();
+			$sales = SalePart::where('product_id', '!=', '<>')->groupby('bill_no')->orderBy('id', 'DESC')->get();
 		}
 		return view('sales_part.list', compact('sales'));
 	}

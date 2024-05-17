@@ -61,19 +61,11 @@
 
              <div class="row row-mb-0">
                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }} my-form-group">
-                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label>
+                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Full Name') }} <label class="color-danger">*</label>
                  </label>
 
                  <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                   <input type="text" id="customer" name="Customername" value="{{ $gatepass->name }}" placeholder="{{ trans('message.Enter First Name') }}" class="form-control" readonly>
-                 </div>
-               </div>
-
-               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }} my-form-group">
-                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label>
-                 </label>
-                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                   <input type="text" id="lastname" name="lastname" value="{{ $gatepass->lastname }}" placeholder="{{ trans('message.Enter Last Name') }}" class="form-control" readonly>
+                   <input type="text" id="customer" name="Customername" value="{{ $gatepass->name }}" placeholder="{{ trans('Enter Full Name') }}" class="form-control" readonly>
                  </div>
                </div>
              </div>
@@ -124,14 +116,6 @@
                  <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="chassis">{{ trans('message.Chassis') }} </label>
                  <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                    <input type="text" id="chassis" name="chassis" value="{{ $gatepass->chassisno }}" placeholder="{{ trans('message.Enter Chassis No.') }}" class="form-control" readonly>
-                 </div>
-               </div>
-
-               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('kms') ? ' has-error' : '' }} my-form-group">
-                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="kms">{{ trans('message.KMs.Run') }} <label class="color-danger">*</label>
-                 </label>
-                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                   <input type="text" id="kms" name="kms" value="{{ $gatepass->kms_run }}" placeholder="{{ trans('message.Enter Kms. Run') }}" class="form-control jobcard" maxlength="10" readonly>
                  </div>
                </div>
              </div>
@@ -207,13 +191,11 @@
            var gaterecord = jQuery.parseJSON(data);
 
            $('#customer').attr('value', gaterecord.name);
-           $('#lastname').attr('value', gaterecord.lastname);
            $('#email').attr('value', gaterecord.email);
            $('#mobile').attr('value', gaterecord.mobile_no);
            $('#vehicle').attr('value', gaterecord.modelname);
            $('#veh_type').attr('value', gaterecord.vehicle_type);
            $('#chassis').attr('value', gaterecord.chassisno);
-           $('#kms').attr('value', gaterecord.kms_run);
          }
        });
      });

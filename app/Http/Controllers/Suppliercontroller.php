@@ -55,38 +55,25 @@ class Suppliercontroller extends Controller
 	//supplier store
 	public function storesupplier(SupplierAddEditFormRequest $request)
 	{
-		$displayname = $request->displayname;
+		
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
 		$gender = $request->gender;
 		$email = $request->email;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country_id = $request->country_id;
 		$state = $request->state;
 		$city = $request->city;
-		$image = $request->image;
 
 		$user = new User;
 		$user->name = $firstname;
-		$user->lastname = $lastname;
-		$user->company_name = $displayname;
 		$user->gender = $gender;
 		$user->email = $email;
 		$user->mobile_no = $mobile;
-		$user->landline_no = $landlineno;
 		$user->address = $address;
 		$user->create_by = Auth::User()->id;
 
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/supplier/', $file->getClientOriginalName());
-			$user->image = $filename;
-		} else {
-			$user->image = 'avtar.png';
-		}
+		
 
 		$user->country_id = $country_id;
 		$user->state_id = $state;
@@ -189,13 +176,10 @@ class Suppliercontroller extends Controller
 		}
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$email = $request->email;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country_id = $request->country_id;
 		$state = $request->state;
@@ -203,20 +187,12 @@ class Suppliercontroller extends Controller
 
 		$user = User::find($id);
 		$user->name = $firstname;
-		$user->lastname = $lastname;
-		$user->company_name = $displayname;
 		$user->gender = $gender;
 		$user->email = $email;
 		$user->mobile_no = $mobile;
-		$user->landline_no = $landlineno;
 		$user->address = $address;
 
-		if (!empty($request->image)) {
-			$file = $request->image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/supplier/', $file->getClientOriginalName());
-			$user->image = $filename;
-		}
+		
 
 		$user->country_id = $country_id;
 		$user->state_id = $state;

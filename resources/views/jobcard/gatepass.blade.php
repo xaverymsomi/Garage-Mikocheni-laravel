@@ -14,7 +14,6 @@
   $timezone	 = Auth::User()->timezone	;
   $job_no = isset($suggestions) ? $suggestions->job_no : '';
   $f_name = isset($user) ? $user->name : '';
-  $l_name = isset($user) ? $user->lastname : '';
   $email = isset($user) ? $user->email : '';
   $mobile = isset($user) ? $user->mobile_no : '';
   $number_plate = isset($vehicle) ? $vehicle->number_plate : '';
@@ -67,18 +66,13 @@
 
               <div class="row row-mb-0">
                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }} my-form-group">
-                  <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('message.First Name') }} <label class="color-danger">*</label></label>
+                  <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Full Name') }} <label class="color-danger">*</label></label>
                   <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                    <input type="text" id="firstname" name="firstname" value="{{ $f_name }}" class="form-control" placeholder="{{ trans('message.Enter First Name') }}" readonly />
+                    <input type="text" id="firstname" name="firstname" value="{{ $f_name }}" class="form-control" placeholder="{{ trans('Enter Full Name') }}" readonly />
                   </div>
                 </div>
 
-                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }} my-form-group">
-                  <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="lastname">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                  <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                    <input type="text" id="lastname" name="lastname" value="{{ $l_name }}" placeholder="{{ trans('message.Enter Last Name') }}" class="form-control" readonly>
-                  </div>
-                </div>
+                
               </div>
 
               <div class="row row-mb-0">
@@ -124,12 +118,6 @@
                   <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                     <input type="text" id="chassis" name="chassis" value="{{ $chassis }}" placeholder="{{ trans('message.Enter Chassis No.') }}" class="form-control" readonly>
                 </div>
-                </div>
-                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('kms') ? ' has-error' : '' }}">
-                  <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="kms">{{ trans('message.KMs.Run') }} <label class="color-danger">*</label></label>
-                  <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                    <input type="text" id="kms" name="kms" placeholder="{{ trans('message.Enter Kms. Run') }}" maxlength="10" class="form-control" required>
-                  </div>
                 </div>
               
               </div>
@@ -209,14 +197,12 @@
               var final_date = date.toString('dd-MM-yyyy');
 
               $('#firstname').attr('value', res_job.name);
-              $('#lastname').attr('value', res_job.lastname);
               $('#email').attr('value', res_job.email);
               $('#mobile').attr('value', res_job.mobile_no);
 
               $('#model_name').attr('value', res_job.modelname);
               $('#veh_type').attr('value', res_job.vehical_type);
               $('#chassis').attr('value', res_job.chasicno);
-              $('#kms').attr('value', res_job.kms_run);
               $('#ser_date').attr('value', final_date);
             },
             error: function(e) {

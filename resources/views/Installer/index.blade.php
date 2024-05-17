@@ -433,14 +433,6 @@ $mail == "Pass" ? $passCount++ : $failCount++;
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <label class="control-label col-md-3">Last Name <span class="text-danger">*</span></label>
-          <div class="col-md-8">
-            <div class="input text">
-              <input type="text" name="lastname" value="{{ old('lastname') }}" class="form-control required " value="">
-            </div>
-          </div>
-        </div>
 
         <div class="col-md-offset-3">
           <p> (*) Fields are required</p>

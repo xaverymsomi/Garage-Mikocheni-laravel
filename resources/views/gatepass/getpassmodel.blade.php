@@ -45,7 +45,7 @@
 
                             <tr>
                                 <td class="">{{ trans('message.Name') }}:</td>
-                                <td class="txt_color fw-bold"> <?php echo $getpassdata->name . ' ' . $getpassdata->lastname; ?></td>
+                                <td class="txt_color fw-bold"> <?php echo $getpassdata->name ?></td>
                             </tr>
 
                             <tr>
@@ -73,11 +73,7 @@
                                 <td class="txt_color fw-bold">{{ $getpassdata->chassisno ?? trans('message.Not Added') }}</td>
                             </tr>
 
-                            <tr>
-                                <td class="">{{ trans('message.KMs.Run') }}:</td>
-                                <td class="txt_color fw-bold">{{ $job->kms_run ?? trans('message.Not Added') }}</td>
-                                
-                            </tr>
+                            
                             <tr>
                                 <td class="">{{ trans('message.Service Date') }}:</td>
                                 <td class="txt_color fw-bold"> {{ date(getDateFormat() . ' H:i:s', strtotime($getpassdata->service_date)) }}</td>

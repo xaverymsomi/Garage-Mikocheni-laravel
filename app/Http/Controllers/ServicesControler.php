@@ -206,7 +206,7 @@ $code = $new_number;
 			$role_user_table->save();
 		}
 
-		$customer_fullname = $customer->name . " " . $customer->lastname;
+		$customer_fullname = $customer->name;
 
 		return response()->json(['customerId' => $customer->id, 'customer_fullname' => $customer_fullname]);
 	}
@@ -1128,7 +1128,7 @@ $code = $new_number;
 
 		if ($request->has('q')) {
 			$search = $request->q;
-			$customer_name = User::select("id", "name", "lastname")
+			$customer_name = User::select("id", "name")
 				->where('role', '=', 'Customer')
 				->where('name', 'LIKE', "%$search%")
 				->get();

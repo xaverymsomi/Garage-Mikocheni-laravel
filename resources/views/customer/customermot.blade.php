@@ -247,7 +247,7 @@
             <div class="nav_menu">
                 <nav>
                     <div class="nav toggle">
-                        <span class="titleup"><a href="{{ URL::previous() }}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $customer->name . ' ' . $customer->lastname }}</span>
+                        <span class="titleup"><a href="{{ URL::previous() }}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $customer->name }}</span>
                     </div>
                     @include('dashboard.profile')
                 </nav>

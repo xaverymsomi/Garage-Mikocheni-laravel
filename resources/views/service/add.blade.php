@@ -370,18 +370,10 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.First Name') }} <label class="color-danger">*</label> </label>
+                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Full Name') }} <label class="color-danger">*</label> </label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="firstname" name="firstname" class="form-control" value="{{ old('firstname') }}" placeholder="{{ trans('message.Enter First Name') }}" maxlength="25" required />
+                                        <input type="text" id="firstname" name="firstname" class="form-control" value="{{ old('firstname') }}" placeholder="{{ trans('Enter Full Name') }}" maxlength="25" required />
                                         <span class="color-danger" id="errorlfirstname"></span>
-                                    </div>
-                                </div>
-
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }}">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Last Name') }} <label class="color-danger">*</label></label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" value="{{ old('lastname') }}" maxlength="25" class="form-control" required>
-                                        <span class="color-danger" id="errorllastname"></span>
                                     </div>
                                 </div>
                             </div>
@@ -442,42 +434,8 @@
                                     <span class="color-danger" id="errorldatepicker"></span>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('displayname') ? ' has-error' : '' }} ">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="display-name">{{ trans('message.Display Name') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="displayname" name="displayname" placeholder="{{ trans('message.Enter Display Name') }}" value="{{ old('displayname') }}" class="form-control" maxlength="25">
-                                        <span class="color-danger" id="errorldisplayname"></span>
-                                    </div>
-                                </div>
-
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('company_name') ? ' has-error' : '' }} ">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 p-0" for="display-name">{{ trans('message.Company Name') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="company_name" name="company_name" placeholder="{{ trans('message.Enter Company Name') }}" value="{{ old('company_name') }}" class="form-control" maxlength="25">
-                                        <span class="color-danger" id="errorlcompanyName"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback {{ $errors->has('landlineno') ? ' has-error' : '' }}">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="landline-no">{{ trans('message.Landline No') }}. </label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="text" id="landlineno" name="landlineno" placeholder="{{ trans('message.Enter LandLine No') }}" value="{{ old('landlineno') }}" class="form-control">
-                                        <span class="color-danger" id="errorllandlineno"></span>
-                                    </div>
-                                </div>
-
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
-                                        {{ trans('message.Image') }} </label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="file" id="image" name="image" value="{{ old('image') }}" class="form-control chooseImage">
-
-                                        <img src="{{ url('public/customer/avtar.png') }}" id="imagePreview" alt="User Image" class="datatable_img mt-2" style="width: 52px;">
-                                    </div>
-                                </div>
-                            </div>
+                            
+                           
                             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
                                 <h4><b>{{ trans('message.ADDRESS') }}</b></h4>
                                 <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
@@ -646,21 +604,7 @@
                                 </div>
                             </div>
 
-                            <div class="{{ $errors->has('price') ? ' has-error' : '' }} row 
-                                col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">
-                                    {{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label>
-                                </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="price" id="price1" value="{{ old('price') }}" placeholder="{{ trans('message.Enter Price') }}" class="form-control" maxlength="10">
-                                    <span class="color-danger" id="ppe"></span>
-                                    @if ($errors->has('price'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('price') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="row mt-2">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -682,48 +626,13 @@
                                     </button>
                                 </div>
                             </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.No of Grear') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="gearno" id="gearno1" value="{{ old('gearno') }}" placeholder="{{ trans('message.Enter No of Gear') }}" maxlength="5" class="form-control">
-                                </div>
-                            </div>
                         </div>
 
                         
 
-                        <div class="row mt-2">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('odometerreading') ? ' has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Odometer Reading') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="odometerreading" id="odometerreading1" value="{{ old('odometerreading') }}" placeholder="{{ trans('message.Enter Odometer Reading') }}" maxlength="20" class="form-control">
-                                </div>
-                            </div>
+                        
 
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Date Of Manufacturing') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
-                                    <input type="text" name="dom" id="dom1" class="form-control datepicker1" placeholder="<?php echo getDatepicker(); ?>" onkeypress="return false;" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Gear Box') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="gearbox" id="gearbox1" value="{{ old('gearbox') }}" placeholder="{{ trans('message.Enter Grear Box') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Gear Box No') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="gearboxno" id="gearboxno1" value="{{ old('gearboxno') }}" placeholder="{{ trans('message.Enter Gearbox No') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div class="row mt-2">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -733,30 +642,9 @@
                                     <span class="color-danger" id="errorlengineno1"></span>
                                 </div>
                             </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Engine Size') }}</label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="enginesize" id="enginesize1" value="{{ old('enginesize') }}" placeholder="{{ trans('message.Enter Engine Size') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="row mt-2">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Key No') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="keyno" id="keyno1" value="{{ old('keyno') }}" placeholder="{{ trans('message.Enter Key No') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine') }} </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="engine" id="engine1" value="{{ old('engine') }}" placeholder="{{ trans('message.Enter Engine') }}" maxlength="30" class="form-control">
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div class="row mt-2">
                         <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -1002,14 +890,14 @@
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ trans('message.Add Repair Category') }}</h4>
+                        <h4 class="modal-title">{{ trans('Add Job Category') }}</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal" action="" method="">
                             <div class="row">
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 form-group data_popup">
-                                    <input type="text" class="form-control model_input repair_category_name" name="repair_category_name" placeholder="{{ trans('message.Enter repair category name') }}" maxlength="20" />
+                                    <input type="text" class="form-control model_input repair_category_name" name="repair_category_name" placeholder="{{ trans('Enter Job category name') }}" maxlength="20" />
                                 </div>
                                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 form-group data_popup">
                                     <button type="button" class="btn btn-success model_submit addcolor" colorurl="{!! url('/addRepairCategory') !!}">{{ trans('message.Submit') }}</button>
@@ -1056,20 +944,7 @@
         element.classList.remove("bottom-0");
         // alert($errors['has']);
 
-        $('body').on('change', '.chooseImage', function() {
-            var imageName = $(this).val();
-            var imageExtension = /(\.jpg|\.jpeg|\.png)$/i;
-
-            if (imageExtension.test(imageName)) {
-                $('.imageHideShow').css({
-                    "display": ""
-                });
-            } else {
-                $('.imageHideShow').css({
-                    "display": "none"
-                });
-            }
-        });
+       
 
         var msg1 = "{{ trans('message.Are You Sure?') }}";
         var msg2 = "{{ trans('message.You will not be able to recover this data afterwards!') }}";
@@ -1088,14 +963,10 @@
             function define_variable() {
                 return {
                     firstname: $("#firstname").val(),
-                    lastname: $("#lastname").val(),
-                    displayname: $("#displayname").val(),
-                    company_name: $("#company_name").val(),
                     email: $("#email").val(),
                     password: $("#password").val(),
                     password_confirmation: $("#password_confirmation").val(),
                     mobile: $("#mobile").val(),
-                    landlineno: $("#landlineno").val(),
                     image: $("#image").val(),
                     country_id: $("#country_id option:selected").val(),
                     state_id: $("#state_id option:selected").val(),
@@ -1158,114 +1029,7 @@
                 errro_msg = [];
             }
 
-            //last name
-            if (call_var_customeradd.lastname == "") {
-                var msg = "{{ trans('message.Last name is required.') }}";
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
-            if (!call_var_customeradd.name_pattern.test(call_var_customeradd.lastname)) {
-                var msg = "{{ trans('message.Last name is only alphabets and space.') }}";
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
-
-            if (!call_var_customeradd.lastname.replace(/\s/g, '').length) {
-
-                var msg = "{{ trans('message.Only blank space not allowed') }}";
-                $("#lastname").val("");
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
-
-            if (!call_var_customeradd.name_pattern2.test(call_var_customeradd.lastname)) {
-                var msg = "{{ trans('message.At first position only alphabets are allowed.') }}";
-                $('#errorllastname').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#errorllastname').html("");
-                errro_msg = [];
-            }
-            //Display name
-            if (call_var_customeradd.displayname != "") {
-
-                if (!call_var_customeradd.name_pattern.test(call_var_customeradd.displayname)) {
-                    var msg = "{{ trans('message.Display name is only alphabets and space.') }}";
-                    $("#displayname").val("");
-                    $('#errorldisplayname').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.displayname.replace(/\s/g, '').length) {
-
-                    var msg = "{{ trans('message.Only blank space not allowed') }}";
-                    $("#displayname").val("");
-                    $('#errorldisplayname').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.name_pattern2.test(call_var_customeradd
-                        .displayname)) {
-                    var msg =
-                        "{{ trans('message.At first position only alphabets are allowed.') }}";
-                    $("#displayname").val("");
-                    $('#errorldisplayname').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else {
-                    $('#errorldisplayname').html("");
-                    errro_msg = [];
-                }
-            } else {
-                $('#errorldisplayname').html("");
-                errro_msg = [];
-            }
-
-            //Company name
-            if (call_var_customeradd.company_name != "") {
-
-                if (!call_var_customeradd.company_name.replace(/\s/g, '').length) {
-
-                    var msg = "{{ trans('message.Only blank space not allowed') }}";
-                    $("#company_name").val("");
-                    $('#errorlcompanyName').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.company_patt.test(call_var_customeradd
-                        .company_name)) {
-                    var msg =
-                        "{{ trans('message.Only alphanumeric, space, dot, @, _, and - are allowed.') }}";
-                    $("#company_name").val("");
-                    $('#errorlcompanyName').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.name_pattern2.test(call_var_customeradd
-                        .company_name)) {
-                    var msg =
-                        "{{ trans('message.At first position only alphabets are allowed.') }}";
-                    $("#company_name").val("");
-                    $('#errorlcompanyName').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else {
-                    $('#errorlcompanyName').html("");
-                    errro_msg = [];
-                }
-            } else {
-                $('#errorlcompanyName').html("");
-                errro_msg = [];
-            }
+            
             //Email 
             if (call_var_customeradd.email == "") {
                 var msg = "{{ trans('message.Email is required.') }}";
@@ -1366,38 +1130,7 @@
                 errro_msg = [];
             }
 
-            //LandLine number
-            if (call_var_customeradd.landlineno != "") {
-                if (!call_var_customeradd.mobile_pattern.test(call_var_customeradd.landlineno)) {
-                    var msg =
-                        "{{ trans('message.Landline number must be number, plus, minus and space only.') }}";
-                    $("#landlineno").val("");
-                    $('#errorllandlineno').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.lenghtLimit.test(call_var_customeradd
-                        .landlineno)) {
-                    var msg = "{{ trans('message.Landline number between 6 to 16 digits only') }}";
-                    $("#landlineno").val("");
-                    $('#errorllandlineno').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else if (!call_var_customeradd.landlineno.replace(/\s/g, '').length) {
-
-                    var msg = "{{ trans('message.Only blank space not allowed') }}";
-                    $("#landlineno").val("");
-                    $('#errorllandlineno').html(msg);
-                    errro_msg.push(msg);
-                    return false;
-                } else {
-                    $('#errorllandlineno').html("");
-                    errro_msg = [];
-                }
-            } else {
-                $('#errorllandlineno').html("");
-                errro_msg = [];
-            }
-
+            
             //Country 
             if (call_var_customeradd.country_id == "") {
                 var msg = "{{ trans('message.Country field is required.') }}";
@@ -1433,16 +1166,11 @@
 
             if (errro_msg == "") {
                 var firstname = $('#firstname').val();
-                var lastname = $('#lastname').val();
-                var displayname = $('#displayname').val();
-                var company_name = $('#company_name').val();
                 var gender = $(".gender:checked").val();
                 var dob = $("#datepicker").val();
                 var email = $("#email").val();
                 var password = $("#password").val();
                 var mobile = $("#mobile").val();
-                var landlineno = $("#landlineno").val();
-                var image = $("#image").val();
                 var country_id = $("#country_id option:selected").val();
                 var state_id = $("#state_id option:selected").val();
                 var city = $("#city option:selected").val();
@@ -1465,20 +1193,15 @@
                                 'customer_fullname'] + '</option>');
 
                         var firstname = $('#firstname').val('');
-                        var lastname = $('#lastname').val('');
-                        var displayname = $('#displayname').val('');
                         var gender = $(".gender:checked").val('');
                         var dob = $("#datepicker").val('');
                         var email = $("#email").val('');
                         var password = $("#password").val('');
                         var mobile = $("#mobile").val('');
-                        var landlineno = $("#landlineno").val('');
-                        var image = $("#image").val('');
                         var country_id = $("#country_id option:selected").val('');
                         var state_id = $("#state_id option:selected").val('');
                         var city = $("#city option:selected").val('');
                         var address = $("#address").val('');
-                        var company_name = $("#company_name").val('');
                         $(".addcustomermsg").removeClass("hide");
 
                         $('.hidden_customer_id').val(data['customerId']);
@@ -1614,16 +1337,7 @@
                 $('#errorlmodelname1').html("");
                 errro_msg = [];
             }
-            //Price
-            if (call_var_vehicleadd.pp == "") {
-                var msg = "Price is required";
-                $('#ppe').html(msg);
-                errro_msg.push(msg);
-                return false;
-            } else {
-                $('#ppe').html("");
-                errro_msg = [];
-            }
+            
             //Number Plate
             if (call_var_vehicleadd.np == "") {
                 var msg = "Number Plate is required";
@@ -1663,17 +1377,8 @@
                 var vehicabrand1 = $('#vehicabrand1').val();
                 var modelyear1 = $('#modelyear1').val();
                 var fueltype1 = $('#fueltype1').val();
-                var gearno1 = $('#gearno1').val();
                 var modelname1 = $('#modelname1').val();
-                var price1 = $('#price1').val();
-                var odometerreading1 = $('#odometerreading1').val();
-                var dom1 = $('#dom1').val();
-                var gearbox1 = $('#gearbox1').val();
-                var gearboxno1 = $('#gearboxno1').val();
                 var engineno1 = $('#engineno1').val();
-                var enginesize1 = $('#enginesize1').val();
-                var keyno1 = $('#keyno1').val();
-                var engine1 = $('#engine1').val();
                 var numberPlate = $('#number_plate').val();
                 var customer_id = $('.hidden_customer_id').val();
                 var branch_id_vehicle = $('.select_branch_vehicle').val();
@@ -1687,17 +1392,8 @@
                         vehicabrand1: vehicabrand1,
                         modelyear1: modelyear1,
                         fueltype1: fueltype1,
-                        gearno1: gearno1,
                         modelname1: modelname1,
-                        price1: price1,
-                        odometerreading1: odometerreading1,
-                        dom1: dom1,
-                        gearbox1: gearbox1,
-                        gearboxno1: gearboxno1,
                         engineno1: engineno1,
-                        enginesize1: enginesize1,
-                        keyno1: keyno1,
-                        engine1: engine1,
                         numberPlate: numberPlate,
                         customer_id: customer_id,
                         branch_id_vehicle: branch_id_vehicle
@@ -1716,17 +1412,8 @@
                         var vehicabrand1 = $('#vehicabrand1').val('');
                         var modelyear1 = $('#modelyear1').val('');
                         var fueltype1 = $('#fueltype1').val('');
-                        var gearno1 = $('#gearno1').val('');
                         var modelname1 = $('#modelname1').val('');
-                        var price1 = $('#price1').val('');
-                        var odometerreading1 = $('#odometerreading1').val('');
-                        var dom1 = $('#dom1').val('');
-                        var gearbox1 = $('#gearbox1').val('');
-                        var gearboxno1 = $('#gearboxno1').val('');
                         var engineno1 = $('#engineno1').val('');
-                        var enginesize1 = $('#enginesize1').val('');
-                        var keyno1 = $('#keyno1').val('');
-                        var engine1 = $('#engine1').val('');
                         var number_plate = $('#number_plate').val('');
                         $(".addvehiclemsg").removeClass("hide");
 
@@ -2620,32 +2307,9 @@
             }
         });
 
-        $('body').on('keyup', '#lastname', function() {
+        
 
-            var lastname = $(this).val();
-
-            if (!lastname.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#displayname', function() {
-
-            var displayname = $(this).val();
-
-            if (!displayname.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#company_name', function() {
-
-            var company_name = $(this).val();
-
-            if (!company_name.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
+        
 
         $('body').on('keyup', '#mobile', function() {
 
@@ -2656,14 +2320,7 @@
             }
         });
 
-        $('body').on('keyup', '#landlineno', function() {
-
-            var landlineno = $(this).val();
-
-            if (!landlineno.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
+       
 
         $('body').on('keyup', '#address', function() {
 
@@ -2720,83 +2377,11 @@
             }
         });
 
-        $('body').on('keyup', '#gearno1', function() {
-
-            var gearno1 = $(this).val();
-
-            if (!gearno1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#price1', function() {
-
-            var price1 = $(this).val();
-
-            if (!price1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#odometerreading1', function() {
-
-            var odometerreading1 = $(this).val();
-
-            if (!odometerreading1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#gearbox1', function() {
-
-            var gearbox1 = $(this).val();
-
-            if (!gearbox1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#gearboxno1', function() {
-
-            var vehi_modal_nameVal = $(this).val();
-
-            if (!vehi_modal_nameVal.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
         $('body').on('keyup', '#engineno1', function() {
 
             var engineno1 = $(this).val();
 
             if (!engineno1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#enginesize1', function() {
-
-            var enginesize1 = $(this).val();
-
-            if (!enginesize1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#engine1', function() {
-
-            var engine1 = $(this).val();
-
-            if (!engine1.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
-
-        $('body').on('keyup', '#keyno1', function() {
-
-            var keyno1 = $(this).val();
-
-            if (!keyno1.replace(/\s/g, '').length) {
                 $(this).val("");
             }
         });

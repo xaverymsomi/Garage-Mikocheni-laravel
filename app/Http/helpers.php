@@ -1019,7 +1019,6 @@ if (!function_exists('getCustomerName')) {
 		$customer  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'Customer']])->first();
 		if (!empty($customer)) {
 			$customer_name = $customer->name;
-			// $customer_lname = $customer->lastname;
 			return $customer_name;
 		}
 	}
@@ -1032,7 +1031,6 @@ if (!function_exists('getAssignedName')) {
 		$assigned  = DB::table('users')->where([['id', '=', $id], ['role', '=', 'employee']])->first();
 		if (!empty($assigned)) {
 			$assi_name = $assigned->name;
-			// $assi_lname = $assigned->lastname;
 			return $assi_name;
 		}
 	}

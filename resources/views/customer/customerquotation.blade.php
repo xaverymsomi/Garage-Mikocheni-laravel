@@ -240,7 +240,7 @@
             <div class="nav_menu">
                 <nav>
                     <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/customer/list') !!}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $customer->name . ' ' . $customer->lastname }}</span>
+                        <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/customer/list') !!}"><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}" class="me-2"></a>{{ $customer->name }}</span>
                     </div>
                     @include('dashboard.profile')
                 </nav>

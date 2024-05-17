@@ -153,7 +153,7 @@
 
         <tr>
           <td style="padding:8px;"> {{ trans('message.Name') }}:</td>
-          <td style="padding:8px;"> <b> <?php echo $getpassdata->name . ' ' . $getpassdata->lastname; ?> </b></td>
+          <td style="padding:8px;"> <b> <?php echo $getpassdata->name  ?> </b></td>
         </tr>
         <tr>
           <td style="padding:8px;"> {{ trans('message.Jobcard Number') }}:</td>
@@ -176,10 +176,7 @@
           <td style="padding:8px;"> <b> {{ $getpassdata->chassisno ?? trans('message.Not Added') }} </b></td>
         </tr>
 
-        <tr>
-          <td style="padding:8px;">{{ trans('message.KMs.Run') }}:</td>
-          <td style="padding:8px;"> <b> {{ $job->kms_run ?? trans('message.Not Added') }} </b></td>
-        </tr>
+        
         <tr>
           <td style="padding:8px;"> {{ trans('message.Service Date') }}:</td>
           <td style="padding:8px;"> <b> {{ date(getDateFormat() . ' H:i:s' , strtotime($getpassdata->service_date)) }}</b> </td>

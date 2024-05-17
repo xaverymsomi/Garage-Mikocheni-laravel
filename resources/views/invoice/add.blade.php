@@ -68,7 +68,7 @@
                                                 <option>{{ trans('message.Select Customer') }}</option>
                                                 @foreach ($customer as $customers)
                                                 <option value="{{ $customers->customer_id }}">
-                                                    <?php echo getCustomerName($customers->customer_id); //echo $customers->name.' '.$customers->lastname; 
+                                                    <?php echo getCustomerName($customers->customer_id);  
                                                     ?></option>
                                                 @endforeach
                                                 @endif

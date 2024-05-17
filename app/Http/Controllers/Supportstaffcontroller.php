@@ -84,13 +84,10 @@ class Supportstaffcontroller extends Controller
 	{
 		$email = $request->email;
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$birthdate = $request->dob;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
@@ -110,14 +107,11 @@ class Supportstaffcontroller extends Controller
 
 		$supportstaff = new User;
 		$supportstaff->name = $firstname;
-		$supportstaff->lastname = $lastname;
-		$supportstaff->display_name = $displayname;
 		$supportstaff->gender = $gender;
 		$supportstaff->birth_date = $dob;
 		$supportstaff->email = $email;
 		$supportstaff->password = bcrypt($password);
 		$supportstaff->mobile_no = $mobile;
-		$supportstaff->landline_no = $landlineno;
 		$supportstaff->address = $address;
 		$supportstaff->country_id = $country;
 		$supportstaff->state_id = $state;
@@ -125,15 +119,7 @@ class Supportstaffcontroller extends Controller
 		$supportstaff->branch_id = $request->branch;
 		$supportstaff->create_by = Auth::User()->id;
 
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/supportstaff/', $file->getClientOriginalName());
-			$supportstaff->image = $filename;
-		} else {
-			$supportstaff->image = 'avtar.png';
-		}
+		
 
 		$supportstaff->role_id = $getRoleId->id; /*Store Role table User Role Id*/
 
@@ -337,13 +323,10 @@ class Supportstaffcontroller extends Controller
 		$email = $usimgdtaa->email;
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
-		$displayname = $request->displayname;
 		$gender = $request->gender;
 		$email = $request->email;
 		$password = $request->password;
 		$mobile = $request->mobile;
-		$landlineno = $request->landlineno;
 		$address = $request->address;
 		$country = $request->country_id;
 		$state = $request->state_id;
@@ -361,8 +344,6 @@ class Supportstaffcontroller extends Controller
 
 		$supportstaff = User::find($id);
 		$supportstaff->name = $firstname;
-		$supportstaff->lastname = $lastname;
-		$supportstaff->display_name = $displayname;
 		$supportstaff->gender = $gender;
 		$supportstaff->birth_date = $dob;
 		$supportstaff->email = $email;
@@ -372,20 +353,13 @@ class Supportstaffcontroller extends Controller
 		}
 
 		$supportstaff->mobile_no = $mobile;
-		$supportstaff->landline_no = $landlineno;
 		$supportstaff->address = $address;
 		$supportstaff->country_id = $country;
 		$supportstaff->state_id = $state;
 		$supportstaff->city_id = $city;
 		$supportstaff->branch_id = $request->branch;
 
-		$image = $request->image;
-		if (!empty($image)) {
-			$file = $image;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/supportstaff/', $file->getClientOriginalName());
-			$supportstaff->image = $filename;
-		}
+		
 		$supportstaff->role = "supportstaff";
 
 		//custom field	

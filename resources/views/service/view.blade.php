@@ -164,14 +164,14 @@
                         <div class="row">
                             <div class="col-xl-10 col-md-9 col-sm-10">
                                 <div class="user_profile_header_left">
-                                    <img class="user_view_profile_image"
-                                        src="{{ URL::asset('public/customer/' . $customer->image) }}">
+                                    {{-- <img class="user_view_profile_image" --}}
+                                        {{-- src="{{ URL::asset('public/customer/' . $customer->image) }}"> --}}
                                     <i class="fa-solid fa-wrench margin-right-10px"></i>
                                     <div class="row">
                                         <div class="view_top1">
                                             <div class="col-xl-12 col-md-12 col-sm-12">
                                                 <label class="nav_text h5 user-name fh5">
-                                                    {{ $customer->name . ' ' . $customer->lastname }}&nbsp;
+                                                    {{ $customer->name  }}&nbsp;
                                                 </label>
                                                 @can('customer_edit')
                                                     <div class="view_user_edit_btn d-inline">
@@ -306,7 +306,7 @@
                                             </label>
                                         </div>
                                         <div class="col-xl-12 col-md-12 col-sm-12 mt-1">
-                                            <label class=""> {{ trans('message.Repair Category') }} :</label>
+                                            <label class=""> {{ trans('Job Category') }} :</label>
                                             <label class="fw-bold">
                                                 {{ ucwords($service->service_category) }}
                                             </label>

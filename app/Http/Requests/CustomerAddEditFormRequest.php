@@ -45,14 +45,8 @@ class CustomerAddEditFormRequest extends FormRequest
             'firstname.regex'  => trans('message.First name is only alphabets and space.'),
             'firstname.max' => trans('message.First name should not more than 50 character.'),
 
-            'lastname.required' => trans('message.Last name is required.'),
-            'lastname.regex'  => trans('message.Last name is only alphabets and space.'),
-            'lastname.max' => trans('message.Last name should not more than 50 character.'),
             
-            //'displayname.required' => trans('message.Display name is required.'),
-            'displayname.regex'  => trans('message.Display name is only alphabets and space.'),
-            'displayname.max' => trans('message.Display name should not more than 50 character.'),
-
+            
             'company_name.regex'  => trans('message.Only alphanumeric, space, dot, @, _, and - are allowed.'),
             'company_name.max' => trans('message.Company name should not more than 100 character.'),
             
@@ -77,14 +71,7 @@ class CustomerAddEditFormRequest extends FormRequest
             'mobile.max' => trans('message.Contact number maximum 16 digits.'),
             'mobile.regex' => trans('message.Contact number must be number, plus, minus and space only.'),
 
-            'landlineno.numeric'  => trans('message.Landline number only numbers are allowed.'),
-            //'landlineno.digits_between' => trans('message.Landline number must be digits between 6 to 12 digits.',
-            'landlineno.min' => trans('message.Landline number minimum 6 digits.'),
-            'landlineno.max' => trans('message.Landline number maximum 16 digits.'),
-            'landlineno.regex' => trans('message.Landline number must be number, plus, minus and space only.'),
-
-            'image.mimes' => trans('message.Image must be a file of type: Jpg, Jpeg and Png.'),
-
+           
             'country_id.required' => trans('message.Country field is required.'),
             'address.required'  => trans('message.Address field is required.'),            
         ];

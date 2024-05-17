@@ -78,7 +78,7 @@
                 </a> -->
               </a>
               {{-- </td>
-              <td>{{ $users->lastname }}
+              <td>{{ $users-> }}
                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Last Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
               </td> --}}
               {{-- <td>{{ $users->company_name }}

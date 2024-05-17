@@ -46,6 +46,8 @@ class SidemenuResource extends JsonResource
             'income' => $regex->income_view ?? false,
             'expenses' => $regex->expense_view ?? false,
 
+            'companyvehicle_sells' => $regex->companyvehicle_view ?? false,
+            'companyvehicle' => $regex->companyvehicle ?? false,
             'part_sells' => $regex->salespart_view ?? false,
             'compliances' => $regex->rto_view ?? false,
             'reports' => $regex->report_view ?? false,

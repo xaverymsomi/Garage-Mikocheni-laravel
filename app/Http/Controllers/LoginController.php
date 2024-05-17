@@ -35,7 +35,7 @@ class LoginController extends Controller
                 'message' => 'Login Successfully',
                 'data' => [
                     'Id' => $user->id,
-                    'Name' => $user->name . ' ' . $user->lastname,
+                    'Name' => $user->name,
                     'Role' => $user->role,
                     'image' => $user->image ? url('public/admin/' . $user->image) : null,
                 ]

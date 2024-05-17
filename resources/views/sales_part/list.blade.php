@@ -34,7 +34,8 @@ ler
                 <nav>
                     <div class="nav toggle">
                         @if (getActiveCustomer(Auth::user()->id) == 'yes' || getActiveEmployee(Auth::user()->id) == 'yes')
-                        <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup">{{ trans('message.Part Sells') }}
+                        <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a>
+                        <span class="titleup">{{ trans('message.Part Sells') }}
                             @can('salespart_add')
                             <a href="{!! url('/sales_part/add') !!}" id="">
                                 <img src="{{ URL::asset('public/img/icons/plus Button.png') }}" class="mb-2">

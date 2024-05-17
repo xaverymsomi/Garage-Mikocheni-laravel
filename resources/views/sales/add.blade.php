@@ -49,7 +49,7 @@
                                                 @if (!empty($customer))
                                                     @foreach ($customer as $customers)
                                                         <option value="{{ $customers->id }}">
-                                                            {{ $customers->name . ' ' . $customers->lastname }}
+                                                            {{ $customers->name }}
                                                         </option>
                                                     @endforeach
                                                 @endif
@@ -65,7 +65,7 @@
                                             @if (!empty($employee))
                                             @foreach ($employee as $employees)
                                             <option value="{{ $employees->id }}">
-                                                {{ $employees->name . ' ' . $employees->lastname }}
+                                                {{ $employees->name  }}
                                             </option>
                                             @endforeach
                                             @endif
@@ -239,7 +239,7 @@
                                             @if (!empty($employee))
                                             @foreach ($employee as $employees)
                                             <option value="{{ $employees->id }}">
-                                                {{ $employees->name . ' ' . $employees->lastname }}
+                                                {{ $employees->name  }}
                                             </option>
                                             @endforeach
                                             @endif

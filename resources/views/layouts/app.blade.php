@@ -480,14 +480,20 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
 
 
                 @php
-                $inventoryRoutes = ['/quotation/list','/quotation/add'];
+                    $inventoryRoutes = ['/quotation/list', '/quotation/add'];
+                    $companyVehicleRoutes = ['/company_vehicle/list', '/company_vehicle/add'];
                 @endphp
+
                 @can('quotation_view')
-                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/quotation/list/') ? 'active' : '' }}">
-                  <a href="{!! url('/quotation/list') !!}"><i class="fa-solid fa-file-invoice-dollar margin-right-10px"></i> {{ trans('message.Quotation') }}
-                  </a>
-                </li>
+                    <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/quotation/list/') ? 'active' : '' }}">
+                        <a href="{!! url('/quotation/list') !!}">
+                            <i class="fa-solid fa-file-invoice-dollar margin-right-10px"></i> {{ trans('message.Quotation') }}
+                        </a>
+                    </li>
                 @endcan
+
+
+
 
                                
 
@@ -640,6 +646,29 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                     @endif
                   </a> </li>
                 @endcan -->
+
+
+                @php
+                    $companyVehicleRoutes = ['/company_vehicle/list', '/company_vehicle/add'];
+                @endphp
+                @can('companyvehicle_view')
+                  <li class="{{ in_array($currentRoute, $companyVehicleRoutes) || Str::startsWith($currentRoute, '/company_vehicle/list/') ? 'active' : '' }}">
+                      <a href="{!! url('/company_vehicle/list') !!}">
+                          <i class="fa-solid fa-car margin-right-10px"></i> {{ trans('Company Vehicle') }}
+                      </a>
+                  </li>
+           `    @endcan
+                
+           @php
+                    $companyVehicleRoutes = ['/Companyvehicle/list', '/Sell_vehicle/add'];
+                @endphp
+                @can('companyvehicle')
+                  <li class="{{ in_array($currentRoute, $companyVehicleRoutes) || Str::startsWith($currentRoute, '/companyvehicle/list/') ? 'active' : '' }}">
+                      <a href="{!! url('/companyvehicle/list') !!}">
+                          <i class="fa-solid fa-car margin-right-10px"></i>{{ trans('Vehicle Sells') }}
+                      </a>
+                  </li>
+           `    @endcan
 
                 @php
                 $inventoryRoutes = ['/sales_part/list','/sales_part/add'];

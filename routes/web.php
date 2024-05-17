@@ -721,6 +721,29 @@ Route::get('/sale_part/deleteproduct', 'SalesPartcontroller@sale_part_destroy');
 //New route add by mukesh for get product quantity availability
 Route::get('/sale_part/get_available_product', 'SalesPartcontroller@getAvailableProduct');
 
+
+// Company Vehicle Routes
+Route::get('/company_vehicle/list', 'CompanyVehicleController@index')->middleware('can:companyvehicle_view');
+Route::get('/company_vehicle/add', 'CompanyVehicleController@addVehicle')->middleware('can:companyvehicle_add');
+Route::post('/company_vehicle/store', 'CompanyVehicleController@store')->middleware('can:companyvehicle_add');
+Route::get('/company_vehicle/edit/{id}', 'CompanyVehicleController@edit')->middleware('can:companyvehicle_edit');
+Route::post('/company_vehicle/edit/update/{id}', 'CompanyVehicleController@update')->middleware('can:companyvehicle_edit');
+Route::get('/company_vehicle/delete/{id}', 'CompanyVehicleController@destroy')->middleware('can:companyvehicle_delete');
+
+Route::get('/company_vehicle/list/modal', 'CompanyVehicleController@view')->middleware('can:companyvehicle_view');
+Route::get('/company_vehicle/getprice', 'CompanyVehicleController@getModelName');
+Route::get('/company_vehicle/add/getproductname', 'CompanyVehicleController@getProductName');
+Route::get('/company_vehicle/deleteproduct', 'CompanyVehicleController@destroyProduct');
+
+// New route for getting available vehicle quantity
+Route::get('/company_vehicle/get_available_vehicle', 'CompanyVehicleController@getAvailableVehicle');
+
+
+Route::get('/companyvehicle/list', 'CompanyVehicleController@index1')->middleware('can:companyvehicle');
+Route::get('/companyvehicle/add', 'CompanyVehicleController@addsales')->middleware('can:sellvehicle_add');
+
+
+
 //Branch module
 Route::group(['prefix' => 'branch'], function () {
 	Route::get('/list', ['as' => 'listbranch', 'uses' => 'BranchController@branchList'])->middleware('can:branch_view');

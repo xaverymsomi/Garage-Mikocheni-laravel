@@ -26,7 +26,7 @@
                             <p class="col-md-12 col-xs-12 col-sm-12 ln_solid"></p>
                         </div>
 
-                        <!-- FirstName and LastName Field -->
+                        
                         <div class="row row-mb-0">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="firstname">{{ trans('Supplier Name') }} <label class="color-danger">*</label></label>
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- FirstName and LastName Field End-->
+                        <!-- FirstName Field End-->
 
                         <!-- CompanyName and Email Field -->
                         <div class="row row-mb-0">
@@ -394,7 +394,7 @@
         });
 
 
-        /*If any white space for companyname, firstname, lastname and addresstext are then make empty value of these all field*/
+        /*If any white space for companyname, firstname and addresstext are then make empty value of these all field*/
         $('body').on('keyup', '.companyname', function() {
 
             var companyName = $(this).val();
@@ -413,14 +413,6 @@
             }
         });
 
-        $('body').on('keyup', '#lastname', function() {
-
-            var lastName = $(this).val();
-
-            if (!lastName.replace(/\s/g, '').length) {
-                $(this).val("");
-            }
-        });
 
         $('body').on('keyup', '.addressTextarea', function() {
 

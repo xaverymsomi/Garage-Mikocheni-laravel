@@ -8,7 +8,7 @@
             <div class="nav_menu">
                 <nav>
                     <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"> {{ Auth::user()->name }} {{ Auth::user()->lastname }}</span>
+                        <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"> {{ Auth::user()->name }}</span>
                     </div>
 
                     @include('dashboard.profile')

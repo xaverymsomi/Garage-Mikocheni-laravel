@@ -1237,7 +1237,7 @@
                             <div class="x_content mb-0">
                                 
                                 <div>
-                                    <a class="title" href="customer/list/{{ $user->id }}"><strong>{{ $user->name }}&nbsp;{{ $user->lastname }}</a>
+                                    <a class="title" href="customer/list/{{ $user->id }}"><strong>{{ $user->name }}</a>
                                     </strong>
                                     <p> {{ $user->email }} </p>
                                     </p>

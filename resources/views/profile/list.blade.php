@@ -69,7 +69,7 @@
                         <div class="view_top1">
                             <div class="col-xl-12 col-md-12 col-sm-12">
                                 <label class="nav_text h5 user-name profile">
-                                    {{ $profile->name . ' ' . $profile->lastname }}&nbsp;
+                                    {{ $profile->name }}&nbsp;
                                 </label>
                             </div>
                         </div>
@@ -100,18 +100,7 @@
                                 <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-3 col-xs-3"></div>
                             </div>
 
-                            <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('lastname') ? ' has-error' : '' }} mt-3">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 checkpointtext text-end" for="last-name">{{ trans('message.Last Name') }} <label class="color-danger">*</label>
-                                </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" id="lastname" name="lastname" placeholder="{{ trans('message.Enter Last Name') }}" maxlength="50" value="{{ $profile->lastname }}" class="form-control">
-                                    @if ($errors->has('lastname'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('lastname') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback">

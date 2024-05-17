@@ -240,7 +240,7 @@ $code = $new_number;
 			->join('users', 'users.id', '=', 'tbl_gatepasses.customer_id')
 			->join('tbl_vehicles', 'tbl_gatepasses.vehicle_id', '=', 'tbl_vehicles.id')
 			->join('tbl_services', 'tbl_gatepasses.jobcard_id', '=', 'tbl_services.job_no')
-			->select('tbl_gatepasses.*', 'tbl_services.service_date', 'tbl_vehicles.number_plate', 'users.name', 'users.lastname')
+			->select('tbl_gatepasses.*', 'tbl_services.service_date', 'tbl_vehicles.number_plate', 'users.name')
 			->where('jobcard_id', $getpassid)->first();
 
 		$setting = DB::table('tbl_settings')->first();

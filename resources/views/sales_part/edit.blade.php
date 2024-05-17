@@ -67,7 +67,7 @@
                       @foreach ($customer as $customers)
                       <option value="{{ $customers->id }}" <?php if ($customers->id == $sales->customer_id) {
                                                               echo 'selected';
-                                                            } ?>>{{ $customers->name . ' ' . $customers->lastname }}</option>
+                                                            } ?>>{{ $customers->name }}</option>
                       @endforeach 
                       @endif
                     </select>
@@ -85,7 +85,7 @@
                       @foreach ($employee as $employees)
                       <option value="{{ $employees->id }}" <?php if ($employees->id == $sales->salesmanname) {
                                                               echo 'selected';
-                                                            } ?>>{{ $employees->name . ' ' . $employees->lastname }}</option>
+                                                            } ?>>{{ $employees->name }}</option>
                       @endforeach
                       @endif
                     </select>

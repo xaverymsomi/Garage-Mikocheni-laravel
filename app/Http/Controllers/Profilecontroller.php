@@ -42,7 +42,6 @@ class Profilecontroller extends Controller
 		}
 
 		$firstname = $request->firstname;
-		$lastname = $request->lastname;
 
 		$gender = $request->gender;
 		$dd = $request->dob;
@@ -61,7 +60,6 @@ class Profilecontroller extends Controller
 
 		$profile = User::find($id);
 		$profile->name = $firstname;
-		$profile->lastname = $lastname;
 		$profile->gender = $gender;
 		$profile->birth_date = $dob;
 		$profile->email = $email;
