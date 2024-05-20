@@ -8,7 +8,7 @@
                 <nav>
                     <div class="nav toggle">
                     <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><a href="{!! url('/sales_part/list') !!}" id=""><i class=""><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}"></i><span class="titleup">
-                                {{ trans('message.Add Part Sell') }}</span></a>
+                                {{ trans('Vehicle Sell') }}</span></a>
                     </div>
                     @include('dashboard.profile')
                 </nav>
@@ -121,48 +121,44 @@
                                     <tbody>
                                         <tr id="row_id_1">
                                             <td class="tbl_td_selectManufac_error_1">
-                                                <select class="form-control select_producttype select_producttype_1 form-select" name="product[Manufacturer_id][]" m_url="{!! url('/purchase/producttype/names') !!}" row_did="1" data-id="1" id="">
+                                                <select class="form-control select_vehicle_type form-select" 
+                                                        name="product[vehicle_type_id][]" 
+                                                        data-url="{{ url('/get-company-vehicles') }}" 
+                                                        data-row-id="1" 
+                                                        id="vehicle_type_1">
                                                     <option value="">
-                                                        -{{ trans('message.Select Manufacturing Name') }}-</option>
-                                                    @if (!empty($manufacture_name))
+                                                        -{{ trans('message.Select Vehicle Type') }}-
+                                                    </option>
                                                     @foreach ($manufacture_name as $manufacture_nm)
                                                     <option value="{{ $manufacture_nm->id }}">
                                                         {{ $manufacture_nm->vehicle_type }}
                                                     </option>
                                                     @endforeach
-                                                    @endif
                                                 </select>
-
-                                                <span id="select_producttype_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Manufacturer name is required.') }}</span>
+                                                <span id="select_vehicle_type_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Vehicle type is required.') }}</span>
                                             </td>
                                             <td class="tbl_td_selectProductname_error_1">
-                                                <select name="product[product_id][]" class="form-control productid select_productname_1 form-select" id="productid" url="{!! url('purchase/add/getproduct') !!}" row_did="1" data-id="1">
-                                                    <option value="">{{ trans('message.--Select Product--') }}
-                                                    </option>
-                                                    @if (!empty($brand))
+                                                <select name="product[company_vehicle_id][]" 
+                                                        class="form-control select_company_vehicle form-select" 
+                                                        id="company_vehicle_1" 
+                                                        data-row-id="1">
+                                                    <option value="">{{ trans('--Select Company Vehicle--') }}</option>
                                                     @foreach ($brand as $brands)
-                                                    <option value="{{ $brands->id }}">{{ $brands->Model }}
-                                                    </option>
+                                                    <option value="{{ $brands->id }}">{{ $brands->name }}</option>
                                                     @endforeach
-                                                    @endif
                                                 </select>
-
-                                                <span id="select_productname_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Product name is required.') }}</span>
+                                                <span id="select_company_vehicle_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Company vehicle is required.') }}</span>
                                             </td>
                                             <td class="tbl_td_quantity_error_1">
-                                                <input type="number" name="product[qty][]" url="{!! url('purchase/add/getqty') !!}" prd_url="{{ url('/sale_part/get_available_product') }}" class="quantity form-control qty qty_1 qtyt" id="qty_1" autocomplete="off" row_id="1" value="" maxlength="8">
-                                                <!-- <span class="qty_1"></span> -->
-
+                                                <input type="number" name="product[qty][]" class="quantity form-control qty qty_1 qtyt" id="qty_1" autocomplete="off" row_id="1" value="" maxlength="8">
                                                 <span id="quantity_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
                                             </td>
                                             <td class="tbl_td_price_error_1">
-                                                <input type="text" name="product[price][]" class="product form-control prices price_1" value="" id="price_1" row_id="1" style="width:100%;">
-
+                                                <input type="text" name="product[price][]" class="product form-control prices price_1" value="" id="price_1" row_id="1" style="width:100%;" readonly>
                                                 <span id="price_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Price is required.') }}</span>
                                             </td>
                                             <td class="tbl_td_totaPrice_error_1">
                                                 <input type="text" name="product[total_price][]" class="product form-control total_price total_price_1" value="" style="width:100%;" id="total_price_1" readonly="true" required="true">
-
                                                 <span id="total_price_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Total price is required.') }}</span>
                                             </td>
                                             <td align="center">
@@ -335,6 +331,47 @@
 
 <script>
     var msg10 = "{{ trans('message.OK') }}"
+
+    
+
+ 
+
+    $(document).ready(function() {
+    $(document).on('change', '.select_vehicle_type', function() {
+        var row_id = $(this).data('row-id');
+        var vehicle_type_id = $(this).val();
+        var url = $(this).data('url');
+        
+        console.log("Vehicle Type ID: ", vehicle_type_id);
+        console.log("URL: ", url);
+
+        if (vehicle_type_id) {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: { id: vehicle_type_id },
+                success: function(data) {
+                    console.log("AJAX success data: ", data);
+                    var vehicleDropdown = $('#company_vehicle_' + row_id);
+                    vehicleDropdown.empty();
+                    vehicleDropdown.append('<option value="">{{ trans('--Select Company Vehicle--') }}</option>');
+                    $.each(data, function(key, value) {
+                        vehicleDropdown.append('<option value="' + key + '">' + value + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX error: ", status, error);
+                }
+            });
+        } else {
+            $('#company_vehicle_' + row_id).empty();
+            $('#company_vehicle_' + row_id).append('<option value="">{{ trans('message.--Select Company Vehicle--') }}</option>');
+        }
+    });
+});
+
+
+
     $(document).ready(function() {
 
         /*datetimepicker*/
@@ -675,294 +712,6 @@
             }
         });
     });
-
-
-
-    $('body').on('keyup', '.qty', function() {
-        var row_id = $(this).attr('row_id');
-        var p_id = $('.select_productname_' + row_id).val();
-        var qtyVal = $('.qty_' + row_id).val();
-
-        var msg18 = "{{ trans('message.An error occurred :') }}";
-        var msg20 = "{{ trans('message.First select product name') }}";
-
-        if (p_id == '') {
-            alert(msg20);
-            $('.qty_' + row_id).val('');
-        } else {
-            if (/\D/g.test(this.value)) {
-                $('.qty_' + row_id).val('');
-
-                $('#quantity_error_' + row_id).css({
-                    "display": ""
-                });
-                $('.tbl_td_quantity_error_' + row_id).addClass('has-error');
-            } else if (this.value <= 0) {
-                $('.qty_' + row_id).val('');
-                $('#quantity_error_' + row_id).css({
-                    "display": ""
-                });
-                $('.tbl_td_quantity_error_' + row_id).addClass('has-error');
-            } else {
-                var qty = $('.qty_' + row_id).val();
-                var price = $('.price_' + row_id).val();
-                var url = $(this).attr('url');
-
-                $('#quantity_error_' + row_id).css({
-                    "display": "none"
-                });
-                $('.tbl_td_quantity_error_' + row_id).removeClass('has-error');
-
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    data: {
-                        qty: qty,
-                        price: price
-                    },
-                    success: function(response) {
-                        total_price = price * qty;
-                        $('.total_price_' + row_id).val(total_price);
-                    },
-                    beforeSend: function() {},
-                    error: function(e) {
-                        alert(msg18 + " " + e.responseText);
-                        console.log(e);
-                    }
-                });
-            }
-        }
-    });
-    $('body').on('change', '.qty', function() {
-        var row_id = $(this).attr('row_id');
-        var p_id = $('.select_productname_' + row_id).val();
-        var qtyVal = $('.qty_' + row_id).val();
-
-        var msg18 = "{{ trans('message.An error occurred :') }}";
-        var msg20 = "{{ trans('message.First select product name') }}";
-
-        if (p_id == '') {
-            alert(msg20);
-            $('.qty_' + row_id).val('');
-        } else {
-            if (/\D/g.test(this.value)) {
-                $('.qty_' + row_id).val('');
-
-                $('#quantity_error_' + row_id).css({
-                    "display": ""
-                });
-                $('.tbl_td_quantity_error_' + row_id).addClass('has-error');
-            } else if (this.value <= 0) {
-                $('.qty_' + row_id).val('');
-                $('#quantity_error_' + row_id).css({
-                    "display": ""
-                });
-                $('.tbl_td_quantity_error_' + row_id).addClass('has-error');
-            } else {
-                var qty = $('.qty_' + row_id).val();
-                var price = $('.price_' + row_id).val();
-                var url = $(this).attr('url');
-
-                $('#quantity_error_' + row_id).css({
-                    "display": "none"
-                });
-                $('.tbl_td_quantity_error_' + row_id).removeClass('has-error');
-
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    data: {
-                        qty: qty,
-                        price: price
-                    },
-                    success: function(response) {
-                        total_price = price * qty;
-                        $('.total_price_' + row_id).val(total_price);
-                    },
-                    beforeSend: function() {},
-                    error: function(e) {
-                        alert(msg18 + " " + e.responseText);
-                        console.log(e);
-                    }
-                });
-            }
-        }
-    });
-
-
-
-    $(function() {
-        $('#supplier_select').change(function() {
-            var supplier_id = $(this).val();
-            var url = $(this).attr('url');
-
-            var msg19 = "{{ trans('message.An error occurred :') }}";
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {
-                    supplier_id: supplier_id
-                },
-                success: function(response) {
-                    var res_supplier = jQuery.parseJSON(response);
-                    $('#mobile').attr('value', res_supplier.mobile_no);
-                    $('#email').attr('value', res_supplier.email);
-                    $('#address').text(res_supplier.address);
-                },
-                beforeSend: function() {
-                    $('#mobile').attr('value', 'Loading..');
-                    $('#email').attr('value', 'Loading..');
-                    $('#address').attr('value', 'Loading..');
-                },
-                error: function(e) {
-                    alert(msg19 + " " + e.responseText);
-                    console.log(e);
-                }
-            });
-        });
-    });
-    /*Get product name when changing manufacturer name*/
-    $('body').on('change', '.select_producttype', function() {
-
-        var row_id = $(this).attr('row_did');
-        var m_id = $(this).val();
-        var url = $(this).attr('m_url');
-        //alert(url);
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: {
-                m_id: m_id
-            },
-            success: function(response) {
-                $('.select_productname_' + row_id).html(response);
-            }
-        });
-    });
-
-    // $('body').on('click', '.qty', function(event) {
-    //     // $(".qty" ).keypress(function() {
-
-    //     var row_id = $(this).attr('row_id');
-    //     var productid = $('.select_productname_' + row_id).find(":selected").val();
-    //     var qty = $(this).val();
-    //     var url = $(this).attr('prd_url');
-
-    //     var msg21 = "{{ trans('message.Product Not Available') }}";
-    //     var msg22 = "{{ trans('message.Current Stock :') }}";
-
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: url,
-    //         data: {
-    //             qty: qty,
-    //             productid: productid
-    //         },
-    //         success: function(response) {
-    //             //var newd = $.trim(response);
-    //             if (response.success == '1') {
-    //                 //swal('No Product Available');
-    //                 swal({
-    //                     title: msg21 + '\n' + msg22 + ' ' + response
-    //                         .currentStock,
-    //                     cancelButtonColor: '#C1C1C1',
-    //                     buttons: {
-    //                         cancel: msg10,
-    //                     },
-    //                     dangerMode: true,
-    //                 });
-
-
-    //                 jQuery('.qty_' + row_id).val('');
-    //                 jQuery('.total_price_' + row_id).val('');
-    //                 return false;
-    //             }
-    //         },
-    //     });
-
-    // });
-
-    // $('body').on('keydown paste', '.qty', function(e) {
-    //     e.preventDefault();
-    // });
-
-    // // Allow changing the value using up and down arrows
-    // $('body').on('keydown', '.qty', function(e) {
-    //     var keyCode = e.keyCode || e.which;
-
-    //     if (keyCode === 38 || keyCode === 40) {
-    //         // Allow the up and down arrows to change the value
-    //         e.preventDefault();
-
-    //         // Get the current value
-    //         var currentValue = parseInt($(this).val()) || 0;
-
-    //         // Increment or decrement the value based on the arrow key pressed
-    //         var newValue = (keyCode === 38) ? currentValue + 1 : currentValue - 1;
-
-    //         // Update the input value
-    //         $(this).val(newValue);
-    //     }
-    // });
-
-    $('body').on('click', '.productid', function() {
-        var rowId = $(this).attr('row_did');
-        var url = $(this).attr('url');
-        var manufacture_selected = $('.select_producttype_' + rowId).val();
-
-        var msg25 = "{{ trans('message.First Select Manufacturer') }}";
-
-        if (manufacture_selected == "") {
-            swal({
-                title: msg35,
-                cancelButtonColor: '#C1C1C1',
-                buttons: {
-                    cancel: msg10,
-                },
-                dangerMode: true,
-            });
-
-        }
-    });
-
-
-    /*Price field should editable and editable price should change the Total-Amount (on-time editable price )*/
-    $('body').on('change', '.prices', function() {
-
-        var row_id = $(this).attr('row_id');
-        var qty = $('.qty_' + row_id).val();
-        var price = $('.price_' + row_id).val();
-        var total_price = price * qty;
-
-        var regex = /^\d*(.\d{2})?$/;
-
-        if (!regex.test(price)) {
-            $('.price_' + row_id).val("");
-            $('.price_' + row_id).attr('required', true);
-
-            $('#price_error_' + row_id).css({
-                "display": ""
-            });
-            $('.tbl_td_price_error_' + row_id).addClass('has-error');
-        } else if (price == 0 || price == null) {
-            $('.price_' + row_id).val("");
-            $('.price_' + row_id).attr('required', true);
-
-            $('#price_error_' + row_id).css({
-                "display": ""
-            });
-            $('.tbl_td_price_error_' + row_id).addClass('has-error');
-        } else {
-            $('.price_' + row_id).val(price);
-            $('.total_price_' + row_id).val(total_price);
-
-            $('#price_error_' + row_id).css({
-                "display": "none"
-            });
-            $('.tbl_td_price_error_' + row_id).removeClass('has-error');
-        }
-    });
-
 
     /*Form submit time specific field value changes time make validation using Jquery*/
     var msg1 = "{{ trans('message.field is required') }}";

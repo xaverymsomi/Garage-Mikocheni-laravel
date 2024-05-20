@@ -735,6 +735,23 @@ Route::get('/company_vehicle/getprice', 'CompanyVehicleController@getModelName')
 Route::get('/company_vehicle/add/getproductname', 'CompanyVehicleController@getProductName');
 Route::get('/company_vehicle/deleteproduct', 'CompanyVehicleController@destroyProduct');
 
+/*For add salespart time*/
+Route::get('/company_vehicle/producttype/names', 'CompanyVehicleController@productitems');
+
+Route::get('/company_vehicle/add/getproduct', 'CompanyVehicleController@getproduct');
+Route::get('/new-url-for-products', 'CompanyVehicleController@getAvailableProduct');
+// Route::get('/new-url-for-products', 'YourController@getCompanyVehicles');
+Route::get('/company_vehicle/add/getproductname', 'CompanyVehicleController@getproductname');
+Route::get('/company_vehicle/deleteproduct', 'CompanyVehicleController@deleteproduct');
+Route::get('/company_vehicle/sale_part/deleteproduct', 'CompanyVehicleController@sale_part_destroy');
+
+Route::get('/get-company-vehicles', 'CompanyVehicleController@getCompanyVehicles');
+
+
+/*New route for get first product data of selected product type*/
+// Route::get('/company_vehicle/add/getsupplierproduct', 'CompanyVehicleController@getSupplierProduct');
+
+Route::get('/company_vehicle/getfirstproductdata', 'CompanyVehicleController@getFirstProductData');
 // New route for getting available vehicle quantity
 Route::get('/company_vehicle/get_available_vehicle', 'CompanyVehicleController@getAvailableVehicle');
 

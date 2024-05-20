@@ -2,72 +2,81 @@
 
 namespace App\Http\Controllers;
 
+use Log;
+use App\Sale;
 use App\User;
 use App\Branch;
+use App\Product;
+use App\SalePart;
+use Carbon\Carbon;
+use App\CustomField;
+use App\Vehicletype;
+use App\Vehiclebrand;
 use App\BranchSetting;
 use App\CompanyVehicle;
-use Carbon\Carbon;
 use App\tbl_vehicle_images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CompanyVehicleController extends Controller
 {
     public function index()
     {
-        $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
-		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::latest()->get();
 
 		if (!isAdmin(Auth::User()->role_id)) {
-			if (getUsersRole(Auth::User()->role_id) == 'Customer') {
-				$vehical = CompanyVehicle::where([['soft_delete', '=', 0], ['Added_by', '=', Auth::User()->name]])->orderBy('id', 'DESC')->get();
-			} elseif (getUsersRole(Auth::User()->role_id) == 'Employee') {
-				$vehical = CompanyVehicle::where([['soft_delete', 0], ['branch', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
-			} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
 
-				$vehical = CompanyVehicle::where([['soft_delete', 0], ['branch', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
-			}
+			$product = CompanyVehicle::where('Added_by', Auth::user()->id)->latest()->orderBy('id', 'DESC')->get();
+			
 		} else {
-			$vehical = CompanyVehicle::where([['Status','=', 'available']])->orderBy('id', 'DESC')->get();
+			$product = CompanyVehicle::latest()->orderBy('id', 'DESC')->get();;
 		}
-        // Return the view for listing company vehicles
-        return view('company_vehicle.list', compact('vehical'));
-    }
-	public function index1()
-    {
-        $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+
+		$tbl_custom_fields = CustomField::where([['form_name', '=', 'company_vehicle'], ['soft_delete', 0], ['always_visable', '=', 'yes']])->get();
+
+		return view('company_vehicle.list', compact('product', 'tbl_custom_fields'));
+	}
+
+	public function index1(){
+		
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-
 		if (!isAdmin(Auth::User()->role_id)) {
-			if (getUsersRole(Auth::User()->role_id) == 'Customer') {
-				$vehical = CompanyVehicle::where([['soft_delete', '=', 0], ['Added_by', '=', Auth::User()->name]])->orderBy('id', 'DESC')->get();
-			} elseif (getUsersRole(Auth::User()->role_id) == 'Employee') {
-				$vehical = CompanyVehicle::where([['soft_delete', 0], ['branch', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
+				$sales = Sale::where('vehicle_id', '!=', '<>')->groupby('bill_no')->where('customer_id', '=', Auth::User()->id)->orderBy('id', 'DESC')->get();
+			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
+				$sales = Sale::where([['branch_id', $currentUser->branch_id]])->groupby('bill_no')->where('product_id', '!=', '<>')->orderBy('id', 'DESC')->get();
 			} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
 
-				$vehical = CompanyVehicle::where([['soft_delete', 0], ['branch', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+				$sales = Sale::where('vehicle_id', '!=', '<>')->where('branch_id', '=', $currentUser->branch_id)->groupby('bill_no')->orderBy('id', 'DESC')->get();
+			} else {
+				$sales = Sale::where('vehicle_id', '!=', '<>')->where('branch_id', '=', $currentUser->branch_id)->groupby('bill_no')->orderBy('id', 'DESC')->get();
 			}
 		} else {
-			$vehical = CompanyVehicle::where([['Status','=', 'available']])->orderBy('id', 'DESC')->get();
+			$sales = Sale::where('vehicle_id', '!=', '<>')->groupby('bill_no')->orderBy('id', 'DESC')->get();
 		}
-        // Return the view for listing company vehicles
-        return view('sales_part.vehicle_list', compact('vehical'));
-    }
+
+		return view('sales_part.vehicle_list', compact('sales'));
+	}
+
+	
+	
 
     public function addVehicle()
     {
-        $vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
-		// dd($vehical_type);
-		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
-		
-		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
-		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+		$characters = '0123456789';
+		$code =  'VEHICLE' . '' . substr(str_shuffle($characters), 0, 6);
 
-		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+		$vehicle_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+
+		$tbl_custom_fields = CustomField::where([['form_name', '=', 'company_vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get();
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+
 		if (isAdmin(Auth::User()->role_id)) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
@@ -75,55 +84,112 @@ class CompanyVehicleController extends Controller
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
+        $vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
 
-		// $customer = DB::table('users')->where([['role', 'Customer']])->latest()->value('id');
-
-        // Return the view for adding a new company vehicle
-        return view('company_vehicle.add', compact('vehical_type', 'vehical_brand', 'model_name', 'tbl_custom_fields', 'branchDatas'));
+		// Return the view for adding a new company vehicle
+        return view('company_vehicle.add', compact('vehical_type', 'vehical_brand', 'code', 'tbl_custom_fields', 'branchDatas'));
     }
+
+	//Add vehical type
+	public function vehicaltypeadd(Request $request)
+	{
+		$vehical_type = $request->vehical_type;
+		$count = DB::table('tbl_vehicle_types')->where('vehicle_type', '=', $vehical_type)->count();
+
+		if ($count == 0) {
+			$vehicaltype = new Vehicletype;
+			$vehicaltype->vehicle_type = $vehical_type;
+			$vehicaltype->save();
+			echo $vehicaltype->id;
+		} else {
+			$vehicleTypeRecord = DB::table('tbl_vehicle_types')->where([['soft_delete', '!=', 1], ['vehicle_type', '=', $vehical_type]])->first();
+			if (!empty($vehicleTypeRecord)) {
+				return '01';
+			} else {
+				$vehicaltype = new Vehicletype;
+				$vehicaltype->vehicle_type = $vehical_type;
+				$vehicaltype->save();
+				echo $vehicaltype->id;
+			}
+		}
+	}
+
+	// Add vehical brand
+	public function vehicalbrandadd(Request $request)
+	{
+		$vehical_id = $request->vehical_id;
+		$vehical_brand1 = $request->vehical_brand;
+
+		$count = DB::table('tbl_vehicle_brands')->where([['vehicle_id', '=', $vehical_id], ['vehicle_brand', '=', $vehical_brand1]])->count();
+
+		if ($count == 0) {
+			$vehical_brand = new Vehiclebrand;
+			$vehical_brand->vehicle_id = $vehical_id;
+			$vehical_brand->vehicle_brand = $vehical_brand1;
+			$vehical_brand->save();
+			echo $vehical_brand->id;
+		} else {
+			$vehicleBrandRecord = DB::table('tbl_vehicle_brands')->where([['soft_delete', '!=', 1], ['vehicle_brand', '=', $vehical_brand1], ['vehicle_id', '=', $vehical_id]])->first();
+			if (!empty($vehicleBrandRecord)) {
+				return '01';
+			} else {
+				$vehical_brand = new Vehiclebrand;
+				$vehical_brand->vehicle_id = $vehical_id;
+				$vehical_brand->vehicle_brand = $vehical_brand1;
+				$vehical_brand->save();
+				echo $vehical_brand->id;
+			}
+		}
+	}
 
     public function store(Request $request)
     {
-        // Handle storing the new company vehicle
-        // Validation and saving logic here
-        $user = $request->added_by;
-        // $user_id = Auth::user()->id;
-		$manufacture = $request->vehical_id;
-		$vehicabrand = $request->vehicabrand;
-		$modelyear = $request->modelyear;
-		$branch = $request->branch;
-		$modelname = $request->modelname;
+        $p_date = $request->p_date;
+		$p_no = $request->p_no;
+		$name = $request->name;
+		$p_type = $request->p_type;
 		$price = $request->price;
-		$conditions = $request->conditions;
-		$transmission = $request->transmission;
-		$Warranty = $request->Warranty;
-		$quantity = $request->quantity;
-        $Notes = $request->description;
+		$warranty = $request->warranty;
 
-		
+		$dealer_price = $request->dealer_price;
 
-		$company_vehicle = new CompanyVehicle;
-		$company_vehicle->Added_by = $user;
-		$company_vehicle->manufacturer = $manufacture;
-		$company_vehicle->vehicle_brand = $vehicabrand;
-		$company_vehicle->Model = $modelname;
-		$company_vehicle->Year = $modelyear;
-		$company_vehicle->branch = $branch;
-		$company_vehicle->Price = $price;
-		$company_vehicle->quantity  = $quantity;
-        $company_vehicle->Status  = 'available';
-        $company_vehicle->DateAdded  = Carbon::now();
-		$company_vehicle->Conditions = $conditions;
-		$company_vehicle->Transmission = $transmission;
-		$company_vehicle->Warranty = $Warranty;
-		$company_vehicle->Notes = $Notes;
-		$company_vehicle->Total_price = $price * $quantity;
+		if (getDateFormat() == 'm-d-Y') {
+			$dates = date('Y-m-d', strtotime(str_replace('-', '/', $p_date)));
+		} else {
+			$dates = date('Y-m-d', strtotime($p_date));
+		}
 
-		//custom field save	
-		//$custom=Input::get('custom');
+		$vehicle = new CompanyVehicle;
+		$vehicle->code = $p_no;
+		$vehicle->DateAdded = $dates;
+
+		if (!empty($request->image)) {
+			$file = $request->image;
+			$filename = $file->getClientOriginalName();
+			$file->move(public_path() . '/companyvehicle/', $file->getClientOriginalName());
+			$vehicle->image = $filename;
+		} else {
+			$vehicle->image = 'avtar.png';
+		}
+
+		$vehicle->name = $name;
+		$vehicle->vehicle_brand = $request->vehicabrand;
+		$vehicle->manufacturer = $p_type;
+		$vehicle->price = $price;
+		$vehicle->warranty = $warranty;
+		$vehicle->branch_id = $request->branch;
+
+		$vehicle->year = $request->modelyear;
+		$vehicle->dealer_price = $dealer_price;
+
+		$vehicle->Added_by = Auth::User()->id;
+
 		$custom = $request->custom;
 		$custom_fileld_value = array();
 		$custom_fileld_value_jason_array = array();
+
 		if (!empty($custom)) {
 			foreach ($custom as $key => $value) {
 				if (is_array($value)) {
@@ -137,31 +203,13 @@ class CompanyVehicleController extends Controller
 			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
 
 			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-				$vehicleData = $val1;
+				$productData = $val1;
 			}
-			$company_vehicle->custom_field = $vehicleData;
-		}
-		$company_vehicle->save();
-        $company_vehicle = DB::table('tbl_company_vehicles')->orderBy('id', 'desc')->first();
-		$id = $company_vehicle->id;
-		
-		
-
-		$image = $request->image;
-		if (!empty($image)) {
-			$files = $image;
-
-			foreach ($files as $file) {
-				$filename = $file->getClientOriginalName();
-				$file->move(public_path() . '/companyVehicle/', $file->getClientOriginalName());
-				$images = new tbl_vehicle_images;
-				$images->vehicle_id = $id;
-				$images->image = $filename;
-				$images->save();
-			}
+			$vehicle->custom_field = $productData;
 		}
 
-		
+		$vehicle->save();
+
 		return redirect('/company_vehicle/list')->with('message', 'Vehicle Submitted Successfully');
 	
     }
@@ -195,10 +243,13 @@ class CompanyVehicleController extends Controller
         // Logic to get model names
     }
 
-    public function getProductName()
-    {
-        // Logic to get product names
-    }
+	
+
+	
+
+	
+
+  
 
     public function destroyProduct()
     {
@@ -209,6 +260,8 @@ class CompanyVehicleController extends Controller
     {
         // Logic to get available vehicle quantity
     }
+
+	
 
 	//sales add form
 	public function addsales()
@@ -228,23 +281,64 @@ class CompanyVehicleController extends Controller
 		if (isAdmin(Auth::User()->role_id)) {
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
-			$brand = DB::table('tbl_company_vehicles')->where([['Status', '=', 'available']])->get()->toArray();
+			$brand = DB::table('tbl_company_vehicles')->where([['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			// $brand = DB::table('')->where([['Status', '=', 'available']])->get()->toArray();
 			$manufacture_name = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where('role', '=', 'Employee')->where('soft_delete', '=', 0)->get()->toArray();
-			$brand = DB::table('tbl_company_vehicles')->where([['Status', '=', 'available']])->get()->toArray();
+			$brand = DB::table('tbl_company_vehicles')->where([['soft_delete', '=', 0]])->get()->toArray();
+			// $brand = DB::table('')->where([['Status', '=', 'available']])->get()->toArray();
 			$manufacture_name = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-			$brand = DB::table('tbl_company_vehicles')->where([['Status', '=', 'available']])->get()->toArray();
+			$brand = DB::table('tbl_company_vehicles')->where([['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			// $brand = DB::table('')->where([['Status', '=', 'available']])->get()->toArray();
 			$manufacture_name = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		}
 
 
-		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'salepart'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'company_vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
 
 		return view('sales_part.vehicleadd', compact('customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas'));
 	}
+
+	public function getCompanyVehicles(Request $request) {
+		$vehicle_type_id = $request->id;
+		$vehicles = DB::table('tbl_company_vehicles')
+					  ->where('manufacturer', $vehicle_type_id)
+					  ->pluck('name', 'id');
+		return response()->json($vehicles);
+	}
+	
+	public function getAvailableProduct(Request $request) {
+		$product_id = $request->product_id;
+		$vehicle = DB::table('tbl_company_vehicles')
+					 ->where('id', $product_id)
+					 ->first(['price', 'quantity']); // Assuming 'price' and 'available_qty' are the column names
+	
+		return response()->json($vehicle);
+	}
+	
+	public function getManufacturers() {
+		$manufacturers = DB::table('tbl_vehicle_types')
+						   ->where('soft_delete', 0)
+						   ->get();
+	
+		return response()->json($manufacturers);
+	}
+	
+	
+
+	// public function getAvailableProduct(Request $request) {
+	// 	$product_id = $request->product_id;
+	// 	$vehicle = DB::table('tbl_company_vehicles')
+	// 				 ->where('id', $product_id)
+	// 				 ->first(['price', 'quantity']); // Assuming 'price' and 'available_qty' are the column names
+	
+	// 	return response()->json($vehicle);
+	// }
+	
+	
 }

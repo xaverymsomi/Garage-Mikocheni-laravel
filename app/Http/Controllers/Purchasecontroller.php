@@ -80,8 +80,8 @@ class Purchasecontroller extends Controller
 				$prd_type_id_array[] = $value->id;
 			}
 
-			$first_product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
-			$product = Product::where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id], ['product_type_id', reset($prd_type_id_array)]])->get();
+			$first_product = DB::table('tbl_products')->where([['soft_delete', 0]])->first();
+			$product = Product::where([['soft_delete', 0], ['product_type_id', reset($prd_type_id_array)]])->get();
 
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
