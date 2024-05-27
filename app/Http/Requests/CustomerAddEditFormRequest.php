@@ -24,16 +24,16 @@ class CustomerAddEditFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstname' => 'required|regex:/^[(a-zA-Z\s)\p{L}]+$/u|max:50',
+            // 'firstname' => 'required|regex:/^[(a-zA-Z\s)\p{L}]+$/u|max:50',
             
-            'email' => 'required|email|custom_email|unique:users,email,NULL,id,soft_delete,0' . $this->id,
-            'password'=> ($this->id)?'nullable|min:6|max:12|regex:/^(?=.*[a-zA-Z\p{L}])(?=.*\d).+$/u':'required|min:6|max:12|regex:/^(?=.*[a-zA-Z\p{L}])(?=.*\d).+$/u',
-            'password_confirmation' => ($this->id)?'same:password':'required|same:password',
-            'mobile' => 'required|min:6|max:16|regex:/^[- +()]*[0-9][- +()0-9]*$/',
+            // 'email' => 'required|email|custom_email|unique:users,email,NULL,id,soft_delete,0' . $this->id,
+            // 'password'=> ($this->id)?'nullable|min:6|max:12|regex:/^(?=.*[a-zA-Z\p{L}])(?=.*\d).+$/u':'required|min:6|max:12|regex:/^(?=.*[a-zA-Z\p{L}])(?=.*\d).+$/u',
+            // 'password_confirmation' => ($this->id)?'same:password':'required|same:password',
+            // 'mobile' => 'required|min:6|max:16|regex:/^[- +()]*[0-9][- +()0-9]*$/',
             
-            'image' => 'nullable|mimes:jpg,png,jpeg',
-            'country_id' => 'required',
-            'address' => 'required',            
+            // 'image' => 'nullable|mimes:jpg,png,jpeg',
+            // 'country_id' => 'required',
+            // 'address' => 'required',            
         ];
     }
 

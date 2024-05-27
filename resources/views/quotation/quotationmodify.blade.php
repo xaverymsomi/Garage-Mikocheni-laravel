@@ -217,11 +217,14 @@
                                 <button type="button" data-bs-target="#responsive-modal-observation" data-bs-toggle="modal" class="btn btn-outline-secondary clickAddNewButton ms-1"> + </button>
                             </h3>
                         </div>
+<<<<<<< HEAD
+=======
                         <!-- <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2" style="padding-top:3px;">
                                 <button type="button" data-bs-target="#responsive-modal-observation"
                                     data-bs-toggle="modal"
                                     class="btn btn-outline-secondary clickAddNewButton"> + </button>
                             </div> -->
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                     </div>
                     <div class="col-md-12 col-xs-12 col-sm-12 panel-group">
                         <div class="panel panel-default">
@@ -234,6 +237,34 @@
                             <div id="collapse1" class="panel-collapse collapse in">
                                 <div class="panel-body main_data table-responsive">
                                     <!-- Observation Checked Points -->
+<<<<<<< HEAD
+                                    <table class="table table-bordered adddatatable" id="tab_taxes_detail" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th class="actionre">{{ trans('Job cartegory') }}</th>
+                                                <th class="actionre">{{ trans('message.Product Name') }}</th>
+                                                <th class="actionre">{{ trans('message.Observation') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $quotenum = getQuotationNumber($services->job_no);
+                                                $num = DB::table('tbl_observation')->where('quotation_id', '=', $quotenum)->get();
+                                            @endphp
+                                             @foreach ($num as $card)
+                                                <tr id="row_id_1">
+                                                    <td class="tbl_td_selectManufac_error_1">
+                                                        {{ $card->job_cartegory_name }}
+                                                    </td>
+                                                    <td class="tbl_td_selectProductname_error_1">
+                                                        {{ $card->product }}
+                                                    </td>
+                                                    <td class="tbl_td_quantity_error_1">
+                                                        {{ $card->observation }}
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+=======
                                     <table class="table table-bordered main_data_points" id="main_data_points" align="center">
                                         <thead>
                                             <tr>
@@ -296,6 +327,7 @@
                                                 </tr>
                                                 <?php $i++; ?>
                                             <?php } ?>
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                                         </tbody>
                                     </table>
                                 </div>

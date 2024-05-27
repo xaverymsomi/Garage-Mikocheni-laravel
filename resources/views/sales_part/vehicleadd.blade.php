@@ -108,7 +108,10 @@
                                 <table class="table table-bordered adddatatable" id="tab_taxes_detail" align="center">
                                     <thead>
                                         <tr>
+<<<<<<< HEAD
+=======
                                             <th class="actionre">{{ trans('message.Manufacturer Name') }}</th>
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                                             <th class="actionre">{{ trans('message.Product Name') }}</th>
                                             <th class="actionre">{{ trans('message.Quantity') }}</th>
                                             <th class="actionre" style="width:10%;">{{ trans('message.Price') }}
@@ -120,6 +123,14 @@
                                     </thead>
                                     <tbody>
                                         <tr id="row_id_1">
+<<<<<<< HEAD
+                                            
+                                            <td class="tbl_td_selectProductname_error_1">
+                                                <select class="form-control select_company_vehicle" name="company_vehicle" id="company_vehicle">
+                                                    <option value="">-- Select Company Vehicle --</option>
+                                                    @foreach($brand as $items)
+                                                    <option value="{{ $items->id }}">{{ $items->name }}</option>
+=======
                                             <td class="tbl_td_selectManufac_error_1">
                                                 <select class="form-control select_vehicle_type form-select" 
                                                         name="product[vehicle_type_id][]" 
@@ -145,11 +156,23 @@
                                                     <option value="">{{ trans('--Select Company Vehicle--') }}</option>
                                                     @foreach ($brand as $brands)
                                                     <option value="{{ $brands->id }}">{{ $brands->name }}</option>
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                                                     @endforeach
                                                 </select>
                                                 <span id="select_company_vehicle_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Company vehicle is required.') }}</span>
                                             </td>
                                             <td class="tbl_td_quantity_error_1">
+<<<<<<< HEAD
+                                                <input type="number" class="form-control quantity" name="quantity" id="quantity" placeholder="Quantity">
+                                                <span id="quantity_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
+                                            </td>
+                                            <td class="tbl_td_price_error_1">
+                                                <input type="text" class="form-control price" name="price" id="prices" readonly>
+                                                <span id="price_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Price is required.') }}</span>
+                                            </td>
+                                            <td class="tbl_td_totaPrice_error_1">
+                                                <input type="text" class="form-control total_price" name="total_price" id="totally_price" readonly>
+=======
                                                 <input type="number" name="product[qty][]" class="quantity form-control qty qty_1 qtyt" id="qty_1" autocomplete="off" row_id="1" value="" maxlength="8">
                                                 <span id="quantity_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
                                             </td>
@@ -159,6 +182,7 @@
                                             </td>
                                             <td class="tbl_td_totaPrice_error_1">
                                                 <input type="text" name="product[total_price][]" class="product form-control total_price total_price_1" value="" style="width:100%;" id="total_price_1" readonly="true" required="true">
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                                                 <span id="total_price_error_1" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Total price is required.') }}</span>
                                             </td>
                                             <td align="center">
@@ -329,6 +353,37 @@
 <!-- Scripts starting -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<<<<<<< HEAD
+
+
+<script>
+    var msg10 = "{{ trans('message.OK') }}"
+
+   
+    $(document).ready(function() {
+        // Listen for changes in the company vehicle select input
+        $('#company_vehicle').on('change', function() {
+            // Get the selected vehicle ID
+            var vehicleId = $(this).val();
+            
+            // Send an AJAX request to fetch vehicle details
+            $.ajax({
+                url: '/get-vehicle-details', // Update with your route URL
+                method: 'GET',
+                data: { vehicle_id: vehicleId },
+                success: function(response) {
+                    // Populate the price and other details based on the response
+                    $('#prices').val(response.price);
+                    // You can populate other details similarly
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors if any
+                    console.error(error);
+                }
+            });
+        });
+    });
+=======
 <script>
     var msg10 = "{{ trans('message.OK') }}"
 
@@ -369,6 +424,7 @@
         }
     });
 });
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
 
 
 

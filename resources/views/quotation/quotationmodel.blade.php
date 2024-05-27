@@ -167,7 +167,11 @@
                                     <thead>
                                         <tr>
                                             <th class="cname text-left">{{ trans('Job Category') }}</th>
+<<<<<<< HEAD
+                                            <th class="cname text-left">{{ trans('Product') }}</th>
+=======
                                             <th class="cname text-left">{{ trans('message.Service Type') }}</th>
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                                             <th class="cname text-left">{{ trans('message.Details') }}</th>
                                             <th class="cname text-left"> </th>
                                             <th class="cname text-left"> </th>
@@ -327,6 +331,69 @@
                                     }
                                 }
                 ?>
+<<<<<<< HEAD
+                            <?php
+                        $total2 = 0;
+                        if (!empty($all_data3)) {
+                    ?>
+
+
+                <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
+                    <table class="table table-bordered">
+                        <tr class="printimg">
+                            <td class="cname fw-bold" colspan="7">{{ trans('Sold Parts') }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="table table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 mb-0">
+                    <table class="table table-bordered adddatatable mx-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 5%;">#</th>
+                                <th class="text-center">{{ trans('message.Product Name') }}</th>
+                                <th class="text-center">{{ trans('Quantity') }}</th>
+                                
+                                <th class="text-center">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
+                                <th class="text-center" style="width: 25%;">{{ trans('message.Total Price') }}
+                                    (<?php echo getCurrencySymbols(); ?>)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $total2 = 0;
+                            $i = 1;
+                            if (!empty($all_data3)) {
+                                foreach ($all_data3 as $ser_proc2) {
+                            ?>
+                                    <tr>
+                                        <td class="text-center cname" style="width: 10px;"><?php echo $i++; ?></td>
+                                        <td class="text-center cname"><?php echo getProduct($ser_proc2->product_id); ?></td>
+                                        <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                        
+                                        <td class="text-center cname"><?php echo number_format((float) $ser_proc2->price, 2); ?></td>
+                                        <td class="text-end cname"><?php echo number_format((float) $ser_proc2->total_price, 2); ?></td>
+                                        <?php if (!empty($ser_proc2->total_price)) {
+                                            $total2 += $ser_proc2->total_price;
+                                        } ?>
+                                    </tr>
+                                <?php
+                                }
+                            } else { ?>
+                                <!-- <tr>
+                                <td class="cname text-center" colspan="5">{{ trans('message.Data not available') }}</td>
+                            </tr> -->
+
+                        </tbody>
+                    </table>
+                </div>
+
+            <?php
+                            }
+                        }
+            ?>
+=======
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                 <!-- MOT Test Service Charge Details Start -->
                 <?php
                 //$service_data->mot_status

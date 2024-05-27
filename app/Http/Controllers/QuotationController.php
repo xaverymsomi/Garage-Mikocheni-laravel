@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\User;
 use Mpdf\Mpdf;
 use App\Branch;
+use App\Details;
+use App\Product;
 use App\Service;
+use App\Vehicle;
 use App\Washbay;
+use App\SalePart;
 use App\BranchSetting;
 use App\JobcardDetail;
+use App\CheckoutCategory;
+use App\QuoteObservation;
 use App\tbl_service_pros;
 use Illuminate\Http\Request;
 use Mpdf\Output\Destination;
-use PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
@@ -103,7 +109,7 @@ class QuotationController extends Controller
     $new_number = 'RMAL-RP-24-0001';
 		}
 
-       $code = $new_number;
+       	$code = $new_number;
 		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
 		$country = DB::table('tbl_countries')->get()->toArray();
 		$onlycustomer = DB::table('users')->where([['role', '=', 'Customer'], ['id', '=', Auth::User()->id]])->first();
@@ -117,23 +123,48 @@ class QuotationController extends Controller
 		$tax = DB::table('tbl_account_tax_rates')->where([['soft_delete', '=', 0]])->get()->toArray();
 		$inspection_points_library_data = DB::table('inspection_points_library')->get();
 
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$customer = DB::table('users')->where([['role', '=', 'Customer'], ['soft_delete', '=', 0]])->get()->toArray();
+		$taxes = DB::table('tbl_account_tax_rates')->where('soft_delete', '=', 0)->get()->toArray();
+		$payment = DB::table('tbl_payments')->where('soft_delete', '=', 0)->get()->toArray();
+        $job_cartegory = DB::table('tbl_products')->where([['soft_delete', '=', 0]])->get()->toArray();
+
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		if (isAdmin(Auth::User()->role_id)) {
-
+			$vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->get();
+            $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->get();
+			$branchDatas = Branch::get();
+			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+			$vehicle_name = Vehicle::where('soft_delete', '=', 0)->get();
+            $cat_name = CheckoutCategory::where('soft_delete', '=', 0)->distinct()->select('checkout_point')->get();
+			$employee = DB::table('users')->where('role', '=', 'Employee')->where('soft_delete', '=', 0)->get()->toArray();
+			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0]])->get()->toArray();
+			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
+			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 		} else {
+			$vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
+            $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		}
 
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'salepart'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', 0]])->get()->toArray();
 
-		return view('quotation.add', compact('employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'inspection_points_library_data', 'tax', 'branchDatas', 'repairCategoryList'));
+		return view('quotation.add', compact('customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas','employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'tbl_custom_fields', 'inspection_points_library_data', 'tax', 'branchDatas', 'repairCategoryList','vehicle_name', 'cat_name','job_cartegory', 'model_name'));
 	}
 
 
@@ -142,11 +173,10 @@ class QuotationController extends Controller
 {
     // dd($request->discountPercentage);
 	$discountPercentage = $request->discountPercentage;
-
-	if($discountPercentage){
+	if ($discountPercentage) {
 		$finalCharge = $request->charge;
 		$discountAmount = ($request->discountPercentage / 100) * $request->charge;
-
+	
 		$job = $request->jobno;
 		$Customername = $request->Customername;
 		$vehicalname = $request->vehicalname;
@@ -154,25 +184,56 @@ class QuotationController extends Controller
 		$service_category = $request->repair_cat;
 		$ser_type = $request->service_type;
 		$details = $request->details;
-
+	
 		// Subtract discount amount from the final charge
 		$finalCharge -= $discountAmount;
-
-		// Ckecking MOT Test Check box, if it is checked or not
+	
+		// Checking MOT Test Check box, if it is checked or not
 		$mot_test_status = $request->motTestStatusCheckbox;
-		if ($mot_test_status == "on") {
-			$mot_test_status = 1;
-		} else {
-			$mot_test_status = 0;
-		}
-
+		$mot_test_status = $mot_test_status == "on" ? 1 : 0;
+	
 		if (getDateFormat() == 'm-d-Y') {
 			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
 		} else {
 			$date = date('Y-m-d H:i:s', strtotime($request->date));
 		}
-
-		
+	
+		// Calculate the total price of all products
+		$totalProductPrice = 0;
+		$products = $request->product;
+		if (!empty($products)) {
+			foreach ($products['product_id'] as $key => $value) {
+				$description = $products['product_id'][$key];
+				$qty = $products['qty'][$key];
+				$price = $products['price'][$key];
+				$total_price = $products['total_price'][$key];
+				$manufacture = $products['Manufacturer_id'][$key];
+	
+				$info = new Details;
+				$info->quantity = $qty;
+				$info->price = $price;
+				$info->total_price = $total_price;
+				$info->product_id = $description;
+				$info->product_type_id = $manufacture;
+				$info->sellman = Auth::user()->id;
+				$info->customer_id = $Customername;
+				$info->branch_id = $request->branch;
+				$info->date = $date;
+				$info->quotation_id = $job;
+				$characters = '0123456789';
+				$code = 'SP' . substr(str_shuffle($characters), 0, 6);
+				$info->bill_no = $code;
+	
+				$info->save();
+	
+				// Add the total price of this product to the total product price
+				$totalProductPrice += $total_price;
+			}
+		}
+	
+		// Add total product price to the final charge
+		$finalCharge += $totalProductPrice;
+	
 		$services = new Service;
 		$services->job_no = $job;
 		$services->vehicle_id = $vehicalname;
@@ -180,7 +241,7 @@ class QuotationController extends Controller
 		$services->title = $title;
 		$services->service_category = $service_category;
 		$services->done_status = 0;
-		$services->charge = $finalCharge; // Save the discounted charge
+		$services->charge = $finalCharge; // Save the final charge including product prices
 		$services->customer_id = $Customername;
 		$services->detail = $details;
 		$services->service_type = $ser_type;
@@ -189,8 +250,8 @@ class QuotationController extends Controller
 		$services->quotation_modify_status = 1;
 		$services->branch_id = $request->branch;
 		$services->create_by = Auth::User()->id;
-		
-		// custom field save	
+	
+		// custom field save
 		$custom = $request->custom;
 		$custom_fileld_value = array();
 		$custom_fileld_value_jason_array = array();
@@ -203,7 +264,7 @@ class QuotationController extends Controller
 					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
 				}
 			}
-
+	
 			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
 			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
 				$serviceData = $val1;
@@ -213,50 +274,50 @@ class QuotationController extends Controller
 		if (!empty($request->Tax)) {
 			$services->tax_id = implode(', ', $request->Tax);
 		}
-
+	
 		$services->save();
-
+	
 		$service_latest_data = Service::where('job_no', '=', $job)->first();
 		$service_id = $service_latest_data->id;
 		$job_no = $service_latest_data->job_no;
-
+	
 		$inspection_data = array();
-
+	
 		if ($request->motTestStatusCheckbox == "on") {
 			$inspection_data = $request->inspection;
 			$data_for_db = json_encode($inspection_data);
-
+	
 			$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
-
+	
 			$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
-
+	
 			$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
-
+	
 			$get_vehicle_current_id = $get_vehicle_inspection_id->id;
-
+	
 			if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
 				$mot_test_status = 'fail';
 			} else {
 				$mot_test_status = 'pass';
 			}
-
+	
 			$generateMotTestNumber = rand();
 			$todayDate = date('Y-m-d');
-
+	
 			$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
-
+	
 			$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
 		}
-
+	
 		//get current service id for washbay data
 		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
-
+	
 		$washbay_status = $request->washbay;
-
+	
 		/*Checking for Washbay status, if washbay status on then data store inside washbay table*/
 		if ($washbay_status == 'on') {
 			$washbay_charge = $request->washBayCharge;
-
+	
 			$washbays = new Washbay;
 			$washbays->service_id = $get_service_id;
 			$washbays->jobcard_no = $job;
@@ -265,15 +326,15 @@ class QuotationController extends Controller
 			$washbays->price = $washbay_charge;
 			$washbays->save();
 		}
-
+	
 		/*Redirect to direct quotation modify page*/
 		return redirect()->route('quotation_modify', array('id' => $service_id));
-
-    	// dd($finalCharge);
+	
+		// dd($finalCharge);
 	} else {
 		$finalCharge = $request->charge;
 		// $discountAmount = ($request->discountPercentage / 100) * $request->charge;
-
+	
 		$job = $request->jobno;
 		$Customername = $request->Customername;
 		$vehicalname = $request->vehicalname;
@@ -281,25 +342,55 @@ class QuotationController extends Controller
 		$service_category = $request->repair_cat;
 		$ser_type = $request->service_type;
 		$details = $request->details;
-
+	
 		// Subtract discount amount from the final charge
 		// $finalCharge -= $discountAmount;
-
-		// Ckecking MOT Test Check box, if it is checked or not
+	
+		// Checking MOT Test Check box, if it is checked or not
 		$mot_test_status = $request->motTestStatusCheckbox;
-		if ($mot_test_status == "on") {
-			$mot_test_status = 1;
-		} else {
-			$mot_test_status = 0;
-		}
-
+		$mot_test_status = $mot_test_status == "on" ? 1 : 0;
+	
 		if (getDateFormat() == 'm-d-Y') {
 			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
 		} else {
 			$date = date('Y-m-d H:i:s', strtotime($request->date));
 		}
-
-		
+	
+		// Calculate the total price of all products
+		$totalProductPrice = 0;
+		$products = $request->product;
+		if (!empty($products)) {
+			foreach ($products['product_id'] as $key => $value) {
+				$description = $products['product_id'][$key];
+				$qty = $products['qty'][$key];
+				$price = $products['price'][$key];
+				$total_price = $products['total_price'][$key];
+				$manufacture = $products['Manufacturer_id'][$key];
+	
+				$info = new Details;
+				$info->quantity = $qty;
+				$info->price = $price;
+				$info->total_price = $total_price;
+				$info->product_id = $description;
+				$info->product_type_id = $manufacture;
+				$info->sellman = Auth::user()->id;
+				$info->customer_id = $Customername;
+				$info->branch_id = $request->branch;
+				$info->date = $date;
+				$characters = '0123456789';
+				$code = 'SP' . substr(str_shuffle($characters), 0, 6);
+				$info->bill_no = $code;
+	
+				$info->save();
+	
+				// Add the total price of this product to the total product price
+				$totalProductPrice += $total_price;
+			}
+		}
+	
+		// Add total product price to the final charge
+		$finalCharge += $totalProductPrice;
+	
 		$services = new Service;
 		$services->job_no = $job;
 		$services->vehicle_id = $vehicalname;
@@ -307,7 +398,7 @@ class QuotationController extends Controller
 		$services->title = $title;
 		$services->service_category = $service_category;
 		$services->done_status = 0;
-		$services->charge = $finalCharge; // Save the discounted charge
+		$services->charge = $finalCharge; // Save the final charge including product prices
 		$services->customer_id = $Customername;
 		$services->detail = $details;
 		$services->service_type = $ser_type;
@@ -316,8 +407,8 @@ class QuotationController extends Controller
 		$services->quotation_modify_status = 1;
 		$services->branch_id = $request->branch;
 		$services->create_by = Auth::User()->id;
-		
-		// custom field save	
+	
+		// custom field save
 		$custom = $request->custom;
 		$custom_fileld_value = array();
 		$custom_fileld_value_jason_array = array();
@@ -330,7 +421,7 @@ class QuotationController extends Controller
 					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
 				}
 			}
-
+	
 			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
 			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
 				$serviceData = $val1;
@@ -340,50 +431,50 @@ class QuotationController extends Controller
 		if (!empty($request->Tax)) {
 			$services->tax_id = implode(', ', $request->Tax);
 		}
-
+	
 		$services->save();
-
+	
 		$service_latest_data = Service::where('job_no', '=', $job)->first();
 		$service_id = $service_latest_data->id;
 		$job_no = $service_latest_data->job_no;
-
+	
 		$inspection_data = array();
-
+	
 		if ($request->motTestStatusCheckbox == "on") {
 			$inspection_data = $request->inspection;
 			$data_for_db = json_encode($inspection_data);
-
+	
 			$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
-
+	
 			$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
-
+	
 			$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
-
+	
 			$get_vehicle_current_id = $get_vehicle_inspection_id->id;
-
+	
 			if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
 				$mot_test_status = 'fail';
 			} else {
 				$mot_test_status = 'pass';
 			}
-
+	
 			$generateMotTestNumber = rand();
 			$todayDate = date('Y-m-d');
-
+	
 			$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
-
+	
 			$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
 		}
-
+	
 		//get current service id for washbay data
 		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
-
+	
 		$washbay_status = $request->washbay;
-
+	
 		/*Checking for Washbay status, if washbay status on then data store inside washbay table*/
 		if ($washbay_status == 'on') {
 			$washbay_charge = $request->washBayCharge;
-
+	
 			$washbays = new Washbay;
 			$washbays->service_id = $get_service_id;
 			$washbays->jobcard_no = $job;
@@ -392,12 +483,13 @@ class QuotationController extends Controller
 			$washbays->price = $washbay_charge;
 			$washbays->save();
 		}
-
+	
 		/*Redirect to direct quotation modify page*/
 		return redirect()->route('quotation_modify', array('id' => $service_id));
+	
+		// dd($finalCharge);
 	}
-	// Calculate discount amount based on percentage
-	// dd($request->charge);
+	
 }
 
 
@@ -450,6 +542,7 @@ class QuotationController extends Controller
 		$logo = DB::table('tbl_settings')->first();
 
 		$data = DB::select("select tbl_service_pros.*, tbl_points.*,tbl_service_observation_points.id from tbl_points join tbl_service_observation_points on tbl_service_observation_points.observation_points_id = tbl_points.id join tbl_service_pros on tbl_service_pros.tbl_service_observation_points_id = tbl_service_observation_points.id where tbl_service_observation_points.services_id = $viewid and tbl_service_observation_points.review = 1 and tbl_service_pros.type = 0");
+        
 
 		/*Get status of MoT test is it checked or not*/
 		$fetch_mot_test_status = DB::table('tbl_services')->where('id', '=', $id)->first();
@@ -964,8 +1057,10 @@ class QuotationController extends Controller
 		$used_cpn_data = DB::table('tbl_jobcard_details')->where('service_id', $ser_id)->first();
 
 		$service_id = $ser_id;
+		$numbers = $service_data->job_no;
 		$all_data = DB::table('tbl_service_pros')->where([['service_id', $service_id], ['type', '=', 0]])->get()->toArray();
 		$all_data2 = DB::table('tbl_service_pros')->where([['service_id', $service_id], ['type', '=', 1]])->get()->toArray();
+		$all_data3 = DB::table('tbl_details')->where([['quotation_id', $numbers]])->get()->toArray();
 
 		$service_taxes = null;
 		if (!empty($service_data->tax_id)) {
@@ -979,7 +1074,7 @@ class QuotationController extends Controller
 		//For Custom Field Data
 		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'service'], ['always_visable', '=', 'yes']])->get()->toArray();
 
-		$html = view('quotation.quotationmodel')->with(compact('page_action', 'service_id', 'logo', 'custo_info', 'vehi_name', 'regi', 'all_data', 'all_data2', 'used_cpn_data', 'service_data', 'service_taxes', 'tbl_custom_fields', 'washbay_data'))->render();
+		$html = view('quotation.quotationmodel')->with(compact('page_action', 'service_id', 'logo', 'custo_info', 'vehi_name', 'regi', 'all_data', 'all_data2', 'all_data3', 'used_cpn_data', 'service_data', 'service_taxes', 'tbl_custom_fields', 'washbay_data'))->render();
 
 		return response()->json(['success' => true, 'html' => $html]);
 	}
@@ -1075,18 +1170,27 @@ class QuotationController extends Controller
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		if (isAdmin(Auth::User()->role_id)) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
+			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+			$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+			$sales = Details::where('quotation_id', $service->job_no)->first();
+			$brand = Product::where([['category', 1], ['soft_delete', '=', 0]])->get();
+			$stock = Details::where('bill_no', '=', $sales->bill_no)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$sales = SalePart::where([['quotation_id', $service->job_no], ['branch_id', $currentUser->branch_id]])->first();
+			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
+			$stock = SalePart::where([['bill_no', $sales->bill_no], ['branch_id', $currentUser->branch_id]])->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		}
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', 0]])->get()->toArray();
 
-		return view('quotation/edit', compact('service', 'vehical', 'employee', 'customer', 'regi_no', 'tbl_custom_fields', 'tax', 'inspection_points_library_data', 'mot_inspections_answers', 'washbayPrice', 'branchDatas', 'repairCategoryList'));
+		return view('quotation/edit', compact('sales','brand', 'stock', 'service', 'vehical', 'employee', 'customer', 'regi_no', 'tbl_custom_fields', 'tax', 'inspection_points_library_data', 'mot_inspections_answers', 'washbayPrice', 'branchDatas', 'repairCategoryList'));
 	}
 
 	//Quotation update (Quotation service add first step update)

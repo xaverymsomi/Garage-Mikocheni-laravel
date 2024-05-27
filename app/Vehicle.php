@@ -10,8 +10,14 @@ class Vehicle extends Model
     //For 
     protected $table = 'tbl_vehicles';
 
+    protected $guarded = [];
 
 
+    public function vehicles()
+    {
+        return $this->hasMany('App\Vehicle', 'customer_id');
+    }  
+    
     public function scopeGetByUser($query, $id)
     {
         $role = getUsersRole(Auth::User()->role_id);

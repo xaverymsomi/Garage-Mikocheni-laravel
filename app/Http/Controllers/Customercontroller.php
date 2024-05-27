@@ -70,214 +70,81 @@ class Customercontroller extends Controller
 	//customer store
 	public function storecustomer(CustomerAddEditFormRequest $request)
 	{
-		if ($request->has('add_another') && $request->input('add_another') === 'true') {
+		$customerType = $request->customer_type;
 
-			// dd($request->all());
-		$firstname = $request->firstname;
-		$password = $request->password;
-		$TIN = $request->TIN;
-		$password = $request->password;
-		$password = $request->password;
-		$gender = $request->gender;
-		$birthdate = $request->dob;
-		$email = $request->email;
-		$mobile = $request->mobile;
-		$address = $request->address;
-		$country_id = $request->country_id;
-		$state_id = $request->state_id;
-		$city = $request->city;
-		$NIDA = $request->NIDA;
-		$Driving = $request->Driving;
-
-		$dob = null;
-		if (!empty($birthdate)) {
-			if (getDateFormat() == 'm-d-Y') {
-				$dob = date('Y-m-d', strtotime(str_replace('-', '/', $birthdate)));
-			} else {
-				$dob = date('Y-m-d', strtotime($birthdate));
-			}
-		}
-
-		if (!empty($email)) {
-			$email = $email;
-		} else {
-			$email = null;
-		}
-
-		//Get user role id from Role table
-		$getRoleId = Role::where('role_name', '=', 'Customer')->first();
-
-		$customer = new User;
-
-		$customer->name = $firstname;
-		$customer->gender = $gender;
-		$customer->birth_date = $dob;
-		$customer->email = $email;
-		$customer->password = bcrypt($password);
-		$customer->mobile_no = $mobile;
-		$customer->address = $address;
-		$customer->country_id = $country_id;
-		$customer->state_id = $state_id;
-		$customer->city_id = $city;
-		$customer->TIN = $TIN;
-		$customer->create_by = Auth::User()->id;
-
-		if (!empty($Driving)) {
-			$file = $Driving;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
-			$customer->Driving = $filename;
-		} else {
-			$customer->Driving = 'drive.png';
-		}
-
-		if (!empty($NIDA)) {
-			$file = $NIDA;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
-			$customer->NIDA = $filename;
-		} else {
-			$customer->NIDA = 'NIDA.jpg';
-		}
-
-		$customer->role = "Customer";
-		$customer->role_id = $getRoleId->id; /*Store Role table User Role Id*/
-		$customer->language = "en";
-		$customer->timezone = "UTC";
-
-		//custom field	
-		$custom = $request->custom;
-		$custom_fileld_value = array();
-		$custom_fileld_value_jason_array = array();
-
-		if (!empty($custom)) {
-			foreach ($custom as $key => $value) {
-				if (is_array($value)) {
-					$add_one_in = implode(",", $value);
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-				} else {
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-				}
-			}
-
-			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-
-			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-				$customerdata = $val1;
-			}
-			$customer->custom_field = $customerdata;
-		}
-		$customer->save();
-
-		/*For data store inside Role_user table*/
-		if ($customer->save()) {
-			$currentUserId = $customer->id;
-
-			$role_user_table = new Role_user;
-			$role_user_table->user_id = $currentUserId;
-			$role_user_table->role_id  = $getRoleId->id;
-			$role_user_table->save();
-		}
-
-		if (!is_null($email)) {
-			//email format
-			try {
-				$logo = DB::table('tbl_settings')->first();
-				$systemname = $logo->system_name;
-
-				$emailformats = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
-				if ($emailformats->is_send == 0) {
-					if ($customer->save()) {
-						$emailformat = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
-						$mail_format = $emailformat->notification_text;
-						$mail_subjects = $emailformat->subject;
-						$mail_send_from = $emailformat->send_from;
-						$search1 = array('{ system_name }');
-						$replace1 = array($systemname);
-						$mail_sub = str_replace($search1, $replace1, $mail_subjects);
-
-						$systemlink = URL::to('/');
-						$search = array('{ system_name }', '{ user_name }', '{ email }', '{ Password }', '{ system_link }');
-						$replace = array($systemname, $firstname, $email, $password, $systemlink);
-
-						$email_content = str_replace($search, $replace, $mail_format);
-
-						$actual_link = $_SERVER['HTTP_HOST'];
-						$startip = '0.0.0.0';
-						$endip = '255.255.255.255';
-						$data = array(
-							'email' => $email,
-							'mail_sub1' => $mail_sub,
-							'email_content1' => $email_content,
-							'emailsend' => $mail_send_from,
-						);
-
-						if (($actual_link == 'localhost' || $actual_link == 'localhost:8080') || ($actual_link >= $startip && $actual_link <= $endip)) {
-							//local format email					
-							
-							$data1 = Mail::send('customer.customermail', $data, function ($message) use ($data) {
-
-								$message->from($data['emailsend'], 'noreply');
-								$message->to($data['email'])->subject($data['mail_sub1']);
-							});
-						} else {
-							//Live format email					
-							$headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$headers .= 'From:' . $mail_send_from . "\r\n";
-
-							$data = mail($email, $mail_sub, $email_content, $headers);
-						}
-					}
-				}
-			} catch (\Exception $e) {
-			}
-		}
-			// save Vehicle
-					
-			$vehical_type = $request->vehical_id;
-			$chasicno = $request->chasicno;
-			$vehicabrand = $request->vehicabrand;
-			$modelyear = $request->modelyear;
-			$fueltype = $request->fueltype;
-			$modelname = $request->modelname;
-			$price = $request->price;
-			$engineno = $request->engineno;
-			$numberPlate = $request->number_plate;
-			$customer = $request->customer;
-			$doms = $request->dom;
-
-			if (!empty($doms)) {
+		if ($customerType === 'individual') {
+			$firstname = $request->firstname;
+			$password = $request->password;
+			$tin_no = $request->tin_no;
+			$password = $request->password;
+			$gender = $request->gender;
+			$birthdate = $request->dob;
+			$email = $request->email;
+			$mobile = $request->mobile;
+			$address = $request->address;
+			$country_id = $request->country_id;
+			$state_id = $request->state_id;
+			$city = $request->city;
+			$dob = null;
+			if (!empty($birthdate)) {
 				if (getDateFormat() == 'm-d-Y') {
-					$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
+					$dob = date('Y-m-d', strtotime(str_replace('-', '/', $birthdate)));
 				} else {
-					$dom = date('Y-m-d', strtotime($doms));
+					$dob = date('Y-m-d', strtotime($birthdate));
 				}
-			} else {
-				$dom = null;
 			}
 
-			$vehical = new Vehicle;
-			$vehical->vehicletype_id = $vehical_type;
-			$vehical->chassisno = $chasicno;
-			$vehical->vehiclebrand_id = $vehicabrand;
-			$vehical->modelyear = $modelyear;
-			$vehical->fuel_id = $fueltype;
-			$vehical->modelname = $modelname;
-			$vehical->price = $price;
-			$vehical->dom  = $dom;
-			$vehical->engineno = $engineno;
-			$vehical->number_plate = $numberPlate;
-			$vehical->branch_id = $request->branch;
+			if (!empty($email)) {
+				$email = $email;
+			} else {
+				$email = null;
+			}
 
-			$lastID = User::latest()->value('id');
-			$increament = $lastID;
-			$vehical->customer_id = $increament;
+			//Get user role id from Role table
+			$getRoleId = Role::where('role_name', '=', 'Customer')->first();
 
-			//custom field save	
-			//$custom=Input::get('custom');
+			$customer = new User;
+
+			$customer->name = $firstname;
+			$customer->gender = $gender;
+			$customer->birth_date = $dob;
+			$customer->email = $email;
+			$customer->password = bcrypt($password);
+			$customer->mobile_no = $mobile;
+			$customer->address = $address;
+			$customer->country_id = $country_id;
+			$customer->state_id = $state_id;
+			$customer->city_id = $city;
+			$customer->tin_no = $tin_no;
+			$customer->create_by = Auth::User()->id;
+
+			if (!empty($request->driving)) {
+				$file = $request->driving;
+				$filename = $file->getClientOriginalName();
+				$file->move(public_path() . '/customer/', $file->getClientOriginalName());
+				$customer->driving = $filename;
+			} else {
+				$customer->Driving = 'drive.png';
+			}
+
+			if (!empty($request->nida)) {
+				$file = $request->nida;
+				$filename = $file->getClientOriginalName();
+				$file->move(public_path() . '/customer/', $file->getClientOriginalName());
+				$customer->nida = $filename;
+			} else {
+				$customer->nida = 'NIDA.jpg';
+			}
+
+			$customer->role = "Customer";
+			$customer->role_id = $getRoleId->id; /*Store Role table User Role Id*/
+			$customer->language = "en";
+			$customer->timezone = "UTC";
+			//custom field	
 			$custom = $request->custom;
 			$custom_fileld_value = array();
 			$custom_fileld_value_jason_array = array();
+
 			if (!empty($custom)) {
 				foreach ($custom as $key => $value) {
 					if (is_array($value)) {
@@ -291,360 +158,143 @@ class Customercontroller extends Controller
 				$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
 
 				foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-					$vehicleData = $val1;
+					$customerdata = $val1;
 				}
-				$vehical->custom_field = $vehicleData;
+				$customer->custom_field = $customerdata;
 			}
-			$vehical->save();
+			$customer->save();
 
-			$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-			$id = $vehicles->id;
+			/*For data store inside Role_user table*/
+			if ($customer->save()) {
+				$currentUserId = $customer->id;
 
-			//$descriptionsdata = Input::get('description');
-			$descriptionsdata = $request->description;
-
-			foreach ($descriptionsdata as $key => $value) {
-				if ($descriptionsdata[$key] !== null) {
-					$desc = $descriptionsdata[$key];
-					$descriptions = new tbl_vehicle_discription_records;
-					$descriptions->vehicle_id = $id;
-					$descriptions->vehicle_description = $desc;
-					$descriptions->save();
-				}
-			}
-			$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-			$id = $vehicles->id;
-
-			$image = $request->image;
-			if (!empty($image)) {
-				$files = $image;
-
-				foreach ($files as $file) {
-					$filename = $file->getClientOriginalName();
-					$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
-					$images = new tbl_vehicle_images;
-					$images->vehicle_id = $id;
-					$images->image = $filename;
-					$images->save();
-				}
-			}
-			$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-			$id = $vehicles->id;
-
-			//$colores = Input::get('color');
-			$colores = $request->color;
-
-			foreach ($colores as $key => $value) {
-				$colorse = $colores[$key];
-				$color1 = new tbl_vehicle_colors;
-				$color1->vehicle_id = $id;
-				$color1->color = $colorse;
-				$color1->save();
+				$role_user_table = new Role_user;
+				$role_user_table->user_id = $currentUserId;
+				$role_user_table->role_id  = $getRoleId->id;
+				$role_user_table->save();
 			}
 
-			return redirect()->route('customer.vehicle');
-			
-		} else {
-						// dd($request->all());
-		$firstname = $request->firstname;
-		$password = $request->password;
-		$TIN = $request->TIN;
-		$password = $request->password;
-		$password = $request->password;
-		$gender = $request->gender;
-		$birthdate = $request->dob;
-		$email = $request->email;
-		$mobile = $request->mobile;
-		$address = $request->address;
-		$country_id = $request->country_id;
-		$state_id = $request->state_id;
-		$city = $request->city;
-		$NIDA = $request->NIDA;
-		$Driving = $request->Driving;
+			if (!is_null($email)) {
+				//email format
+				try {
+					$logo = DB::table('tbl_settings')->first();
+					$systemname = $logo->system_name;
 
-		$dob = null;
-		if (!empty($birthdate)) {
-			if (getDateFormat() == 'm-d-Y') {
-				$dob = date('Y-m-d', strtotime(str_replace('-', '/', $birthdate)));
-			} else {
-				$dob = date('Y-m-d', strtotime($birthdate));
-			}
-		}
+					$emailformats = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
+					if ($emailformats->is_send == 0) {
+						if ($customer->save()) {
+							$emailformat = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
+							$mail_format = $emailformat->notification_text;
+							$mail_subjects = $emailformat->subject;
+							$mail_send_from = $emailformat->send_from;
+							$search1 = array('{ system_name }');
+							$replace1 = array($systemname);
+							$mail_sub = str_replace($search1, $replace1, $mail_subjects);
 
-		if (!empty($email)) {
-			$email = $email;
-		} else {
-			$email = null;
-		}
+							$systemlink = URL::to('/');
+							$search = array('{ system_name }', '{ user_name }', '{ email }', '{ Password }', '{ system_link }');
+							$replace = array($systemname, $firstname, $email, $password, $systemlink);
 
-		//Get user role id from Role table
-		$getRoleId = Role::where('role_name', '=', 'Customer')->first();
+							$email_content = str_replace($search, $replace, $mail_format);
 
-		$customer = new User;
+							$actual_link = $_SERVER['HTTP_HOST'];
+							$startip = '0.0.0.0';
+							$endip = '255.255.255.255';
+							$data = array(
+								'email' => $email,
+								'mail_sub1' => $mail_sub,
+								'email_content1' => $email_content,
+								'emailsend' => $mail_send_from,
+							);
 
-		$customer->name = $firstname;
-		$customer->gender = $gender;
-		$customer->birth_date = $dob;
-		$customer->email = $email;
-		$customer->password = bcrypt($password);
-		$customer->mobile_no = $mobile;
-		$customer->address = $address;
-		$customer->country_id = $country_id;
-		$customer->state_id = $state_id;
-		$customer->city_id = $city;
-		$customer->TIN = $TIN;
-		$customer->create_by = Auth::User()->id;
+							if (($actual_link == 'localhost' || $actual_link == 'localhost:8080') || ($actual_link >= $startip && $actual_link <= $endip)) {
+								//local format email					
+								
+								$data1 = Mail::send('customer.customermail', $data, function ($message) use ($data) {
 
-		if (!empty($Driving)) {
-			$file = $Driving;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
-			$customer->Driving = $filename;
-		} else {
-			$customer->Driving = 'drive.png';
-		}
+									$message->from($data['emailsend'], 'noreply');
+									$message->to($data['email'])->subject($data['mail_sub1']);
+								});
+							} else {
+								//Live format email					
+								$headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+								$headers .= 'From:' . $mail_send_from . "\r\n";
 
-		if (!empty($NIDA)) {
-			$file = $NIDA;
-			$filename = $file->getClientOriginalName();
-			$file->move(public_path() . '/customer/', $file->getClientOriginalName());
-			$customer->NIDA = $filename;
-		} else {
-			$customer->NIDA = 'NIDA.jpg';
-		}
-
-		$customer->role = "Customer";
-		$customer->role_id = $getRoleId->id; /*Store Role table User Role Id*/
-		$customer->language = "en";
-		$customer->timezone = "UTC";
-
-		//custom field	
-		$custom = $request->custom;
-		$custom_fileld_value = array();
-		$custom_fileld_value_jason_array = array();
-
-		if (!empty($custom)) {
-			foreach ($custom as $key => $value) {
-				if (is_array($value)) {
-					$add_one_in = implode(",", $value);
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-				} else {
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-				}
-			}
-
-			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-
-			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-				$customerdata = $val1;
-			}
-			$customer->custom_field = $customerdata;
-		}
-		$customer->save();
-
-		/*For data store inside Role_user table*/
-		if ($customer->save()) {
-			$currentUserId = $customer->id;
-
-			$role_user_table = new Role_user;
-			$role_user_table->user_id = $currentUserId;
-			$role_user_table->role_id  = $getRoleId->id;
-			$role_user_table->save();
-		}
-
-		if (!is_null($email)) {
-			//email format
-			try {
-				$logo = DB::table('tbl_settings')->first();
-				$systemname = $logo->system_name;
-
-				$emailformats = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
-				if ($emailformats->is_send == 0) {
-					if ($customer->save()) {
-						$emailformat = DB::table('tbl_mail_notifications')->where('notification_for', '=', 'User_registration')->first();
-						$mail_format = $emailformat->notification_text;
-						$mail_subjects = $emailformat->subject;
-						$mail_send_from = $emailformat->send_from;
-						$search1 = array('{ system_name }');
-						$replace1 = array($systemname);
-						$mail_sub = str_replace($search1, $replace1, $mail_subjects);
-
-						$systemlink = URL::to('/');
-						$search = array('{ system_name }', '{ user_name }', '{ email }', '{ Password }', '{ system_link }');
-						$replace = array($systemname, $firstname, $email, $password, $systemlink);
-
-						$email_content = str_replace($search, $replace, $mail_format);
-
-						$actual_link = $_SERVER['HTTP_HOST'];
-						$startip = '0.0.0.0';
-						$endip = '255.255.255.255';
-						$data = array(
-							'email' => $email,
-							'mail_sub1' => $mail_sub,
-							'email_content1' => $email_content,
-							'emailsend' => $mail_send_from,
-						);
-
-						if (($actual_link == 'localhost' || $actual_link == 'localhost:8080') || ($actual_link >= $startip && $actual_link <= $endip)) {
-							//local format email					
-							
-							$data1 = Mail::send('customer.customermail', $data, function ($message) use ($data) {
-
-								$message->from($data['emailsend'], 'noreply');
-								$message->to($data['email'])->subject($data['mail_sub1']);
-							});
-						} else {
-							//Live format email					
-							$headers = 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-							$headers .= 'From:' . $mail_send_from . "\r\n";
-
-							$data = mail($email, $mail_sub, $email_content, $headers);
+								$data = mail($email, $mail_sub, $email_content, $headers);
+							}
 						}
 					}
+				} catch (\Exception $e) {
 				}
-			} catch (\Exception $e) {
 			}
-		}
-			// save Vehicle
-					
-			$vehical_type = $request->vehical_id;
-			$chasicno = $request->chasicno;
-			$vehicabrand = $request->vehicabrand;
-			$modelyear = $request->modelyear;
-			$fueltype = $request->fueltype;
-			$modelname = $request->modelname;
-			$price = $request->price;
-			$engineno = $request->engineno;
-			$numberPlate = $request->number_plate;
-			$customer = $request->customer;
-			$doms = $request->dom;
-
-			if (!empty($doms)) {
-				if (getDateFormat() == 'm-d-Y') {
-					$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
-				} else {
-					$dom = date('Y-m-d', strtotime($doms));
-				}
-			} else {
-				$dom = null;
-			}
-
-			$vehical = new Vehicle;
-			$vehical->vehicletype_id = $vehical_type;
-			$vehical->chassisno = $chasicno;
-			$vehical->vehiclebrand_id = $vehicabrand;
-			$vehical->modelyear = $modelyear;
-			$vehical->fuel_id = $fueltype;
-			$vehical->modelname = $modelname;
-			$vehical->price = $price;
-			$vehical->dom  = $dom;
-			$vehical->engineno = $engineno;
-			$vehical->number_plate = $numberPlate;
-			$vehical->branch_id = $request->branch;
-
-			$lastID = User::latest()->value('id');
-			$increament = $lastID;
-			$vehical->customer_id = $increament;
-
-			//custom field save	
-			//$custom=Input::get('custom');
-			$custom = $request->custom;
-			$custom_fileld_value = array();
-			$custom_fileld_value_jason_array = array();
-			if (!empty($custom)) {
-				foreach ($custom as $key => $value) {
-					if (is_array($value)) {
-						$add_one_in = implode(",", $value);
-						$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-					} else {
-						$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+			// Save vehicle information
+			$vehicles = $request->input('vehicles');
+			foreach ($vehicles as $vehicleData) {
+				$vehicle = new Vehicle;
+				$vehicle->vehicletype_id = $vehicleData['vehical_id'];
+				$vehicle->number_plate = $vehicleData['number_plate'];
+				$vehicle->vehiclebrand_id = $vehicleData['vehicabrand'];
+				$vehicle->modelyear = $vehicleData['model_year'];
+				$vehicle->fuel_id = $vehicleData['fueltype'];
+				$vehicle->modelname = $vehicleData['modelname'];
+				$vehicle->chassisno = $vehicleData['chassis_no'];
+				$vehicle->engineno = $vehicleData['engine_no'];
+				$vehicle->branch_id = $vehicleData['branch'];
+				$vehicle->color = $vehicleData['color'];
+				$vehicle->customer_id = $customer->id; // Assign customer ID to the vehicle
+	
+				$vehicle->save();
+	
+				// Retrieve the last inserted vehicle to get its ID
+				$lastVehicle = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+				$vehicleId = $lastVehicle->id;
+	
+				// Handle vehicle images
+				$vehicleImages = $request->file('vehicle_images');
+				if (!empty($vehicleImages)) {
+					foreach ($vehicleImages as $image) {
+						$filename = $image->getClientOriginalName();
+						$image->move(public_path() . '/vehicle/', $filename);
+	
+						$vehicleImage = new tbl_vehicle_images;
+						$vehicleImage->vehicle_id = $vehicleId;
+						$vehicleImage->image = $filename;
+						$vehicleImage->save();
 					}
 				}
-
-				$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-
-				foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-					$vehicleData = $val1;
-				}
-				$vehical->custom_field = $vehicleData;
-			}
-			$vehical->save();
-
-			$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-			$id = $vehicles->id;
-
-			//$descriptionsdata = Input::get('description');
-			$descriptionsdata = $request->description;
-
-			foreach ($descriptionsdata as $key => $value) {
-				if ($descriptionsdata[$key] !== null) {
-					$desc = $descriptionsdata[$key];
-					$descriptions = new tbl_vehicle_discription_records;
-					$descriptions->vehicle_id = $id;
-					$descriptions->vehicle_description = $desc;
-					$descriptions->save();
-				}
-			}
-			$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-			$id = $vehicles->id;
-
-			$image = $request->image;
-			if (!empty($image)) {
-				$files = $image;
-
-				foreach ($files as $file) {
-					$filename = $file->getClientOriginalName();
-					$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
-					$images = new tbl_vehicle_images;
-					$images->vehicle_id = $id;
-					$images->image = $filename;
-					$images->save();
-				}
-			}
-			$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-			$id = $vehicles->id;
-
-			//$colores = Input::get('color');
-			$colores = $request->color;
-
-			foreach ($colores as $key => $value) {
-				$colorse = $colores[$key];
-				$color1 = new tbl_vehicle_colors;
-				$color1->vehicle_id = $id;
-				$color1->color = $colorse;
-				$color1->save();
 			}
 			return redirect('/customer/list')->with('message', 'Customer Submitted Successfully');
 		}
+		// dd($customerType);
+		
 	}
 
-
-	//customer list
+			//customer list
 	public function index()
 	{
-		if (!isAdmin(Auth::User()->role_id)) {
+			if (!isAdmin(Auth::User()->role_id)) {
 
-			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
-				if (Gate::allows('customer_owndata')) {
-					$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+				if (getUsersRole(Auth::user()->role_id) == 'Customer') {
+					if (Gate::allows('customer_owndata')) {
+						$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+					} else {
+						$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
+					}
 				} else {
-					$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
+					if (Gate::allows('customer_owndata')) {
+						$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0], ['create_by', '=', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+					} else {
+						$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
+					}
 				}
+
+			
 			} else {
-				if (Gate::allows('customer_owndata')) {
-					$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0], ['create_by', '=', Auth::User()->id]])->orderBy('id', 'DESC')->get();
-				} else {
-					$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
-				}
+				$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 			}
 
-		
-		} else {
-			$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
-		}
-
-		return view('customer.list', compact('customer'));
-	}
+	return view('customer.list', compact('customer'));
+}
 
 	//customer show
 	public function customershow($id)
