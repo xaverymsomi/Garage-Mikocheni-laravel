@@ -211,129 +211,93 @@
                     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space1">
                         <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
                     </div>
-                    <div class="row">
-                        <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10">
-                            <h3 class="fw-bold mt-0">{{ trans('message.Observation List') }}
-                                <button type="button" data-bs-target="#responsive-modal-observation" data-bs-toggle="modal" class="btn btn-outline-secondary clickAddNewButton ms-1"> + </button>
-                            </h3>
-                        </div>
-<<<<<<< HEAD
-=======
-                        <!-- <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2" style="padding-top:3px;">
-                                <button type="button" data-bs-target="#responsive-modal-observation"
-                                    data-bs-toggle="modal"
-                                    class="btn btn-outline-secondary clickAddNewButton"> + </button>
-                            </div> -->
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
-                    </div>
-                    <div class="col-md-12 col-xs-12 col-sm-12 panel-group">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h5 class="panel-title">
-                                    <a data-bs-toggle="collapse" href="#collapse1" class="ob_plus"><i class="fa fa-plus"></i>
-                                        {{ trans('message.Observation Points') }}</a>
-                                </h5>
-                            </div>
-                            <div id="collapse1" class="panel-collapse collapse in">
-                                <div class="panel-body main_data table-responsive">
-                                    <!-- Observation Checked Points -->
-<<<<<<< HEAD
-                                    <table class="table table-bordered adddatatable" id="tab_taxes_detail" align="center">
-                                        <thead>
-                                            <tr>
-                                                <th class="actionre">{{ trans('Job cartegory') }}</th>
-                                                <th class="actionre">{{ trans('message.Product Name') }}</th>
-                                                <th class="actionre">{{ trans('message.Observation') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                                $quotenum = getQuotationNumber($services->job_no);
-                                                $num = DB::table('tbl_observation')->where('quotation_id', '=', $quotenum)->get();
-                                            @endphp
-                                             @foreach ($num as $card)
-                                                <tr id="row_id_1">
-                                                    <td class="tbl_td_selectManufac_error_1">
-                                                        {{ $card->job_cartegory_name }}
-                                                    </td>
-                                                    <td class="tbl_td_selectProductname_error_1">
-                                                        {{ $card->product }}
-                                                    </td>
-                                                    <td class="tbl_td_quantity_error_1">
-                                                        {{ $card->observation }}
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-=======
-                                    <table class="table table-bordered main_data_points" id="main_data_points" align="center">
-                                        <thead>
-                                            <tr>
-                                                <th class="fw-bold">{{ trans('message.Category') }}</th>
-                                                <th class="fw-bold" style="width:10%;">{{ trans('message.Observation Point') }}</th>
-                                                {{-- <th class="fw-bold" style="width:10%;">{{ trans('message.Service Charge') }}</th> --}}
-                                                <th class="fw-bold" style="width:10%;">{{ trans('message.Select Product') }}</th>
-                                                {{-- <th class="fw-bold" style="width:9%;">{{ trans('message.Price') }}
-                                                    (<php echo getCurrencySymbols(); ?>)
-                                                </th>
-                                                <th class="fw-bold" style="width:10%;">{{ trans('message.Qty') }}</th>
-                                                <th class="fw-bold" style="width:10%;">{{ trans('message.Total') }}
-                                                    (<php echo getCurrencySymbols(); ?>)</th>
-                                                <th class="fw-bold" style="width:10%;">{{ trans('message.Chargeable') }}</th>
-                                                <th class="fw-bold">{{ trans('message.Comments') }}</th> --}}
-                                                <th class="fw-bold">{{ trans('message.Action') }}</th>
-                                            </tr>
-                                        </thead>
+                   
+                    <!-- Observation Part -->
+<div class="row mt-4">
+    <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10 header">
+        <h4>
+            <b>{{ trans('OBSERVATION PART') }}</b>
+            <button type="button" id="add_new_observation" class="btn btn-outline-secondary">{{ trans('+') }}</button>
+        </h4>
+    </div>
+    <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2"></div>
+</div>
+<div class="col-md-12 col-xs-12 col-sm-12 form-group table-responsive">
+    <table class="table table-bordered adddatatable" id="observation_table" align="center">
+        <thead>
+            <tr>
+                <th class="actionre">{{ trans('Job cartegory') }}</th>
+                <th class="actionre">{{ trans('Area of Observation') }}</th>
+                <th class="actionre">{{ trans('Observation Details') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tbl_td_selectManufac_error">
+                    <select class="form-control select_producttype form-select" name="jognum[Manufacturer_id][]" m_url="{!! url('/purchase/producttype/names') !!}">
+                        <option value="">{{ trans('Job cartegory') }}</option>
+                        @if(!empty($categoryJob))
+                            @foreach ($categoryJob as $item)
+                                <option value="{{ $item->repair_category_name }}">{{ $item->repair_category_name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Manufacturer name is required.') }}</span>
+                </td>
+                <td class="tbl_td_selectProductname_error">
+                    <select name="jognum[product_id][]" class="form-control productid form-select" >
+                        <option value="">{{ trans('message.--Select Product--') }}</option>
+                        
+                        @if(!@empty($selectProduct))
+                            @foreach ($selectProduct as $item)
+                                <option value="{{ $item->point }}">{{ $item->point }}</option>
+                            @endforeach
+                        @endif
+                        
+                    </select>
+                    <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Product name is required.') }}</span>
+                </td>
+                <td class="tbl_td_quantity_error">
+                    <textarea name="jognum[qty][]" id="" cols="4" rows="3"></textarea>
+                    <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-                                        <tbody id="tbd">
-                                            <?php $i = 1; ?>
-                                            <?php foreach ($data as $datas) { ?>
-                                                <tr class="obs_point_data" id="<?php echo 'row_id_delete_' . $i; ?>">
-                                                    <td>
-                                                        <input type="text" name="product2[category][]" class="form-control" value="<?php echo $datas->checkout_subpoints; ?>" readonly="true">
-                                                        <input type="hidden" name="pro_id_delete" class="del_pro_<?php echo $i; ?>" id="del_pro_<?php echo $i; ?>" value="<?php echo $datas->id; ?>">
-                                                    </td>
 
-                                                    <td>
-                                                        <input type="text" name="product2[sub_points][]" class="form-control" value="<?php echo $datas->checkout_point; ?>" readonly="true">
-                                                    </td>
-
-                                                    {{--  --}}
-
-                                                    <td>
-                                                        <select name="product2[product_id][]" class="form-control product_ids product1s_{{ $i }} form-select" url="{{ url('/jobcard/getprice') }}" row_did="{{ $i }}" id="product1s_{{ $i }}" qtyappend="">
-                                                            <option value="">{{ trans('message.Select Product') }}
-                                                            </option>
-                                                            <?php foreach ($product as $products) {
-                                                                if ($products->id == $datas->product_id) {
-                                                                    $is_select = "selected";
-                                                                } else {
-                                                                    $is_select = "";
-                                                                }
-                                                            ?>
-                                                                <option value="<?php echo $products->id; ?>" <?php echo $is_select; ?>>
-                                                                    <?php echo $products->name; ?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </td>
-                                                    
-
-                                                    
-
-                              
-                                                    <td class="text-center">
-                                                        <i class="fa fa-trash fa-2x delete" style="cursor: pointer;" data_id_trash="<?php echo $i; ?>" delete_data_url=" <?php echo url('/jobcard/delete_on_reprocess'); ?>" service_id="<?php echo $viewid; ?>"></i>
-                                                        <input type="hidden" name="obs_id[]" class="form-control" value="<?php echo $datas->id; ?>">
-                                                    </td>
-                                                </tr>
-                                                <?php $i++; ?>
-                                            <?php } ?>
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!-- Templates for new rows -->
+<template id="observation-row-template">
+    <tr>
+        <td class="tbl_td_selectManufac_error">
+            <select class="form-control select_producttype form-select" name="jognum[Manufacturer_id][]" m_url="{!! url('/purchase/producttype/names') !!}">
+                <option value="">{{ trans('Job cartegory') }}</option>
+                @if(!empty($categoryJob))
+                    @foreach ($categoryJob as $item)
+                        <option value="{{ $item->repair_category_name }}">{{ $item->repair_category_name }}</option>
+                    @endforeach
+                @endif
+            </select>
+            <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Manufacturer name is required.') }}</span>
+        </td>
+        <td class="tbl_td_selectProductname_error">
+            <select name="jognum[product_id][]" class="form-control productid form-select" url="{!! url('purchase/add/getproduct') !!}">
+                <option value="">{{ trans('message.--Select Product--') }}</option>
+                 @if(!@empty($selectProduct))
+                    @foreach ($selectProduct as $item)
+                        <option value="{{ $item->point }}">{{ $item->point }}</option>
+                    @endforeach
+                @endif
+            </select>
+            <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Product name is required.') }}</span>
+        </td>
+        <td class="tbl_td_quantity_error">
+            <textarea name="jognum[qty][]" id="" cols="4" rows="3"></textarea>
+            <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
+        </td>
+    </tr>
+</template>
                     <div class="row panel-group">
                         <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10">
                             <h2 class="fw-bold mt-0">{{ trans('message.Other Service Charges') }}
@@ -1062,6 +1026,36 @@
             $('.addJobcardSubmitButton').removeAttr('disabled'); //re-enable on form invalidation
         });
     });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    // Function to add a new observation row
+    const addNewObservation = () => {
+        const template = document.querySelector('#observation-row-template').innerHTML;
+        const tbody = document.querySelector('#observation_table tbody');
+        tbody.insertAdjacentHTML('beforeend', template);
+    };
+
+    // Function to add a new sell row
+    const addNewSell = () => {
+        const template = document.querySelector('#sell-row-template').innerHTML;
+        const tbody = document.querySelector('#sell_table tbody');
+        tbody.insertAdjacentHTML('beforeend', template);
+    };
+
+    // Event listener for add observation button
+    document.querySelector('#add_new_observation').addEventListener('click', addNewObservation);
+
+    // Event listener for add sell button
+    document.querySelector('#add_new_sell').addEventListener('click', addNewSell);
+    
+    // Function to remove a row
+    window.removeRow = (element) => {
+        const row = element.closest('tr');
+        row.remove();
+    };
+});
+
 </script>
 
 

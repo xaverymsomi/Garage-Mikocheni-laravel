@@ -8,8 +8,8 @@
       <nav>
         <div class="nav toggle">
          
-          <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/product/list') !!}" id=""><i class=""><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}"class="mb-1"></i><span class="titleup">
-              {{ trans('message.Add Vehicle') }}</span></a>
+          <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup"><a href="{!! url('/company_vehicle/list') !!}" id=""><i class=""><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}"class="mb-1"></i><span class="titleup">
+              {{ trans('Add Company Vehicle') }}</span></a>
         </div>
         @include('dashboard.profile')
       </nav>
@@ -107,26 +107,11 @@
               </div>
 
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                   <div class="select-wrapper">
-                      <select class="form-control select_vehicalbrand form-select" name="vehicabrand" url="">
-                         <option value="">{{ trans('message.Select Brand') }}</option>
-                         @if (!empty($vehical_brand))
-                                 @foreach ($vehical_brand as $vehical_types)
-                                 <option value="{{ $vehical_types->id }}">
-                                    {{ $vehical_types->vehicle_brand }}
-                                 </option>
-                                 @endforeach
-                                 @endif
-                      </select>
-                      <div class="arrow-icon-vehicle"></div>
-                   </div>
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('Quantity') }}</label>
+                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                  <input type="number" id="quantity" name="quantity" class="form-control" placeholder="{{ trans('Enter Quantity') }}" value="1" maxlength="20">
                 </div>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                </div>
-             </div>
+              </div>
 
              
             </div>
@@ -1315,7 +1300,11 @@
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\ProductAddEditFormRequest', '#productAdd-Form') !!}
+<<<<<<< HEAD
+<script type="text/javascript"src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+=======
 <script type="text/javascript"
   src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
 
+>>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
 @endsection

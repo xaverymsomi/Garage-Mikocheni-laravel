@@ -60,7 +60,7 @@
                                 <?php
                                 if ($taxName !== null && $taxNumber !== null) {
                                     // echo '<br>' . $taxName . ': &nbsp;' . $taxNumber;
-                                    echo '<b>&nbsp; ' . $taxName . ' :</b> ' . $taxNumber;
+                                    // echo '<b>&nbsp; ' . $taxName . ' :</b> ' . $taxNumber;
                                 }
                                 ?>
                                 </p>
@@ -167,11 +167,8 @@
                                     <thead>
                                         <tr>
                                             <th class="cname text-left">{{ trans('Job Category') }}</th>
-<<<<<<< HEAD
-                                            <th class="cname text-left">{{ trans('Product') }}</th>
-=======
+
                                             <th class="cname text-left">{{ trans('message.Service Type') }}</th>
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                                             <th class="cname text-left">{{ trans('message.Details') }}</th>
                                             <th class="cname text-left"> </th>
                                             <th class="cname text-left"> </th>
@@ -331,7 +328,6 @@
                                     }
                                 }
                 ?>
-<<<<<<< HEAD
                             <?php
                         $total2 = 0;
                         if (!empty($all_data3)) {
@@ -392,8 +388,6 @@
                             }
                         }
             ?>
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                 <!-- MOT Test Service Charge Details Start -->
                 <?php
                 //$service_data->mot_status

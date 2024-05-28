@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -50,5 +49,10 @@ class User extends Authenticatable
             }
         }
         return false;
+    }
+
+    public function vehicles()
+    {
+        return $this->hasMany('App\Vehicle', 'customer_id');
     }
 }

@@ -1,6 +1,14 @@
 <?php
 
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+
 use App\Http\Controllers\VehicalControler;
+use App\Http\Controllers\CompanyVehicleController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +135,10 @@ Route::group(['prefix' => 'customer'], function () {
 	Route::get('/list/payment/{id}', ['as' => 'customer/list/payment/{id}', 'uses' => 'Customercontroller@customerspayment'])->middleware('can:customer_view');
 });
 Route::get('/mot', 'Customercontroller@customersmot')->middleware('can:customer_view');
+
+
+Route::get('customer/add_vehicle', [VehicalControler::class, 'adding_cust_vehicle'])->name('customer.vehicle');
+Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
 
 	Route::get('customer/add_vehicle', [VehicalControler::class,'adding_cust_vehicle'])->name('customer.vehicle');
 	Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
@@ -576,6 +588,12 @@ Route::group(['prefix' => 'jobcard'], function () {
 });
 
 
+// Route::post('/jobcard/save-observation', 'JobCardcontroller@saveObservation')->middleware('can:jobcard_edit');
+Route::post('/save-observation', [
+    'as' => 'jobcard.store',
+    'uses' => 'JobCardcontroller@saveObservation'
+])->middleware('can:jobcard_edit');
+
 Route::get('/observation', 'JobCardcontroller@addobservation');
 Route::get('/jobcard/addproducts', 'JobCardcontroller@addproducts');
 Route::get('/jobcard/getprice', 'JobCardcontroller@getprice');
@@ -727,9 +745,24 @@ Route::get('/company_vehicle/list', 'CompanyVehicleController@index')->middlewar
 Route::get('/company_vehicle/add', 'CompanyVehicleController@addVehicle')->middleware('can:companyvehicle_add');
 Route::post('/company_vehicle/store', 'CompanyVehicleController@store')->middleware('can:companyvehicle_add');
 Route::get('/company_vehicle/edit/{id}', 'CompanyVehicleController@edit')->middleware('can:companyvehicle_edit');
-Route::post('/company_vehicle/edit/update/{id}', 'CompanyVehicleController@update')->middleware('can:companyvehicle_edit');
+
+Route::get('/company_vehicle/sell/{id}', 'CompanyVehicleController@sell')->middleware('can:companyvehicle_sell');
+// Route::post('/company_vehicle/edit/update/{id}', 'CompanyVehicleController@update')->middleware('can:companyvehicle_edit');
 Route::get('/company_vehicle/delete/{id}', 'CompanyVehicleController@destroy')->middleware('can:companyvehicle_delete');
 
+Route::get('/company_vehicle/list/modal', 'CompanyVehicleController@view')->middleware('can:companyvehicle_view');
+Route::group(['prefix' => 'company_vehicle'], function () {
+
+	// Route::get('updates/{id}', '')->middleware('can:');
+	Route::post('/sell/updates/{id}', 'CompanyVehicleController@sellupdate')->middleware('can:companyvehicle_sell');
+	Route::post('/edit/update/{id}', 'CompanyVehicleController@update')->middleware('can:companyvehicle_edit');
+	Route::post('/list/delete', ['as' => 'company_vehicle/list/delete', 'uses' => 'CompanyVehicleController@destroyMultiple'])->middleware('can:companyvehicle_delete');
+	
+
+});
+Route::post('/company_vehicle/edit/update/{id}', 'CompanyVehicleController@update')->middleware('can:companyvehicle_edit');
+Route::get('/company_vehicle/delete/{id}', 'CompanyVehicleController@destroy')->middleware('can:companyvehicle_delete');
+Route::get('/search-customer', 'Customercontroller@searchByName')->name('searchCustomerByName');
 Route::get('/company_vehicle/list/modal', 'CompanyVehicleController@view')->middleware('can:companyvehicle_view');
 Route::get('/company_vehicle/getprice', 'CompanyVehicleController@getModelName');
 Route::get('/company_vehicle/add/getproductname', 'CompanyVehicleController@getProductName');

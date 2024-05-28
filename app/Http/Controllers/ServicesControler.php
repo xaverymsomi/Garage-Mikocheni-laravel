@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use Mail;
-use App\User;
-use App\Sale;
 use App\Role;
+use App\Sale;
+use App\User;
 use App\Branch;
 use App\Service;
-use App\Vehicle;
 use App\Setting;
+use App\Vehicle;
 use App\Washbay;
 use App\Role_user;
+use Mpdf\Tag\Input;
 use App\BranchSetting;
-use App\RepairCategory;
 use App\JobcardDetail;
-use App\tbl_service_images;
+use App\RepairCategory;
+use App\QuoteObservation;
 use App\tbl_service_pros;
+use App\tbl_service_images;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use App\tbl_service_observation_points;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use App\tbl_service_observation_points;
 
 class ServicesControler extends Controller
 {
@@ -138,10 +141,12 @@ $code = $new_number;
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->where('soft_delete', '=', 0)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		}
+		$selectProduct = DB::table('inspection_points_library')->get();
+
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', "=", 0]])->get()->toArray();
 
-		return view('service.add', compact('employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas', 'repairCategoryList'));
+		return view('service.add', compact('selectProduct','employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas', 'repairCategoryList'));
 	}
 
 	//customer add
@@ -372,6 +377,29 @@ $code = $new_number;
 		$comment = $request->comment;
 		$obs_auto_id = $request->obs_id;
 
+
+		// Extract observation data
+        $observations = $request->input('jognum');
+
+        // Example processing: Loop through observations and save to database
+        foreach ($observations['Manufacturer_id'] as $index => $manufacturerId) {
+            $productId = $observations['product_id'][$index] ?? null;
+            $quantity = $observations['qty'][$index] ?? null;
+
+            // Perform validation (you can use Laravel's validator or request validation)
+
+            // Example insert to database
+            if ($manufacturerId && $productId && $quantity) {
+                // Assuming you have an Observation model
+                QuoteObservation::create([
+					'quotation_id' => $request->job_no,
+                    'job_cartegory_name' => $manufacturerId,
+                    'product' => $productId,
+                    'observation' => $quantity,
+                ]);
+            }
+        }
+
 		$in_date = $request->in_date;
 		$out_date = $request->out_date;
 
@@ -529,6 +557,14 @@ $code = $new_number;
 		$date = $request->date;
 		$image = $request->image;
 
+
+		// $observation = new QuoteObservation;
+		// $observation->quotation_id = $request->jobno;
+		// $observation->job_cartegory_name = $request->firstSelection;
+		// $observation->product = $request->secondSelection;
+		// $observation->observation = $request->observation;
+		// $observation->save();
+
 		if ($mot_test_status == "on") {
 			$mot_test_status = 1;
 		} else {
@@ -682,7 +718,10 @@ $code = $new_number;
 
 		$logo = DB::table('tbl_settings')->first();
 		$inspection_points_library_data = DB::table('inspection_points_library')->get();
-
+		
+		$categoryJob = DB::table('table_repair_category')->get();
+		$selectProduct = DB::table('inspection_points_library')->get();
+		
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$names = null;
@@ -693,7 +732,7 @@ $code = $new_number;
 		} else {
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $veh_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
 		}
-		return view('service/jobcard_form', compact('service_data', 'vehical', 'tbl_checkout_categories', 'sale_date', 'color', 'obs_point', 'free_coupan', 'logo', 'inspection_points_library_data', 'washbay_price'));
+		return view('service/jobcard_form', compact('selectProduct','categoryJob','service_data', 'vehical', 'tbl_checkout_categories', 'sale_date', 'color', 'obs_point', 'free_coupan', 'logo', 'inspection_points_library_data', 'washbay_price'));
 	}
 
 	//select checkpoints

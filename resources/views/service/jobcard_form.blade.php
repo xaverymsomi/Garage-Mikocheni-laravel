@@ -289,6 +289,8 @@
                         <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space1">
                             <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
                         </div>
+
+                        {{-- <div class="row">
                         <div class="row">
                             <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-3 col-xs-3 ms-1">
                                 <h3>{{ trans('message.Observation List') }}</h3>
@@ -296,8 +298,13 @@
                             <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2 ps-0">
                                 <button type="button" data-bs-target="#responsive-modal-observation" data-bs-toggle="modal" class="btn btn-outline-secondary clickAddNewButton ms-0 mt-2"> + </button>
                             </div>
+
+                        </div> --}}
+                        {{-- <div class=" col-md-12 col-xs-12 col-sm-12 panel-group">
+
                         </div>
                         <div class=" col-md-12 col-xs-12 col-sm-12 panel-group">
+
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h6 class="panel-title tbl_points">
@@ -315,6 +322,94 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div> --}}
+<!-- Observation Part -->
+<div class="row mt-4">
+    <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10 header">
+        <h4>
+            <b>{{ trans('OBSERVATION PART') }}</b>
+            <button type="button" id="add_new_observation" class="btn btn-outline-secondary">{{ trans('+') }}</button>
+        </h4>
+    </div>
+    <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2"></div>
+</div>
+<div class="col-md-12 col-xs-12 col-sm-12 form-group table-responsive">
+    <table class="table table-bordered adddatatable" id="observation_table" align="center">
+        <thead>
+            <tr>
+                <th class="actionre">{{ trans('Job cartegory') }}</th>
+                <th class="actionre">{{ trans('Area of Observation') }}</th>
+                <th class="actionre">{{ trans('Observation Details') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tbl_td_selectManufac_error">
+                    <select class="form-control select_producttype form-select" name="jognum[Manufacturer_id][]" m_url="{!! url('/purchase/producttype/names') !!}">
+                        <option value="">{{ trans('Job cartegory') }}</option>
+                        @if(!empty($categoryJob))
+                            @foreach ($categoryJob as $item)
+                                <option value="{{ $item->repair_category_name }}">{{ $item->repair_category_name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Manufacturer name is required.') }}</span>
+                </td>
+                <td class="tbl_td_selectProductname_error">
+                    <select name="jognum[product_id][]" class="form-control productid form-select" >
+                        <option value="">{{ trans('message.--Select Product--') }}</option>
+                        
+                        @if(!@empty($selectProduct))
+                            @foreach ($selectProduct as $item)
+                                <option value="{{ $item->point }}">{{ $item->point }}</option>
+                            @endforeach
+                        @endif
+                        
+                    </select>
+                    <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Product name is required.') }}</span>
+                </td>
+                <td class="tbl_td_quantity_error">
+                    <textarea name="jognum[qty][]" id="" cols="4" rows="3"></textarea>
+                    <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Templates for new rows -->
+<template id="observation-row-template">
+    <tr>
+        <td class="tbl_td_selectManufac_error">
+            <select class="form-control select_producttype form-select" name="jognum[Manufacturer_id][]" m_url="{!! url('/purchase/producttype/names') !!}">
+                <option value="">{{ trans('Job cartegory') }}</option>
+                @if(!empty($categoryJob))
+                    @foreach ($categoryJob as $item)
+                        <option value="{{ $item->repair_category_name }}">{{ $item->repair_category_name }}</option>
+                    @endforeach
+                @endif
+            </select>
+            <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Manufacturer name is required.') }}</span>
+        </td>
+        <td class="tbl_td_selectProductname_error">
+            <select name="jognum[product_id][]" class="form-control productid form-select" url="{!! url('purchase/add/getproduct') !!}">
+                <option value="">{{ trans('message.--Select Product--') }}</option>
+                 @if(!@empty($selectProduct))
+                    @foreach ($selectProduct as $item)
+                        <option value="{{ $item->point }}">{{ $item->point }}</option>
+                    @endforeach
+                @endif
+            </select>
+            <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Product name is required.') }}</span>
+        </td>
+        <td class="tbl_td_quantity_error">
+            <textarea name="jognum[qty][]" id="" cols="4" rows="3"></textarea>
+            <span class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
+        </td>
+    </tr>
+</template>
                         </div>
 
                         <!-- ************* MOT Module Starting ************* -->
@@ -640,6 +735,8 @@
 </div>
 
 <!-- model in observation Point -->
+
+{{-- <div class="col-md-12">
 <div class="col-md-12">
     <div id="responsive-modal-observation" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -730,6 +827,8 @@
             </div>
         </div>
     </div>
+</div> --}}
+
 </div>
 
 <!-- /page content -->
@@ -1025,6 +1124,36 @@
             $('#submitButton').prop('disabled', !pDateValue);
         });
     });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    // Function to add a new observation row
+    const addNewObservation = () => {
+        const template = document.querySelector('#observation-row-template').innerHTML;
+        const tbody = document.querySelector('#observation_table tbody');
+        tbody.insertAdjacentHTML('beforeend', template);
+    };
+
+    // Function to add a new sell row
+    const addNewSell = () => {
+        const template = document.querySelector('#sell-row-template').innerHTML;
+        const tbody = document.querySelector('#sell_table tbody');
+        tbody.insertAdjacentHTML('beforeend', template);
+    };
+
+    // Event listener for add observation button
+    document.querySelector('#add_new_observation').addEventListener('click', addNewObservation);
+
+    // Event listener for add sell button
+    document.querySelector('#add_new_sell').addEventListener('click', addNewSell);
+    
+    // Function to remove a row
+    window.removeRow = (element) => {
+        const row = element.closest('tr');
+        row.remove();
+    };
+});
+
 </script>
 
 <!-- Form field validation -->

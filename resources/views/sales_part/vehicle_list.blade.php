@@ -35,20 +35,14 @@ ler
                     <div class="nav toggle">
                         @if (getActiveCustomer(Auth::user()->id) == 'yes' || getActiveEmployee(Auth::user()->id) == 'yes')
                         <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a>
-<<<<<<< HEAD
+
                         <span class="titleup">
                             {{ trans('Sold Vehicle History') }}
-=======
-                        <span class="titleup">{{ trans('Sell Vehicles') }}
-                            @can('salespart_add')
-                            <a href="{!! url('/companyvehicle/add') !!}" id="">
-                                <img src="{{ URL::asset('public/img/icons/plus Button.png') }}" class="mb-2">
-                            </a>
-                            @endcan
-                        </span>
+
+                        
                         @else
                         <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><span class="titleup">{{ trans('message.Purchase') }}
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
+
                         </span>
                         @endif
                     </div>

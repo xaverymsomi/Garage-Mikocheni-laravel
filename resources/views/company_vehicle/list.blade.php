@@ -38,7 +38,7 @@
           <table id="supplier" class="table jambo_table" style="width:100%">
             <thead>
               <tr>
-                @can('product_delete')
+                @can('companyvehicle_delete')
                 <th> </th>
                 @endcan
                 <th>{{ trans('message.Image') }}</th>
@@ -57,7 +57,7 @@
                 @endif
                 <!-- Custom Field Data End -->
                 
-                @canany(['product_edit', 'product_delete'])
+                @canany(['companyvehicle_edit', 'companyvehicle_delete'])
                 <th>{{ trans('message.Action') }}</th>
                 @endcanany
 
@@ -68,7 +68,7 @@
               @foreach ($product as $products)
               <tr data-user-id="{{ $products->id }}"> 
                 <!-- <td>{{ $i }}</td> -->
-                @can('product_delete')
+                @can('companyvehicle_delete')
                 <td>
                   <label class="container checkbox">
                     <input type="checkbox" name="chk">
@@ -137,19 +137,23 @@
                 @endforeach
                 @endif
                 <!-- Custom Field Data End -->
-                @canany(['product_edit', 'product_delete'])
+                @canany(['companyvehicle_edit', 'companyvehicle_sell','companyvehicle_delete'])
                 <td>
                   <div class="dropdown_toggle">
                     <img src="{{ URL::asset('public/img/list/dots.png') }}" class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButtonAction" data-bs-toggle="dropdown" aria-expanded="false">
 
                     <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButtonAction">
-                      @can('product_edit')
-                      <li><a class="dropdown-item" href="{!! url('/product/list/edit/' . $products->id) !!}"><img src="{{ URL::asset('public/img/list/Edit.png') }}" class="me-3"> {{ trans('message.Edit') }}</a></li>
-                      @endcan
+                      @can('companyvehicle_sell')
+                          <li><a class="dropdown-item" href="{!! url('/company_vehicle/sell/' . $products->id) !!}"><img src="{{ URL::asset('public/img/list/pay.png') }}" class="me-3"> {{ trans('Sell') }}</a></li>
+                          @endcan
 
-                      @can('product_delete')
-                      <div class="dropdown-divider"></div>
-                      <li><a class="dropdown-item sa-warning" url="{!! url('/product/list/delete/' . $products->id) !!}" style="color:#FD726A"><img src="{{ URL::asset('public/img/list/Delete.png') }}" class="me-3">{{ trans('message.Delete') }}</a></li>
+                          @can('companyvehicle_edit')
+                          <li><a class="dropdown-item" href="{!! url('/company_vehicle/edit/' . $products->id) !!}"><img src="{{ URL::asset('public/img/list/Edit.png') }}" class="me-3"> {{ trans('message.Edit') }}</a></li>
+                          @endcan
+
+                          @can('companyvehicle_delete')
+                          <div class="dropdown-divider"></div>
+                          <li><a class="dropdown-item sa-warning" url="{!! url('/company_vehicle/delete/' . $products->id) !!}" style="color:#FD726A"><img src="{{ URL::asset('public/img/list/Delete.png') }}" class="me-3">{{ trans('message.Delete') }}</a></li>
                       @endcan
                     </ul>
                   </div>
@@ -160,7 +164,7 @@
               @endforeach
             </tbody>
           </table>
-          @can('product_delete')
+          @can('companyvehicle_delete')
           <button id="select-all-btn" class="btn select_all"><input type="checkbox" name="selectAll"> {{ trans('message.Select All') }} </button>
           <button id="delete-selected-btn" class="btn btn-danger text-white border-0" data-url="{!! url('/product/list/delete/') !!}"><i class="fa fa-trash" aria-hidden="true"></i></button>
           @endcan

@@ -2,20 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
 use App\User;
 use App\Color;
-use App\Vehicle;
-use App\Product;
-use App\Invoice;
-use App\Setting;
 use App\Branch;
+use App\Invoice;
+use App\Product;
+use App\Setting;
+use App\Vehicle;
 use App\SalePart;
 use App\Updatekey;
-use App\PaymentMethod;
 use App\BranchSetting;
+use App\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+
+// use DB;
+// use Auth;
+// use App\User;
+// use App\Color;
+// use App\Vehicle;
+// use App\Product;
+// use App\Invoice;
+// use App\Setting;
+// use App\Branch;
+// use App\SalePart;
+// use App\Updatekey;
+// use App\PaymentMethod;
+// use App\BranchSetting;
+// use Illuminate\Http\Request;
 
 class SalesPartcontroller extends Controller
 {

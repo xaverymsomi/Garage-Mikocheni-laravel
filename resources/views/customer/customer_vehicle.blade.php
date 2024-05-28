@@ -31,25 +31,43 @@
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
          <div class="x_panel">
             <div class="x_content">
+
+                <form action="{{ route('searchCustomerByName') }}" method="GET">
+                    <div class="row row-mb-0">
+                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group">
+                            <input class="form-control" type="text" name="search" placeholder="Search Clients">
+                            <button class="btn btn-outline-secondary btn-sm"  type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+                
                 <form id="demo-form2" action="{!! url('/customer/store') !!}" method="post" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left input_mask customerAddForm">
                     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
                         <h4><b>{{ trans('message.PERSONAL INFORMATION') }}</b></h4>
                         <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
                     </div>
+
+                    
                 
                     <!-- Customer Type Toggle -->
                     <div class="row row-mb-0">
                         <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group">
                             <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('Customer Type') }} <label class="color-danger">*</label></label>
                             <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                <select id="customerType" name="customer_type" class="form-control">
+                                <select id="customerType" name="customer_type" class="form-control" onchange="toggleCustomerType()">
                                     <option value="#">--- select client type ---</option>
                                     <option value="individual">{{ trans('Individual') }}</option>
                                     <option value="corporate">{{ trans('Corporate/Organization') }}</option>
                                 </select>
                             </div>
                         </div>
+                        {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group">
+                            <input class="form-control" type="text" id="searchInput" placeholder="Search by name">
+                            <div id="searchResults"></div>
+                        </div> --}}
+                        
                     </div>
+
                 
                     <!-- Individual Customer Information -->
                     <div id="individualCustomerInfo">
@@ -280,6 +298,19 @@
                                     @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('TIN-number') ? ' has-error' : '' }}">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="TIN-number">{{ trans('TIN Number') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                    <input type="text" name="tin_no" placeholder="{{ trans('Enter TIN Number') }}" value="{{ old('TIN-number') }}" class="form-control" maxlength="50">
+                                    @if ($errors->has('TIN-number'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('TIN-number') }}</strong>
                                     </span>
                                     @endif
                                 </div>
@@ -792,7 +823,7 @@
 <!-- Page content end -->
 <!-- Scripts starting -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
+{{-- <script>
    $(document).ready(function() {
      // $('#datepicker').datepicker( $.datepicker.regional[ "hi" ] );
      //  $.datetimepicker.dates[ "ru" ] ;
@@ -1155,14 +1186,13 @@
        reader.readAsDataURL(input.files[0]);
      }
    }
-</script>
+</script> --}}
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\CustomerAddEditFormRequest', '#demo-form2') !!}
 <script type="text/javascript" src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
 <!-- Form submit at a time only one -->
 <!-- Scripts starting -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
+{{-- <script>
    var msg35 = "{{ trans('message.OK') }}";
    $(document).ready(function() {
        $('#myDatepicker2').datetimepicker({
@@ -2730,43 +2760,113 @@
        // $(".model_addname").select2(); 
    
    });
-</script>
+</script> --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    // Toggle between individual and corporate customer info
-    document.getElementById('customerType').addEventListener('change', function() {
-        const individualCustomerInfo = document.getElementById('individualCustomerInfo');
-        const corporateCustomerInfo = document.getElementById('corporateCustomerInfo');
-        
-        if (this.value === 'corporate') {
-            individualCustomerInfo.style.display = 'none';
-            corporateCustomerInfo.style.display = 'block';
-        } else {
-            individualCustomerInfo.style.display = 'block';
-            corporateCustomerInfo.style.display = 'none';
-        }
-    });
+    function toggleCustomerType() {
+    var customerType = document.getElementById('customerType').value;
+    var individualInfo = document.getElementById('individualCustomerInfo');
+    var corporateInfo = document.getElementById('corporateCustomerInfo');
 
-    // Add more vehicles functionality
+    if (customerType === 'individual') {
+        individualInfo.style.display = 'block';
+        corporateInfo.style.display = 'none';
+        enableFields(individualInfo);
+        disableFields(corporateInfo);
+    } else if (customerType === 'corporate') {
+        individualInfo.style.display = 'none';
+        corporateInfo.style.display = 'block';
+        disableFields(individualInfo);
+        enableFields(corporateInfo);
+    } else {
+        individualInfo.style.display = 'none';
+        corporateInfo.style.display = 'none';
+        disableFields(individualInfo);
+        disableFields(corporateInfo);
+    }
+}
+
+function disableFields(container) {
+    var inputs = container.getElementsByTagName('input');
+    var selects = container.getElementsByTagName('select');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].disabled = true;
+    }
+    for (var j = 0; j < selects.length; j++) {
+        selects[j].disabled = true;
+    }
+}
+
+function enableFields(container) {
+    var inputs = container.getElementsByTagName('input');
+    var selects = container.getElementsByTagName('select');
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].disabled = false;
+    }
+    for (var j = 0; j < selects.length; j++) {
+        selects[j].disabled = false;
+    }
+}
+
+// Initialize the form on page load
+document.addEventListener('DOMContentLoaded', function() {
+    toggleCustomerType();
+});
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let count = 1;  // Start from 1 if you already have one vehicle section
+
     document.getElementById('add-more-vehicles').addEventListener('click', function() {
+        // Get the container for vehicle info
         const container = document.getElementById('vehicle-info-container');
+        // Find the template (assume it's the first child of the container)
         const template = container.querySelector('.vehicle-info-template');
-        const clone = template.cloneNode(true);
-        const count = container.querySelectorAll('.vehicle-info-template').length;
-        const inputs = clone.querySelectorAll('input, select');
+        // Clone the template
+        const newVehicle = template.cloneNode(true);
         
-        inputs.forEach(function(input) {
-            const name = input.getAttribute('name');
+        // Update the name attributes with the new count value
+        newVehicle.querySelectorAll('[name]').forEach(function(element) {
+            const name = element.getAttribute('name');
             if (name) {
-                input.setAttribute('name', name.replace(/\d+/, count));
-                input.value = '';
+                element.setAttribute('name', name.replace(/\[\d+\]/, `[${count}]`));
+            }
+            // Clear the input/select values
+            if (element.tagName === 'INPUT') {
+                if (element.type === 'text' || element.type === 'number' || element.type === 'file') {
+                    element.value = '';
+                } else if (element.type === 'checkbox' || element.type === 'radio') {
+                    element.checked = false;
+                }
+            } else if (element.tagName === 'SELECT') {
+                element.selectedIndex = 0;
+            } else if (element.tagName === 'TEXTAREA') {
+                element.value = '';
+            }
+            // Clear custom data attributes
+            if (element.dataset) {
+                Object.keys(element.dataset).forEach(key => {
+                    element.dataset[key] = '';
+                });
             }
         });
-        
-        container.appendChild(clone);
+
+        // Append the cloned template to the container
+        container.appendChild(newVehicle);
+
+        // Increment the count
+        count++;
     });
+});
+
+
+
 </script>
+
+
+
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\VehicleAddEditFormRequest', '#demo-form2') !!}

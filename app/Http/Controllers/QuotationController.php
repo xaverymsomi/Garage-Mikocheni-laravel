@@ -570,7 +570,10 @@ class QuotationController extends Controller
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
 		}
 
-		return view('quotation.quotationmodify', compact('viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'washbayPrice'));
+		$categoryJob = DB::table('table_repair_category')->get();
+		$selectProduct = DB::table('inspection_points_library')->get();
+
+		return view('quotation.quotationmodify', compact('categoryJob','selectProduct','viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'washbayPrice'));
 	}
 
 	//jobcard store
@@ -591,6 +594,29 @@ class QuotationController extends Controller
 			$in_date = date('Y-m-d H:i:s', strtotime($request->in_date));
 			$odate = date('Y-m-d H:i:s', strtotime($request->out_date));
 		}
+
+		// Extract observation data
+        $observations = $request->input('jognum');
+
+        // Example processing: Loop through observations and save to database
+        foreach ($observations['Manufacturer_id'] as $index => $manufacturerId) {
+            $productId = $observations['product_id'][$index] ?? null;
+            $quantity = $observations['qty'][$index] ?? null;
+
+            // Perform validation (you can use Laravel's validator or request validation)
+
+            // Example insert to database
+            if ($manufacturerId && $productId && $quantity) {
+                // Assuming you have an Observation model
+                QuoteObservation::create([
+					'quotation_id' => $request->job_no,
+                    'job_cartegory_name' => $manufacturerId,
+                    'product' => $productId,
+                    'observation' => $quantity,
+                ]);
+            }
+        }
+
 
 		$checking_servicePro = 0;
 		$checking_jobcardTable = 0;

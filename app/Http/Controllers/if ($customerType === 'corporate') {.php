@@ -1,3 +1,8 @@
+use App\Sale;
+use App\Branch;
+use App\Washbay;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Color;
 if ($customerType === 'corporate') {
 			// Add corporate-specific fields
 

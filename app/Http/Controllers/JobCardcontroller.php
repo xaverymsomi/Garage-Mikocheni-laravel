@@ -2,31 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Mail;
-use Auth;
-use App\User;
 use App\Sale;
-use App\Point;
+use App\User;
 use App\Color;
+use App\Point;
 use App\Branch;
-use App\Service;
-use App\Vehicle;
-use App\Setting;
-use App\Product;
 use App\Invoice;
+use App\Product;
+use App\Service;
+use App\Setting;
+use App\Vehicle;
 use App\Washbay;
 use App\Gatepass;
 use App\Updatekey;
-use App\JobcardDetail;
 use App\BranchSetting;
+use App\JobcardDetail;
 use App\AccountTaxRate;
-use App\tbl_service_pros;
 use App\CheckoutCategory;
+use App\QuoteObservation;
+use App\tbl_service_pros;
 use Illuminate\Http\Request;
 use App\tbl_checkout_results;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use App\tbl_service_observation_points;
+
+
+
 ?>
 
 <?php
@@ -564,55 +569,55 @@ $code = $new_number;
 		$chargeable = $request->yesno_;
 		$obs_auto_id = $request->obs_id;
 
-		if (!empty($product2)) {
-			foreach ($product2['product_id'] as $key => $value) {
-				$charge_abl = $chargeable[$key];
-				$obs_auto = $obs_auto_id[$key];
-				$product_id2 = $product2['product_id'][$key];
-				$price2 = $product2['price'][$key];
-				$qty2 = $product2['qty'][$key];
-				$total2 = $product2['total'][$key];
-				$category = $product2['category'][$key];
-				$sub = $product2['sub_points'][$key];
-				$comment = $product2['comment'][$key];
-				$service_charge = $product2['service_charge'][$key];
+		// if (!empty($product2)) {
+		// 	foreach ($product2['product_id'] as $key => $value) {
+		// 		$charge_abl = $chargeable[$key];
+		// 		$obs_auto = $obs_auto_id[$key];
+		// 		$product_id2 = $product2['product_id'][$key];
+		// 		$price2 = $product2['price'][$key];
+		// 		$qty2 = $product2['qty'][$key];
+		// 		$total2 = $product2['total'][$key];
+		// 		$category = $product2['category'][$key];
+		// 		$sub = $product2['sub_points'][$key];
+		// 		$comment = $product2['comment'][$key];
+		// 		$service_charge = $product2['service_charge'][$key];
 
-				$old_data = DB::table('tbl_service_pros')->where([['service_id', '=', $service_id], ['category', '=', $category], ['obs_point', '=', $sub]])->count();
+		// 		$old_data = DB::table('tbl_service_pros')->where([['service_id', '=', $service_id], ['category', '=', $category], ['obs_point', '=', $sub]])->count();
 
-				if ($old_data == 0) {
-					$tbl_service_pros = new tbl_service_pros;
-					$tbl_service_pros->service_id = $service_id;
-					$tbl_service_pros->product_id = $product_id2;
-					$tbl_service_pros->tbl_service_observation_points_id = $obs_auto;
-					$tbl_service_pros->quantity = $qty2;
-					$tbl_service_pros->price = $price2;
-					$tbl_service_pros->total_price = $total2;
-					$tbl_service_pros->category = $category;
-					$tbl_service_pros->obs_point = $sub;
-					$tbl_service_pros->category_comments = $comment;
-					$tbl_service_pros->service_charge = $service_charge;
-					$tbl_service_pros->chargeable = $charge_abl;
-					$tbl_service_pros->save();
+		// 		if ($old_data == 0) {
+		// 			$tbl_service_pros = new tbl_service_pros;
+		// 			$tbl_service_pros->service_id = $service_id;
+		// 			$tbl_service_pros->product_id = $product_id2;
+		// 			$tbl_service_pros->tbl_service_observation_points_id = $obs_auto;
+		// 			$tbl_service_pros->quantity = $qty2;
+		// 			$tbl_service_pros->price = $price2;
+		// 			$tbl_service_pros->total_price = $total2;
+		// 			$tbl_service_pros->category = $category;
+		// 			$tbl_service_pros->obs_point = $sub;
+		// 			$tbl_service_pros->category_comments = $comment;
+		// 			$tbl_service_pros->service_charge = $service_charge;
+		// 			$tbl_service_pros->chargeable = $charge_abl;
+		// 			$tbl_service_pros->save();
 
-					if ($tbl_service_pros->save()) {
-						$checking_servicePro = 1;
-					}
-				} else {
-					// dd($product_id2, $qty2, $price2, $total2, $charge_abl, $comment, $service_id, $category, $sub);
-					DB::update("update tbl_service_pros set 
-														product_id = '$product_id2',
-														quantity = '$qty2',
-														price = '$price2', 
-														total_price = '$total2',
-														chargeable = '$charge_abl',
-														category_comments='$comment',
-														service_charge='$service_charge'
-														where service_id = $service_id and category = '$category' and obs_point = '$sub'");
+		// 			if ($tbl_service_pros->save()) {
+		// 				$checking_servicePro = 1;
+		// 			}
+		// 		} else {
+		// 			// dd($product_id2, $qty2, $price2, $total2, $charge_abl, $comment, $service_id, $category, $sub);
+		// 			DB::update("update tbl_service_pros set 
+		// 												product_id = '$product_id2',
+		// 												quantity = '$qty2',
+		// 												price = '$price2', 
+		// 												total_price = '$total2',
+		// 												chargeable = '$charge_abl',
+		// 												category_comments='$comment',
+		// 												service_charge='$service_charge'
+		// 												where service_id = $service_id and category = '$category' and obs_point = '$sub'");
 
-					$checking_servicePro = 1;
-				}
-			}
-		}
+		// 			$checking_servicePro = 1;
+		// 		}
+		// 	}
+		// }
 		$ot_product = $request->other_product;
 		$ot_price = $request->other_price;
 
@@ -689,7 +694,7 @@ $code = $new_number;
 
 			<td>
 				<input type="text" name="other_price[]" class="form-control other_service_price" id="oth_price" value="<?php if (!empty($pros)) {
-																															echo $product->total_price;
+																															echo $pros->total_price;
 																														} ?>" maxlength="8" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 			</td>
 
@@ -786,6 +791,28 @@ $code = $new_number;
 		// }
 	}
 
+	public function saveObservation(Request $request)
+{
+    // Validate the request data
+    $request->validate([
+        'firstSelection' => 'required',
+        'secondSelection' => 'required',
+        'observation' => 'required',
+    ]);
+
+    // Save the observation to the database
+    // Assuming you have a model called Observation
+    $observation = new QuoteObservation;
+    $observation->quotation_id = $request->jobcard_number;
+    $observation->job_cartegory_name = $request->firstSelection;
+    $observation->product = $request->secondSelection;
+    $observation->observation = $request->observation;
+    $observation->save();
+
+    // Return a JSON response indicating success
+    return response()->json(['success' => true]);
+}
+
 	//jobcard view form(process job)
 	public function view($id)
 	{
@@ -820,6 +847,9 @@ $code = $new_number;
 		$tbl_observation_service = DB::table('tbl_observation_points')->where('observation_type_id', '=', 2)->get()->toArray();
 		$vehicalemodel = Vehicle::get();
 
+		$categoryJob = DB::table('table_repair_category')->get();
+		$obtale = DB::table('tbl_observation')->where('quotation_id', '=', $services->job_no)->get()->toArray();
+		$selectProduct = DB::table('inspection_points_library')->get();
 		$tbl_points = Point::get();
 		$c_point = DB::table('tbl_checkout_categories')->get()->toArray();
 
@@ -857,7 +887,7 @@ $code = $new_number;
 		}
 
 		//dd($names, $tbl_checkout_categories);
-		return view('jobcard.view', compact('viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'employees', 'washbay_data'));
+		return view('jobcard.view', compact('obtale','selectProduct','categoryJob','viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'employees', 'washbay_data'));
 	}
 
 	//get points 

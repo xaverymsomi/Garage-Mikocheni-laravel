@@ -454,7 +454,7 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                 @endphp
                 @can('customer_view')
                 <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/customer/list/') ? 'active' : '' }}">
-                  <a href="{!! url('/customer/add') !!}"><i class="fa-regular fa-user margin-right-10px"></i> Client Creation
+                  <a href="{!! url('/customer/add') !!}"><i class="fa-regular fa-user margin-right-10px"></i> Client
                   </a>
                 </li>
                 @endcan

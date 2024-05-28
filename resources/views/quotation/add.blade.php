@@ -14,13 +14,11 @@
     .table-condensed>tbody>tr>td {
         padding: 3px;
     }
-<<<<<<< HEAD
+
     .delete-row {
             cursor: pointer;
             color: red;
         }
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
 </style>
 <style>
     .step {
@@ -146,11 +144,7 @@
                                 </div>
                             </div>
 
-<<<<<<< HEAD
-                            
 
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                             <div class="row"> 
                                 <div id="dvCharge" class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback 
                                     {{ $errors->has('charge') ? ' has-error' : '' }}">
@@ -202,12 +196,7 @@
                                     </div>
                                 </div>
                             </div>
-<<<<<<< HEAD
-
-                            
-                              
-
-<!-- Sell Part -->
+                            <!-- Sell Part -->
 
 
 
@@ -288,16 +277,6 @@
         </tbody>
     </table>
 </div>
-
-
-
-
-=======
-                            
-                            
-                            
-                            
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
 
                             <div class="row row-mb-0">
                                 <!-- MOt Test Checkbox Start-->
@@ -1299,7 +1278,7 @@
     </div>
     <!-- end Fuel Type -->
 
-<<<<<<< HEAD
+
     <div class="modal fade" id="add_category" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -1338,8 +1317,6 @@
         </div>
     </div>
 
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
     <!-- Repair Add or Remove Model Start-->
     <div class="col-md-6">
         <div id="responsive-modal-color" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1390,7 +1367,7 @@
 <!-- /page content -->
 <!-- Scripts starting -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<<<<<<< HEAD
+
 <script>
     var msg35 = "{{ trans('message.OK') }}";
     $(document).ready(function() {
@@ -6556,7 +6533,7 @@
 
 
 </script>
-<<<<<<< HEAD
+
 
 <script>
     var msg10 = "{{ trans('message.OK') }}"

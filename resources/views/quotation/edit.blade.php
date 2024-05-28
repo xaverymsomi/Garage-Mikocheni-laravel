@@ -140,7 +140,6 @@
                             </div>
                         </div>
 
-<<<<<<< HEAD
                         <div class="row mt-3">
                             <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10 header">
                               <h4><b>{{ trans('message.SALE PART') }}</b>
@@ -224,8 +223,6 @@
                             </table>
                           </div>
 
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
                         <div class="row row-mb-0">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('NOTE') }}</label>
@@ -1645,7 +1642,7 @@
 
     });
 </script>
-<<<<<<< HEAD
+
 <script>
     $(document).ready(function() {
   
@@ -2707,8 +2704,7 @@
       });
     });
   </script>
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
+
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\StoreQuotationAddEditFormRequest', '#QuotationEdit-Form') !!}

@@ -907,6 +907,28 @@ if (!function_exists('getVehicleName')) {
 	}
 }
 
+// Get Vehicle Name value In Rto managament module
+if (!function_exists('getVehicleChassisno')) {
+	function getVehicleChassisno($id)
+	{
+		$vehicles  = DB::table('tbl_vehicles')->where('id', '=', $id)->first();
+		if (!empty($vehicles)) {
+			$vehicle_name = $vehicles->chassisno;
+			return $vehicle_name;
+		}
+	}
+}
+
+if (!function_exists('getVehicleyear')) {
+	function getVehicleyear($id)
+	{
+		$vehicles  = DB::table('tbl_vehicles')->where('id', '=', $id)->first();
+		if (!empty($vehicles)) {
+			$vehicle_name = $vehicles->modelyear;
+			return $vehicle_name;
+		}
+	}
+}
 if (!function_exists('Getvehiclecheckpoint')) {
 	function Getvehiclecheckpoint($id)
 	{
