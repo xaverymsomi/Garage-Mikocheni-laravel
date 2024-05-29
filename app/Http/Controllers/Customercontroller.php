@@ -32,12 +32,15 @@ class Customercontroller extends Controller
 		$this->middleware('auth');
 	}
 
-	// In CustomerController.php
-public function searchByName(Request $request) {
-    $query = $request->input('search');
-    // Perform search based on the query, and return results
-    $customer = DB::table('users')->where([['role', 'Customer']])->where('email','=', $query )->latest()->value('id');
-	$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+	public function getAnotherVehicle(Request $request)
+{
+    $row_id = $request->input('row_id');
+    $country = DB::table('tbl_countries')->get()->toArray();
+		$onlycustomer = DB::table('users')->where([['role', '=', 'Customer'], ['id', '=', Auth::User()->id]])->first();
+
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'customer'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		// dd($vehical_type);
 		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
 		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
@@ -56,10 +59,66 @@ public function searchByName(Request $request) {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
 
-		// $customer = DB::table('users')->where([['role', 'Customer']])->latest()->value('id');
+		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
+		
+    	$html = view('customer.vehicle_form', compact('row_id', 'country', 'onlycustomer', 'tbl_custom_fields','customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'))->render();
 
+    return response()->json(['html' => $html]);
+}
 
-    return view('customer.search_results', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
+	// In CustomerController.php
+public function searchByName(Request $request) {
+    $query = $request->search;
+
+	$nida = $request->nida;
+	
+	if ($nida) {
+		$customer = DB::table('users')->where([['role', 'Customer']])->where('nida_no','=', $nida )->latest()->value('id');
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		// dd($vehical_type);
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		if (isAdmin(Auth::User()->role_id)) {
+			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
+		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+			$branchDatas = Branch::get();
+		} else {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+		}
+
+		return view('customer.search_results', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
+
+	}else {
+		$customer = DB::table('users')->where([['role', 'Customer']])->where('email','=', $query )->latest()->value('id');
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		// dd($vehical_type);
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		if (isAdmin(Auth::User()->role_id)) {
+			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
+		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+			$branchDatas = Branch::get();
+		} else {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+		}
+
+		return view('customer.search_results', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
+
+	}
 }
 
 
@@ -106,6 +165,7 @@ public function searchByName(Request $request) {
 			$firstname = $request->firstname;
 			$password = $request->password;
 			$tin_no = $request->tin_no;
+			$nida_no= $request->nida_no;
 			$password = $request->password;
 			$gender = $request->gender;
 			$birthdate = $request->dob;
@@ -146,6 +206,7 @@ public function searchByName(Request $request) {
 			$customer->state_id = $state_id;
 			$customer->city_id = $city;
 			$customer->tin_no = $tin_no;
+			$customer->nida_no = $nida_no;
 			$customer->create_by = Auth::User()->id;
 
 			if (!empty($request->driving)) {
@@ -304,6 +365,7 @@ public function searchByName(Request $request) {
 			$password = $request->password;
 			$email = $request->email;
 			$mobile = $request->mobile;
+			$nida_no= $request->nida_no;
 			$tin_no = $request->tin_no;
 			$address = $request->address;
 			$country_id = $request->country_id;
@@ -324,6 +386,7 @@ public function searchByName(Request $request) {
 			$customer->state_id = $state_id;
 			$customer->city_id = $city;
 			$customer->tin_no = $tin_no;
+			$customer->nida_no = $nida_no;
 			$customer->create_by = Auth::User()->id;
 			$customer->contact_person = $person;
 

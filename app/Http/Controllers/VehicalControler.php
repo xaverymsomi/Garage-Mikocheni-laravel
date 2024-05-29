@@ -59,7 +59,8 @@ class VehicalControler extends Controller
 		return view('vehicle.list', compact('vehical'));
 	}
 
-	public function adding_cust_vehicle(){
+	public function adding_cust_vehicle()
+	{
 		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		// dd($vehical_type);
 		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
@@ -84,234 +85,71 @@ class VehicalControler extends Controller
 		return view('vehicle.another_vehicle', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
 	}
 
-	public function store_cust_vehicle(VehicleAddEditFormRequest $request) {
-		if ($request->has('add_another') && $request->input('add_another') === 'true') {
+	public function store_cust_vehicle(VehicleAddEditFormRequest $request)
+	{
+			// Save vehicle information
+			$vehicles = $request->input('vehicles');
+			foreach ($vehicles as $vehicleData) {
+				$vehicle = new Vehicle;
+				$vehicle->vehicletype_id = $vehicleData['vehical_id'];
+				$vehicle->number_plate = $vehicleData['number_plate'];
+				$vehicle->vehiclebrand_id = $vehicleData['vehicabrand'];
+				$vehicle->modelyear = $vehicleData['model_year'];
+				$vehicle->fuel_id = $vehicleData['fueltype'];
+				$vehicle->modelname = $vehicleData['modelname'];
+				$vehicle->chassisno = $vehicleData['chassis_no'];
+				$vehicle->engineno = $vehicleData['engine_no'];
+				$vehicle->branch_id = $vehicleData['branch'];
+				$vehicle->color = $vehicleData['color'];
+				$vehicle->customer_id = $request->id; // Assign customer ID to the vehicle
+	
+				//custom field save	
+			//$custom=Input::get('custom');
+			$custom = $request->custom;
+			$custom_fileld_value = array();
+			$custom_fileld_value_jason_array = array();
+			if (!empty($custom)) {
+				foreach ($custom as $key => $value) {
+					if (is_array($value)) {
+						$add_one_in = implode(",", $value);
+						$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
+					} else {
+						$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
+					}
+				}
 
-			// dd($request->all());
-						// save Vehicle
-					
-						$vehical_type = $request->vehical_id;
-						$chasicno = $request->chasicno;
-						$vehicabrand = $request->vehicabrand;
-						$modelyear = $request->modelyear;
-						$fueltype = $request->fueltype;
-						$modelname = $request->modelname;
-						$price = $request->price;
-						$engineno = $request->engineno;
-						$numberPlate = $request->number_plate;
-						$customer = $request->customer;
-						$doms = $request->dom;
-			
-						if (!empty($doms)) {
-							if (getDateFormat() == 'm-d-Y') {
-								$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
-							} else {
-								$dom = date('Y-m-d', strtotime($doms));
-							}
-						} else {
-							$dom = null;
-						}
-			
-						$vehical = new Vehicle;
-						$vehical->vehicletype_id = $vehical_type;
-						$vehical->chassisno = $chasicno;
-						$vehical->vehiclebrand_id = $vehicabrand;
-						$vehical->modelyear = $modelyear;
-						$vehical->fuel_id = $fueltype;
-						$vehical->modelname = $modelname;
-						$vehical->price = $price;
-						$vehical->dom  = $dom;
-						$vehical->engineno = $engineno;
-						$vehical->number_plate = $numberPlate;
-						$vehical->branch_id = $request->branch;
-			
-						$lastID = User::latest()->value('id');
-						$increament = $lastID;
-						$vehical->customer_id = $increament;
-			
-						//custom field save	
-						//$custom=Input::get('custom');
-						$custom = $request->custom;
-						$custom_fileld_value = array();
-						$custom_fileld_value_jason_array = array();
-						if (!empty($custom)) {
-							foreach ($custom as $key => $value) {
-								if (is_array($value)) {
-									$add_one_in = implode(",", $value);
-									$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-								} else {
-									$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-								}
-							}
-			
-							$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-			
-							foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-								$vehicleData = $val1;
-							}
-							$vehical->custom_field = $vehicleData;
-						}
-						$vehical->save();
-			
-						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-						$id = $vehicles->id;
-			
-						//$descriptionsdata = Input::get('description');
-						$descriptionsdata = $request->description;
-			
-						foreach ($descriptionsdata as $key => $value) {
-							if ($descriptionsdata[$key] !== null) {
-								$desc = $descriptionsdata[$key];
-								$descriptions = new tbl_vehicle_discription_records;
-								$descriptions->vehicle_id = $id;
-								$descriptions->vehicle_description = $desc;
-								$descriptions->save();
-							}
-						}
-						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-						$id = $vehicles->id;
-			
-						$image = $request->image;
-						if (!empty($image)) {
-							$files = $image;
-			
-							foreach ($files as $file) {
-								$filename = $file->getClientOriginalName();
-								$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
-								$images = new tbl_vehicle_images;
-								$images->vehicle_id = $id;
-								$images->image = $filename;
-								$images->save();
-							}
-						}
-						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-						$id = $vehicles->id;
-			
-						//$colores = Input::get('color');
-						$colores = $request->color;
-			
-						foreach ($colores as $key => $value) {
-							$colorse = $colores[$key];
-							$color1 = new tbl_vehicle_colors;
-							$color1->vehicle_id = $id;
-							$color1->color = $colorse;
-							$color1->save();
-						}
-						return redirect()->route('customer.vehicle');
+				$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
 
-		} else {
-			// dd($request->all());
-						// save Vehicle
-					
-						$vehical_type = $request->vehical_id;
-						$chasicno = $request->chasicno;
-						$vehicabrand = $request->vehicabrand;
-						$modelyear = $request->modelyear;
-						$fueltype = $request->fueltype;
-						$modelname = $request->modelname;
-						$price = $request->price;
-						$engineno = $request->engineno;
-						$numberPlate = $request->number_plate;
-						$customer = $request->customer;
-						$doms = $request->dom;
+				foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
+					$vehicleData = $val1;
+				}
+				$vehicle->custom_field = $vehicleData;
+			}
 			
-						if (!empty($doms)) {
-							if (getDateFormat() == 'm-d-Y') {
-								$dom = date('Y-m-d', strtotime(str_replace('-', '/', $doms)));
-							} else {
-								$dom = date('Y-m-d', strtotime($doms));
-							}
-						} else {
-							$dom = null;
-						}
+				$vehicle->save();
+	
+				// Retrieve the last inserted vehicle to get its ID
+				$lastVehicle = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
+				$vehicleId = $lastVehicle->id;
+	
+				// Handle vehicle images
+				$vehicleImages = $request->file('vehicle_images');
+				if (!empty($vehicleImages)) {
+					foreach ($vehicleImages as $image) {
+						$filename = $image->getClientOriginalName();
+						$image->move(public_path() . '/vehicle/', $filename);
+	
+						$vehicleImage = new tbl_vehicle_images;
+						$vehicleImage->vehicle_id = $vehicleId;
+						$vehicleImage->image = $filename;
+						$vehicleImage->save();
+					}
+				}
+
+			}
 			
-						$vehical = new Vehicle;
-						$vehical->vehicletype_id = $vehical_type;
-						$vehical->chassisno = $chasicno;
-						$vehical->vehiclebrand_id = $vehicabrand;
-						$vehical->modelyear = $modelyear;
-						$vehical->fuel_id = $fueltype;
-						$vehical->modelname = $modelname;
-						$vehical->price = $price;
-						$vehical->dom  = $dom;
-						$vehical->engineno = $engineno;
-						$vehical->number_plate = $numberPlate;
-						$vehical->branch_id = $request->branch;
-			
-						$lastID = User::latest()->value('id');
-						$increament = $lastID;
-						$vehical->customer_id = $increament;
-			
-						//custom field save	
-						//$custom=Input::get('custom');
-						$custom = $request->custom;
-						$custom_fileld_value = array();
-						$custom_fileld_value_jason_array = array();
-						if (!empty($custom)) {
-							foreach ($custom as $key => $value) {
-								if (is_array($value)) {
-									$add_one_in = implode(",", $value);
-									$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-								} else {
-									$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-								}
-							}
-			
-							$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-			
-							foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-								$vehicleData = $val1;
-							}
-							$vehical->custom_field = $vehicleData;
-						}
-						$vehical->save();
-			
-						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-						$id = $vehicles->id;
-			
-						//$descriptionsdata = Input::get('description');
-						$descriptionsdata = $request->description;
-			
-						foreach ($descriptionsdata as $key => $value) {
-							if ($descriptionsdata[$key] !== null) {
-								$desc = $descriptionsdata[$key];
-								$descriptions = new tbl_vehicle_discription_records;
-								$descriptions->vehicle_id = $id;
-								$descriptions->vehicle_description = $desc;
-								$descriptions->save();
-							}
-						}
-						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-						$id = $vehicles->id;
-			
-						$image = $request->image;
-						if (!empty($image)) {
-							$files = $image;
-			
-							foreach ($files as $file) {
-								$filename = $file->getClientOriginalName();
-								$file->move(public_path() . '/vehicle/', $file->getClientOriginalName());
-								$images = new tbl_vehicle_images;
-								$images->vehicle_id = $id;
-								$images->image = $filename;
-								$images->save();
-							}
-						}
-						$vehicles = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-						$id = $vehicles->id;
-			
-						//$colores = Input::get('color');
-						$colores = $request->color;
-			
-						foreach ($colores as $key => $value) {
-							$colorse = $colores[$key];
-							$color1 = new tbl_vehicle_colors;
-							$color1->vehicle_id = $id;
-							$color1->color = $colorse;
-							$color1->save();
-						}
-			return redirect('/customer/list')->with('message', 'Customer Submitted Successfully');
-		}
+			return redirect()->route('customer.vehicle');
+		
 	}
 
 	//Vehicle add form
@@ -472,7 +310,25 @@ class VehicalControler extends Controller
 		<?php }
 		}
 	}
+	public function getVehicleBrands($id)
+	{
+		// Fetch vehicle brands based on the provided vehicle type ID
+		$vehicleBrands = VehicleBrand::where('vehicle_id', $id)->get();
 
+		// Return brands in JSON format
+		dd($vehicleBrands);
+		// return response()->json($vehicleBrands);
+	}
+
+	public function getModelNames($id)
+	{
+		// Fetch model names based on the provided vehicle brand ID
+		$modelNames = tbl_model_names::where('brand_id', $id)->get();
+
+		// Return model names in JSON format
+		dd($modelNames);
+		// return response()->json($modelNames);
+	}
 	// Vehical type Delete
 	public function deletevehicaltype(Request $request)
 	{
@@ -700,7 +556,7 @@ class VehicalControler extends Controller
 		}
 
 		$vehical_brand_all = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
-		$model_name_all= DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name_all = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
 
 		return view('vehicle.edit', compact('vehicaledit', 'vehicaldes', 'vehical_type', 'vehical_brand', 'fueltype', 'color', 'editid', 'colors1', 'images1', 'model_name', 'tbl_custom_fields', 'branchDatas', 'customer', 'vehical_brand_all', 'model_name_all'));
 	}
@@ -723,7 +579,7 @@ class VehicalControler extends Controller
 		$numberPlate = $request->number_plate;
 		$customer = $request->customer;
 
-		
+
 
 		$vehical = Vehicle::find($id);
 		$vehical->vehicletype_id = $vehical_type;

@@ -48,6 +48,7 @@ class SidemenuResource extends JsonResource
 
             'companyvehicle_sells' => $regex->companyvehicle_view ?? false,
             'companyvehicle' => $regex->companyvehicle ?? false,
+            'labor_hours' => $regex->labor_hours ?? false,
             'part_sells' => $regex->salespart_view ?? false,
             'compliances' => $regex->rto_view ?? false,
             'reports' => $regex->report_view ?? false,

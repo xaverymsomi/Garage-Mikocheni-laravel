@@ -32,14 +32,19 @@
          <div class="x_panel">
             <div class="x_content">
 
-                <form action="{{ route('searchCustomerByName') }}" method="GET">
-                    <div class="row row-mb-0">
-                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group">
-                            <input class="form-control" type="text" name="search" placeholder="Search Clients">
-                            <button class="btn btn-outline-secondary btn-sm"  type="submit">Search</button>
-                        </div>
-                    </div>
-                </form>
+               <form action="{{ route('searchCustomerByName') }}" method="GET">
+                  <div class="row">
+                      <div class="row col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-3 col-xs-3 form-group my-form-group">
+                          <input class="form-control" type="text" name="search" placeholder="Enter Client Email">
+                      </div>
+                      <div class="row col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-3 col-xs-3 form-group my-form-group">
+                          <input class="form-control" type="text" name="nida" placeholder="Enter NIDA number">
+                      </div>
+                      <div class="row col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-3 col-xs-3 form-group my-form-group">
+                          <button class="btn btn-outline-secondary btn-sm"  type="submit">Search</button>
+                      </div>
+                  </div>
+              </form>
                 
                 <form id="demo-form2" action="{!! url('/customer/store') !!}" method="post" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left input_mask customerAddForm">
                     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
@@ -167,14 +172,27 @@
                                   <img src="{{ url('public/customer/nida.jpg') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
                                </div>
                             </div>
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
-                               <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
-                               Driving License </label>
-                               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                  <input type="file" id="image" name="driving" value="{{ old('image') }}" class="form-control chooseImage">
-                                  <img src="{{ url('public/customer/drive.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
-                               </div>
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('TIN-number') ? ' has-error' : '' }}">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="NIDA-number">{{ trans('NIDA Number') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                    <input type="text" name="nida_no" placeholder="{{ trans('Enter NIDA Number') }}" value="{{ old('NIDA-number') }}" class="form-control" maxlength="50">
+                                    @if ($errors->has('NIDA-number'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('NIDA-number') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
+                         </div>
+                         <div class="row">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">
+                                Driving License </label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <input type="file" id="image" name="driving" value="{{ old('image') }}" class="form-control chooseImage">
+                                   <img src="{{ url('public/customer/drive.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
+                                </div>
+                             </div>
                          </div>
                          <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
                             <h4><b>{{ trans('message.ADDRESS') }}</b></h4>
@@ -315,6 +333,17 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('TIN-number') ? ' has-error' : '' }}">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="TIN-number">{{ trans('Contacted Person NIDA Number') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                    <input type="text" name="nida_no" placeholder="{{ trans('Enter NIDA Number') }}" value="{{ old('TIN-number') }}" class="form-control" maxlength="50">
+                                    @if ($errors->has('NIDA-number'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('NIDA-number') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         <div class="row row-mb-0">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
@@ -401,7 +430,7 @@
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
                                     <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
                                        <div class="select-wrapper">
-                                          <select class="form-control  select_vehicaltype form-select" name="vehicles[0][vehical_id]" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}" required>
+                                          <select class="form-control  select_vehicaltypee form-select" name="vehicles[0][vehical_id]" required>
                                              <option value="">{{ trans('message.Select Type') }}</option>
                                              @if (!empty($vehical_type))
                                              @foreach ($vehical_type as $vehical_types)
@@ -430,9 +459,16 @@
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
                                     <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
                                        <div class="select-wrapper">
-                                          <select class="form-control select_vehicalbrand form-select" 
-                                          name="vehicles[0][vehicabrand]" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
+                                          <select class="form-control select_vehicalbrands form-select" 
+                                          name="vehicles[0][vehicabrand]">
                                              <option value="">{{ trans('message.Select Brand') }}</option>
+                                             @if (!empty($vehical_brand))
+                                             @foreach ($vehical_brand as $vehical_brands)
+                                             <option value="{{ $vehical_brands->id }}">
+                                                {{ $vehical_brands->vehicle_brand }}
+                                             </option>
+                                             @endforeach
+                                             @endif
                                           </select>
                                           <div class="arrow-icon-vehicle"></div>
                                        </div>
@@ -447,6 +483,13 @@
                                        <div class="select-wrapper">
                                           <select class="form-control model_addname form-select" name="vehicles[0][modelname]" required>
                                              <option value="">{{ trans('message.Select Model') }}</option>
+                                             @if (!empty($model_name))
+                                             @foreach ($model_name as $model_names)
+                                             <option value="{{ $model_names->model_name }}">
+                                                {{ $model_names->model_name }}
+                                             </option>
+                                             @endforeach
+                                             @endif
                                           </select>
                                           <div class="arrow-icon-vehicle"></div>
                                        </div>
@@ -618,7 +661,9 @@
                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
                      <div class="row">
                         <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 my-1 mx-0">
-                            <button type="button" class="btn btn-success" id="add-more-vehicles">Add Another Vehicle</button>
+                            <button type="button" class="btn btn-success customerAddSubmitButton" url="{!! url('customer_vehicle/add/getanother_vehicle') !!}" id="add-more-vehicles">
+                                {{ trans('Add another Vehicle') }}
+                            </button>
                         </div>
                         <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 customerAddSubmitButton my-1 mx-0">
                            <button id="submit-btn" type="submit" class="btn btn-success customerAddSubmitButton">{{ trans('message.SUBMIT') }}</button>
@@ -823,7 +868,7 @@
 <!-- Page content end -->
 <!-- Scripts starting -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-{{-- <script>
+<script>
    $(document).ready(function() {
      // $('#datepicker').datepicker( $.datepicker.regional[ "hi" ] );
      //  $.datetimepicker.dates[ "ru" ] ;
@@ -1186,1581 +1231,13 @@
        reader.readAsDataURL(input.files[0]);
      }
    }
-</script> --}}
+</script>
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\CustomerAddEditFormRequest', '#demo-form2') !!}
 <script type="text/javascript" src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
 <!-- Form submit at a time only one -->
 <!-- Scripts starting -->
-{{-- <script>
-   var msg35 = "{{ trans('message.OK') }}";
-   $(document).ready(function() {
-       $('#myDatepicker2').datetimepicker({
-           format: "yyyy",
-           endDate: new Date(),
-           minView: 4,
-           autoclose: true,
-           startView: 4,
-           language: "{{ getLangCode() }}",
-       });
-   
-   
-       var msg14 = "{{ trans('message.Please enter only alphanumeric data') }}";
-       var msg15 = "{{ trans('message.Only blank space not allowed') }}";
-       var msg16 = "{{ trans('message.This Record is Duplicate') }}";
-   
-       /*vehicle type*/
-       $('.vehicaltypeadd').click(function() {
-   
-           var vehical_type = $('.vehical_type').val();
-           var url = $(this).attr('url');
-           // alert(vehical_type);
-           var msg13 = "{{ trans('message.Please enter vehicle type') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_type_value: $('.vehical_type').val(),
-                   vehicle_type_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_type_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehicletypeadd = define_variable();
-   
-           if (vehical_type == "") {
-               swal({
-                   title: msg13,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-   
-           } else if (!call_var_vehicletypeadd.vehicle_type_pattern.test(call_var_vehicletypeadd
-                   .vehicle_type_value)) {
-               $('.vehical_type').val("");
-               swal({
-                   title: msg14,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!vehical_type.replace(/\s/g, '').length) {
-               $('.vehical_type').val("");
-               swal({
-                   title: msg15,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehicletypeadd.vehicle_type_pattern2.test(call_var_vehicletypeadd
-                   .vehicle_type_value)) {
-               $('.vehical_type').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: url,
-   
-                   data: {
-                       vehical_type: vehical_type
-                   },
-   
-                   beforeSend: function() {
-                       $(".vehicaltypeadd").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-   
-                       var newd = $.trim(data);
-                       var classname = 'del-' + newd;
-   
-                       if (newd == '01') {
-                           swal({
-                               title: msg16,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.vehical_type_class').append('<tr class=" data_color_name row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' +
-                               vehical_type +
-                               '</td><td class="text-end col-6"><button type="button" vehicletypeid=' +
-                               data +
-                               ' deletevehical="{!! url('/vehicle/vehicaltypedelete') !!}" class="btn btn-danger text-white border-0 deletevehicletype"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-   
-                           $('.select_vehicaltype').append('<option value=' + data + '>' +
-                               vehical_type + '</option>');
-                           $('.vehical_type').val('');
-   
-                           $('.vehical_id').append('<option value=' + data + '>' +
-                               vehical_type + '</option>');
-                           $('.vehical_type').val('');
-                       }
-   
-                       $(".vehicaltypeadd").prop('disabled', false);
-                       return false;
-                   },
-               });
-           }
-       });
-   
-   
-       var msg1 = "{{ trans('message.Are You Sure?') }}";
-       var msg2 = "{{ trans('message.You will not be able to recover this data afterwards!') }}";
-       var msg3 = "{{ trans('message.Cancel') }}";
-       var msg4 = "{{ trans('message.Yes, delete!') }}";
-       var msg5 = "{{ trans('message.Done!') }}";
-       var msg6 = "{{ trans('message.It was succesfully deleted!') }}";
-       var msg7 = "{{ trans('message.Cancelled') }}";
-       var msg8 = "{{ trans('message.Your data is safe') }}";
-       var vtypedelete = "{{ trans('message.Vehicle Type Deleted Successfully') }}";
-       var vbranddelete = "{{ trans('message.Vehicle Brand Deleted Successfully') }}";
-       var fueldelete = "{{ trans('message.Fuel Type Deleted Successfully') }}";
-       var modeldelete = "{{ trans('message.Model Deleted Successfully') }}";
-       var colordelete = "{{ trans('message.Color Deleted Successfully') }}";
-   
-       /*vehical Type delete*/
-       $('body').on('click', '.deletevehicletype', function() {
-   
-           var vtypeid = $(this).attr('vehicletypeid');
-           var url = $(this).attr('deletevehical');
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           vtypeid: vtypeid
-                       },
-                       success: function(data) {
-                           $('.del-' + vtypeid).remove();
-                           $(".select_vehicaltype option[value=" + vtypeid + "]")
-                               .remove();
-                           $("#vehicleTypeSelect option[value=" + vtypeid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: vtypedelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-   
-       });
-   
-       /*vehical brand*/
-       $('.vehicalbrandadd').click(function() {
-   
-           var vehical_id = $('.vehical_id').val();
-           var vehical_brand = $('.vehical_brand').val();
-           var url = $(this).attr('vehiclebrandurl');
-   
-           var msg17 = "{{ trans('message.Please first select vehicle type') }}";
-           var msg18 = "{{ trans('message.Please enter vehicle brand') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_brand_value: $('.vehical_brand').val(),
-                   vehicle_brand_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_brand_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehiclebrandadd = define_variable();
-   
-           if ($("#vehicleTypeSelect")[0].selectedIndex <= 0) {
-   
-               swal({
-                   title: msg17,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else {
-               if (vehical_brand == "") {
-                   swal({
-                       title: msg18,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               } else if (!call_var_vehiclebrandadd.vehicle_brand_pattern.test(call_var_vehiclebrandadd
-                       .vehicle_brand_value)) {
-                   $('.vehical_brand').val("");
-                   swal({
-                       title: msg33,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               } else if (!vehical_brand.replace(/\s/g, '').length) {
-                   // var str = "    ";
-                   $('.vehical_brand').val("");
-                   swal({
-                       title: msg32,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               } else if (!call_var_vehiclebrandadd.vehicle_brand_pattern2.test(
-                       call_var_vehiclebrandadd
-                       .vehicle_brand_value)) {
-                   $('.vehical_brand').val("");
-                   swal({
-                       title: msg34,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-   
-               } else {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-   
-                       data: {
-                           vehical_id: vehical_id,
-                           vehical_brand: vehical_brand
-                       },
-   
-                       beforeSend: function() {
-                           $(".vehicalbrandadd").prop('disabled', true);
-                       },
-   
-                       success: function(data) {
-                           var newd = $.trim(data);
-                           var classname = 'del-' + newd;
-   
-                           if (newd == "01") {
-                               swal({
-                                   title: msg16,
-                                   cancelButtonColor: '#C1C1C1',
-                                   buttons: {
-                                       cancel: msg35,
-                                   },
-                                   dangerMode: true,
-                               });
-                           } else {
-                               $('.vehical_brand_class').append('<tr class=" data_color_name row mx-3 ' + classname +
-                                   '"><td class="text-start col-6">' + vehical_brand +
-                                   '</td><td class="text-end col-6"><button type="button" brandid=' +
-                                   data +
-                                   ' deletevehicalbrand="{!! url('vehicle/vehicalbranddelete') !!}" class="btn btn-danger text-white border-0 deletevehiclebrands"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                               );
-   
-                               $('.select_vehicalbrand').append('<option value=' + data +
-                                   '>' + vehical_brand +
-                                   '</option>');
-   
-                               $('.vehi_brand_id').append('<option value=' + data +
-                                   '>' + vehical_brand +
-                                   '</option>');
-   
-                               $('.vehical_brand').val('');
-                           }
-   
-                           $(".vehicalbrandadd").prop('disabled', false);
-                           return false;
-                       },
-   
-                   });
-               }
-           }
-       });
-   
-   
-       /*vehical brand delete*/
-       $('body').on('click', '.deletevehiclebrands', function() {
-   
-           var vbrandid = $(this).attr('brandid');
-           var url = $(this).attr('deletevehicalbrand');
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           vbrandid: vbrandid
-                       },
-                       success: function(data) {
-                           $('.del-' + vbrandid).remove();
-                           $(".select_vehicalbrand option[value=" + vbrandid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: vbranddelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-       });
-   
-   
-   
-       $('.fueltypeadd').click(function() {
-   
-           var fuel_type = $('.fuel_type').val();
-           var url = $(this).attr('fuelurl');
-   
-           var msg21 = "{{ trans('message.Please enter fuel type') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_fuel_value: $('.fuel_type').val(),
-                   vehicle_fuel_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_fuel_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehiclefueladd = define_variable();
-   
-           if (fuel_type == "") {
-               swal({
-                   title: msg21,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclefueladd.vehicle_fuel_pattern.test(call_var_vehiclefueladd
-                   .vehicle_fuel_value)) {
-               $('.fuel_type').val("");
-               swal({
-                   title: msg14,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!fuel_type.replace(/\s/g, '').length) {
-               // var str = "    ";
-               $('.fuel_type').val("");
-               swal({
-                   title: msg15,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclefueladd.vehicle_fuel_pattern2.test(call_var_vehiclefueladd
-                   .vehicle_fuel_value)) {
-               $('.fuel_type').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-   
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: url,
-   
-                   data: {
-                       fuel_type: fuel_type
-                   },
-   
-                   beforeSend: function() {
-                       $(".fueltypeadd").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-                       var newd = $.trim(data);
-                       var classname = 'del-' + newd;
-   
-                       if (newd == '01') {
-                           swal({
-                               title: msg16,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.fuel_type_class').append('<tr class=" data_of_type row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' +
-                               fuel_type +
-                               '</td><td class="text-end col-6"><button type="button" fuelid=' +
-                               data +
-                               ' deletefuel="{!! url('/vehicle/fueltypedelete') !!}" class="btn btn-danger text-white border-0 fueldeletes"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-   
-                           $('.select_fueltype').append('<option value=' + data + '>' +
-                               fuel_type + '</option>');
-   
-                           $('.fuel_type').val('');
-                       }
-   
-                       $(".fueltypeadd").prop('disabled', false);
-                       return false;
-                   },
-   
-               });
-           }
-       });
-   
-   
-       /*Fuel  Type delete*/
-       $('body').on('click', '.fueldeletes', function() {
-           var fueltypeid = $(this).attr('fuelid');
-           var url = $(this).attr('deletefuel');
-   
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           fueltypeid: fueltypeid
-                       },
-                       success: function(data) {
-                           $('.del-' + fueltypeid).remove();
-                           $(".select_fueltype option[value=" + fueltypeid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: fueldelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-       });
-   
-   
-       /*Add Vehicle Model*/
-       $('.vehi_model_add').click(function() {
-           var model_name = $('.vehi_modal_name').val();
-           var model_url = $(this).attr('modelurl');
-           var brand_id = $('.vehi_brand_id').val();
-   
-           var msg9 = "{{ trans('message.Please enter model name') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_model_value: $('.vehi_modal_name').val(),
-                   vehicle_model_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_model_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehiclemodeladd = define_variable();
-   
-           if (model_name == "") {
-               swal({
-                   title: msg9,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclemodeladd.vehicle_model_pattern.test(call_var_vehiclemodeladd
-                   .vehicle_model_value)) {
-               $('.vehi_modal_name').val("");
-               swal({
-                   title: msg14,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!model_name.replace(/\s/g, '').length) {
-               $('.vehi_modal_name').val("");
-               swal({
-                   title: msg15,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclemodeladd.vehicle_model_pattern2.test(call_var_vehiclemodeladd
-                   .vehicle_model_value)) {
-               $('.vehi_modal_name').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: model_url,
-                   data: {
-                       model_name: model_name,
-                       brand_id: brand_id
-                   },
-   
-                   beforeSend: function() {
-                       $(".vehi_model_add").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-                       var newd = $.trim(data);
-                       var classname = 'mod-' + newd;
-   
-                       if (newd == '01') {
-                           swal({
-                               title: msg16,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.vehi_model_class').append('<tr class=" data_color_name row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' +
-                               model_name +
-                               '</td><td class="text-end col-6"><button type="button" modelid=' +
-                               data +
-                               ' deletemodel="{!! url('/vehicle/vehicle_model_delete') !!}" class="btn btn-danger text-white border-0 modeldeletes"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-                           $('.model_addname').append("<option value='" + model_name +
-                               "'>" + model_name +
-                               "</option>");
-                           $('.vehi_modal_name').val('');
-                       }
-   
-                       $(".vehi_model_add").prop('disabled', false);
-                       return false;
-                   },
-               });
-           }
-       });
-   
-       /*Delete vehicle model*/
-       $('body').on('click', '.modeldeletes', function() {
-   
-           var mod_del_id = $(this).attr('modelid');
-           var del_url = $(this).attr('deletemodel');
-   
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: del_url,
-                       data: {
-                           mod_del_id: mod_del_id
-                       },
-                       success: function(data) {
-                           $('.mod-' + mod_del_id).remove();
-                           $(".model_addname option[value=" + mod_del_id + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: modeldelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-       });
-   
-   
-       /*vehical Type from brand*/
-       $('.select_vehicaltype').change(function() {
-           vehical_id = $(this).val();
-           var url = $(this).attr('vehicalurl');
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   vehical_id: vehical_id
-               },
-               success: function(response) {
-                   $('.select_vehicalbrand').html(response);
-   
-                   $('.select_vehicalbrand').trigger('change');
-               }
-           });
-       });
-   
-       /*vehical Model from brand*/
-       $('.select_vehicalbrand').change(function() {
-           id = $(this).val();
-           var url = $(this).attr('url');
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   id: id
-               },
-               success: function(response) { 
-                   $('.model_addname').html(response);
-               }
-           });
-       });
-   
-       var msg100 = "{{ trans('message.An error occurred :') }}";
-   
-       /*Vehical Description*/
-       $("#add_new_description").click(function() {
-   
-           var row_id = $("#tab_decription_detail > tbody > tr").length;
-           var url = $(this).attr('url');
-           var row_number = row_id + 1;
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   row_id: row_id
-               },
-               beforeSend: function() {
-                   $("#add_new_description").prop('disabled', true); // disable button
-               },
-               success: function(response) {
-                   $("#tab_decription_detail > tbody").append(response.html);
-                   $("#tab_decription_detail > tbody").css({
-                       borderTop: "1px solid #dee2e6",
-                   });
-                   // $("#tab_decription_detail > tbody > tr").style.borderTop = "thick solid #0000FF";
-                   document.getElementById('row_id_' + row_number).style.borderTop =
-                       "1px solid #dee2e6"
-   
-                   $("#add_new_description").prop('disabled', false); // enable button
-                   return false;
-               },
-               error: function(e) {
-                   alert(msg100 + " " + e.responseText);
-                   console.log(e);
-               }
-           });
-       });
-   
-   
-       $('body').on('click', '.delete_description', function() {
-           var row_id = $(this).attr('data-id');
-   
-           $('table#tab_decription_detail tr#row_id_' + row_id).remove();
-           return false;
-       });
-   
-   
-       /*vehical color*/
-       $("#add_new_color").click(function() {
-           var color_id = $("#tab_color > tbody > tr").length;
-           var url = $(this).attr('url');
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   color_id: color_id
-               },
-               beforeSend: function() {
-                   $("#add_new_color").prop('disabled', true); // disable button
-               },
-               success: function(response) {
-                   $("#tab_color > tbody").append(response.html);
-                   $("#add_new_color").prop('disabled', false); // disable button
-                   return false;
-               },
-               error: function(e) {
-                   alert(msg42 + " " + e.responseText);
-                   console.log(e);
-               }
-           });
-       });
-   
-       // Initialize the color picker on the input field
-   // $("#color_picker_input").colorpicker();
-   
-   // $("#add_new_color").click(function() {
-   //     var color_id = $("#tab_color > tbody > tr").length;
-   //     var url = $(this).attr('url');
-   //     var selectedColor = $("#color_picker_input").val(); // Get the selected color from the input field
-   
-   //     $.ajax({
-   //         type: 'GET',
-   //         url: url,
-   //         data: {
-   //             color_id: color_id,
-   //             selectedColor: selectedColor // Send the selected color to the server
-   //         },
-   //         beforeSend: function() {
-   //             $("#add_new_color").prop('disabled', true);
-   //         },
-   //         success: function(response) {
-   //             $("#tab_color > tbody").append(response.html);
-   //             $("#add_new_color").prop('disabled', false);
-   //         },
-   //         error: function(e) {
-   //             alert(msg42 + " " + e.responseText);
-   //             console.log(e);
-   //         }
-   //     });
-   // });
-   
-   
-   
-   
-       $('body').on('click', '.remove_color', function() {
-   
-           var color_id = $(this).attr('data-id');
-   
-           $('table#tab_color tr#color_id_' + color_id).remove();
-           return false;
-       });
-   
-   
-       // Basic
-       $('.dropify').dropify();
-   
-       // Translated
-       $('.dropify-fr').dropify({
-          messages: {
-               default: 'Glissez-déposez un fichier ici ou cliquez',
-               replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
-               remove: 'Supprimer',
-               error: 'Désolé, le fichier trop volumineux'
-           }
-       });
-   
-       // Used events
-       var drEvent = $('#input-file-events').dropify();
-   
-       drEvent.on('dropify.beforeClear', function(event, element) {
-           return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
-       });
-   
-       drEvent.on('dropify.afterClear', function(event, element) {
-           alert('File deleted');
-       });
-   
-       drEvent.on('dropify.errors', function(event, element) {
-           console.log('Has Errors');
-       });
-   
-       var drDestroy = $('#input-file-to-destroy').dropify();
-       drDestroy = drDestroy.data('dropify')
-   
-       $('#toggleDropify').on('click', function(e) {
-           e.preventDefault();
-           if (drDestroy.isDropified()) {
-               drDestroy.destroy();
-           } else {
-               drDestroy.init();
-           }
-       })
-   
-       /*images show in multiple in for loop*/
-       $(".imageclass").click(function() {
-           $(".classimage").empty();
-       });
-   
-       function preview_images() {
-           var total_file = document.getElementById("images").files.length;
-   
-           for (var i = 0; i < total_file; i++) {
-               $('#image_preview').append(
-                   "<div class='col-md-3 col-sm-3 col-xs-12' style='padding:5px;'><img class='uploadImage' src='" +
-                   URL
-                   .createObjectURL(event.target.files[i]) + "' width='100px' height='60px'> </div>");
-           }
-       }
-   
-   
-       /*new image append*/
-       $("#add_new_images").click(function() {
-           var image_id = $("#tab_images > tbody > tr").length;
-           var url = $(this).attr('url');
-           var msg43 = "{{ trans('message.An error occurred :') }}";
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   image_id: image_id
-               },
-               success: function(response) {
-                   $("#tab_images > tbody").append(response);
-                   return false;
-               },
-               error: function(e) {
-                   alert(msg43 + " " + e.responseText);
-                   console.log(e);
-               }
-           });
-       });
-   
-   
-       $('body').on('click', '.trash_accounts', function() {
-   
-           var image_id = $(this).attr('data-id');
-   
-           $('table#tab_images tr#image_id_' + image_id).fadeOut();
-           return false;
-       });
-   
-   
-       $('.datepicker').datetimepicker({
-           format: "<?php echo getDatepicker(); ?>",
-           todayBtn: true,
-           autoclose: 1,
-           minView: 2,
-           endDate: new Date(),
-           language: "{{ getLangCode() }}",
-   
-       });
-   
-   
-       /*If put firstly any white space then clear textbox*/
-       $('body').on('keyup', '.vehical_type', function() {
-   
-           var vehical_typeVal = $(this).val();
-   
-           if (!vehical_typeVal.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.vehical_brand', function() {
-   
-           var vehical_brandVal = $(this).val();
-   
-           if (!vehical_brandVal.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.fuel_type', function() {
-   
-           var fuel_typeVal = $(this).val();
-   
-           if (!fuel_typeVal.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.vehi_modal_name', function() {
-   
-           var vehi_modal_nameVal = $(this).val();
-   
-           if (!vehi_modal_nameVal.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-   
-   
-       $('body').on('keyup', '.chassis_no', function() {
-   
-           var chasicno1 = $(this).val();
-   
-           if (!chasicno1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.no_of_gear', function() {
-   
-           var gearno1 = $(this).val();
-   
-           if (!gearno1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.price_is', function() {
-   
-           var price1 = $(this).val();
-   
-           if (!price1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.odometer_read', function() {
-   
-           var odometerreading1 = $(this).val();
-   
-           if (!odometerreading1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.gear_box', function() {
-   
-           var gearbox1 = $(this).val();
-   
-           if (!gearbox1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.gear_box_no', function() {
-   
-           var vehi_modal_nameVal = $(this).val();
-   
-           if (!vehi_modal_nameVal.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.engine_no', function() {
-   
-           var engineno1 = $(this).val();
-   
-           if (!engineno1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.engine_size', function() {
-   
-           var enginesize1 = $(this).val();
-   
-           if (!enginesize1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.engineField', function() {
-   
-           var engine1 = $(this).val();
-   
-           if (!engine1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.key_no', function() {
-   
-           var keyno1 = $(this).val();
-   
-           if (!keyno1.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-       $('body').on('keyup', '.number_plate', function() {
-   
-           var number_plate = $(this).val();
-   
-           if (!number_plate.replace(/\s/g, '').length) {
-               $(this).val("");
-           }
-       });
-   
-   
-   
-       /*Custom Field manually validation*/
-       var msg31 = "{{ trans('message.field is required') }}";
-       var msg32 = "{{ trans('message.Only blank space not allowed') }}";
-       var msg33 = "{{ trans('message.Special symbols are not allowed.') }}";
-       var msg34 = "{{ trans('message.At first position only alphabets are allowed.') }}";
-   
-       /*Form submit time check validation for Custom Fields */
-       $('body').on('click', '.vehicleAddSubmitButton', function(e) {
-           $('#vehicleAdd-Form input, #vehicleAdd-Form select, #vehicleAdd-Form textarea').each(
-   
-               function(index) {
-                   var input = $(this);
-   
-                   if (input.attr('name') == "vehical_id" || input.attr('name') == "vehicabrand" ||
-                       input.attr(
-                           'name') == "fueltype" || input.attr('name') == "modelname" || input
-                       .attr('name') == "price") {
-                       if (input.val() == "") {
-                           return false;
-                       }
-                   } else if (input.attr('isRequire') == 'required') {
-                       var rowid = (input.attr('rows_id'));
-                       var labelName = (input.attr('fieldnameis'));
-   
-                       if (input.attr('type') == 'textbox' || input.attr('type') == 'textarea') {
-                           if (input.val() == '' || input.val() == null) {
-                               $('.common_value_is_' + rowid).val("");
-                               $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                               $('#common_error_span_' + rowid).css({
-                                   "display": ""
-                               });
-                               $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                               e.preventDefault();
-                               return false;
-                           } else if (!input.val().replace(/\s/g, '').length) {
-                               $('.common_value_is_' + rowid).val("");
-                               $('#common_error_span_' + rowid).text(labelName + " : " + msg32);
-                               $('#common_error_span_' + rowid).css({
-                                   "display": ""
-                               });
-                               $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                               e.preventDefault();
-                               return false;
-                           } else if (!input.val().match(/^[(a-zA-Z0-9\s)\p{L}]+$/u)) {
-                               $('.common_value_is_' + rowid).val("");
-                               $('#common_error_span_' + rowid).text(labelName + " : " + msg33);
-                               $('#common_error_span_' + rowid).css({
-                                   "display": ""
-                               });
-                               $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                               e.preventDefault();
-                               return false;
-                           }
-                       } else if (input.attr('type') == 'checkbox') {
-                           var ids = input.attr('custm_isd');
-                           if ($(".required_checkbox_" + ids).is(':checked')) {
-                               $('#common_error_span_' + rowid).css({
-                                   "display": "none"
-                               });
-                               $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-                               $('.required_checkbox_parent_div_' + ids).css({
-                                   "color": ""
-                               });
-                               $('.error_customfield_main_div_' + ids).removeClass('has-error');
-                           } else {
-                               $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                               $('#common_error_span_' + rowid).css({
-                                   "display": ""
-                               });
-                               $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                               $('.required_checkbox_' + ids).css({
-                                   "outline": "2px solid #a94442"
-                               });
-                               $('.required_checkbox_parent_div_' + ids).css({
-                                   "color": "#a94442"
-                               });
-                               e.preventDefault();
-                               return false;
-                           }
-                       } else if (input.attr('type') == 'date') {
-                           if (input.val() == '' || input.val() == null) {
-                               $('.common_value_is_' + rowid).val("");
-                               $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                               $('#common_error_span_' + rowid).css({
-                                   "display": ""
-                               });
-                               $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                               e.preventDefault();
-                               return false;
-                           } else {
-                               $('#common_error_span_' + rowid).css({
-                                   "display": "none"
-                               });
-                               $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-                           }
-                       }
-                   } else if (input.attr('isRequire') == "") {
-                       //Nothing to do
-                   }
-               }
-           );
-       });
-   
-   
-       /*Anykind of input time check for validation for Textbox, Date and Textarea*/
-       $('body').on('keyup', '.common_simple_class', function() {
-   
-           var rowid = $(this).attr('rows_id');
-           var valueIs = $('.common_value_is_' + rowid).val();
-           var requireOrNot = $('.common_value_is_' + rowid).attr('isrequire');
-           var labelName = $('.common_value_is_' + rowid).attr('fieldnameis');
-           var inputTypes = $('.common_value_is_' + rowid).attr('type');
-   
-           if (requireOrNot != "") {
-               if (inputTypes != 'radio' && inputTypes != 'checkbox' && inputTypes != 'date') {
-                   if (valueIs == "") {
-                       $('.common_value_is_' + rowid).val("");
-                       $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                       $('#common_error_span_' + rowid).css({
-                           "display": ""
-                       });
-                       $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                   } else if (valueIs.match(/^\s+/)) {
-                       $('.common_value_is_' + rowid).val("");
-                       $('#common_error_span_' + rowid).text(labelName + " : " + msg34);
-                       $('#common_error_span_' + rowid).css({
-                           "display": ""
-                       });
-                       $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                   } else if (!valueIs.match(/^[(a-zA-Z0-9\s)\p{L}]+$/u)) {
-                       $('.common_value_is_' + rowid).val("");
-                       $('#common_error_span_' + rowid).text(labelName + " : " + msg33);
-                       $('#common_error_span_' + rowid).css({
-                           "display": ""
-                       });
-                       $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                   } else {
-                       $('#common_error_span_' + rowid).css({
-                           "display": "none"
-                       });
-                       $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-                   }
-               } else if (inputTypes == 'date') {
-                   if (valueIs != "") {
-                       $('#common_error_span_' + rowid).css({
-                           "display": "none"
-                       });
-                       $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-                   } else {
-                       $('.common_value_is_' + rowid).val("");
-                       $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                       $('#common_error_span_' + rowid).css({
-                           "display": ""
-                       });
-                       $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                   }
-               } else {
-                   //alert("Yes i am radio and checkbox");
-               }
-           } else {
-               if (inputTypes != 'radio' && inputTypes != 'checkbox' && inputTypes != 'date') {
-                   if (valueIs != "") {
-                       if (valueIs.match(/^\s+/)) {
-                           $('.common_value_is_' + rowid).val("");
-                           $('#common_error_span_' + rowid).text(labelName + " : " + msg34);
-                           $('#common_error_span_' + rowid).css({
-                               "display": ""
-                           });
-                           $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                       } else if (!valueIs.match(/^[(a-zA-Z0-9\s)\p{L}]+$/u)) {
-                           $('.common_value_is_' + rowid).val("");
-                           $('#common_error_span_' + rowid).text(labelName + " : " + msg33);
-                           $('#common_error_span_' + rowid).css({
-                               "display": ""
-                           });
-                           $('.error_customfield_main_div_' + rowid).addClass('has-error');
-                       } else {
-                           $('#common_error_span_' + rowid).css({
-                               "display": "none"
-                           });
-                           $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-                       }
-                   } else {
-                       $('#common_error_span_' + rowid).css({
-                           "display": "none"
-                       });
-                       $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-                   }
-               }
-           }
-       });
-   
-   
-       /*For required checkbox checked or not*/
-       $('body').on('click', '.checkbox_simple_class', function() {
-   
-           var rowid = $(this).attr('rows_id');
-           var requireOrNot = $('.common_value_is_' + rowid).attr('isrequire');
-           var labelName = $('.common_value_is_' + rowid).attr('fieldnameis');
-           var inputTypes = $('.common_value_is_' + rowid).attr('type');
-           var custId = $('.common_value_is_' + rowid).attr('custm_isd');
-   
-           if (requireOrNot != "") {
-               if ($(".required_checkbox_" + custId).is(':checked')) {
-                   $('.required_checkbox_' + custId).css({
-                       "outline": ""
-                   });
-                   $('.required_checkbox_' + custId).css({
-                       "color": ""
-                   });
-                   $('#common_error_span_' + rowid).css({
-                       "display": "none"
-                   });
-                   $('.required_checkbox_parent_div_' + custId).css({
-                       "color": ""
-                   });
-                   $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-               } else {
-                   $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                   $('.required_checkbox_' + custId).css({
-                       "outline": "2px solid #a94442"
-                   });
-                   $('.required_checkbox_' + custId).css({
-                       "color": "#a94442"
-                   });
-                   $('#common_error_span_' + rowid).css({
-                       "display": ""
-                   });
-                   $('.required_checkbox_parent_div_' + custId).css({
-                       "color": "#a94442"
-                   });
-                   $('.error_customfield_main_div_' + rowid).addClass('has-error');
-               }
-           }
-       });
-   
-   
-       $('body').on('change', '.date_simple_class', function() {
-   
-           var rowid = $(this).attr('rows_id');
-           var valueIs = $('.common_value_is_' + rowid).val();
-           var requireOrNot = $('.common_value_is_' + rowid).attr('isrequire');
-           var labelName = $('.common_value_is_' + rowid).attr('fieldnameis');
-           var inputTypes = $('.common_value_is_' + rowid).attr('type');
-           var custId = $('.common_value_is_' + rowid).attr('custm_isd');
-   
-           if (requireOrNot != "") {
-               if (valueIs != "") {
-                   $('#common_error_span_' + rowid).css({
-                       "display": "none"
-                   });
-                   $('.error_customfield_main_div_' + rowid).removeClass('has-error');
-               } else {
-                   $('#common_error_span_' + rowid).text(labelName + " : " + msg31);
-                   $('#common_error_span_' + rowid).css({
-                       "display": ""
-                   });
-                   $('.error_customfield_main_div_' + rowid).addClass('has-error');
-               }
-           }
-       });
-   
-   
-       // added by arjun for color module dynamic add item and reove item
-     
-       var msg51 = "{{ trans('message.Please enter only alphanumeric data') }}";
-       var msg52 = "{{ trans('message.Only blank space not allowed') }}";
-       var msg53 = "{{ trans('message.This Record is Duplicate') }}";
-       var msg54 = "{{ trans('message.An error occurred :') }}";
-   
-       var regex = /^#?[0-9A-Fa-f]+$/;
-       var userInput = "#FF5733"; // Example input
-       if (regex.test(userInput)) {
-           // Valid input
-           console.log("Valid input!");
-       } else {
-           // Invalid input
-           console.log(msg51);
-       }
-       
-       /*color add  model*/
-      
-   
-       $('.addcolor').click(function() {
-           var c_name = $('.c_name').val();
-           var c_code = $('.c_code').val();
-           var url = $(this).attr('colorurl');
-   
-           var msg55 = "{{ trans('message.Please enter color name') }}";
-           
-           function define_variable() {
-               return {
-                   addcolor_value: $('.c_name').val(),
-                   addcolor_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   addcolor_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_addcoloradd = define_variable();
-   
-           if (c_name == "") {
-               swal({
-                   title: msg55,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_addcoloradd.addcolor_pattern.test(call_var_addcoloradd
-                   .addcolor_value)) {
-               $('.c_name').val("");
-               swal({
-                   title: msg51,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!c_name.replace(/\s/g, '').length) {
-               $('.c_name').val("");
-               swal({
-                   title: msg52,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_addcoloradd.addcolor_pattern2.test(call_var_addcoloradd
-                   .addcolor_value)) {
-               $('.c_name').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!colorPickerChanged) {
-               swal({
-                   title: "Please Select color",
-                   cancelButtonColor: "#C1C1C1",
-                   buttons: {
-                       cancel: "OK",
-                   },
-                   dangerMode: true,
-               });
-               return;
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: url,
-                   data: {
-                       c_name: c_name,
-                       c_code: c_code
-                   },
-   
-                   //Form submit at a time only one for addColorModel
-                   beforeSend: function() {
-                       $(".addcolor").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-                       var newd = $.trim(data);
-                       var classname = 'del-' + newd;
-   
-                       if (data == '01') {
-                           swal({
-                               title: msg53,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.colornametype').append('<tr class="data_color_name row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' + c_name +
-                               '</td><td class="text-end col-6"><div class="color_code d-inline-block" style="background-color:' + c_code + '; margin-right:4px;">' + c_code + '</div><button type="button" id=' +
-                               data +
-                               ' deletecolor="{!! url('colortypedelete') !!}" class="btn btn-danger text-white border-0 deletecolors"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-   
-                           $('.color').append('<option value=' + data + ' style="background-color:' + c_code + ';color: #ffffff;">'+ c_name +
-                               '</option>'); 
-   
-                           $('.c_name').val('');
-                       }
-   
-                       //Form submit at a time only one for addColorModel
-                       $(".addcolor").prop('disabled', false);
-                       return false;
-                   },
-                   error: function(e) {
-                       alert(mag20 + ' ' + e.responseText);
-                       console.log(e);
-                   }
-               });
-           }
-       });
-   
-   
-       var msg101 = "{{ trans('message.Are You Sure?') }}";
-       var msg102 = "{{ trans('message.You will not be able to recover this data afterwards!') }}";
-       var msg103 = "{{ trans('message.Cancel') }}";
-       var msg104 = "{{ trans('message.Yes, delete!') }}";
-       var msg105 = "{{ trans('message.Done!') }}";
-       var msg106 = "{{ trans('message.It was succesfully deleted!') }}";
-       var msg107 = "{{ trans('message.Cancelled') }}";
-       var msg108 = "{{ trans('message.Your data is safe') }}";
-   
-       /*color Delete  model*/
-       $('body').on('click', '.deletecolors', function() {
-           var colorid = $(this).attr('id');
-   
-           var url = $(this).attr('deletecolor');
-   
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           colorid: colorid
-                       },
-                       success: function(data) {
-                           $('.del-' + colorid).remove();
-                           $(".color option[value=" + colorid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: colordelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-       });
-   
-       // $(".select_vehicaltype").select2();
-       // $(".select_vehicalbrand").select2();
-       // $(".select_fueltype").select2();
-       // $(".model_addname").select2(); 
-   
-   });
-</script> --}}
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -2816,57 +1293,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let count = 1;  // Start from 1 if you already have one vehicle section
+    $(document).ready(function() {
+    // Initialize row_id
+    var row_id = $("#vehicle-info-container .vehicle-info-template").length;
 
-    document.getElementById('add-more-vehicles').addEventListener('click', function() {
-        // Get the container for vehicle info
-        const container = document.getElementById('vehicle-info-container');
-        // Find the template (assume it's the first child of the container)
-        const template = container.querySelector('.vehicle-info-template');
-        // Clone the template
-        const newVehicle = template.cloneNode(true);
-        
-        // Update the name attributes with the new count value
-        newVehicle.querySelectorAll('[name]').forEach(function(element) {
-            const name = element.getAttribute('name');
-            if (name) {
-                element.setAttribute('name', name.replace(/\[\d+\]/, `[${count}]`));
-            }
-            // Clear the input/select values
-            if (element.tagName === 'INPUT') {
-                if (element.type === 'text' || element.type === 'number' || element.type === 'file') {
-                    element.value = '';
-                } else if (element.type === 'checkbox' || element.type === 'radio') {
-                    element.checked = false;
-                }
-            } else if (element.tagName === 'SELECT') {
-                element.selectedIndex = 0;
-            } else if (element.tagName === 'TEXTAREA') {
-                element.value = '';
-            }
-            // Clear custom data attributes
-            if (element.dataset) {
-                Object.keys(element.dataset).forEach(key => {
-                    element.dataset[key] = '';
-                });
+    $("#add-more-vehicles").click(function() {
+        var url = $(this).attr('url');
+
+        // Increment row_id
+        row_id++;
+
+        // Define the error message (assuming Laravel's translation method)
+        var msg16 = "{{ trans('app.An error occurred :') }}";
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: {
+                row_id: row_id
+            },
+            beforeSend: function() {
+                // Optionally disable the button to prevent multiple clicks
+                $("#add-more-vehicles").prop('disabled', true);
+            },
+            success: function(response) {
+                // Assuming the response contains the HTML for the new vehicle form
+                $("#vehicle-info-container").append(response.html);
+                // Reset form data of the cloned vehicle form
+                $("#vehicle-info-container .vehicle-info-template:last").find('input[type=text], select').val('');
+                // Re-enable the button
+                $("#add-more-vehicles").prop('disabled', false);
+            },
+            error: function(e) {
+                alert(msg16 + " " + e.responseText);
+                console.log(e);
+                // Re-enable the button
+                $("#add-more-vehicles").prop('disabled', false);
             }
         });
-
-        // Append the cloned template to the container
-        container.appendChild(newVehicle);
-
-        // Increment the count
-        count++;
     });
 });
 
-
-
 </script>
-
-
-
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\VehicleAddEditFormRequest', '#demo-form2') !!}

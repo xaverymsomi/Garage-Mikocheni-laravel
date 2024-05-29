@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+
 use Illuminate\Http\Request;
 use App\tbl_observation_types;
+use Illuminate\Support\Facades\DB;
 
 class ObservationTypecontroller extends Controller
 {

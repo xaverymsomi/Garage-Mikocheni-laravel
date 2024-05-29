@@ -458,6 +458,7 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                   </a>
                 </li>
                 @endcan
+              
 
                 @canany(['jobcard_view', 'gatepass_view'])
                 @php
@@ -491,8 +492,16 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                         </a>
                     </li>
                 @endcan
-
-
+                
+                @php
+                $inventoryRoutes = ['/labor_hour/add','/labor_hour/list'];
+                @endphp
+                @can('labor_hours')
+                <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/labor_hour/list/') ? 'active' : '' }}">
+                  <a href="{!! url('/labor_hour/list') !!}"><i class="fa-regular fa-user margin-right-10px"></i> Labor Hours
+                  </a>
+                </li>
+                @endcan
 
 
                                

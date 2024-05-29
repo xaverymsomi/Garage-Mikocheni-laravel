@@ -134,7 +134,19 @@ Route::group(['prefix' => 'customer'], function () {
 	Route::get('/list/invoice/{id}', ['as' => 'customer/list/invoice/{id}', 'uses' => 'Customercontroller@customersinvoice'])->middleware('can:customer_view');
 	Route::get('/list/payment/{id}', ['as' => 'customer/list/payment/{id}', 'uses' => 'Customercontroller@customerspayment'])->middleware('can:customer_view');
 });
-Route::get('/mot', 'Customercontroller@customersmot')->middleware('can:customer_view');
+	Route::get('/mot', 'Customercontroller@customersmot')->middleware('can:customer_view');
+
+	Route::get('/labor_hour/list', 'LabourHoursController@list')->middleware('can:labor_hours');
+	Route::get('/labor_hour/add', 'LabourHoursController@add')->middleware('can:labour_hour_add');
+	Route::post('/labor_hour/store', 'LabourHoursController@store')->middleware('can:customer_add');
+	// Route::get('/list', ['as' => 'customer/list', 'uses' => 'Customercontroller@index'])->middleware('can:customer_view');
+	Route::get('//labor_hour/list/{id}', 'LabourHoursController@show')->middleware('can:customer_view');
+	Route::delete('/labor_hour/list/delete/{id}', 'LabourHoursController@delete')->middleware('can:labour_hour_add');
+	Route::post('/labor_hour/list/delete', 'LabourHoursController@deleteMultiple')->middleware('can:customer_delete');
+
+	Route::get('/labor_hour/list/edit/{id}', 'LabourHoursController@edit');
+	Route::post('/labor_hour/list/edit/update/{id}', 'LabourHoursController@update');
+
 
 
 Route::get('customer/add_vehicle', [VehicalControler::class, 'adding_cust_vehicle'])->name('customer.vehicle');
@@ -143,6 +155,7 @@ Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehi
 	Route::get('customer/add_vehicle', [VehicalControler::class,'adding_cust_vehicle'])->name('customer.vehicle');
 	Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
 
+	// Route::get('')
 //Accountant
 Route::group(['prefix' => 'accountant'], function () {
 	Route::get('/list', ['as' => 'accountant/list', 'uses' => 'Accountantcontroller@index'])->middleware('can:accountant_view');
@@ -173,6 +186,8 @@ Route::group(['prefix' => 'vehicle'], function () {
 	Route::get('/vehicaltypefrombrand', 'VehicalControler@vehicaltype');
 	Route::get('/vehicalmodelfrombrand', 'VehicalControler@vehicalmodel');
 
+	Route::get('/get-vehicle-brands/{id}', 'VehicalControler@getVehicleBrands');
+	Route::get('/get-model-names/{id}', 'VehicalControler@getModelNames');
 	//vihical type,brand,fuel,model
 	Route::get('vehicle_type_add', ['as' => 'vehical/vehicle_type_add', 'uses' => 'VehicalControler@vehicaltypeadd']);
 	Route::get('/vehicaltypedelete', ['as' => 'vehical/vehicaltypedelete', 'uses' => 'VehicalControler@deletevehicaltype']);
@@ -735,7 +750,7 @@ Route::get('/sales_part/list/modal', 'SalesPartcontroller@view')->middleware('ca
 Route::get('/sales_part/getprice', 'SalesPartcontroller@getmodel_name');
 Route::get('/sales_part/add/getproductname', 'SalesPartcontroller@getproductname');
 Route::get('/sale_part/deleteproduct', 'SalesPartcontroller@sale_part_destroy');
-
+Route::get('customer_vehicle/add/getanother_vehicle', 'Customercontroller@getAnotherVehicle');
 //New route add by mukesh for get product quantity availability
 Route::get('/sale_part/get_available_product', 'SalesPartcontroller@getAvailableProduct');
 
