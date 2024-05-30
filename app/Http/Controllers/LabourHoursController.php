@@ -18,18 +18,24 @@ class LabourHoursController extends Controller
 
     public function add()
     {
-        $library = DB::table('inspection_points_library')->get()->toArray();
+        $library = DB::table('tbl_products')->get()->toArray();
+        $body_type = DB::table('tbl_vehicle_types')->get()->toArray();
+        $model_name = DB::table('tbl_vehicles')->get()->toArray();
 
-        return view('labour.add', compact('library'));
+        return view('labour.add', compact('library', 'body_type', 'model_name'));
     }
 
     public function store(Request $request)
     {
         $name = $request->name;
+        $vehicleType = $request->vehicleType;
+        $modelName = $request->modelName;
         $time = $request->hours;
 
         $newData = new Labours;
         $newData->name = $name;
+        $newData->vehicleType = $vehicleType;
+        $newData->modelName = $modelName;
         $newData->hours = $time;
 
         $newData->save();
@@ -43,9 +49,11 @@ class LabourHoursController extends Controller
         $editid = $id;
         $o_type_point = DB::table('tbl_labours')->where('id', '=', $id)->first();
 
-        $library = DB::table('inspection_points_library')->get()->toArray();
+        $library = DB::table('tbl_products')->get()->toArray();
+        $body_type = DB::table('tbl_vehicle_types')->get()->toArray();
+        $model_name = DB::table('tbl_vehicles')->get()->toArray();
 
-        return view('labour.edit', compact('o_type_point', 'editid', 'library'));
+        return view('labour.edit', compact('o_type_point', 'editid', 'library', 'body_type', 'model_name'));
     }
 
     public function update(Request $request, $id)
@@ -58,6 +66,8 @@ class LabourHoursController extends Controller
             // Assign new values from the request
             $o_point->name = $request->name;
             $o_point->hours = $request->hours;
+            $o_point->modelName = $request->modelName;
+            $o_point->vehicleType = $request->vehicleType;
             
             // Save the updated object to the database
             $o_point->save();

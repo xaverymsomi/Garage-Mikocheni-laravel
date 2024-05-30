@@ -119,7 +119,7 @@
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Retail Price') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="price" name="price" class="form-control" placeholder="{{ trans('message.Enter Product Retail Price') }}" value="{{ old('price') }}" maxlength="10" required>
+                  <input type="text" id="price" name="price" class="form-control" placeholder="{{ trans('Enter Product Retail Price') }}" value="{{ old('price') }}" maxlength="10" required>
                   @if ($errors->has('price'))
                   <span class="help-block">
                     <strong>{{ $errors->first('price') }}</strong>
@@ -155,7 +155,7 @@
                     <option value="">{{ trans('message.-- Select Supplier --') }}</option>
                     @if (!empty($supplier))
                     @foreach ($supplier as $suppliers)
-                    <option value="{{ $suppliers->id }}">{{ $suppliers->company_name }}
+                    <option value="{{ $suppliers->id }}">{{ $suppliers->name }}
                     </option>
                     @endforeach
                     @endif
@@ -194,6 +194,17 @@
               </div>
             </div>
             <div class="row">
+              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group">
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Product Quantity') }} <label class="color-danger">*</label></label>
+                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                  <input type="number" id="price" name="quantity" class="form-control" placeholder="{{ trans('Enter Product Quantity') }}" value="{{ old('quantity') }}" maxlength="10" required>
+                  @if ($errors->has('quantity'))
+                  <span class="help-block">
+                    <strong>{{ $errors->first('quantity') }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </div>
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('image') ? ' has-error' : '' }}">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">{{ trans('message.Image') }}</label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">

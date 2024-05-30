@@ -188,9 +188,9 @@ class QuotationController extends Controller
 		// Subtract discount amount from the final charge
 		$finalCharge -= $discountAmount;
 	
-		// Checking MOT Test Check box, if it is checked or not
-		$mot_test_status = $request->motTestStatusCheckbox;
-		$mot_test_status = $mot_test_status == "on" ? 1 : 0;
+		// // Checking MOT Test Check box, if it is checked or not
+		// $mot_test_status = $request->motTestStatusCheckbox;
+		// $mot_test_status = $mot_test_status == "on" ? 1 : 0;
 	
 		if (getDateFormat() == 'm-d-Y') {
 			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
@@ -199,6 +199,7 @@ class QuotationController extends Controller
 		}
 	
 		// Calculate the total price of all products
+		$totalPraisal = 0;
 		$totalProductPrice = 0;
 		$products = $request->product;
 		if (!empty($products)) {
@@ -227,7 +228,9 @@ class QuotationController extends Controller
 				$info->save();
 	
 				// Add the total price of this product to the total product price
-				$totalProductPrice += $total_price;
+				$totalPraisal += $total_price;
+				// totalProductPrice
+				$totalProductPrice = ($request->discountPercentage / 100) * $totalPraisal;
 			}
 		}
 	
@@ -245,7 +248,7 @@ class QuotationController extends Controller
 		$services->customer_id = $Customername;
 		$services->detail = $details;
 		$services->service_type = $ser_type;
-		$services->mot_status = $mot_test_status;
+		// $services->mot_status = $mot_test_status;
 		$services->is_quotation = 1;
 		$services->quotation_modify_status = 1;
 		$services->branch_id = $request->branch;
@@ -283,31 +286,7 @@ class QuotationController extends Controller
 	
 		$inspection_data = array();
 	
-		if ($request->motTestStatusCheckbox == "on") {
-			$inspection_data = $request->inspection;
-			$data_for_db = json_encode($inspection_data);
-	
-			$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
-	
-			$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
-	
-			$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
-	
-			$get_vehicle_current_id = $get_vehicle_inspection_id->id;
-	
-			if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
-				$mot_test_status = 'fail';
-			} else {
-				$mot_test_status = 'pass';
-			}
-	
-			$generateMotTestNumber = rand();
-			$todayDate = date('Y-m-d');
-	
-			$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
-	
-			$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
-		}
+		
 	
 		//get current service id for washbay data
 		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
@@ -346,9 +325,9 @@ class QuotationController extends Controller
 		// Subtract discount amount from the final charge
 		// $finalCharge -= $discountAmount;
 	
-		// Checking MOT Test Check box, if it is checked or not
-		$mot_test_status = $request->motTestStatusCheckbox;
-		$mot_test_status = $mot_test_status == "on" ? 1 : 0;
+		// // Checking MOT Test Check box, if it is checked or not
+		// $mot_test_status = $request->motTestStatusCheckbox;
+		// $mot_test_status = $mot_test_status == "on" ? 1 : 0;
 	
 		if (getDateFormat() == 'm-d-Y') {
 			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
@@ -382,7 +361,13 @@ class QuotationController extends Controller
 				$info->bill_no = $code;
 	
 				$info->save();
-	
+				// Product::
+				// Update product quantity
+				$product = Product::find($description);
+				if ($product) {
+					$product->quantity -= $qty; // Subtract the sold quantity from the current quantity
+					$product->save();
+				}
 				// Add the total price of this product to the total product price
 				$totalProductPrice += $total_price;
 			}
@@ -402,7 +387,7 @@ class QuotationController extends Controller
 		$services->customer_id = $Customername;
 		$services->detail = $details;
 		$services->service_type = $ser_type;
-		$services->mot_status = $mot_test_status;
+		// $services->mot_status = $mot_test_status;
 		$services->is_quotation = 1;
 		$services->quotation_modify_status = 1;
 		$services->branch_id = $request->branch;
@@ -440,31 +425,31 @@ class QuotationController extends Controller
 	
 		$inspection_data = array();
 	
-		if ($request->motTestStatusCheckbox == "on") {
-			$inspection_data = $request->inspection;
-			$data_for_db = json_encode($inspection_data);
+		// if ($request->motTestStatusCheckbox == "on") {
+		// 	$inspection_data = $request->inspection;
+		// 	$data_for_db = json_encode($inspection_data);
 	
-			$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
+		// 	$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
 	
-			$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
+		// 	$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
 	
-			$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
+		// 	$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
 	
-			$get_vehicle_current_id = $get_vehicle_inspection_id->id;
+		// 	$get_vehicle_current_id = $get_vehicle_inspection_id->id;
 	
-			if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
-				$mot_test_status = 'fail';
-			} else {
-				$mot_test_status = 'pass';
-			}
+		// 	if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
+		// 		$mot_test_status = 'fail';
+		// 	} else {
+		// 		$mot_test_status = 'pass';
+		// 	}
 	
-			$generateMotTestNumber = rand();
-			$todayDate = date('Y-m-d');
+		// 	$generateMotTestNumber = rand();
+		// 	$todayDate = date('Y-m-d');
 	
-			$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
+		// 	$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
 	
-			$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
-		}
+		// 	$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
+		// }
 	
 		//get current service id for washbay data
 		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
@@ -1070,6 +1055,7 @@ class QuotationController extends Controller
 		$service_data = DB::table('tbl_services')->where('id', $ser_id)->first();
 		$vehi_name = $service_data->vehicle_id;
 		$cus_id = $service_data->customer_id;
+		$cus_ids = $service_data->assign_to;
 		$tbl_sales = DB::table('tbl_sales')->where('vehicle_id', $vehi_name)->first();
 
 		if (!empty($tbl_sales)) {
@@ -1077,9 +1063,27 @@ class QuotationController extends Controller
 		} else {
 			$regi = DB::table('tbl_vehicles')->where('id', $vehi_name)->first();
 		}
+		$month = date('m');
+		$year = date('Y');
+		$start_date = "$year/$month/01";
+		$end_date = "$year/$month/30";
+		$current_month = DB::select("SELECT service_date FROM tbl_services where service_date BETWEEN  '$start_date' AND '$end_date'");
+
+		if (!empty($current_month)) {
+			foreach ($current_month as $list) {
+				$date[] = $list->service_date;
+			}
+			$available = json_encode($date);
+		}
+
+		$Vehicle_inf = DB::table('tbl_vehicles')->where('id', $vehi_name)->first();
+		$maker = $Vehicle_inf->vehicletype_id;
+		$chassis_no = $Vehicle_inf->chassisno;
 
 		$logo = DB::table('tbl_settings')->first();
 		$custo_info = DB::table('users')->where('id', $cus_id)->first();
+		$assigned  = DB::table('users')->where([['id', '=', $cus_ids], ['role', '=', 'employee']])->first();
+
 		$used_cpn_data = DB::table('tbl_jobcard_details')->where('service_id', $ser_id)->first();
 
 		$service_id = $ser_id;
@@ -1100,7 +1104,7 @@ class QuotationController extends Controller
 		//For Custom Field Data
 		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'service'], ['always_visable', '=', 'yes']])->get()->toArray();
 
-		$html = view('quotation.quotationmodel')->with(compact('page_action', 'service_id', 'logo', 'custo_info', 'vehi_name', 'regi', 'all_data', 'all_data2', 'all_data3', 'used_cpn_data', 'service_data', 'service_taxes', 'tbl_custom_fields', 'washbay_data'))->render();
+		$html = view('quotation.quotationmodel')->with(compact('available','assigned','current_month','chassis_no','page_action', 'service_id', 'logo', 'custo_info', 'vehi_name', 'regi', 'all_data', 'all_data2', 'all_data3', 'used_cpn_data', 'service_data', 'service_taxes', 'tbl_custom_fields', 'washbay_data', 'maker', 'Vehicle_inf'))->render();
 
 		return response()->json(['success' => true, 'html' => $html]);
 	}

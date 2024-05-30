@@ -56,16 +56,51 @@
                 class="form-horizontal upperform">
 
                 <div class="row row-mb-0">
+                  <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Body Type Name') }} <label class="color-danger">*</label></label>
+
+                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                        <select class="form-control select_branch form-select" name="vehicleType">
+                            <option value="">{{ trans('Body Type') }}</option>
+                            @if (!empty($body_type))
+                            @foreach ($body_type as $body_types)
+                            <option value="{{ $body_types->vehicle_type }}">
+                                {{ $body_types->vehicle_type }}
+                            </option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+                  </div>
+                  <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Model Name') }} <label class="color-danger">*</label></label>
+
+                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                        <select class="form-control select_branch form-select" name="modelName">
+                            <option value="">{{ trans('Model Name') }}</option>
+                            @if (!empty($model_name))
+                            @foreach ($model_name as $model_names)
+                            <option value="{{ $model_names->modelname }}">
+                                {{ $model_names->modelname }}
+                            </option>
+                            @endforeach
+                            @endif
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row row-mb-0">
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Inspection Part Name') }} <label class="color-danger">*</label></label>
+                        <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Body Part Names') }} <label class="color-danger">*</label></label>
 
                         <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                             <select class="form-control select_branch form-select" name="name">
-                                <option value="">{{ trans('Select Part') }}</option>
+                                <option value="">{{ trans('Body Part') }}</option>
                                 @if (!empty($library))
                                 @foreach ($library as $libraries)
-                                <option value="{{ $libraries->point }}">
-                                    {{ $libraries->point }}
+                                <option value="{{ $libraries->name }}">
+                                    {{ $libraries->name }}
                                 </option>
                                 @endforeach
                                 @endif
@@ -76,7 +111,7 @@
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                         <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Time/Hours') }} <label class="color-danger">*</label></label>
                         <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                            <input type="text" id="jobno" name="hours" class="form-control" value="" placeholder="Enter Labour hour">
+                            <input type="number" id="jobno" name="hours" class="form-control" value="" placeholder="Enter Labour hour">
                         </div>
                     </div>
                 </div>

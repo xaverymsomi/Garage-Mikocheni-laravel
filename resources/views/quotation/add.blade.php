@@ -280,12 +280,12 @@
 
                             <div class="row row-mb-0">
                                 <!-- MOt Test Checkbox Start-->
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 motTextLabel pt-0" for="">{{ trans('message.MOT Test') }}</label>
+                                {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6"> --}}
+                                    {{-- <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 motTextLabel pt-0" for="">{{ trans('message.MOT Test') }}</label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                         <input type="checkbox" name="motTestStatusCheckbox" id="motTestStatusCheckbox" style="height:20px; width:20px; margin-right:5px; position: relative; top: 1px; margin-bottom: 12px;">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <!-- MOt Test Checkbox End-->
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 washbayLabel" for="washbay">{{ trans('message.Wash Bay') }} <label class="text-danger"></label></label>
@@ -302,11 +302,11 @@
                                         <span id="washbay_error_span" class="help-block error-help-block color-danger" style="display:none"></span>
                                     </div>
                                 </div>
-                            </div>
+                            {{-- </div> --}}
 
 
                             <!-- Wash Bay Feature -->
-                            <div class="row row-mb-0">
+                            {{-- <div class="row row-mb-0"> --}}
                                 <!-- Tax field start -->
                                 @if (!empty($tax))
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -334,14 +334,14 @@
                             </div>
                             <!-- Wash Bay Feature -->
                             <!-- ************* MOT Module Starting ************* -->
-                            <br /><br />
+                            {{-- <br /><br />
                             <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 motMainPart" style="display: none">
                                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
                                     <h4 class="Mottestfont">{{ trans('message.MOT Test') }}</h4>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 panel-group motMainPart-1" style="display: none">
+                             {{--<div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 panel-group motMainPart-1" style="display: none">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
@@ -349,7 +349,7 @@
                                                 {{ trans('message.MOT Test View') }}</a>
                                         </h4>
                                     </div>
-                                    <div id="collapse2" class="panel-collapse collapse">
+                                     <div id="collapse2" class="panel-collapse collapse">
                                         <div class="panel-body">
 
                                             <!-- Step:1 Starting -->
@@ -620,9 +620,9 @@
                                             <!--Step 2: Show Filled MOT Details Ending -->
 
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- ************* MOT Module Ending ************* -->
                             <!-- Start Custom Field, (If register in Custom Field Module)  -->

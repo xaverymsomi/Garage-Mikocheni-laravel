@@ -54,8 +54,10 @@
               <thead>
                 <tr>
                   <th>{{ trans('message.#') }}</th>
-                  <th>{{ trans('Inspection Product Type') }}</th>
-                  <th>{{ trans('message.Hours') }}</th>
+                  <th>{{ trans('Body Type') }}</th>
+                  <th>{{ trans('Model Name') }}</th>
+                  <th>{{ trans('Body Parts') }}</th>
+                  <th>{{ trans('Rate/Hours') }}</th>
                   <th>{{ trans('message.Action') }}</th>
 
                 </tr>
@@ -68,6 +70,9 @@
                 @foreach ($o_type_point as $o_type_points)
                   <tr>
                     <td>{{ $i }}</td>
+                    <td>{{ $o_type_points->vehicleType }}</td>
+
+                    <td>{{ $o_type_points->modelName }}</td>
 
                     <td>{{ $o_type_points->name }}</td>
 

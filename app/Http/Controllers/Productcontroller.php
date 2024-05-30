@@ -165,13 +165,13 @@ class Productcontroller extends Controller
 	// product store
 	public function store(ProductAddEditFormRequest $request)
 	{
-
 		$p_date = $request->p_date;
 		$p_no = $request->p_no;
 		$name = $request->name;
 		$p_type = $request->p_type;
 		$color = $request->color;
 		$price = $request->price;
+		$quantity = $request->quantity;
 		$sup_id = $request->sup_id;
 		$warranty = $request->warranty;
 		$unit = $request->unit;
@@ -201,6 +201,7 @@ class Productcontroller extends Controller
 		}
 
 		$product->name = $name;
+		$product->quantity = $quantity;
 		$product->product_type_id = $p_type;
 		$product->color_id = $color;
 		$product->price = $price;
@@ -299,6 +300,7 @@ class Productcontroller extends Controller
 		$p_type = $request->p_type;
 		$color = $request->color;
 		$price = $request->price;
+		$quantity = $request->quantity;
 		$sup_id = $request->sup_id;
 		$warranty = $request->warranty;
 		$unit = $request->unit;
@@ -333,6 +335,7 @@ class Productcontroller extends Controller
 		$product->product_type_id = $p_type;
 		$product->color_id = $color;
 		$product->price = $price;
+		$product->quantity = $quantity;
 		$product->supplier_id = $sup_id;
 		$product->warranty = $warranty;
 		$product->category = 1; //1=Part

@@ -167,6 +167,17 @@
             </div>
             
             <div class="row row-mb-0">
+              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 {{ $errors->has('price') ? ' has-error' : '' }} my-form-group">
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Product Quantity') }} (<?php echo getCurrencySymbols(); ?>) <label class="color-danger">*</label></label>
+                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                  <input type="number" id="price" name="quantity" class="form-control" value="{{ $product->quantity }}"  maxlength="10" required>
+                  @if ($errors->has('price'))
+                  <span class="help-block">
+                    <strong>{{ $errors->first('price') }}</strong>
+                  </span>
+                  @endif
+                </div>
+              </div>
             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Color Name') }}</label>
                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">

@@ -18,14 +18,49 @@
 <div>
     <div id="sales_print">
         <div class="modal-header">
-            <h4 class="modal-title mx-3"> {{ getNameSystem() }} </h4>
+            <h4 class="modal-title mx-3"> {{ getNameSystem() }}</h4>
+            
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body" id="">
             <div class="row mx-0">
                 <div class="modal-body pb-0">
                     <div class="row" id="">
-                        <!-- <h3 class="text-center"><?php echo $logo->system_name; ?></h3> -->
+                        <table class="table table-bordered adddatatable mx-0">
+                            <thead>
+                                <tr>
+                                    <th colspan="14" class="text-center">APPRAISAL SHEET</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">INSURER:</td>
+                                    <td colspan="4">{{ Auth::user()->name }}</td>
+                                    <td colspan="2">REF NO.</td>
+                                    <td colspan="5"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">CLAIMANT</td>
+                                    <td colspan="4">{{ getCustomerName($custo_info->id) }}</td>
+                                    
+                                    <td colspan="2">BROKER</td>
+                                    <td colspan="5">KANGAROO</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">CLAIM NO.</td>
+                                    <td colspan="4">{{ getQuotationNumber($service_data->job_no) }}</td>
+                                    <td colspan="2">DATE</td>
+                                    <?php $date_db = date('Y-m-d', strtotime($service_data->service_date)); ?>
+                                    @if (!empty($current_month) && strpos($available, $date_db) !== false)
+                                    <td colspan="2"><span class="label label-danger">{{ date(getDateFormat(), strtotime($date_db)) }}</span>
+                                    </td>
+                                    @else
+                                    <td colspan="2"> {{ date(getDateFormat(), strtotime($date_db)) }}</td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+                        {{-- <!-- <h3 class="text-center"><?php echo $logo->system_name; ?></h3> -->
                         <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                             <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6  printimg position-relative ms-2">
                                 <img src="..//public/general_setting/<?php echo $logo->logo_image; ?>" class="system_logo_img">
@@ -130,37 +165,134 @@
                                 </div>
                             </table>
 
-                        </div>
+                        </div> --}}
                     </div>
-                    <hr>
                     <div class="row">
                         <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 table-responsive">
                             <table class="table table-bordered table-responsive adddatatable quotationDetail mb-0" width="100%">
                                 <span class="border-0">
                                     <thead>
-                                        <tr>
+                                        {{-- <tr>
                                             <th class="cname text-left">{{ trans('message.Quotation Number') }}</th>
                                             <th class="cname text-left">{{ trans('message.Vehicle Name') }}</th>
                                             <th class="cname text-left">{{ trans('message.Number Plate' ?? '-') }}</th>
                                             <th class="cname text-left">{{ trans('message.Date') }}</th>
 
+                                        </tr> --}}
+                                        <tr>
+                                            <td colspan="2">REG NO.</td>
+                                            <td colspan="2">MAKER</td>
+                                            <td colspan="2">MODEL</td>
+                                            <td colspan="2">CHASSIS</td>
+                                            <td colspan="2">YOM</td>
+                                            <td colspan="2">COLOUR</td>
+                                            <td colspan="2">ENGINE</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td colspan="2">{{ $Vehicle_inf->number_plate }}</td>
+                                            <td colspan="2">{{ getVehicleType($maker) }}</td>
+                                            <td colspan="2">{{ getVehicleName($vehi_name) }}</td>
+                                            <td colspan="2">{{ $chassis_no }}</td>
+                                            <td colspan="2">{{ $Vehicle_inf->modelyear }}</td>
+                                            
+                                            <td colspan="2">{{ $Vehicle_inf->color }}</td>
+                                            <td colspan="2">{{ $Vehicle_inf->engineno }}</td>
+                                        </tr>
+                                        {{-- <tr>
                                             <td class="cname text-left fw-bold"><?php echo getQuotationNumber($service_data->job_no); ?></td>
                                             <td class="cname text-left fw-bold"><?php echo getVehicleName($service_data->vehicle_id); ?></td>
                                             <td class="cname text-left fw-bold"><?php echo getVehicleNumberPlate($service_data->vehicle_id); ?></td>
                                             <td class="cname text-left fw-bold"><?php echo date(getDateFormat(), strtotime($service_data->service_date)); ?></td>
 
-                                        </tr>
+                                        </tr> --}}
                                     </tbody>
                                 </span>
                             </table>
 
                         </div>
                     </div>
-                    <div class="row">
+                    <?php
+                    $total2 = 0;
+                    if (!empty($all_data3)) {
+                ?>
+            <div class="table table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 mb-0">
+                <table class="table table-bordered adddatatable mx-0">
+                    <thead>
+                        {{-- <tr>
+                            <th class="text-center" style="width: 5%;">#</th>
+                            <th class="text-center">{{ trans('message.Product Name') }}</th>
+                            <th class="text-center">{{ trans('Quantity') }}</th>
+                            
+                            <th class="text-center">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
+                            <th class="text-center" style="width: 25%;">{{ trans('message.Total Price') }}
+                                (<?php echo getCurrencySymbols(); ?>)
+                            </th>
+                        </tr> --}}
+                        <tr>
+                            <td rowspan="2">SN</td>
+                            <td class="text-center" colspan="1" rowspan="2">DESCRIPTION OF PARTS &amp; REPLACEMENT</td>
+                            <td class="text-center" rowspan="2">REPAIR</td>
+                            <td class="text-center" rowspan="2">REPLACE</td>
+                            <td class="text-center" rowspan="2">LEFT</td>
+                            <td class="text-center" rowspan="2">RIGHT</td>
+                            <td class="text-center" rowspan="2">QTY</td>
+                            <td class="text-center" rowspan="2">HOURS</td>
+                            <td class="text-center">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</td>
+                            <td class="text-center" style="width: 25%;">{{ trans('message.Total Price') }}
+                                (<?php echo getCurrencySymbols(); ?>)
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $total2 = 0;
+                        $i = 1;
+                        if (!empty($all_data3)) {
+                            foreach ($all_data3 as $ser_proc2) {
+                        ?>
+                                <tr>
+                                    <td class="text-center cname" style="width: 10px;"><?php echo $i++; ?></td>
+                                    <td class="text-center cname"><?php echo getProduct($ser_proc2->product_id); ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    
+                                    <td class="text-center cname"><?php echo number_format((float) $ser_proc2->price, 2); ?></td>
+                                    <td class="text-end cname"><?php echo number_format((float) $ser_proc2->total_price, 2); ?></td>
+                                    <?php if (!empty($ser_proc2->total_price)) {
+                                        $total2 += $ser_proc2->total_price;
+                                    } ?>
+                                </tr>
+                                
+                            <?php
+                            }?>
+                            <tr class="row21">
+                                    <td class="column3 style34 s style34" colspan="5">TOTAL LABOUR</td>
+                                    <td class="column8 style35 null"></td>
+                                    <td class="column9 style36 null"></td>
+                                    <td class="column13 style38 f">&nbsp;&nbsp;37.00 </td>
+                                    <td class="column14 style38 n">&nbsp;&nbsp;15,000.00 </td>
+                                    <td class="text-end cname">&nbsp;&nbsp; <?php echo number_format((float) $total2, 2); ?> </td>
+                                  </tr><?php
+                        } else { ?>
+                            <!-- <tr>
+                            <td class="cname text-center" colspan="5">{{ trans('message.Data not available') }}</td>
+                        </tr> -->
+
+                    </tbody>
+                </table>
+            </div>
+
+        <?php
+                        }
+                    }
+        ?>
+                    {{-- <div class="row">
                         <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
                             <table class="table table-bordered adddatatable w-100 mb-0">
                                 <span class="border-0">
@@ -188,7 +320,7 @@
                                 </span>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                     <hr>
                     <?php
                     $total1 = 0;
@@ -328,116 +460,6 @@
                                     }
                                 }
                 ?>
-                            <?php
-                        $total2 = 0;
-                        if (!empty($all_data3)) {
-                    ?>
-
-
-                <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
-                    <table class="table table-bordered">
-                        <tr class="printimg">
-                            <td class="cname fw-bold" colspan="7">{{ trans('Sold Parts') }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="table table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 mb-0">
-                    <table class="table table-bordered adddatatable mx-0">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width: 5%;">#</th>
-                                <th class="text-center">{{ trans('message.Product Name') }}</th>
-                                <th class="text-center">{{ trans('Quantity') }}</th>
-                                
-                                <th class="text-center">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
-                                <th class="text-center" style="width: 25%;">{{ trans('message.Total Price') }}
-                                    (<?php echo getCurrencySymbols(); ?>)
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $total2 = 0;
-                            $i = 1;
-                            if (!empty($all_data3)) {
-                                foreach ($all_data3 as $ser_proc2) {
-                            ?>
-                                    <tr>
-                                        <td class="text-center cname" style="width: 10px;"><?php echo $i++; ?></td>
-                                        <td class="text-center cname"><?php echo getProduct($ser_proc2->product_id); ?></td>
-                                        <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
-                                        
-                                        <td class="text-center cname"><?php echo number_format((float) $ser_proc2->price, 2); ?></td>
-                                        <td class="text-end cname"><?php echo number_format((float) $ser_proc2->total_price, 2); ?></td>
-                                        <?php if (!empty($ser_proc2->total_price)) {
-                                            $total2 += $ser_proc2->total_price;
-                                        } ?>
-                                    </tr>
-                                <?php
-                                }
-                            } else { ?>
-                                <!-- <tr>
-                                <td class="cname text-center" colspan="5">{{ trans('message.Data not available') }}</td>
-                            </tr> -->
-
-                        </tbody>
-                    </table>
-                </div>
-
-            <?php
-                            }
-                        }
-            ?>
-                <!-- MOT Test Service Charge Details Start -->
-                <?php
-                //$service_data->mot_status
-                $mot_status = $service_data->mot_status;
-                $total3 = 0;
-
-                if ($mot_status == 1) {
-                ?>
-                    <div class="row mx-1 mb-0">
-                        <table class="table table-bordered mb-0">
-                            <tr class="printimg">
-                                <td class="cname fw-bold ml-2">{{ trans('message.MOT Test Service Charge') }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="row mx-1 table-responsive">
-                        <table class="table table-bordered adddatatable">
-                            <thead>
-                                <tr>
-                                    <th class="text-start" style="width: 5%;">#</th>
-                                    <th class="text-left">{{ trans('message.MOT Charge Detail') }}</th>
-                                    <th class="text-left">{{ trans('message.MOT Test') }}</th>
-                                    <th class="text-left">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
-                                    <th class="text-left" style="width: 25%;">{{ trans('message.Total Price') }} (<?php echo getCurrencySymbols(); ?>)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-start cname">1</td>
-                                    <td class="text-left cname">{{ trans('message.MOT Testing Charges') }}</td>
-                                    <td class="text-left cname">{{ trans('message.Completed') }}</td>
-                                    <td class="text-left cname"><?php echo number_format((float) 0, 2); ?></td>
-                                    <td class="text-left cname"><?php echo number_format((float) 0, 2); ?></td>
-                                    <?php $total3 += 0; ?>
-                                </tr>
-                            <?php
-                        } else { ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- <tr>
-                            <td class="cname text-center" colspan="5">{{ trans('message.Data not available') }}</td>
-                        </tr> -->
-                <?php
-                        }
-                ?>
-                <!-- MOT Test Service Charge Details Ebd -->
-
                 <!-- Washbay Service Charge Details Start -->
                 <?php
                 $total4 = 0;
@@ -539,7 +561,7 @@
                 <div class="row mx-1 table-responsive">
                     <table class="table table-bordered quotation_total">
                         <tr>
-                            <td class="text-end cname" style="width: 75%;">{{ trans('message.Fixed Service Charge') }} (<?php echo getCurrencySymbols(); ?>)</td>
+                            <td class="text-end cname" style="width: 75%;">{{ trans('TOTAL APPRAISAL.') }} (<?php echo getCurrencySymbols(); ?>)</td>
                             <td class="text-end cname fw-bold gst f-17"><?php $fix = $service_data->charge;
                                                                         if (!empty($fix)) {
                                                                             echo number_format($fix, 2);
@@ -548,11 +570,11 @@
                                                                         } ?></td>
                         </tr>
                         <tr>
-                            <td class="text-end cname">{{ trans('message.Total Service Amount') }}
+                            <td class="text-end cname">{{ trans('SUBTOTAL') }}
                                 (<?php echo getCurrencySymbols(); ?>)
                                 :
                             </td>
-                            <td class="text-end cname fw-bold gst f-17"><b><?php $total_amt = $total1 + $total2 + $total3 + $total4 + $fix;
+                            <td class="text-end cname fw-bold gst f-17"><b><?php $total_amt = $total1 + $total2 + $total4 + $fix;
                                                                             echo number_format($total_amt, 2); ?></b></td>
                         </tr>
                         <?php

@@ -334,6 +334,11 @@ class SalesPartcontroller extends Controller
 					$sales->custom_field = $salesPartData;
 				}
 				$sales->save();
+				$product = Product::find($Product_id);
+				if ($product) {
+					$product->quantity -= $qty; // Subtract the sold quantity from the current quantity
+					$product->save();
+				}
 				return redirect('sales_part/list')->with('message', 'Part Sell Submitted Successfully');
 			}
 		}
@@ -493,6 +498,11 @@ class SalesPartcontroller extends Controller
 						$sales->product_type_id = $manufacturer_id;
 						$sales->branch_id = $request->branch;
 
+						$product = Product::find($Product_id);
+				if ($product) {
+					$product->quantity -= $qty; // Subtract the sold quantity from the current quantity
+					$product->save();
+				}
 						//Custom Field Data
 						$custom = $request->custom;
 						$custom_fileld_value = array();
