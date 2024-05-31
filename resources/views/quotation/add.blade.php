@@ -279,14 +279,7 @@
 </div>
 
                             <div class="row row-mb-0">
-                                <!-- MOt Test Checkbox Start-->
-                                {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6"> --}}
-                                    {{-- <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 motTextLabel pt-0" for="">{{ trans('message.MOT Test') }}</label>
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                        <input type="checkbox" name="motTestStatusCheckbox" id="motTestStatusCheckbox" style="height:20px; width:20px; margin-right:5px; position: relative; top: 1px; margin-bottom: 12px;">
-                                    </div>
-                                </div> --}}
-                                <!-- MOt Test Checkbox End-->
+                               
                                 <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                     <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 washbayLabel" for="washbay">{{ trans('message.Wash Bay') }} <label class="text-danger"></label></label>
                                     <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 washbayInputDiv">
@@ -7891,10 +7884,39 @@ $('body').on('click', '.deleteproducted', function() {
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Embed PHP array into JavaScript
+    const stockQuantities = @json($stockQuantities);
 
+    document.querySelectorAll('.quantity').forEach(function (input) {
+        input.addEventListener('input', function () {
+            const rowId = this.getAttribute('row_id');
+            const productId = document.querySelector(`#productid[row_did="${rowId}"]`).value;
+            const quantityEntered = parseInt(this.value, 10);
+            const availableStock = stockQuantities[productId] || 0;
 
-=======
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
+            let errorMessage = '';
+            if (quantityEntered === 0) {
+                errorMessage = 'Please enter a valid quantity.';
+            } else if (quantityEntered > availableStock) {
+                errorMessage = `Quantity entered exceeds available stock (${availableStock}).`;
+                // Set the input value to the maximum available stock
+                this.value = availableStock;
+            }
+
+            const errorElement = document.querySelector(`#quantity_error_${rowId}`);
+            if (errorMessage) {
+                errorElement.textContent = errorMessage;
+                errorElement.style.display = 'block';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        });
+    });
+});
+
+</script>
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\StoreQuotationAddEditFormRequest', '#QuotationAdd-Form') !!}
 <script type="text/javascript" src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>

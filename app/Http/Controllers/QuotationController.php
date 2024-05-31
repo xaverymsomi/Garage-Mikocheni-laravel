@@ -22,6 +22,7 @@ use Mpdf\Output\Destination;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use App\Labours;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
@@ -91,23 +92,23 @@ class QuotationController extends Controller
 		//Get last Jobcard data
 		$last_order = DB::table('tbl_services')->latest()->where('sales_id', '=', null)->first();
 
-	if (!empty($last_order)) {
-    // Get the last jobcard number
-    $lastJobcardNumber = $last_order->job_no;
+		if (!empty($last_order)) {
+		// Get the last jobcard number
+		$lastJobcardNumber = $last_order->job_no;
 
-    // Extract the numeric part of the jobcard number
-    $lastNumber = intval(substr($lastJobcardNumber, -4));
+		// Extract the numeric part of the jobcard number
+		$lastNumber = intval(substr($lastJobcardNumber, -4));
 
-    // Increment the last number
-    $incrementedNumber = $lastNumber + 1;
+		// Increment the last number
+		$incrementedNumber = $lastNumber + 1;
 
-    // Generate jobcard number with format RMAL-RP-24-<increment>
-    $prefix = 'RMAL-RP-24-';
-    $new_number = $prefix . str_pad($incrementedNumber, 4, '0', STR_PAD_LEFT);
-		} else {
-    // If no previous jobcard found, start from 0001
-    $new_number = 'RMAL-RP-24-0001';
-		}
+		// Generate jobcard number with format RMAL-RP-24-<increment>
+		$prefix = 'RMAL-RP-24-';
+		$new_number = $prefix . str_pad($incrementedNumber, 4, '0', STR_PAD_LEFT);
+			} else {
+		// If no previous jobcard found, start from 0001
+		$new_number = 'RMAL-RP-24-0001';
+			}
 
        	$code = $new_number;
 		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
@@ -137,6 +138,10 @@ class QuotationController extends Controller
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
@@ -146,6 +151,10 @@ class QuotationController extends Controller
             $cat_name = CheckoutCategory::where('soft_delete', '=', 0)->distinct()->select('checkout_point')->get();
 			$employee = DB::table('users')->where('role', '=', 'Employee')->where('soft_delete', '=', 0)->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
@@ -155,6 +164,10 @@ class QuotationController extends Controller
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
@@ -164,79 +177,82 @@ class QuotationController extends Controller
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', 0]])->get()->toArray();
 
-		return view('quotation.add', compact('customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas','employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'tbl_custom_fields', 'inspection_points_library_data', 'tax', 'branchDatas', 'repairCategoryList','vehicle_name', 'cat_name','job_cartegory', 'model_name'));
+		return view('quotation.add', compact('stockQuantities','customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas','employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'tbl_custom_fields', 'inspection_points_library_data', 'tax', 'branchDatas', 'repairCategoryList','vehicle_name', 'cat_name','job_cartegory', 'model_name'));
 	}
 
 
 	/*Save Quotation Service Data inside Service Table (First step of add service)*/
 	public function store(Request $request)
 {
-    // dd($request->discountPercentage);
-	$discountPercentage = $request->discountPercentage;
-	if ($discountPercentage) {
-		$finalCharge = $request->charge;
-		$discountAmount = ($request->discountPercentage / 100) * $request->charge;
-	
-		$job = $request->jobno;
-		$Customername = $request->Customername;
-		$vehicalname = $request->vehicalname;
-		$title = $request->title;
-		$service_category = $request->repair_cat;
-		$ser_type = $request->service_type;
-		$details = $request->details;
-	
-		// Subtract discount amount from the final charge
-		$finalCharge -= $discountAmount;
-	
-		// // Checking MOT Test Check box, if it is checked or not
-		// $mot_test_status = $request->motTestStatusCheckbox;
-		// $mot_test_status = $mot_test_status == "on" ? 1 : 0;
-	
-		if (getDateFormat() == 'm-d-Y') {
-			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
-		} else {
-			$date = date('Y-m-d H:i:s', strtotime($request->date));
-		}
-	
-		// Calculate the total price of all products
-		$totalPraisal = 0;
-		$totalProductPrice = 0;
-		$products = $request->product;
-		if (!empty($products)) {
-			foreach ($products['product_id'] as $key => $value) {
-				$description = $products['product_id'][$key];
-				$qty = $products['qty'][$key];
-				$price = $products['price'][$key];
-				$total_price = $products['total_price'][$key];
-				$manufacture = $products['Manufacturer_id'][$key];
-	
-				$info = new Details;
-				$info->quantity = $qty;
-				$info->price = $price;
-				$info->total_price = $total_price;
-				$info->product_id = $description;
-				$info->product_type_id = $manufacture;
-				$info->sellman = Auth::user()->id;
-				$info->customer_id = $Customername;
-				$info->branch_id = $request->branch;
-				$info->date = $date;
-				$info->quotation_id = $job;
-				$characters = '0123456789';
-				$code = 'SP' . substr(str_shuffle($characters), 0, 6);
-				$info->bill_no = $code;
-	
-				$info->save();
-	
-				// Add the total price of this product to the total product price
-				$totalPraisal += $total_price;
-				// totalProductPrice
-				$totalProductPrice = ($request->discountPercentage / 100) * $totalPraisal;
-			}
-		}
-	
-		// Add total product price to the final charge
-		$finalCharge += $totalProductPrice;
-	
+    // Initialize variables
+    $finalCharge = 0; // Initial charge from the request
+    $job = $request->jobno;
+    $Customername = $request->Customername;
+    $vehicalname = $request->vehicalname;
+    $title = $request->title;
+    $service_category = $request->repair_cat;
+    $ser_type = $request->service_type;
+    $details = $request->details;
+    $discountPercentage = $request->discountPercentage;
+    $totalProductPrice = 0;
+
+    // Format the date
+    if (getDateFormat() == 'm-d-Y') {
+        $date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
+    } else {
+        $date = date('Y-m-d H:i:s', strtotime($request->date));
+    }
+
+    // Calculate the total price of all products
+    $products = $request->product;
+    if (!empty($products)) {
+        foreach ($products['product_id'] as $key => $value) {
+            $description = $products['product_id'][$key];
+            $qty = $products['qty'][$key];
+            $price = $products['price'][$key];
+            $total_price = $products['total_price'][$key];
+            $manufacture = $products['Manufacturer_id'][$key];
+
+            // Create and save product details
+            $info = new Details;
+            $info->quantity = $qty;
+            $info->quotation_id = $job;
+            $info->price = $price;
+            $info->total_price = $total_price;
+            $info->product_id = $description;
+            $info->product_type_id = $manufacture;
+            $info->sellman = Auth::user()->id;
+            $info->customer_id = $Customername;
+            $info->branch_id = $request->branch;
+            $info->date = $date;
+            $characters = '0123456789';
+            $code = 'SP' . substr(str_shuffle($characters), 0, 6);
+            $info->bill_no = $code;
+
+            $info->save();
+
+            // Update product quantity
+            $product = Product::find($description);
+            if ($product) {
+                $product->quantity -= $qty; // Subtract the sold quantity from the current quantity
+                $product->save();
+            }
+
+            // Add the total price of this product to the total product price
+            $totalProductPrice += $total_price;
+        }
+    }
+
+    // Apply discount if provided
+    if ($discountPercentage) {
+        $discountAmount = ($discountPercentage / 100) * $finalCharge;
+        $finalCharge -= $discountAmount;
+
+        // Calculate discount on total product price
+        $discountedProductPrice = ($discountPercentage / 100) * $totalProductPrice;
+        $finalCharge += $discountedProductPrice;
+
+			// Create and save service details
 		$services = new Service;
 		$services->job_no = $job;
 		$services->vehicle_id = $vehicalname;
@@ -244,138 +260,39 @@ class QuotationController extends Controller
 		$services->title = $title;
 		$services->service_category = $service_category;
 		$services->done_status = 0;
-		$services->charge = $finalCharge; // Save the final charge including product prices
+		$services->charge = $finalCharge + $request->charge; // Save the final charge including product prices and discount
 		$services->customer_id = $Customername;
 		$services->detail = $details;
 		$services->service_type = $ser_type;
-		// $services->mot_status = $mot_test_status;
 		$services->is_quotation = 1;
 		$services->quotation_modify_status = 1;
 		$services->branch_id = $request->branch;
 		$services->create_by = Auth::User()->id;
-	
-		// custom field save
+
+		// Save custom fields
 		$custom = $request->custom;
-		$custom_fileld_value = array();
-		$custom_fileld_value_jason_array = array();
+		$custom_field_value = [];
 		if (!empty($custom)) {
 			foreach ($custom as $key => $value) {
-				if (is_array($value)) {
-					$add_one_in = implode(",", $value);
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-				} else {
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-				}
+				$custom_field_value[] = [
+					'id' => $key,
+					'value' => is_array($value) ? implode(",", $value) : $value
+				];
 			}
-	
-			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-				$serviceData = $val1;
-			}
-			$services->custom_field = $serviceData;
+			$services->custom_field = json_encode($custom_field_value);
 		}
+
 		if (!empty($request->Tax)) {
 			$services->tax_id = implode(', ', $request->Tax);
 		}
-	
+
 		$services->save();
-	
-		$service_latest_data = Service::where('job_no', '=', $job)->first();
-		$service_id = $service_latest_data->id;
-		$job_no = $service_latest_data->job_no;
-	
-		$inspection_data = array();
-	
-		
-	
-		//get current service id for washbay data
-		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
-	
-		$washbay_status = $request->washbay;
-	
-		/*Checking for Washbay status, if washbay status on then data store inside washbay table*/
-		if ($washbay_status == 'on') {
-			$washbay_charge = $request->washBayCharge;
-	
-			$washbays = new Washbay;
-			$washbays->service_id = $get_service_id;
-			$washbays->jobcard_no = $job;
-			$washbays->vehicle_id = $vehicalname;
-			$washbays->customer_id = $Customername;
-			$washbays->price = $washbay_charge;
-			$washbays->save();
-		}
-	
-		/*Redirect to direct quotation modify page*/
-		return redirect()->route('quotation_modify', array('id' => $service_id));
-	
-		// dd($finalCharge);
-	} else {
-		$finalCharge = $request->charge;
-		// $discountAmount = ($request->discountPercentage / 100) * $request->charge;
-	
-		$job = $request->jobno;
-		$Customername = $request->Customername;
-		$vehicalname = $request->vehicalname;
-		$title = $request->title;
-		$service_category = $request->repair_cat;
-		$ser_type = $request->service_type;
-		$details = $request->details;
-	
-		// Subtract discount amount from the final charge
-		// $finalCharge -= $discountAmount;
-	
-		// // Checking MOT Test Check box, if it is checked or not
-		// $mot_test_status = $request->motTestStatusCheckbox;
-		// $mot_test_status = $mot_test_status == "on" ? 1 : 0;
-	
-		if (getDateFormat() == 'm-d-Y') {
-			$date = date('Y-m-d H:i:s', strtotime(str_replace('-', '/', $request->date)));
-		} else {
-			$date = date('Y-m-d H:i:s', strtotime($request->date));
-		}
-	
-		// Calculate the total price of all products
-		$totalProductPrice = 0;
-		$products = $request->product;
-		if (!empty($products)) {
-			foreach ($products['product_id'] as $key => $value) {
-				$description = $products['product_id'][$key];
-				$qty = $products['qty'][$key];
-				$price = $products['price'][$key];
-				$total_price = $products['total_price'][$key];
-				$manufacture = $products['Manufacturer_id'][$key];
-	
-				$info = new Details;
-				$info->quantity = $qty;
-				$info->price = $price;
-				$info->total_price = $total_price;
-				$info->product_id = $description;
-				$info->product_type_id = $manufacture;
-				$info->sellman = Auth::user()->id;
-				$info->customer_id = $Customername;
-				$info->branch_id = $request->branch;
-				$info->date = $date;
-				$characters = '0123456789';
-				$code = 'SP' . substr(str_shuffle($characters), 0, 6);
-				$info->bill_no = $code;
-	
-				$info->save();
-				// Product::
-				// Update product quantity
-				$product = Product::find($description);
-				if ($product) {
-					$product->quantity -= $qty; // Subtract the sold quantity from the current quantity
-					$product->save();
-				}
-				// Add the total price of this product to the total product price
-				$totalProductPrice += $total_price;
-			}
-		}
-	
-		// Add total product price to the final charge
-		$finalCharge += $totalProductPrice;
-	
+
+
+    } else {
+        // Add total product price to the final charge
+        $finalCharge += $totalProductPrice;
+		// Create and save service details
 		$services = new Service;
 		$services->job_no = $job;
 		$services->vehicle_id = $vehicalname;
@@ -383,99 +300,55 @@ class QuotationController extends Controller
 		$services->title = $title;
 		$services->service_category = $service_category;
 		$services->done_status = 0;
-		$services->charge = $finalCharge; // Save the final charge including product prices
+		$services->charge = $finalCharge + $request->charge; // Save the final charge including product prices and discount
 		$services->customer_id = $Customername;
 		$services->detail = $details;
 		$services->service_type = $ser_type;
-		// $services->mot_status = $mot_test_status;
 		$services->is_quotation = 1;
 		$services->quotation_modify_status = 1;
 		$services->branch_id = $request->branch;
 		$services->create_by = Auth::User()->id;
-	
-		// custom field save
+
+		// Save custom fields
 		$custom = $request->custom;
-		$custom_fileld_value = array();
-		$custom_fileld_value_jason_array = array();
+		$custom_field_value = [];
 		if (!empty($custom)) {
 			foreach ($custom as $key => $value) {
-				if (is_array($value)) {
-					$add_one_in = implode(",", $value);
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-				} else {
-					$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-				}
+				$custom_field_value[] = [
+					'id' => $key,
+					'value' => is_array($value) ? implode(",", $value) : $value
+				];
 			}
-	
-			$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
-			foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-				$serviceData = $val1;
-			}
-			$services->custom_field = $serviceData;
+			$services->custom_field = json_encode($custom_field_value);
 		}
+
 		if (!empty($request->Tax)) {
 			$services->tax_id = implode(', ', $request->Tax);
 		}
-	
+
 		$services->save();
-	
-		$service_latest_data = Service::where('job_no', '=', $job)->first();
-		$service_id = $service_latest_data->id;
-		$job_no = $service_latest_data->job_no;
-	
-		$inspection_data = array();
-	
-		// if ($request->motTestStatusCheckbox == "on") {
-		// 	$inspection_data = $request->inspection;
-		// 	$data_for_db = json_encode($inspection_data);
-	
-		// 	$fill_mot_vehicle_inspection = array('answer_question_id' => $data_for_db, 'vehicle_id' => $vehicalname, 'service_id' => $service_id, 'jobcard_number' => $job_no);
-	
-		// 	$mot_vehicle_inspection_data_store = DB::table('mot_vehicle_inspection')->insert($fill_mot_vehicle_inspection);
-	
-		// 	$get_vehicle_inspection_id = DB::table('mot_vehicle_inspection')->latest('id')->first();
-	
-		// 	$get_vehicle_current_id = $get_vehicle_inspection_id->id;
-	
-		// 	if (in_array('x', $inspection_data) || in_array('r', $inspection_data)) {
-		// 		$mot_test_status = 'fail';
-		// 	} else {
-		// 		$mot_test_status = 'pass';
-		// 	}
-	
-		// 	$generateMotTestNumber = rand();
-		// 	$todayDate = date('Y-m-d');
-	
-		// 	$fill_data_vehicle_mot_test_reports = array('vehicle_id' => $vehicalname, 'service_id' => $service_id, 'mot_vehicle_inspection_id' => $get_vehicle_current_id, 'test_status' => $mot_test_status, 'mot_test_number' => $generateMotTestNumber, 'date' => $todayDate);
-	
-		// 	$insert_data_vehicle_mot_test_reports = DB::table('vehicle_mot_test_reports')->insert($fill_data_vehicle_mot_test_reports);
-		// }
-	
-		//get current service id for washbay data
-		$get_service_id = DB::table('tbl_services')->where('job_no', '=', $job)->pluck('id')->first();
-	
-		$washbay_status = $request->washbay;
-	
-		/*Checking for Washbay status, if washbay status on then data store inside washbay table*/
-		if ($washbay_status == 'on') {
-			$washbay_charge = $request->washBayCharge;
-	
-			$washbays = new Washbay;
-			$washbays->service_id = $get_service_id;
-			$washbays->jobcard_no = $job;
-			$washbays->vehicle_id = $vehicalname;
-			$washbays->customer_id = $Customername;
-			$washbays->price = $washbay_charge;
-			$washbays->save();
-		}
-	
-		/*Redirect to direct quotation modify page*/
-		return redirect()->route('quotation_modify', array('id' => $service_id));
-	
-		// dd($finalCharge);
-	}
-	
+
+    }
+
+    
+    
+    // Handle washbay status
+    $washbay_status = $request->washbay;
+    if ($washbay_status == 'on') {
+        $washbay_charge = $request->washBayCharge;
+        $washbays = new Washbay;
+        $washbays->service_id = $services->id;
+        $washbays->jobcard_no = $job;
+        $washbays->vehicle_id = $vehicalname;
+        $washbays->customer_id = $Customername;
+        $washbays->price = $washbay_charge;
+        $washbays->save();
+    }
+
+    // Redirect to the quotation modify page
+    return redirect()->route('quotation_modify', ['id' => $services->id]);
 }
+
 
 
 
@@ -723,6 +596,8 @@ class QuotationController extends Controller
 		$serviceid = $service_id;
 		$tbl_services = DB::table('tbl_services')->where('id', '=', $serviceid)->first();
 		$jobcard = $tbl_services->job_no;
+		// $service_data = DB::table('tbl_services')->where('id', $ser_id)->first();
+		
 
 		if (getObservationPriceFillOrNot($jobcard) == true) {
 			$c_id = $tbl_services->customer_id;
@@ -751,11 +626,15 @@ class QuotationController extends Controller
 				$service_taxes = '';
 			}
 			$washbay_data = Washbay::where('service_id', '=', $serviceid)->first();
+			$all_data3 = DB::table('tbl_details')->where([['quotation_id', $job_no]])->get()->toArray();
+			$custo_info = DB::table('users')->where('id', $cus_id)->first();
+
+			
 
 			$mpdf = new Mpdf();
 
 			// Get the HTML content from the view
-			$html = view('quotation.quotationservicepdf', compact('tbl_services', 'logo', 'job', 's_date', 'vehical', 'customer', 'service_pro', 'service_pro2', 'service_taxes', 'washbay_data'));
+			$html = view('quotation.quotationservicepdf', compact('Vehicle_inf','all_data3','tbl_services', 'logo', 'job', 's_date', 'vehical', 'customer', 'service_pro', 'service_pro2', 'service_taxes', 'washbay_data'));
 
 			// Write HTML content to the PDF
 			$mpdf->autoLangToFont = true;
@@ -945,6 +824,13 @@ class QuotationController extends Controller
 		$serviceid = $service_id;
 		$tbl_services = DB::table('tbl_services')->where('id', '=', $serviceid)->first();
 		$jobcard = $tbl_services->job_no;
+		$vehi_name = $tbl_services->vehicle_id;
+		$Vehicle_inf = DB::table('tbl_vehicles')->where('id', $vehi_name)->first();
+		$maker = $Vehicle_inf->vehicletype_id;
+		$chassis_no = $Vehicle_inf->chassisno;
+
+		$all_data3 = DB::table('tbl_details')->where([['quotation_id', $jobcard]])->get()->toArray();
+
 
 		$c_id = $tbl_services->customer_id;
 		$v_id = $tbl_services->vehicle_id;
@@ -978,7 +864,7 @@ class QuotationController extends Controller
 		$mpdf = new Mpdf();
 
 		// Get the HTML content from the view
-		$html = view('quotation.quotationservicepdf', compact('tbl_services', 'logo', 'job', 's_date', 'vehical', 'customer', 'service_pro', 'service_pro2', 'service_taxes', 'washbay_data', 'tbl_custom_fields'));
+		$html = view('quotation.quotationservicepdf', compact('maker','all_data3','vehi_name','chassis_no','Vehicle_inf','tbl_services', 'logo', 'job', 's_date', 'vehical', 'customer', 'service_pro', 'service_pro2', 'service_taxes', 'washbay_data', 'tbl_custom_fields'));
 
 		// Write HTML content to the PDF
 		$mpdf->autoLangToFont = true;
@@ -1099,6 +985,16 @@ class QuotationController extends Controller
 			$service_taxes = '';
 		}
 
+		// $products = DB::table('tbl_products')->get();
+
+		// foreach ($products as $product) {
+		// 	$labours = Labours::whereHas('product', function ($query) use ($product) {
+		// 		$query->where('name', $product->name);
+		// 	})->get();
+
+		// 	// Now $labours contains all labours associated with the current product
+		// }
+
 		$washbay_data = Washbay::where('service_id', '=', $ser_id)->first();
 
 		//For Custom Field Data
@@ -1108,6 +1004,7 @@ class QuotationController extends Controller
 
 		return response()->json(['success' => true, 'html' => $html]);
 	}
+
 
 
 	//Quotation delete

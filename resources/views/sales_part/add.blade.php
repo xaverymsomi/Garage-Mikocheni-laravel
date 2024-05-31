@@ -1415,4 +1415,37 @@
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Embed PHP array into JavaScript
+    const stockQuantities = @json($stockQuantities);
+
+    document.querySelectorAll('.quantity').forEach(function (input) {
+        input.addEventListener('input', function () {
+            const rowId = this.getAttribute('row_id');
+            const productId = document.querySelector(`#productid[row_did="${rowId}"]`).value;
+            const quantityEntered = parseInt(this.value, 10);
+            const availableStock = stockQuantities[productId] || 0;
+
+            let errorMessage = '';
+            if (quantityEntered === 0) {
+                errorMessage = 'Please enter a valid quantity.';
+            } else if (quantityEntered > availableStock) {
+                errorMessage = `Quantity entered exceeds available stock (${availableStock}).`;
+                // Set the input value to the maximum available stock
+                this.value = availableStock;
+            }
+
+            const errorElement = document.querySelector(`#quantity_error_${rowId}`);
+            if (errorMessage) {
+                errorElement.textContent = errorMessage;
+                errorElement.style.display = 'block';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        });
+    });
+});
+
+</script>
 @endsection

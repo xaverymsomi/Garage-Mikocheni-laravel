@@ -233,10 +233,10 @@
                         <tr>
                             <td rowspan="2">SN</td>
                             <td class="text-center" colspan="1" rowspan="2">DESCRIPTION OF PARTS &amp; REPLACEMENT</td>
-                            <td class="text-center" rowspan="2">REPAIR</td>
+                            {{-- <td class="text-center" rowspan="2">REPAIR</td>
                             <td class="text-center" rowspan="2">REPLACE</td>
                             <td class="text-center" rowspan="2">LEFT</td>
-                            <td class="text-center" rowspan="2">RIGHT</td>
+                            <td class="text-center" rowspan="2">RIGHT</td> --}}
                             <td class="text-center" rowspan="2">QTY</td>
                             <td class="text-center" rowspan="2">HOURS</td>
                             <td class="text-center">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</td>
@@ -255,12 +255,21 @@
                                 <tr>
                                     <td class="text-center cname" style="width: 10px;"><?php echo $i++; ?></td>
                                     <td class="text-center cname"><?php echo getProduct($ser_proc2->product_id); ?></td>
+                                    {{-- <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
                                     <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
                                     <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td> --}}
                                     <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
-                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
-                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
-                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    @php
+                                        $product = getProduct($ser_proc2->product_id);
+                                        $labours = App\Labours::where('name', $product)->get(); 
+                                    @endphp
+
+                                    <td class="text-center cname">
+                                        @foreach($labours as $labour)
+                                            {{ $labour->hours }} {{-- Assuming 'hours' is the column you want to display --}}
+                                        @endforeach
+                                    </td>
                                     
                                     <td class="text-center cname"><?php echo number_format((float) $ser_proc2->price, 2); ?></td>
                                     <td class="text-end cname"><?php echo number_format((float) $ser_proc2->total_price, 2); ?></td>
@@ -271,14 +280,7 @@
                                 
                             <?php
                             }?>
-                            <tr class="row21">
-                                    <td class="column3 style34 s style34" colspan="5">TOTAL LABOUR</td>
-                                    <td class="column8 style35 null"></td>
-                                    <td class="column9 style36 null"></td>
-                                    <td class="column13 style38 f">&nbsp;&nbsp;37.00 </td>
-                                    <td class="column14 style38 n">&nbsp;&nbsp;15,000.00 </td>
-                                    <td class="text-end cname">&nbsp;&nbsp; <?php echo number_format((float) $total2, 2); ?> </td>
-                                  </tr><?php
+                            <?php
                         } else { ?>
                             <!-- <tr>
                             <td class="cname text-center" colspan="5">{{ trans('message.Data not available') }}</td>

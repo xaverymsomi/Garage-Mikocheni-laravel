@@ -84,23 +84,35 @@ class SalesPartcontroller extends Controller
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where('role', '=', 'Employee')->where('soft_delete', '=', 0)->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 		}
 
 
 		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'salepart'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
 
-		return view('sales_part.add', compact('customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas'));
+		return view('sales_part.add', compact('customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas', 'stockQuantities'));
 	}
 
 	//color add

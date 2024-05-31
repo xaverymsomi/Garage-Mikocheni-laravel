@@ -180,169 +180,117 @@
     <hr />
     <br><br><br><br>
     <div id="imggrapish" class="col-md-12 col-sm-12 col-xs-12">
-      <table width="100%" border="0">
-        <thead></thead>
-
-        <tbody>
-          <tr class="customer_details">
-            <td width="15%" style="vertical-align:top;float:left; width:15%;" align="left">
-              <span style="width:100%;">
-                <img src="{{ base_path() }}/public/general_setting/<?php echo $logo->logo_image; ?>" width="230px" height="70px" style=" margin-top: 5px;">
-              </span>
-            </td>
-            <td style="width: 45%;" vertical-align:top;">
-              <span style="float:right; class="cust_addr_details">
-                <b><img src="{{ URL::asset('public/img/icons/user_img.png') }}" class="user_img"></b><?php echo getCustomerName($tbl_services->customer_id); ?>
-                <br>
-                <b><img src="{{ URL::asset('public/img/icons/Vector (14).png') }}" class="addr_img"></b> <?php echo $customer->address;
-                                                                                                          echo ' ,';
-                                                                                                          echo getCityName("$customer->city_id"); ?><?php echo ''; ?><?php echo getStateName("$customer->state_id,");
-                                                                                                                                                                      echo ' ,';
-                                                                                                                                                                      echo getCountryName($customer->country_id); ?>
-                <br>
-                <b><img src="{{ URL::asset('public/img/icons/phoneimg1.png') }}" class="phoneimg"></b> <?php echo "$customer->mobile_no"; ?>
-                <br>
-                <b><img src="{{ URL::asset('public/img/icons/Vector (15).png') }}" class=" mail_img"></b> <?php echo $customer->email; ?>
-
-                @if (getCustomerCompanyName($tbl_services->customer_id) != '')
-                <br>
-                <b>{{ trans('message.Company Name') }}:</b>
-                <?php echo getCustomerCompanyName($tbl_services->customer_id); ?>
-                @endif
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td width="55%" style="vertical-align:center;float:left;">
-              <span style="float:left;" class="system_addr_details">
-                <img src="{{ URL::asset('public/img/icons/Vector (15).png') }}" class=" mail_img">
-                <?php
-                $taxNumber = $taxName = null;
-                if (!empty($service_taxes)) {
-                  foreach ($service_taxes as $tax) {
-                    $taxName = getTaxNameFromTaxTable($tax);
-                    $taxNumber = getTaxNumberFromTaxTable($tax);
-                  }
-                }
-
-                echo ' ' . $logo->email;
-                ?>
-                <br>
-                <img src="{{ URL::asset('public/img/icons/phoneimg1.png') }}" class="phoneimg">
-                <?php
-                echo ' ' . $logo->phone_number;
-                echo ' ';
-                ?>
-                <br>
-                <div class="col-12 d-flex align-items-start" style="margin-top: 2px;">
-                  <img src="{{ URL::asset('public/img/icons/Vector (14).png') }}" class="addr_img">
-                  <?php
-                  echo ' ' . $logo->address . ' ';
-                  echo ' ' . getCityName($logo->city_id);
-                  echo ', ' . getStateName($logo->state_id);
-                  echo ', ' . getCountryName($logo->country_id);
-                  ?>
-
-                </div>
-                <?php
-                if ($taxName !== null && $taxNumber !== null) {
-                  echo ' ' . $taxName . ': ' . $taxNumber;
-                }
-                ?>
-              </span>
-            </td>
-
-          </tr>
-          <br>
-        </tbody>
-      </table>
+      <table width="100%" border="0" class="table table-bordered adddatatable mx-0">
+                            <thead>
+                                <tr>
+                                    <th colspan="14" class="text-center">APPRAISAL SHEET</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">INSURER:</td>
+                                    <td colspan="4">{{ Auth::user()->name }}</td>
+                                    <td colspan="2">REF NO.</td>
+                                    <td colspan="5"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">CLAIMANT</td>
+                                    <td colspan="4">{{ getCustomerName($tbl_services->customer_id) }}</td>
+                                    
+                                    <td colspan="2">BROKER</td>
+                                    <td colspan="5">KANGAROO</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">CLAIM NO.</td>
+                                    <td colspan="4">{{ getQuotationNumber($tbl_services->job_no) }}</td>
+                                    <td colspan="2">DATE</td>
+                                    <td colspan="2"><?php echo date(getDateFormat(), strtotime($tbl_services->service_date))?></td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
 
       <hr />
-      <table class="table" border="0" width="100%" style="border-collapse:collapse;">
-        <tbody class="itemtable">
-          <tr>
-            <th align="left" style="padding:8px;">{{ trans('message.Quotation Number') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Vehicle Name') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Number Plate') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Date') }}</th>
-          </tr>
-
-          <tr>
-            <td align="left" style="padding:8px;">
-              <?php echo getQuotationNumber($tbl_services->job_no); ?>
-            </td>
-            <td align="left" style="padding:8px;"><?php echo getVehicleName($tbl_services->vehicle_id); ?></td>
-            <td align="left" style="padding:8px;"><?php echo getVehicleNumberPlate($tbl_services->vehicle_id); ?></td>
-            <td align="left" style="padding:8px;"><?php echo date(getDateFormat(), strtotime($tbl_services->service_date)); ?></td>
-
-          </tr>
-          <tr>
-            <!-- <th align="left" style="padding:8px;">{{ trans('message.Assigned To') }}</th> -->
-            <th align="left" style="padding:8px;">{{ trans('message.Repair Category') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Service Type') }}</th>
-            <th align="left" style="padding:8px;" colspan="2">{{ trans('message.Details') }}</th>
-          </tr>
-
-          <tr>
-            <!-- <td align="left" style="padding:8px;"><?php echo getAssignedName($tbl_services->assign_to); ?> </td> -->
-            <td align="left" style="padding:8px;"><?php echo ucwords($tbl_services->service_category); ?> </td>
-            <td align="left" style="padding:8px;"><?php echo ucwords($tbl_services->service_type); ?> </td>
-            <td align="left" style="padding:8px;" colspan="2"><?php echo $tbl_services->detail; ?> </td>
-          </tr>
-        </tbody>
-      </table>
+    
+        <table border="0" width="100%" style="border-collapse:collapse;" class="table table-bordered table-responsive adddatatable quotationDetail mb-0" width="100%">
+                                <span class="border-0">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="2">REG NO.</td>
+                                            <td colspan="2">MAKER</td>
+                                            <td colspan="2">MODEL</td>
+                                            <td colspan="2">CHASSIS</td>
+                                            <td colspan="2">YOM</td>
+                                            <td colspan="2">COLOUR</td>
+                                            <td colspan="2">ENGINE</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">{{ $Vehicle_inf->number_plate }}</td>
+                                            <td colspan="2">{{ getVehicleType($maker) }}</td>
+                                            <td colspan="2">{{ getVehicleName($vehi_name) }}</td>
+                                            <td colspan="2">{{ $chassis_no }}</td>
+                                            <td colspan="2">{{ $Vehicle_inf->modelyear }}</td>
+                                            
+                                            <td colspan="2">{{ $Vehicle_inf->color }}</td>
+                                            <td colspan="2">{{ $Vehicle_inf->engineno }}</td>
+                                        </tr>
+                                    </tbody>
+                                </span>
+                            </table>
       <hr />
       <br />
+      <?php
+      $i = 1;
+                    $total12 = 0;
+                ?>
+                <table class="table itemtable" width="100%" border="1" style="border-collapse:collapse; border-top: #FFFFFF; ">
+        <tbody>
+
+          <tr>
+            <th>SN</th>
+                            <th>DESCRIPTION OF PARTS &amp; REPLACEMENT</th>
+                            
+                            <th>QTY</th>
+                            <th>HOURS</th>
+                            <th>{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
+                            <th>{{ trans('message.Total Price') }}
+                                (<?php echo getCurrencySymbols(); ?>)
+                            </th>
+                        </tr>
+          <?php
+          
+                            foreach ($all_data3 as $ser_proc2) {
+                        ?><tr>
+                          <td align="text-left" style="padding:8px;"><?php echo $i++; ?></td>
+                          <td align="text-left" style="padding:8px;"><?php echo getProduct($ser_proc2->product_id); ?></td>
+                                    
+                                    <td class="text-center cname"><?php echo $ser_proc2->quantity; ?></td>
+                                    @php
+                                        $product = getProduct($ser_proc2->product_id);
+                                        $labours = App\Labours::where('name', $product)->get(); 
+                                    @endphp
+
+                                    <td class="text-center cname">
+                                        @foreach($labours as $labour)
+                                            {{ $labour->hours }} {{-- Assuming 'hours' is the column you want to display --}}
+                                        @endforeach
+                                    </td>
+                                    <td class="text-center cname"><?php echo number_format((float) $ser_proc2->price, 2); ?></td>
+                                    <td class="text-end cname"><?php echo number_format((float) $ser_proc2->total_price, 2); ?></td>
+                                    <?php if (!empty($ser_proc2->total_price)) {
+                                        $total12 += $ser_proc2->total_price;
+                                    } ?>
+                                </tr>
+          <?php } ?>
+        </tbody>
+      </table>
       <?php
       $total1 = 0;
       $i = 1;
       ?>
-      <table class="table itemtable" width="100%" border="1" style="border-collapse:collapse; border-top: #FFFFFF; ">
-        <tbody>
-
-          <tr class="printimg tbl_heading" style="color:#333;">
-            <th align="left" border="0" style="padding:8px; font-size:14px;" colspan="8">
-              {{ trans('message.Observation Charges') }}
-            </th>
-          </tr>
-
-          <tr>
-            <th align="left" style="padding:8px; width: 5%;"># </th>
-            <th align="left" style="padding:8px;">{{ trans('message.Category') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Observation Point') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Product Name') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Quantity') }} </th>
-            <th align="left" style="padding:8px;">{{ trans('message.Charge') }}</th>
-            <th align="left" style="padding:8px;">{{ trans('message.Total Price') }} (<?php echo getCurrencySymbols(); ?>) </th>
-          </tr>
-          <?php
-          foreach ($service_pro as $service_pros) {
-          ?>
-            <tr>
-              <td align="text-left" style="padding:8px;"><?php echo $i++; ?></td>
-              <td align="text-left" style="padding:8px;"> <?php echo $service_pros->category; ?></td>
-              <td align="text-left" style="padding:8px;"> <?php echo $service_pros->obs_point; ?></td>
-              <td align="text-left" style="padding:8px;"> <?php echo getProduct($service_pros->product_id); ?></td>
-              <td align="text-left" style="padding:8px;"> <?php echo $service_pros->price; ?></td>
-              <td align="text-left" style="padding:8px;"><?php echo $service_pros->quantity; ?></td>
-              <?php if (!empty($service_pros->total_price) && $service_pros->chargeable != 0) {
-                $total1 += $service_pros->total_price;
-              } ?>
-              <td align="text-left" style="padding:8px;">
-                <?php
-                if ($service_pros->chargeable == 1) {
-                  echo trans('message.Yes');
-                } else {
-                  echo trans('message.No');
-                }
-                ?>
-              <td align="right" style="padding:8px;"><?php echo $service_pros->total_price; ?></td>
-              </td>
-            </tr>
-          <?php } ?>
-        </tbody>
-      </table>
+    
 
       <br />
       <?php
@@ -503,7 +451,7 @@
         <tbody>
           <tr>
             <td align="right" style="padding:8px;">
-              {{ trans('message.Fixed Service Charge') }} (<?php echo getCurrencySymbols(); ?>)
+              {{ trans('TOTAL APPRAISAL') }} (<?php echo getCurrencySymbols(); ?>)
             </td>
             <td align="right" style="padding:8px;  width: 20%; font-size: 17px;"><b><?php $fix = $tbl_services->charge;
                                                                                     if (!empty($fix)) {
@@ -514,8 +462,8 @@
           </tr>
 
           <tr>
-            <td align="right" style="padding:8px;" width: "85%">{{ trans('message.Total Service Amount') }} (<?php echo getCurrencySymbols(); ?>) :</td>
-            <td align="right" style="padding:8px; width: 20%; font-size: 17px;"><b><?php $total_amt = $total1 + $total2 + $total3 + $total4 + $fix;
+            <td align="right" style="padding:8px;" width: "85%">{{ trans('Total  Amount') }} (<?php echo getCurrencySymbols(); ?>) :</td>
+            <td align="right" style="padding:8px; width: 20%; font-size: 17px;"><b><?php $total_amt = $total1 + $total3 + $total4 + $fix;
                                                                                     echo number_format($total_amt, 2); ?></b></td>
           </tr>
 
