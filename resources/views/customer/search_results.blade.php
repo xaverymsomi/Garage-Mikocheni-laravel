@@ -9,7 +9,7 @@
        
             <div class="nav toggle">
                <a id="menu_toggle"><i class="fa fa-bars sidemenu_toggle"></i></a><a href="{!! url('/vehicle/list') !!}" id=""><i class=""><img src="{{ URL::asset('public/supplier/Back Arrow.png') }}"></i><span class="titleup">
-               {{ trans('message.Add Vehicle') }} FOR: {{ getCustomerName($customer) }} </span></a>
+               {{ trans('message.Add Vehicle') }}  </span></a>
             </div>
             @include('dashboard.profile')
          </nav>
@@ -19,21 +19,30 @@
       <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
          <div class="x_panel">
             <div class="x_content">
-               <form id="vehicleAdd-Form" action="{{ route('customer.store.vehicle') }}" method="post" enctype="multipart/form-data" class="form-horizontal upperform vehicleAddForm">
-                 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form id="vehicleAdd-Form" action="{{ url('/search-customer/store_vehicle') }}" method="POST" enctype="multipart/form-data" class="form-horizontal upperform vehicleAddForm">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $customer->id }}">
                 <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
                     <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
                     <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
                  </div>
                  <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                 <input type="hidden" name="id" value="{{ $customer }}">
                 <div id="vehicle-info-container">
                     <!-- Vehicle Info Template -->
                     <div class="vehicle-info-template row row-mb-0">
                         <div class="row">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Body Type') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                    <div class="select-wrapper">
                                       <select class="form-control  select_vehicaltypee form-select" name="vehicles[0][vehical_id]" required>
                                          <option value="">{{ trans('message.Select Type') }}</option>
@@ -47,9 +56,6 @@
                                       </select>
                                       <div class="arrow-icon-vehicle"></div>
                                    </div>
-                                </div>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
                                 </div> 
                              </div>
                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -61,12 +67,12 @@
                         </div>
                          <div class="row">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Make') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                    <div class="select-wrapper">
                                       <select class="form-control select_vehicalbrands form-select" 
                                       name="vehicles[0][vehicabrand]">
-                                         <option value="">{{ trans('message.Select Brand') }}</option>
+                                         <option value="">{{ trans('Select Make') }}</option>
                                          @if (!empty($vehical_brand))
                                          @foreach ($vehical_brand as $vehical_brands)
                                          <option value="{{ $vehical_brands->id }}">
@@ -78,16 +84,14 @@
                                       <div class="arrow-icon-vehicle"></div>
                                    </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                                </div>
                              </div>
+
                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Model') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                    <div class="select-wrapper">
-                                      <select class="form-control model_addname form-select" name="vehicles[0][modelname]" required>
-                                         <option value="">{{ trans('message.Select Model') }}</option>
+                                      <select class="form-control select_branch form-select" name="vehicles[0][modelname]">
+                                        <option value="">{{ trans('message.Select Model') }}</option>
                                          @if (!empty($model_name))
                                          @foreach ($model_name as $model_names)
                                          <option value="{{ $model_names->model_name }}">
@@ -96,35 +100,19 @@
                                          @endforeach
                                          @endif
                                       </select>
-                                      <div class="arrow-icon-vehicle"></div>
+                                      <div class="arrow-icon-branch"></div>
                                    </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                                </div>
                              </div>
+
                          </div>
                         <div class="row">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Color') }}. <label class="text-danger">*</label></label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                   <input type="text" name="vehicles[0][color]" value="{{ old('color') }}" placeholder="{{ trans('Enter vehicle color') }}" maxlength="30" class="form-control chassis_no">
-                                </div>
-                             </div>
                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="text-danger">*</label></label>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Fuel') }} <label class="color-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                   <input type="text" name="vehicles[0][chassis_no]" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
-                                </div>
-                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Fuel Type') }} <label class="color-danger">*</label></label>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
                                    <div class="select-wrapper">
-                                      <select class="form-control select_fueltype form-select" name="vehicles[0][fueltype]" required>
-                                         <option value="">{{ trans('message.Select fuel') }} </option>
+                                      <select class="form-control select_branch form-select" name="vehicles[0][fueltype]">
+                                        <option value="">{{ trans('message.Select fuel') }} </option>
                                          @if (!empty($fuel_type))
                                          @foreach ($fuel_type as $fuel_types)
                                          <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
@@ -132,11 +120,24 @@
                                          @endforeach
                                          @endif
                                       </select>
-                                      <div class="arrow-icon-vehicle"></div>
+                                      <div class="arrow-icon-branch"></div>
                                    </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-fuel" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
+                             </div>
+                             
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Color') }}. <label class="text-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <input type="text" name="vehicles[0][color]" value="{{ old('color') }}" placeholder="{{ trans('Enter vehicle color') }}" maxlength="30" class="form-control chassis_no">
+                                </div>
+                             </div>
+                             
+                        </div>
+                        <div class="row">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="text-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <input type="text" name="vehicles[0][chassis_no]" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
                                 </div>
                              </div>
                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
@@ -276,236 +277,7 @@
                   </div>
                </form>
             </div>
-            <!-- Vehicle Type  -->
-            <div class="col-md-6">
-               <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                     <div class="modal-content">
-                        <div class="modal-header">
-                           <h4 class="modal-title"> {{ trans('message.Add Vehicle Type') }}</h4>
-                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                        </div>
-                        <div class="modal-body">
-                           <form name="" class="form-horizontal formaction" action="" method="">
-                              <table class="table vehical_type_class">
-                                 <div class="row">
-                                    <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 data_popup">
-                                       <input type="text" class="form-control vehical_type model_input" name="vehical_type" id="vehical_type" placeholder="{{ trans('message.Enter Vehicle Type') }}" maxlength="20" required />
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 data_popup">
-                                       <button type="button" class="btn btn-success vehicaltypeadd model_submit" id="vehicleTypeSubmit" url="{!! url('/vehicle/vehicle_type_add') !!}">{{ trans('message.Submit') }}</button>
-                                    </div>
-                                 </div>
-                                 <tbody>
-                                    @if (!empty($vehical_type))
-                                    @foreach ($vehical_type as $vehical_types)
-                                    <tr class="del-{{ $vehical_types->id }} data_color_name row mx-1">
-                                       <td class="text-start col-6">{{ $vehical_types->vehicle_type }}</td>
-                                       <td class="text-end col-6"><button type="button" vehicletypeid="{{ $vehical_types->id }}" deletevehical="{!! url('/vehicle/vehicaltypedelete') !!}" class="btn btn-danger text-white border-0 deletevehicletype"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
-                                 </tbody>
-                              </table>
-                           </form>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <!-- End  Vehicle Type  -->
-            <!-- Vehicle Brand -->
-            <div class="col-md-6">
-               <div id="responsive-modal-brand" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                     <div class="modal-content">
-                        <div class="modal-header">
-                           <h4 class="modal-title">{{ trans('message.Add Vehicle Brand') }}</h4>
-                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                        </div>
-                        <div class="modal-body">
-                           <form class="form-horizontal" action="" method="">
-                              <div class="row">
-                                 <div class="col-md-5 form-group data_popup">
-                                    <select class="form-control vehical_id model_input form-select" name="vehical_id" id="vehicleTypeSelect" vehicalurl="{!! url('/vehicle/vehicalformtype') !!}" required>
-                                       <option>{{ trans('message.Select Vehicle Type') }}</option>
-                                       @if (!empty($vehical_type))
-                                       @foreach ($vehical_type as $types)
-                                       <option value="{{ $types->id }}">
-                                          {{ $types->vehicle_type }}
-                                       </option>
-                                       @endforeach
-                                       @endif
-                                    </select>
-                                 </div>
-                              </div>
-                              <div class="row">
-                                 <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group data_popup">
-                                    <input type="text" class="form-control vehical_brand model_input" name="vehical_brand" id="vehical_brand" placeholder="{{ trans('message.Enter Vehicle Brand') }}" maxlength="25" required />
-                                 </div>
-                                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 form-group data_popup"> 
-                                    <button type="button" class="btn btn-success vehicalbrandadd mt-0" vehiclebrandurl="{!! url('/vehicle/vehicle_brand_add') !!}">{{ trans('message.Submit') }}</button>
-                                 </div>
-                              </div>
-                        </div>
-                        <table class="table vehical_brand_class">
-                        <tbody>
-                        @if (!empty($vehical_brand))
-                        @foreach ($vehical_brand as $vehical_brands)
-                        <tr class="del-{{ $vehical_brands->id }} data_color_name row mx-3">
-                        <td class="text-start col-6">
-                        {{ $vehical_brands->vehicle_brand }}
-                        </td>
-                        <td class="text-end col-6">
-                        <button type="button" brandid="{{ $vehical_brands->id }}" deletevehicalbrand="{!! url('/vehicle/vehicalbranddelete') !!}" class="btn btn-danger text-white border-0 deletevehiclebrands"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                        </tbody>
-                        </table>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- End Vehicle Brand -->
-         <!-- Fuel Type -->
-         <div class="col-md-6">
-            <div id="responsive-modal-fuel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-               <div class="modal-dialog">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h4 class="modal-title">{{ trans('message.Add Fuel Type') }}</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                     </div>
-                     <div class="modal-body">
-                        <form class="form-horizontal" action="" method="post">
-                           <div class="row">
-                              <div class="col-md-8 form-group data_popup">
-                                 <input type="text" class="form-control fuel_type model_input" name="fuel_type" id="fuel_type" placeholder="{{ trans('message.Enter Fuel Type') }}" maxlength="20" required />
-                              </div>
-                              <div class="col-md-4 form-group data_popup">
-                                 <button type="button" class="btn btn-success model_submit fueltypeadd" fuelurl="{!! url('/vehicle/vehicle_fuel_add') !!}">{{ trans('message.Submit') }}</button>
-                              </div>
-                           </div>
-                           <table class="table fuel_type_class">
-                              <tbody>
-                                 @if (!empty($fuel_type))
-                                 @foreach ($fuel_type as $fuel_types)
-                                 <tr class="del-{{ $fuel_types->id }} data_of_type row mx-1">
-                                    <td class="text-start col-6">{{ $fuel_types->fuel_type }}</td>
-                                    <td class="text-end col-6">
-                                       <button type="button" fuelid="{{ $fuel_types->id }}" deletefuel="{!! url('/vehicle/fueltypedelete') !!}" class="btn btn-danger text-white border-0 fueldeletes"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                    </td>
-                                 </tr>
-                                 @endforeach
-                                 @endif
-                              </tbody>
-                           </table>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- end Fuel Type -->
-         <!-- Model Name -->
-         <div class="col-md-6">
-            <div id="responsive-modal-vehi-model" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-               <div class="modal-dialog">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h4 class="modal-title">{{ trans('message.Add Model Name') }}</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                     </div>
-                     <div class="modal-body">
-                        <form class="form-horizontal" action="" method="post">
-                           <div class="row">
-                              <div class="col-md-5 form-group data_popup">
-                                 <select class="form-control vehical_id model_input form-select vehi_brand_id" name="vehical_id" id="vehicleTypeSelect" vehicalurl="{!! url('/vehicle/vehicalformtype') !!}" required>
-                                    <option value="">{{ trans('message.Select Brand') }}</option>
-                                    @if (!empty($vehical_brand))
-                                    @foreach ($vehical_brand as $vehical_brands)
-                                    <option value="{{ $vehical_brands->id }}">{{ $vehical_brands->vehicle_brand }}</option>
-                                    @endforeach
-                                    @endif
-                                 </select>
-                              </div>
-                           </div>
-                           <div class="row">
-                              <div class="col-md-8 form-group data_popup">
-                                 <input type="text" class="form-control model_input vehi_modal_name" name="model_name" id="model_name" placeholder="{{ trans('message.Enter Model Name') }}" maxlength="20" required />
-                              </div>
-                              <div class="col-md-4 form-group data_popup">
-                                 <button type="button" class="btn btn-success model_submit vehi_model_add" modelurl="{!! url('/vehicle/vehicle_model_add') !!}">{{ trans('message.Submit') }}</button>
-                              </div>
-                           </div>
-                           <table class="table vehi_model_class">
-                              <tbody>
-                                 @if (!empty($model_name))
-                                 @foreach ($model_name as $model_names)
-                                 <tr class="mod-{{ $model_names->id }} data_color_name row mx-1">
-                                    <td class="text-start col-6">{{ $model_names->model_name }}
-                                    </td>
-                                    <td class="text-end col-6">
-                                       <button type="button" modelid="{{ $model_names->id }}" deletemodel="{!! url('/vehicle/vehicle_model_delete') !!}" class="btn btn-danger text-white border-0 modeldeletes"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                    </td>
-                                 </tr>
-                                 @endforeach
-                                 @endif
-                              </tbody>
-                           </table>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- End Model Name -->
-         <!-- Color Add/Remove Model Start-->
-         <div class="col-md-6">
-            <div id="responsive-modal-color" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-               <div class="modal-dialog">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h4 class="modal-title">{{ trans('message.Add Color Name') }}</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-                     </div>
-                     <div class="modal-body">
-                        <form class="form-horizontal" action="" method="">
-                           <div class="row">
-                              <div class="col-md-5 form-group data_popup">
-                                 <input type="text" id="c_name" class="form-control model_input c_name" name="c_name" placeholder="{{ trans('message.Enter color name') }}"  maxlength="20"/>
-                              </div>
-                              <div class="col-md-3 form-group data_popup">
-                                 <input type="color" id="c_code" name="c_code" class="form-control model_input w-150 c_code">
-                              </div>
-                              <div class="col-md-4 form-group data_popup">
-                                 <button type="button" class="btn btn-success model_submit addcolor" colorurl="{!! url('/color_name_add') !!}">{{ trans('message.Submit') }}</button>
-                              </div>
-                           </div>
-                           <table class="table colornametype">
-                              <tbody>
-                                 @foreach ($color as $colors)
-                                 <tr class="del-{{ $colors->id }} data_color_name row mx-1">
-                                    <td class="text-first col-6">{{ $colors->color }}</td>
-                                    <td class="text-end col-6">
-                                       <div class="color_code d-inline-block" style="background-color:{{ $colors->color_code }};">{{ $colors->color_code }}</div>
-                                       <button type="button" id="{{ $colors->id }}" deletecolor="{!! url('colortypedelete') !!}" class="btn btn-danger text-white border-0 deletecolors d-inline-block"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                    </td>
-                                 </tr>
-                                 @endforeach
-                              </tbody>
-                           </table>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- Color Add/Remove Model End-->
+
       </div>
    </div>
 </div>
@@ -2136,27 +1908,7 @@
        colorPickerChanged = true;
    });
 </script>
-<script>
-    document.getElementById('vehicleAdd-Form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-        
-        // Show confirmation dialog
-        if (confirm('Would you like to add another vehicle?')) {
-            // If yes, submit the form with an additional parameter
-            var submitBtn = document.getElementById('submit-btn');
-            var form = this;
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'add_another';
-            input.value = 'true';
-            form.appendChild(input);
-            form.submit();
-        } else {
-            // If no, submit the form normally
-            this.submit();
-        }
-    });
-    </script>
+
 
 <script>
     $(document).ready(function() {

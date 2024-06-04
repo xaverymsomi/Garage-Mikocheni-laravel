@@ -67,24 +67,39 @@ class Customercontroller extends Controller
 }
 
 	// In CustomerController.php
-public function searchByName(Request $request) {
-    $query = $request->search;
-
-	$nida = $request->nida;
+	public function searchByName(Request $request) {
+		$query = $request->search;
+		$nida = $request->nida;
+		$Customername = $request->Customername;
+		$rogue_id = $request->rogue_id;
 	
-	if ($nida) {
-		$customer = DB::table('users')->where([['role', 'Customer']])->where('nida_no','=', $nida )->latest()->value('id');
-		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
-		// dd($vehical_type);
-		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
-		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
-		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
-		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+		if ($nida) {
+			$customer = DB::table('users')->where('role', 'Customer')->where('nida_no', '=', $nida)->latest()->first();
+		} elseif ($Customername) {
+			$customer = DB::table('users')->where('role', 'Customer')->where('id', '=', $Customername)->first();
+		} elseif ($rogue_id) {
+			// Add your logic here for rogue_id
+			$customer = DB::table('users')->where('role', 'Customer')->where('ifs_code', '=', $rogue_id)->latest()->first();
 
-		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
-
-		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
-		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		} else {
+			$customer = DB::table('users')->where('role', 'Customer')->where('email', '=', $query)->latest()->first();
+		}
+	
+		// Fetch common data
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get();
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get();
+		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([
+			['form_name', '=', 'vehicle'], 
+			['always_visable', '=', 'yes'], 
+			['soft_delete', '=', 0]
+		])->get();
+		
+		$currentUser = User::where('soft_delete', 0)->where('id', Auth::User()->id)->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', 1)->first();
+	
 		if (isAdmin(Auth::User()->role_id)) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
@@ -92,34 +107,10 @@ public function searchByName(Request $request) {
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
-
+	
 		return view('customer.search_results', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
-
-	}else {
-		$customer = DB::table('users')->where([['role', 'Customer']])->where('email','=', $query )->latest()->value('id');
-		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
-		// dd($vehical_type);
-		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
-		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
-		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
-		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
-
-		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
-
-		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
-		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
-			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
-		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
-			$branchDatas = Branch::get();
-		} else {
-			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
-		}
-
-		return view('customer.search_results', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
-
 	}
-}
+	
 
 
 	//customer addform

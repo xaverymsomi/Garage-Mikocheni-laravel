@@ -4,7 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
+
+// use Closure;
+// use Illuminate\Support\Facades\Auth;
+// use Artisan;
 
 class RedirectIfAuthenticated
 {

@@ -32,39 +32,7 @@
         <div class="row">
             <div class="col-xl-10 col-md-9 col-sm-10">
                 <div class="user_profile_header_left">
-                    @if (!empty(Auth::user()->id))
-                    @if (Auth::user()->role == 'admin')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/admin/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == 'Customer')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/customer/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == 'Supplier')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/supplier/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == 'employee')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/employee/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == 'supportstaff')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/supportstaff/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == 'accountant')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/accountant/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == 'branch_admin')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/branch_admin/' . Auth::user()->image) }}">
-                    @endif
-
-                    @if (Auth::user()->role == '')
-                    <img class="user_view_profile_img" src="{{ URL::asset('public/customer/' . Auth::user()->image) }}">
-                    @endif
-                    @endif
+                    
                     <div class="row">
                         <div class="view_top1">
                             <div class="col-xl-12 col-md-12 col-sm-12">
@@ -88,7 +56,7 @@
 
                         <div class="row">
                             <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 mt-3 has-feedback {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 checkpointtext text-end" for="first-name">{{ trans('message.First Name') }} <label class="color-danger">*</label></label>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 checkpointtext text-end" for="first-name">{{ trans('Full Name') }} <label class="color-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                     <input type="text" name="firstname" placeholder="{{ trans('message.Enter First Name') }}" maxlength="50" value="{{ $profile->name }}" class="form-control" required>
                                     @if ($errors->has('firstname'))
@@ -188,32 +156,6 @@
                                         <strong>{{ $errors->first('mobile') }}</strong>
                                     </span>
                                     @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('image') ? 'has-error' : '' }}">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 checkpointtext text-end" for="image">{{ trans('message.Image') }}
-                                </label>
-                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="file" id="image" name="image" class="form-control chooseImage">
-                                    @if ($profile->role == 'admin')
-                                    <img src="{{ url('public/admin/' . $profile->image) }}" id="imagePreview" class="datatable_img mt-3" style="width: 60px;">
-                                    @elseif($profile->role == 'Customer')
-                                    <img src="{{ url('public/customer/' . $profile->image) }}" id="imagePreview" class="datatable_img mt-3" style="width: 60px;">
-                                    @elseif($profile->role == 'employee')
-                                    <img src="{{ url('public/employee/' . $profile->image) }}" id="imagePreview" class="datatable_img mt-3" style="width: 60px;">
-                                    @elseif($profile->role == 'supportstaff')
-                                    <img src="{{ url('public/supportstaff/' . $profile->image) }}" id="imagePreview" class="datatable_img mt-3" style="width: 60px;">
-                                    @elseif($profile->role == 'accountant')
-                                    <img src="{{ url('public/accountant/' . $profile->image) }}" id="imagePreview" class="datatable_img mt-3" style="width: 60px;">
-                                    @endif
-                                    @if ($errors->has('image'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('image') }}</strong>
-                                    </span>
-                                    @endif
-
                                 </div>
                             </div>
                         </div>

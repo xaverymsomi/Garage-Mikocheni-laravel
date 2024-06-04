@@ -73,6 +73,10 @@ class SidemenuResource extends JsonResource
             foreach ($sidemenu as &$menu) {
                 $menu['view_status'] = true;
             }
+        }elseif ($this->name === 'Employee') {
+            foreach ($sidemenu as &$menu) {
+                $menu['view_status'] = true;
+            }
         }
 
         return [

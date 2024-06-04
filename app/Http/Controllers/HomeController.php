@@ -2,23 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use Mail;
-use Session;
 use App\Sale;
 use App\User;
-use App\Vehicle;
-use App\Service;
-use App\Product;
 use App\Holiday;
-use App\Invoice;
+use App\Product;
+use App\Service;
+use App\Setting;
+use App\Vehicle;
 use Carbon\Carbon;
+use Mpdf\Tag\Input;
 use App\BusinessHour;
 use App\BranchSetting;
-use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
+
+// use DB;
+// use Auth;
+// use Mail;
+// use Session;
+// use App\Sale;
+// use App\User;
+// use App\Vehicle;
+// use App\Service;
+// use App\Product;
+// use App\Holiday;
+// use App\Invoice;
+// use Carbon\Carbon;
+// use App\BusinessHour;
+// use App\BranchSetting;
+// use App\Setting;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Gate;
 
 class homecontroller extends Controller
 {

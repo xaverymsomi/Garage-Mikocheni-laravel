@@ -28,7 +28,7 @@ class StoreQuotationAddEditFormRequest extends FormRequest
             'vehicalname' => 'required',
             'date' => 'required',
             'repair_cat' => 'required',
-            'charge' => 'required|regex:/^[0-9]*$/',
+            // 'charge' => 'required|regex:/^[0-9]*$/',
             //'title' => 'regex:/^[a-zA-Z][a-zA-Z0-9\s\.\-\_]*$/',
             'title' => 'regex:/^[(a-zA-Z0-9\s)\p{L}]+$/u',
             'branch' => 'required',

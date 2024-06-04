@@ -149,12 +149,13 @@ Route::group(['prefix' => 'customer'], function () {
 
 
 
-Route::get('customer/add_vehicle', [VehicalControler::class, 'adding_cust_vehicle'])->name('customer.vehicle');
-Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
+// Route::get('customer/add_vehicle', [VehicalControler::class, 'adding_cust_vehicle'])->name('customer.vehicle');
+// Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
 
-	Route::get('customer/add_vehicle', [VehicalControler::class,'adding_cust_vehicle'])->name('customer.vehicle');
-	Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
+// Route::get('customer/add_vehicle', [VehicalControler::class,'adding_cust_vehicle'])->name('customer.vehicle');
+// Route::post('customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
 
+Route::post('/search-customer/store_vehicle', [VehicalControler::class, 'store_cust_vehicle'])->name('customer.store.vehicle');
 	// Route::get('')
 //Accountant
 Route::group(['prefix' => 'accountant'], function () {

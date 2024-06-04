@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\User;
 use App\Branch;
 use App\Service;
@@ -13,8 +14,8 @@ use App\Vehiclebrand;
 use App\BranchSetting;
 use App\tbl_fuel_types;
 use App\tbl_model_names;
-use App\tbl_vehicle_images;
 use App\tbl_vehicle_colors;
+use App\tbl_vehicle_images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -85,72 +86,44 @@ class VehicalControler extends Controller
 		return view('vehicle.another_vehicle', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas'));
 	}
 
-	public function store_cust_vehicle(VehicleAddEditFormRequest $request)
-	{
-			// Save vehicle information
-			$vehicles = $request->input('vehicles');
-			foreach ($vehicles as $vehicleData) {
-				$vehicle = new Vehicle;
-				$vehicle->vehicletype_id = $vehicleData['vehical_id'];
-				$vehicle->number_plate = $vehicleData['number_plate'];
-				$vehicle->vehiclebrand_id = $vehicleData['vehicabrand'];
-				$vehicle->modelyear = $vehicleData['model_year'];
-				$vehicle->fuel_id = $vehicleData['fueltype'];
-				$vehicle->modelname = $vehicleData['modelname'];
-				$vehicle->chassisno = $vehicleData['chassis_no'];
-				$vehicle->engineno = $vehicleData['engine_no'];
-				$vehicle->branch_id = $vehicleData['branch'];
-				$vehicle->color = $vehicleData['color'];
-				$vehicle->customer_id = $request->id; // Assign customer ID to the vehicle
-	
-				//custom field save	
-			//$custom=Input::get('custom');
-			$custom = $request->custom;
-			$custom_fileld_value = array();
-			$custom_fileld_value_jason_array = array();
-			if (!empty($custom)) {
-				foreach ($custom as $key => $value) {
-					if (is_array($value)) {
-						$add_one_in = implode(",", $value);
-						$custom_fileld_value[] = array("id" => "$key", "value" => "$add_one_in");
-					} else {
-						$custom_fileld_value[] = array("id" => "$key", "value" => "$value");
-					}
-				}
+	public function store_cust_vehicle(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            // 'customer_id' => 'required|exists:customers,id',
+            // 'vehicles.*.vehical_id' => 'required|exists:vehicals,id',
+            // 'vehicles.*.number_plate' => 'required|string|max:30',
+            // 'vehicles.*.vehicabrand' => 'required|exists:vehical_brands,id',
+            // 'vehicles.*.modelname' => 'required|string|max:255',
+            // 'vehicles.*.fueltype' => 'required|exists:fuel_types,id',
+            // 'vehicles.*.color' => 'required|string|max:30',
+            // 'vehicles.*.chassis_no' => 'required|string|max:30',
+            // 'vehicles.*.branch' => 'required|exists:branches,id',
+        ]);
 
-				$custom_fileld_value_jason_array['custom_fileld_value'] = json_encode($custom_fileld_value);
+        $customer_id = $request->input('id');
 
-				foreach ($custom_fileld_value_jason_array as $key1 => $val1) {
-					$vehicleData = $val1;
-				}
-				$vehicle->custom_field = $vehicleData;
-			}
-			
-				$vehicle->save();
-	
-				// Retrieve the last inserted vehicle to get its ID
-				$lastVehicle = DB::table('tbl_vehicles')->orderBy('id', 'desc')->first();
-				$vehicleId = $lastVehicle->id;
-	
-				// Handle vehicle images
-				$vehicleImages = $request->file('vehicle_images');
-				if (!empty($vehicleImages)) {
-					foreach ($vehicleImages as $image) {
-						$filename = $image->getClientOriginalName();
-						$image->move(public_path() . '/vehicle/', $filename);
-	
-						$vehicleImage = new tbl_vehicle_images;
-						$vehicleImage->vehicle_id = $vehicleId;
-						$vehicleImage->image = $filename;
-						$vehicleImage->save();
-					}
-				}
+		// dd($request->all());
+        foreach ($request->input('vehicles') as $vehicleData) {
+			$vehicle = new Vehicle;
+			$vehicle->customer_id = $customer_id;
+			$vehicle->vehicletype_id = $vehicleData['vehical_id']; // Ensure this matches the correct column
+			$vehicle->number_plate = $vehicleData['number_plate'];
+			$vehicle->vehiclebrand_id = $vehicleData['vehicabrand'];
+			$vehicle->modelname = $vehicleData['modelname'];
+			$vehicle->engineno = $vehicleData['engine_no'];
+			$vehicle->modelyear = $vehicleData['model_year'];
+			$vehicle->fuel_id = $vehicleData['fueltype'];
+			$vehicle->color = $vehicleData['color'];
+			$vehicle->chassisno = $vehicleData['chassis_no'];
+			$vehicle->branch_id = $vehicleData['branch'];
+			$vehicle->save();
+		}
 
-			}
-			
-			return redirect()->route('customer.vehicle');
+		return redirect('/customer/list');
 		
 	}
+	
 
 	//Vehicle add form
 	public function index()

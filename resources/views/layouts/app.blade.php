@@ -552,16 +552,16 @@ $currentRoute = str_replace($baseUrl, "", $currentUrl);
                       @endcan
 
                       @can('product_view')
-                      <a href="{!! url('/product/list') !!}">{{ trans('message.Product') }}</a>
+                      <a href="{!! url('/product/list') !!}">{{ trans('message.Stock') }}</a>
                       @endcan
 
                       @can('purchase_view')
                       <a href="{!! url('/purchase/list') !!}">{{ trans('message.Purchase') }}</a>
                       @endcan
 
-                      @can('stock_view')
+                      {{-- @can('stock_view')
                       <a href="{!! url('/stoke/list') !!}">{{ trans('message.Stock') }}</a>
-                      @endcan
+                      @endcan --}}
                     </div>
                   </div>
                 </li>

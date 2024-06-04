@@ -2187,7 +2187,7 @@
        colorPickerChanged = true;
    });
 </script>
-<script>
+{{-- <script>
     document.getElementById('vehicleAdd-Form').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent form submission
         
@@ -2207,7 +2207,7 @@
             this.submit();
         }
     });
-    </script>
+    </script> --}}
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\VehicleAddEditFormRequest', '#vehicleAdd-Form') !!}
 <script type="text/javascript" src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>

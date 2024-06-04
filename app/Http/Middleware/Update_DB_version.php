@@ -2,12 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use DB;
-use App;
+// use DB;
+// use App;
 use Closure;
 use Illuminate\Http\Request;
-use App\Http\Middleware\currentRoute;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\currentRoute;
 
 class Update_DB_version
 {

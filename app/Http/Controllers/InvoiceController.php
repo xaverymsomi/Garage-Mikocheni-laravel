@@ -53,17 +53,19 @@ class InvoiceController extends Controller
 				$updatekey = Updatekey::first();
 				$logo = Setting::first();
 			} elseif (getUsersRole(Auth::User()->role_id) == "Employee") {
-				$invoice = Service::join('tbl_invoices', 'tbl_services.id', '=', 'tbl_invoices.sales_service_id')
-					->where('tbl_services.assign_to', '=', Auth::User()->id)
-					->where('type', '!=', 2)
-					->where([['tbl_invoices.soft_delete', 0], ['tbl_invoices.branch_id', $currentUser->branch_id]])
-					->orderBy('tbl_invoices.id', 'DESC')->get();
+				// $invoice = DB::join('tbl_invoices', 'tbl_services.id', '=', 'tbl_invoices.sales_service_id')
+				// 	->where('tbl_services.assign_to', '=', Auth::User()->id)
+				// 	->where('type', '!=', 2)
+				// 	->where([['tbl_invoices.soft_delete', 0]])
+				// 	->orderBy('tbl_invoices.id', 'DESC')->get();
+
+				$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
 
 				$updatekey = Updatekey::first();
 				$logo = Setting::first();
 			} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
 				if (Gate::allows('invoice_owndata')) {
-					$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['branch_id', $currentUser->branch_id], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+					$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
 				} else {
 					$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
 				}
