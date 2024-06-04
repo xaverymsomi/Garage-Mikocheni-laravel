@@ -359,6 +359,83 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10 header">
+                                      <h4><b>{{ trans('message.SALE PART') }}</b></h4>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-12 col-xs-12 col-sm-12 form-group table-responsive">
+                                    <table class="table table-bordered adddatatable" id="tab_taxes_detail" align="center" style="font-size:14px;" width="100%">
+                                      <thead>
+                                        <tr>
+                                          <th class="actionre">{{ trans('message.Manufacturer Name') }}</th>
+                                          <th class="actionre">{{ trans('message.Product Name') }}</th>
+                                          <th class="actionre">{{ trans('message.Quantity') }}</th>
+                                          <th class="actionre" style="width:10%;">{{ trans('message.Price') }} (<?php echo getCurrencySymbols(); ?>)</th>
+                                          <th class="actionre" style="width:13%;">{{ trans('message.Amount') }} (<?php echo getCurrencySymbols(); ?>)</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <?php $row_id = 0; ?>
+                                        @foreach ($stock as $stocks)
+                                        <tr id="row_id_<?php echo $row_id; ?>">
+                                          <td class="tbl_td_selectManufac_error_<?php echo $row_id; ?>">
+                                            {{-- <input type="text" value="" readonly> --}}
+                                            <select class="form-control select_producttype select_producttype_<?php echo $row_id; ?> form-select" name="product[Manufacturer_id][]" m_url="{!! url('/purchase/producttype/names') !!}" row_did="<?php echo $row_id; ?>" data-id="<?php echo $row_id; ?>" style="width:100%;" required="true">
+                                              <option value="">-{{ trans('message.Select Manufacturing Name') }}-</option>
+                                              @if (!empty($manufacture_name))
+                                              @foreach ($manufacture_name as $manufacture_nm)
+                                              <option value="{{ $manufacture_nm->id }}" <?php if ($manufacture_nm->id == $stocks->product_type_id) {
+                                                                                          echo 'selected';
+                                                                                        } ?>>{{ $manufacture_nm->type }}</option>
+                                              @endforeach
+                                              @endif
+                                            </select>
+                    
+                                            <span id="select_producttype_error_<?php echo $row_id; ?>" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Manufacturer name is required.') }}</span>
+                                          </td>
+                    
+                                          <td class="tbl_td_selectProductname_error_<?php echo $row_id; ?>">
+                                            <input type="hidden" name="product[tr_id][]" value="<?php echo $stocks->id; ?>" class="form-control" data-id="<?php echo $row_id; ?>" id="<?php echo $row_id; ?>">
+                                            <select name="product[product_id][]" class="form-control form-select productid select_productname_<?php echo $row_id; ?>" url="{!! url('purchase/add/getproduct') !!}" row_did="<?php echo $row_id; ?>" data-id="<?php echo $row_id; ?>" style="width:100%;" required="true">
+                                              <option value="">{{ trans('message.--Select Product--') }}</option>
+                                              @if (!empty($brand))
+                                              @foreach ($brand as $brands)
+                                              <option value="{{ $brands->id }}" <?php if ($brands->id == $stocks->product_id) {
+                                                                                  echo 'selected';
+                                                                                } ?>>{{ $brands->name }}</option>
+                                              @endforeach
+                                              @endif
+                                            </select>
+                    
+                                            <span id="select_productname_error_<?php echo $row_id; ?>" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Product name is required.') }}</span>
+                                          </td>
+                                          <td class="tbl_td_quantity_error_<?php echo $row_id; ?>">
+                                            <input type="number" name="product[qty][]" url="{!! url('purchase/add/getqty') !!}" class="quantity form-control qty qty_<?php echo $row_id; ?>" prd_url="{{ url('/sale_part/get_available_product') }}" id="qty_<?php echo $row_id; ?>" autocomplete="off" row_id="<?php echo $row_id; ?>" value="{{ $stocks->quantity }}" maxlength="8" required="true">
+                                            <!-- <span class="qty_<?php echo $row_id; ?>">{{ getProductcode($stocks->product_id) }}</span> -->
+                    
+                                            <span id="quantity_error_<?php echo $row_id; ?>" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Quantity is required.') }}</span>
+                                          </td>
+                                          <td class="tbl_td_price_error_<?php echo $row_id; ?>">
+                                            <input type="text" name="product[price][]" class="product form-control prices price_<?php echo $row_id; ?>" value="{{ $stocks->price }}" autocomplete="off" id="price_<?php echo $row_id; ?>" row_id="<?php echo $row_id; ?>" style="width:100%;" required="true">
+                    
+                                            <span id="price_error_<?php echo $row_id; ?>" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Price is required.') }}</span>
+                                          </td>
+                                          <td class="tbl_td_totaPrice_error_<?php echo $row_id; ?>">
+                                            <input type="text" name="product[total_price][]" class="product form-control total_price total_price_<?php echo $row_id; ?>" value="{{ $stocks->price * $stocks->quantity }}" id="total_price_<?php echo $row_id; ?>" style="width:100%;" readonly="true" required="true" >
+                    
+                                            <span id="total_price_error_<?php echo $row_id; ?>" class="help-block error-help-block color-danger" style="display: none">{{ trans('message.Total price is required.') }}</span>
+                                          </td>
+                                          
+                                        </tr>
+                                        <?php
+                                        $row_id++; ?>
+                                        @endforeach
+                                      </tbody>
+                                    </table>
+                                  </div>
                                 <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10">
                                     <h2 class="fw-bold mt-0">{{ trans('message.Other Service Charges') }}
                                         <button type="button" id="add_new_product" class="btn btn-outline-secondary mt-0 ms-1" url="{!! url('/jobcard/addproducts') !!}"> + </button>

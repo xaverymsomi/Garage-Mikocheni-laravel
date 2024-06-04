@@ -7,6 +7,7 @@ use App\User;
 use App\Color;
 use App\Point;
 use App\Branch;
+use App\Details;
 use App\Invoice;
 use App\Product;
 use App\Service;
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use App\tbl_service_observation_points;
+
 
 
 
@@ -821,6 +823,7 @@ $code = $new_number;
 		$tbl_service_observation_points = DB::table('tbl_service_observation_points')->where('services_id', '=', $id)->get()->toArray();
 
 		$services = Service::where('id', '=', $id)->first();
+		
 		// dd($services);
 		$v_id = $services->vehicle_id;
 		$s_id = $services->sales_id;
@@ -867,27 +870,40 @@ $code = $new_number;
 
 		$fetch_mot_test_status = Service::where('id', '=', $id)->first();
 
+		$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 		/*get washbay data*/
 		$washbay_data = Washbay::where([['customer_id', '=', $services->customer_id], ['jobcard_no', '=', $services->job_no]])->first();
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$names = null;
 		if (isAdmin(Auth::User()->role_id)) {
+			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+			$sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+			
 			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+			$sales = Details::where('quotation_id', $services->job_no)->first();
+			$brand = Product::where([['category', 1], ['soft_delete', '=', 0]])->get();
+			$stock = Details::where('bill_no', '=', $sales->bill_no)->get();
+			
 			$product = Product::where('soft_delete', '=', 0)->get();
 			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->get()->toArray();
 		} else {
+			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+			$sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+			
 			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', $model_id], ['soft_delete', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
 		}
-
+		
 		//dd($names, $tbl_checkout_categories);
-		return view('jobcard.view', compact('obtale','selectProduct','categoryJob','viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'employees', 'washbay_data'));
+		return view('jobcard.view', compact('manufacture_name','brand','stock','obtale','selectProduct','categoryJob','viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'employees', 'washbay_data'));
 	}
 
 	//get points 

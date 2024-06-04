@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Controllers\VehicalControler;
+use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\CompanyVehicleController;
 
 
@@ -323,6 +324,10 @@ Route::group(['prefix' => 'quotation'], function () {
 	Route::get('list/final/{id}', ['as' => 'quotation/list/final/{id}', 'uses' => 'QuotationController@quotationFinal'])->middleware('can:quotation_edit');
 	Route::post('/add_modify_quotation', ['as' => 'quotation/add_modify_quotation', 'uses' => 'QuotationController@add_modify_quotation'])->middleware('can:quotation_edit');
 
+	Route::get('list/updateSales/{id}', ['as' => 'quotation_sales', 'uses' => 'QuotationController@quotationSales'])->middleware('can:quotation_edit');
+	// Route::post('/updatesalesparts', ['as' => '/quotation/updatesalespart', 'uses' => 'QuotationController@processQuotation'])->middleware('can:quotation_edit');
+
+
 	Route::get('list/delete/{id}', ['as' => 'quotation/list/delete/{id}', 'uses' => 'QuotationController@destroy'])->middleware('can:quotation_delete');
 	Route::post('list/delete', ['as' => 'quotation/list/delete', 'uses' => 'QuotationController@destoryMultiple'])->middleware('can:quotation_delete');
 	Route::post('/add_jobcard', 'QuotationController@add_jobcard');
@@ -330,6 +335,10 @@ Route::group(['prefix' => 'quotation'], function () {
 	Route::get('quotationpdf/{id}', 'QuotationController@quotationPDF');
 	Route::get('quotationsend/{service_id}', 'QuotationController@quotationSend')->name('quotationSend');
 });
+
+Route::post('/quotation/updatesalespart', ['as' => '/quotation/updatesalespart', 'uses' => 'QuotationController@processQuotation'])->middleware('can:quotation_edit');
+// Route::post('/quotation/deleteSalesPart', [QuotationController::class, 'deleteSalesPart'])->name('quotation.deleteSalesPart');
+Route::get('/quotation/deleteproduct', 'QuotationController@sale_part_destroy');
 
 
 //Invoice
@@ -737,6 +746,8 @@ Route::group(['prefix' => 'report'], function () {
 	Route::get('/servicebyemployee', 'Reportcontroller@servicebyemployee')->middleware('can:report_view');
 	Route::post('/employeeservice', 'Reportcontroller@employeeservice')->middleware('can:report_view');
 });
+
+
 
 
 //Sales Part
