@@ -1490,7 +1490,7 @@ class QuotationController extends Controller
 			}
 		}
 
-		return redirect('/quotation/list')->with('message', 'Quotation Updated Successfully');;
+		return redirect('/quotation/list')->with('message', 'Quotation Updated Successfully');
 	}
 
 	public function processQuotation(Request $request)
@@ -1566,6 +1566,8 @@ class QuotationController extends Controller
     // For example, if an existing detail is not present in the submitted data, you may want to delete it
 
     // Redirect or return a response as needed
+	return redirect('/quotation/list')->with('message', 'Quotation Updated Successfully');;
+
 
 }
 
