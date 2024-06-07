@@ -200,14 +200,7 @@
                         @endif
 
 
-                        <!-- MOt Test Checkbox Start-->
-                        <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                            <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 motTextLabel" for="">{{ trans('message.MOT Test') }}</label>
-                            <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                <input type="checkbox" name="motTestStatusCheckbox" id="motTestStatusCheckbox" style="height:20px; width:20px; margin-right:5px; position: relative; top: 1px; margin-bottom: 12px;">
-                            </div>
-                        </div>
-                        <!-- MOt Test Checkbox End-->
+                        
 
                         <!-- Wash Bay Feature -->
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">

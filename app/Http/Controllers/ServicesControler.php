@@ -139,7 +139,7 @@ $code = $new_number;
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->where('soft_delete', '=', 0)->get();
-			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 		}
 		$selectProduct = DB::table('inspection_points_library')->get();
 

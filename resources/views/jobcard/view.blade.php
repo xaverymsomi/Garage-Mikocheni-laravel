@@ -237,19 +237,19 @@
                                         <div class="row row-mb-0">
                                             <label class="control-label col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2">{{ trans('message.Model Name') }}:</label>
                                             <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                                                <input type="text" id="model" name="model" class="form-control" value="{{ $vehicale->modelname }}" readonly>
+                                                <input type="text" id="model" name="model" class="form-control" value="{{ $vehicle->modelname }}" readonly>
                                             </div>
                                             <label class="jobcardmargintop col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2">{{ trans('message.Chasis No') }}:
                                             </label>
                                             <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                                                <input type="text" id="chassisno" name="chassisno" class="form-control" value="{{ $vehicale->chassisno }}" readonly>
+                                                <input type="text" id="chassisno" name="chassisno" class="form-control" value="{{ $vehicle->chassisno }}" readonly>
                                             </div>
                                         </div>
                                         <div class="row row-mb-0">
                                             <label class="jobcardmargintop control-label col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2">{{ trans('message.Engine No') }}:
                                             </label>
                                             <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                                                <input type="text" id="engine_no" name="engine_no" class="form-control" value="{{ $vehicale->engineno }}" readonly>
+                                                <input type="text" id="engine_no" name="engine_no" class="form-control" value="{{ $vehicle->engineno }}" readonly>
                                             </div>
 
                                         </div>
@@ -302,7 +302,7 @@
                                 <div class="row">
                                     <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10">
                                         <h3 class="fw-bold mt-0">{{ trans('message.Observation List') }}
-                                            <button type="button" data-bs-target="#responsive-modal-observation" data-bs-toggle="modal" class="btn btn-outline-secondary clickAddNewButton ms-1"> + </button>
+                                            {{-- <button type="button" data-bs-target="#responsive-modal-observation" data-bs-toggle="modal" class="btn btn-outline-secondary clickAddNewButton ms-1"> + </button> --}}
                                         </h3>
                                     </div>
                                 </div>
@@ -477,19 +477,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Checking for Test status -->
-                                @if ($fetch_mot_test_status->mot_status == 1)
-                                <div class="col-md-12 col-sm-12 col-xm-12 panel-group">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">{{ trans('message.MOT Test Service Charge') }}
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-                                <!-- End MOT Test Checking -->
-
+                               
 
                                 <!-- Checking for Wash Bay Service Starting -->
                                 @if ($washbay_data != null)

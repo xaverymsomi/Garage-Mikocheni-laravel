@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Controllers\VehicalControler;
+use App\Http\Controllers\JobCardcontroller;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\CompanyVehicleController;
 
@@ -611,6 +612,9 @@ Route::group(['prefix' => 'jobcard'], function () {
 	Route::post('/insert_gatedata', ['as' => 'jobcard/insert', 'uses' => 'JobCardcontroller@insert_gatepass_data'])->middleware('can:jobcard_edit');
 	Route::get('/list/add_invoice/{id}', 'JobCardcontroller@add_invoice');
 });
+
+Route::delete('/jobcard/{id}', [JobCardcontroller::class, 'destroy'])->name('jobcard.destroy');
+
 
 
 // Route::post('/jobcard/save-observation', 'JobCardcontroller@saveObservation')->middleware('can:jobcard_edit');

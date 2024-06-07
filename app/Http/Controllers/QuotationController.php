@@ -41,50 +41,61 @@ class QuotationController extends Controller
 	{
 		$month = date('m');
 		$year = date('Y');
-		$available = "";
-		$servi_id = "";
 		$start_date = "$year/$month/01";
 		$end_date = "$year/$month/30";
-		$current_month = DB::select("SELECT service_date FROM tbl_services where service_date BETWEEN  '$start_date' AND '$end_date'");
-
+		$available = "";
+		$servi_id = "";
+	
+		// Fetch service dates for the current month
+		$current_month = DB::table('tbl_services')
+			->whereBetween('service_date', [$start_date, $end_date])
+			->pluck('service_date')
+			->toArray();
+	
 		if (!empty($current_month)) {
-			foreach ($current_month as $list) {
-				$date[] = $list->service_date;
-			}
-			$available = json_encode($date);
+			$available = json_encode($current_month);
 		}
-
-		$ser_id_jobcard_details = DB::table('tbl_jobcard_details')->get()->toArray();
-		foreach ($ser_id_jobcard_details as $ser_id) {
-			$servi_id = $ser_id->service_id;
+	
+		// Fetch all job card details and extract service IDs
+		$ser_id_jobcard_details = DB::table('tbl_jobcard_details')->get();
+		if (!$ser_id_jobcard_details->isEmpty()) {
+			$servi_id = $ser_id_jobcard_details->last()->service_id;
 		}
-
-		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
-		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-
-		if (!isAdmin(Auth::User()->role_id)) {
+	
+		$currentUser = User::where([
+			['soft_delete', 0],
+			['id', Auth::id()]
+		])->orderBy('id', 'DESC')->first();
+	
+		$adminCurrentBranch = BranchSetting::find(1);
+		$serviceQuery = DB::table('tbl_services')->where('job_no', 'like', 'RMAL-RP-24-%')
+			->where('is_quotation', 1)
+			->where('quotation_modify_status', 1)
+			->where('soft_delete', 0);
+	
+		if (!isAdmin(Auth::user()->role_id)) {
 			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
 				if (Gate::allows('quotation_owndata')) {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', Auth::User()->id], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+					$serviceQuery->where('customer_id', Auth::id());
 				} else {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+					$serviceQuery->where('branch_id', $adminCurrentBranch->branch_id);
 				}
-			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee' || getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+			} elseif (in_array(getUsersRole(Auth::user()->role_id), ['Employee', 'Support Staff', 'Accountant', 'branch_admin'])) {
 				if (Gate::allows('quotation_owndata')) {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['create_by', '=', Auth::User()->id], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+					$serviceQuery->where('create_by', Auth::id());
 				} else {
-					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
+					$serviceQuery->where('branch_id', $adminCurrentBranch->branch_id);
 				}
 			}
 		} else {
-			$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['quotation_modify_status', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'ASC')->get()->toArray();
+			$serviceQuery->where('branch_id', $adminCurrentBranch->branch_id);
 		}
-		
-		
-
-		return view('quotation/list', compact('service', 'available', 'current_month', 'servi_id'));
+	
+		$service = $serviceQuery->orderBy('id', 'ASC')->get()->toArray();
+	
+		return view('quotation.list', compact('service', 'available', 'current_month', 'servi_id'));
 	}
-
+	
 
 	/*Add new Quotation Service*/
 	public function index()
@@ -1490,7 +1501,7 @@ class QuotationController extends Controller
 			}
 		}
 
-		return redirect('/quotation/list')->with('message', 'Quotation Updated Successfully');
+		return redirect('/quotation/list')->with('message', 'Quotation Updated Successfully');;
 	}
 
 	public function processQuotation(Request $request)
@@ -1566,8 +1577,6 @@ class QuotationController extends Controller
     // For example, if an existing detail is not present in the submitted data, you may want to delete it
 
     // Redirect or return a response as needed
-	return redirect('/quotation/list')->with('message', 'Quotation Updated Successfully');;
-
 
 }
 

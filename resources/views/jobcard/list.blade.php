@@ -111,7 +111,7 @@
                 <th>{{ trans('message.Customer Name') }}</th>
                 <th>{{ trans('message.Service Date') }}</th>
                 <th>{{ trans('message.Status') }}</th>
-                @canany(['invoice_add', 'invoice_view', 'jobcard_edit', 'gatepass_add', 'gatepass_view'])
+                @canany(['invoice_add', 'invoice_view', 'jobcard_edit','jobcard_delete', 'gatepass_add', 'gatepass_view'])
                 <th>{{ trans('message.Action') }}</th>
                 @endcanany
               </tr>
@@ -156,38 +156,31 @@
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Status" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>
                 
-                @canany(['invoice_add', 'invoice_view', 'jobcard_edit', 'gatepass_add', 'gatepass_view'])
+                @canany(['invoice_add', 'invoice_view', 'jobcard_edit', 'jobcard_delete', 'gatepass_add', 'gatepass_view'])
                 <td>
                   <div class="dropdown_toggle">
                     <img src="{{ URL::asset('public/img/list/dots.png') }}" class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButton1">
                       @if (getUserRoleFromUserTable(Auth::User()->id) == 'admin' || getUserRoleFromUserTable(Auth::User()->id) == 'supportstaff' || getUserRoleFromUserTable(Auth::User()->id) == 'accountant' || getUserRoleFromUserTable(Auth::User()->id) == 'employee' || getUserRoleFromUserTable(Auth::User()->id) == 'branch_admin')
-                      @if (Gate::allows('jobcard_view') && Gate::allows('jobcard_edit') && Gate::allows('jobcard_add'))
-                      @can('jobcard_view')
-                      <?php
-                      $view_data = getInvoiceStatus($servicess->job_no);
-
-                      if ($view_data == "No") {
-                        if ($servicess->done_status == '1') {
-                      ?>
-                          <!-- <li><a href="{{ url('invoice/add/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }}</a></li> -->
-                          @can('invoice_add')
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#myModal1" class="dropdown-item invoice" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/invoice') !!}"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }} </button>
-                          @endcan
-                        <?php
-                        } elseif ($servicess->done_status != '1') {
-                        ?>
-                          <!-- <li><a class="dropdown-item"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }} </a></li> -->
-                        <?php
-                        }
-                      } else {
-                        ?>
-                        @can('invoice_view')
-                        <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button></li>
-                        @endcan
-                      <?php
-                      }
-                      ?>
+                        @if (Gate::allows('jobcard_view') && Gate::allows('jobcard_edit') && Gate::allows('jobcard_add'))
+                        @can('jobcard_view')
+                          <?php
+                            $view_data = getInvoiceStatus($servicess->job_no);
+                            if ($view_data == "No") {
+                              if ($servicess->done_status == '1') { ?>
+                                <!-- <li><a href="{{ url('invoice/add/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }}</a></li> -->
+                                @can('invoice_add')
+                                  <button type="button" data-bs-toggle="modal" data-bs-target="#myModal1" class="dropdown-item invoice" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/invoice') !!}"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }} </button>
+                                @endcan
+                                <?php  } elseif ($servicess->done_status != '1') { ?>
+                                  <!-- <li><a class="dropdown-item"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }} </a></li> -->
+                                  <?php } } else { ?>
+                        
+                                @can('invoice_view')
+                                <li>
+                                  <button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button>
+                                </li>
+                                @endcan <?php } ?>
                       @endcan
  
                       <?php $jobcard = getJobcardStatus($servicess->job_no);
@@ -201,8 +194,14 @@
                       <li><a href="{{ url('jobcard/complete/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Job Completed') }}</a></li>
                       @else
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endif
-
                       @if (getAlreadypasss($servicess->job_no) == 0 && $view_data == 'Yes')
                       @can('gatepass_add')
                       <li><a href="{!! url('/jobcard/gatepass/' . $servicess->id) !!}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/gatepass.png') }}" class="me-3">{{ trans('message.Gate Pass') }}</a></li>
@@ -246,9 +245,19 @@
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
                       @elseif($view_data == 'Yes')
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
+                      
                       @else
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
+                      
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endif
+                      
 
                       @if (getAlreadypasss($servicess->job_no) == 0 && $view_data == 'Yes')
                       @can('gatepass_add')
@@ -276,12 +285,26 @@
                       ?>
                         @can('invoice_add')
                           <button type="button" data-bs-toggle="modal" data-bs-target="#myModal1" class="dropdown-item invoice" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/invoice') !!}"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }} </button>
+                          <li>
+                            <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                            </form>
+                          </li>
                         @endcan
                         <?php
                         } elseif ($servicess->done_status != '1') {
                         ?>
                         @can('invoice_add')
                           <button type="button" data-bs-toggle="modal" data-bs-target="#myModal1" class="dropdown-item invoice" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/invoice') !!}"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3"> {{ trans('message.Create Invoice') }} </button>
+                          <li>
+                            <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                            </form>
+                          </li>
                         @endcan
                         <?php
                         }
@@ -289,6 +312,13 @@
                         ?>
                         @can('invoice_view')
                         <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button></li>
+                        <li>
+                          <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                          </form>
+                        </li>
                         @endcan
                       <?php
                       }
@@ -306,19 +336,41 @@
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
                       @else
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
+
                       @endif
 
                       @if (getAlreadypasss($servicess->job_no) == 0 && $view_data == 'Yes')
                       @can('gatepass_add')
                       <li><a href="{!! url('/jobcard/gatepass/' . $servicess->id) !!}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/gatepass.png') }}" class="me-3">{{ trans('message.Gate Pass') }}</a></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @elseif($view_data == 'No')
                       @can('gatepass_add')
                       <li><a href="{!! url('/jobcard/gatepass/' . $servicess->id) !!}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/gatepass.png') }}" class="me-3">{{ trans('message.Gate Pass') }}</a></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @elseif(getAlreadypasss($servicess->job_no) == 1)
                       @can('gatepass_view')
                       <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gate" serviceid="" class="dropdown-item getgetpass" getid="{{ $servicess->job_no }}"><img src="{{ URL::asset('public/img/list/receipt.png') }}" class="me-3">{{ trans('message.Gate Receipt') }}</button></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @endif
                       @endcan
@@ -332,13 +384,28 @@
                       ?>
                       @can('invoice_view')
                         <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button></li>
+                        <li>
+                          <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                          </form>
+                        </li>
                       @endcan
                       <?php
                       } else {
                       ?>
                       @can('invoice_view')
                         <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save" disabled><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button></li>
+                        <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
+                      
                       <?php
                       }
                       ?>
@@ -354,16 +421,37 @@
                       @elseif($view_data == 'Yes')
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
                       @else
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       <li><a href="{{ url('jobcard/list/' . $servicess->id) }}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/jobprocess.png') }}" class="me-3">{{ trans('message.Process Job') }}</a></li>
                       @endif
 
                       @if (getAlreadypasss($servicess->job_no) == 0 && $view_data == 'Yes')
                       @can('gatepass_add')
                       <li><a href="{!! url('/jobcard/gatepass/' . $servicess->id) !!}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/gatepass.png') }}" class="me-3">{{ trans('message.Gate Pass') }}</a></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @elseif($view_data == 'No')
                       @can('gatepass_add')
                       <li><a href="{!! url('/jobcard/gatepass/' . $servicess->id) !!}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/gatepass.png') }}" class="me-3">{{ trans('message.Gate Pass') }}</a></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @elseif(getAlreadypasss($servicess->job_no) == 1)
                       @can('gatepass_view')
@@ -373,6 +461,8 @@
                       @endcan
                       @endif
                       @endif
+                     
+
                     </ul>
                   </div>
                 </td>

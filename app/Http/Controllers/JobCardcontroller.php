@@ -815,96 +815,154 @@ $code = $new_number;
     return response()->json(['success' => true]);
 }
 
-	//jobcard view form(process job)
-	public function view($id)
-	{
-		$viewid = $id;
-		$first = $color = null;
-		$tbl_service_observation_points = DB::table('tbl_service_observation_points')->where('services_id', '=', $id)->get()->toArray();
+public function destroy($id)
+{
+    $jobCard = Service::findOrFail($id);
+    $jobCard->delete();
+    
+    return redirect('jobcard/list')->with('success', trans('message.Job Card deleted successfully'));
+}
 
-		$services = Service::where('id', '=', $id)->first();
-		
-		// dd($services);
-		$v_id = $services->vehicle_id;
-		$s_id = $services->sales_id;
-		$sales = Sale::where('id', '=', $s_id)->first();
-		$s_date = Sale::where('vehicle_id', '=', $v_id)->first();
 
-		if (!empty($s_date)) {
-			$color_id = $s_date->color_id;
-			$color = Color::where('id', '=', $color_id)->first();
-		}
-		$service_data = Service::latest()->first();
+// Jobcard view form (process job)
+public function view($id)
+{
+    $viewid = $id;
+    $first = $color = null;
 
-		if (!empty($v_id)) {
-			$vehicale = Vehicle::where('id', '=', $v_id)->first();
-			$model_id = getModel_id($vehicale->modelname);
-		}
+    // Fetch related data
+    $tbl_service_observation_points = DB::table('tbl_service_observation_points')
+                                        ->where('services_id', '=', $id)
+                                        ->get()
+                                        ->toArray();
+    $services = Service::where('id', '=', $id)->first();
+    $v_id = $services->vehicle_id;
+    $s_id = $services->sales_id;
+    $sales = Sale::where('id', '=', $s_id)->first();
+    $s_date = Sale::where('vehicle_id', '=', $v_id)->first();
 
-		$job = JobcardDetail::where('jocard_no', '=', $services->job_no)->first();
-		// dd($services->job_no);
-		$pros = DB::table('tbl_service_pros')->where([['service_id', '=', $id], ['type', '=', '1']])->get()->toArray();
-		$pros2 = DB::table('tbl_service_pros')->where([['service_id', '=', $id], ['type', '=', '0']])->get()->toArray();
-		$obser_id = DB::table('tbl_service_observation_points')->where('services_id', $viewid)->get()->toArray();
-		$tbl_observation_points = DB::table('tbl_observation_points')->where('observation_type_id', '=', 1)->get()->toArray();
-		$tbl_observation_service = DB::table('tbl_observation_points')->where('observation_type_id', '=', 2)->get()->toArray();
-		$vehicalemodel = Vehicle::get();
+    // Get color information if sales data is available
+    if (!empty($s_date)) {
+        $color_id = $s_date->color_id;
+        $color = Color::where('id', '=', $color_id)->first();
+    }
+    $service_data = Service::latest()->first();
 
-		$categoryJob = DB::table('table_repair_category')->get();
-		$obtale = DB::table('tbl_observation')->where('quotation_id', '=', $services->job_no)->get()->toArray();
-		$selectProduct = DB::table('inspection_points_library')->get();
-		$tbl_points = Point::get();
-		$c_point = DB::table('tbl_checkout_categories')->get()->toArray();
+    // Fetch vehicle and model information
+    if (!empty($v_id)) {
+        $vehicle = Vehicle::where('id', '=', $v_id)->first();
+        $model_id = getModel_id($vehicle->modelname);
+    }
 
-		if (!empty($c_point)) {
-			$point_count = count($c_point);
-			$total = ceil($point_count / 3);
-			$categorypoint = (array_chunk($c_point, $total));
-			$first = $categorypoint[0];
-		}
+    $job = JobcardDetail::where('jocard_no', '=', $services->job_no)->first();
+    $pros = DB::table('tbl_service_pros')
+              ->where([['service_id', '=', $id], ['type', '=', '1']])
+              ->get()
+              ->toArray();
+    $pros2 = DB::table('tbl_service_pros')
+               ->where([['service_id', '=', $id], ['type', '=', '0']])
+               ->get()
+               ->toArray();
+    $obser_id = DB::table('tbl_service_observation_points')
+                  ->where('services_id', $viewid)
+                  ->get()
+                  ->toArray();
+    $tbl_observation_points = DB::table('tbl_observation_points')
+                                ->where('observation_type_id', '=', 1)
+                                ->get()
+                                ->toArray();
+    $tbl_observation_service = DB::table('tbl_observation_points')
+                                 ->where('observation_type_id', '=', 2)
+                                 ->get()
+                                 ->toArray();
+    $vehicalemodel = Vehicle::get();
+    $categoryJob = DB::table('table_repair_category')->get();
+    $obtale = DB::table('tbl_observation')
+                ->where('quotation_id', '=', $services->job_no)
+                ->get()
+                ->toArray();
+    $selectProduct = DB::table('inspection_points_library')->get();
+    $tbl_points = Point::get();
+    $c_point = DB::table('tbl_checkout_categories')->get()->toArray();
 
-		$tax = AccountTaxRate::get();
-		$logo = Setting::first();
+    // Handle points data if available
+    if (!empty($c_point)) {
+        $point_count = count($c_point);
+        $total = ceil($point_count / 3);
+        $categorypoint = (array_chunk($c_point, $total));
+        $first = $categorypoint[0];
+    }
 
-		$data = DB::select("select tbl_service_pros.*, tbl_points.*,tbl_service_observation_points.id from tbl_points join tbl_service_observation_points on tbl_service_observation_points.observation_points_id = tbl_points.id join tbl_service_pros on tbl_service_pros.tbl_service_observation_points_id = tbl_service_observation_points.id where tbl_service_observation_points.services_id = $viewid and tbl_service_observation_points.review = 1 and tbl_service_pros.type = 0");
+    $tax = AccountTaxRate::get();
+    $logo = Setting::first();
+    $data = DB::select("
+        SELECT tbl_service_pros.*, tbl_points.*, tbl_service_observation_points.id 
+        FROM tbl_points 
+        JOIN tbl_service_observation_points 
+            ON tbl_service_observation_points.observation_points_id = tbl_points.id 
+        JOIN tbl_service_pros 
+            ON tbl_service_pros.tbl_service_observation_points_id = tbl_service_observation_points.id 
+        WHERE tbl_service_observation_points.services_id = $viewid 
+            AND tbl_service_observation_points.review = 1 
+            AND tbl_service_pros.type = 0
+    ");
+    $fetch_mot_test_status = Service::where('id', '=', $id)->first();
+    $manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
+    $washbay_data = Washbay::where([['customer_id', '=', $services->customer_id], ['jobcard_no', '=', $services->job_no]])->first();
+    $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+    $adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+    $names = null;
 
-		$fetch_mot_test_status = Service::where('id', '=', $id)->first();
+    // Fetch data based on user role
+    if (isAdmin(Auth::User()->role_id)) {
+        $brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+        $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+        $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get() : collect();
+        $product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+        $employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+        $tbl_checkout_categories = DB::table('tbl_checkout_categories')
+                                     ->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])
+                                     ->orWhere('vehicle_id', '=', 0)
+                                     ->where('branch_id', '=', $adminCurrentBranch->branch_id)
+                                     ->get()
+                                     ->toArray();
+    } elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+        $sales = Details::where('quotation_id', $services->job_no)->first();
+        $brand = Product::where([['category', 1], ['soft_delete', '=', 0]])->get();
+        $stock = $sales ? Details::where('bill_no', '=', $sales->bill_no)->get() : collect();
+        $product = Product::where('soft_delete', '=', 0)->get();
+        $employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
+        $tbl_checkout_categories = DB::table('tbl_checkout_categories')
+                                     ->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])
+                                     ->orWhere('vehicle_id', '=', 0)
+                                     ->get()
+                                     ->toArray();
+    } else {
+        $brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+        $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+        $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get() : collect();
+        $product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+        $employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
+        $tbl_checkout_categories = DB::table('tbl_checkout_categories')
+                                     ->where([['vehicle_id', $model_id], ['soft_delete', 0]])
+                                     ->orWhere('vehicle_id', '=', 0)
+                                     ->where('branch_id', '=', $currentUser->branch_id)
+                                     ->get()
+                                     ->toArray();
+    }
 
-		$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
-		/*get washbay data*/
-		$washbay_data = Washbay::where([['customer_id', '=', $services->customer_id], ['jobcard_no', '=', $services->job_no]])->first();
-		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
-		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		$names = null;
-		if (isAdmin(Auth::User()->role_id)) {
-			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			$sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
-			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			
-			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
-			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
-			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->get()->toArray();
-		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
-			$sales = Details::where('quotation_id', $services->job_no)->first();
-			$brand = Product::where([['category', 1], ['soft_delete', '=', 0]])->get();
-			$stock = Details::where('bill_no', '=', $sales->bill_no)->get();
-			
-			$product = Product::where('soft_delete', '=', 0)->get();
-			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
-			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->get()->toArray();
-		} else {
-			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			$sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
-			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			
-			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', $model_id], ['soft_delete', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
-		}
-		
-		//dd($names, $tbl_checkout_categories);
-		return view('jobcard.view', compact('manufacture_name','brand','stock','obtale','selectProduct','categoryJob','viewid', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'employees', 'washbay_data'));
-	}
+    // Render the view with the fetched data
+    return view('jobcard.view', compact(
+        'manufacture_name', 'brand', 'stock', 'obtale', 'selectProduct', 
+        'categoryJob', 'viewid', 'services', 'tbl_observation_points', 
+        'tbl_observation_service', 'tbl_service_observation_points', 
+        'vehicle', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 
+        'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 
+        's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 
+        'data', 'fetch_mot_test_status', 'employees', 'washbay_data'
+    ));
+}
+
 
 	//get points 
 	public function getpoint(Request $request)
