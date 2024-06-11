@@ -1,0 +1,79 @@
+/*--------------- Add New page css by das --------------- */
+.site-header > .site-logo{
+	width: auto !important;
+    padding-bottom: 0px !important;
+    border-bottom: 0px !important;
+}
+
+.site-logo {
+    margin: 0px !important;
+}
+.site-header {
+	padding:20px 0px !important;
+}
+.singular .entry-header{
+	display:none !important;
+}
+.post-thumbnail, .entry-content .wp-audio-shortcode, .entry-content > *:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce), *[class*=inner-container] > *:not(.entry-content):not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce), .default-max-width{
+	max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.spacing-head{
+	text-align: center;
+    padding: 0px 200px;
+	color:#ffffff;
+	font-weight: 600;
+}
+.spacing-head-p{
+	text-align: center;
+    padding: 0px 50px;
+	color:#ffffff;
+	font-family:"Inter var", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, sans-serif;
+}
+.login-demo{
+	text-align: center;
+}
+.entry-content{
+	background: #2A3F54;
+	padding: 70px 0px;
+	margin: 0px;
+}
+.wp-block-buttons{
+	text-align:center;
+}
+.site-main{
+	padding-top:0px;
+}
+.no-widgets .site-footer{
+	margin-top: 0px;
+	padding-top: 0;
+    padding-bottom: 20px;
+}
+.site-footer > .site-info{
+	    margin: 0px;
+    padding: 0px;
+	border-top:0px;
+}
+.cptyright{
+	font-size: 17px;
+    text-transform: capitalize;
+}
+.site-branding{
+	padding-left:10px;
+}
+.footer-top-visible .footer-nav-widgets-wrapper, .footer-top-hidden #site-footer{
+	border:0px;
+	margin:0px;
+}
+.login-demo a:hover{
+	border-color: transparent !important;
+    background-color: #333;
+    color: #fff;
+}
+.color-accent, .color-accent-hover:hover, .color-accent-hover:focus, :root .has-accent-color, .has-drop-cap:not(:focus):first-letter, .wp-block-button.is-style-outline, a {
+    color: #ffffff;
+}
+.wp-block-image.size-large{
+	width:75% !important;
+}
