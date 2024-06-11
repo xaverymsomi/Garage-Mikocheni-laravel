@@ -300,11 +300,13 @@
                                     </p>
                                 </div>
                                 <div class="row">
+
                                     <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10">
                                         <h3 class="fw-bold mt-0">{{ trans('message.Observation List') }}
                                             {{-- <button type="button" data-bs-target="#responsive-modal-observation" data-bs-toggle="modal" class="btn btn-outline-secondary clickAddNewButton ms-1"> + </button> --}}
                                         </h3>
                                     </div>
+
                                 </div>
                                 <div class="row panel-group">
                                     <div class="panel panel-default">
@@ -315,20 +317,25 @@
                                             </h5>
                                         </div>
                                         <div id="collapse1" class="panel-collapse collapse in">
+
                                             <div class="panel-body main_data table-responsive">
                                                 <!-- Observation Checked Points -->
                                                 <table class="table table-bordered table-sm main_data_points f-14" id="main_data_points" align="center">
+
                                                     <thead>
                                                         <tr>
                                                             <th class="fw-bold">{{ trans('message.Category') }}</th>
                                                             <th class="fw-bold">{{ trans('message.Observation Point') }}</th>
                                                             <th class="fw-bold">{{ trans('message.Select Product') }}</th>
+
                                                             
+
                                                         </tr>
                                                     </thead>
 
                                                     <tbody id="tbd">
                                                         <?php $i = 1; ?>
+
                                                     
                                                         <?php if ($obtale == []) {
                                                         ?>
@@ -418,6 +425,7 @@
                                       </tbody>
                                     </table>
                                   </div>
+
                                 @if (!empty($pros))
                                 <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10">
                                     <h2 class="fw-bold mt-0">{{ trans('message.Other Service Charges') }}
@@ -430,6 +438,8 @@
                                             <thead>
                                                 <tr>
                                                     <th class="all">{{ trans('message.Product') }}</th>
+
+
                                                     <!-- <th>{{ trans('message.Action') }}</th> -->
                                                 </tr>
                                             </thead>
@@ -441,6 +451,8 @@
                                                     <td>
                                                         <input type="text" name="other_product[]" class="form-control othr_prod_<?php echo $id; ?>" value="<?php echo $product->comment; ?>" id="othr_prod_<?php echo $id; ?>" othr_prod="<?php echo $product->id; ?>" maxlength="250" readonly>
                                                     </td>
+
+
                                                 </tr>
                                                 <?php $id++; ?>
                                                 @endforeach
@@ -476,7 +488,9 @@
                                             <thead>
                                                 <tr>
                                                     <th class="all">{{ trans('message.Service') }}</th>
+
                                                     
+
                                                     <!-- <th>{{ trans('message.Action') }}</th> -->
                                                 </tr>
                                             </thead>
@@ -487,7 +501,9 @@
                                                         <!-- <input type="text" name="" class="form-control" value="" id="" othr_prod="" > -->
                                                         {{ trans('message.Wash Bay') }}
                                                     </td>
+
                                                     
+
                                                     <!-- <td>
                                                         @if ($washbay_data->initiate_status == 0)
                                                         <button type="button" class="btn btn-danger initiateProcessBtn border-0 text-light" id="initiateProcessButton" url_init_process="{{ url('/jobcard/get_initial_process_status') }}">

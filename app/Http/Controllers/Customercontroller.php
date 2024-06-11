@@ -112,6 +112,7 @@ class Customercontroller extends Controller
 			}
 			$tbl_vehicles = Vehicle::where('customer_id', '=', $customer->id)->where('soft_delete', '=', 0)->orderBy('created_at', 'desc')->take(3)->get();
 
+
 		}
 	
 		// Fetch common data
@@ -137,7 +138,9 @@ class Customercontroller extends Controller
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
 	
+
 		return view('customer.search_results', compact('customer', 'vehical_type', 'vehical_brand', 'fuel_type', 'color', 'model_name', 'tbl_custom_fields', 'branchDatas', 'tbl_vehicles','vehicles'));
+
 	}
 	
 
@@ -592,7 +595,9 @@ class Customercontroller extends Controller
 		$viewid = $id;
 		$userid = Auth::User()->id;
 		$tbl_vehicles = Vehicle::where('customer_id', '=', $viewid)->where('soft_delete', '=', 0)->orderBy('created_at', 'desc')->take(3)->get();
+
 		$jobCards = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', $viewid]])->whereNotIn('quotation_modify_status', [1])->take(3)->get();
+
 		$quotations = DB::table('tbl_services')->where([['customer_id', '=', $viewid], ['job_no', 'like', 'J%'], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->take(3)->get();
 		$invoices = Invoice::where([['customer_id', '=', $viewid], ['soft_delete', '=', 0]])->where('type', '!=', 2)->orderBy('id', 'DESC')->take(3)->get();
 

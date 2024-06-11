@@ -189,20 +189,24 @@
                             <tbody>
                                 <tr>
                                     <td colspan="2">INSURER:</td>
+
                                     <td colspan="4"></td>
                                     <td colspan="2">REF NO.</td>
                                     <td colspan="5">{{ getQuotationNumber($tbl_services->job_no) }}</td>
+
                                 </tr>
                                 <tr>
                                     <td colspan="2">CLAIMANT</td>
                                     <td colspan="4">{{ getCustomerName($tbl_services->customer_id) }}</td>
                                     
                                     <td colspan="2">BROKER</td>
+
                                     <td colspan="5"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">CLAIM NO.</td>
                                     <td colspan="4"></td>
+
                                     <td colspan="2">DATE</td>
                                     <td colspan="2"><?php echo date(getDateFormat(), strtotime($tbl_services->service_date))?></td>
                                     

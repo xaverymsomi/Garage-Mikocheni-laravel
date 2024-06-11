@@ -1324,6 +1324,7 @@ public function view($id)
 		$tbl_service_observation_points = DB::table('tbl_service_observation_points')->where('services_id', '=', $id)->get()->toArray();
 
 		$services = Service::where('id', '=', $id)->first();
+
 		$v_id = $services->vehicle_id;
 		$s_id = $services->sales_id;
 		$sales = Sale::where('id', '=', $s_id)->first();
@@ -1338,6 +1339,10 @@ public function view($id)
 		if (!empty($v_id)) {
 			$vehicale = Vehicle::where('id', '=', $v_id)->first();
 		}
+
+
+		$job = JobcardDetail::where('jocard_no', '=', $services->job_no)->first();
+		// dd($services->job_no);
 
 		$pros = DB::table('tbl_service_pros')->where([['service_id', '=', $id], ['type', '=', '1']])->get()->toArray();
 		$pros2 = DB::table('tbl_service_pros')->where([['service_id', '=', $id], ['type', '=', '0']])->get()->toArray();
@@ -1362,6 +1367,7 @@ public function view($id)
 		$data = DB::select("select tbl_service_pros.*, tbl_points.*,tbl_service_observation_points.id from tbl_points join tbl_service_observation_points on tbl_service_observation_points.observation_points_id = tbl_points.id join tbl_service_pros on tbl_service_pros.tbl_service_observation_points_id = tbl_service_observation_points.id where tbl_service_observation_points.services_id = $viewid and tbl_service_observation_points.review = 1 and tbl_service_pros.type = 0");
 
 		$fetch_mot_test_status = Service::where('id', '=', $id)->first();
+
 		$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 
 		/*get washbay data*/
@@ -1387,6 +1393,7 @@ public function view($id)
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', $v_id], ['soft_delete', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
 		}
 
+
 		$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
 		
 		$obtale = DB::table('tbl_observation')
@@ -1396,5 +1403,6 @@ public function view($id)
 
 		return view('jobcard.viewcomplete', compact('obtale','viewid', 'manufacture_name', 'sales', 'stock', 'services', 'tbl_observation_points', 'tbl_observation_service', 'tbl_service_observation_points', 'vehicale', 'sales', 'product', 's_id', 'job', 'pros', 'pros2', 'tbl_checkout_categories', 'first', 'vehicalemodel', 'tbl_points', 's_date', 'color', 'service_data', 'tax', 'logo', 'obser_id', 'data', 'fetch_mot_test_status', 'employees', 'washbay_data', 'brand'));
 	}
+
 
 }

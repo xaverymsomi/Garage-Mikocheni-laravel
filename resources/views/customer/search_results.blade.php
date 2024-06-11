@@ -310,7 +310,7 @@
                   <!-- Start Custom Field, (If register in Custom Field Module)  -->
                   @if (!empty($tbl_custom_fields))
                   <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
-                     {{-- <h4><b>{{ trans('message.Custom Fields') }}</b></h4> --}}
+
                      <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
                   </div>
                   <?php

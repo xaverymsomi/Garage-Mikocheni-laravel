@@ -670,8 +670,10 @@ Route::group(['prefix' => 'gatepass'], function () {
 	Route::post('/list/delete', ['as' => '/gatepass/list/delete', 'uses' => 'Getpasscontroller@destroyMultiple'])->middleware('can:gatepass_delete');
 	Route::get('/list/edit/{id}', ['as' => '/gatepass/list/edit/', 'uses' => 'Getpasscontroller@edit'])->middleware('can:gatepass_edit');
 	Route::post('/list/edit/upadte/{id}', ['as' => '/gatepass/list/edit/update', 'uses' => 'Getpasscontroller@upadte'])->middleware('can:gatepass_edit');
+
 	Route::get('/gatepassview', ['as' => 'gatepass.gatepassview', 'uses' => 'Getpasscontroller@gatepassview'])->middleware('can:gatepass_view');
 	// Route::get('/gatepassview', ['as' => '/gatepass/gatepassview', 'uses' => 'Getpasscontroller@gatepassview'])->middleware('can:gatepass_view');
+
 	Route::get('/gatedata', ['as' => '/gatepass/gatedata', 'uses' => 'Getpasscontroller@gatedata']);
 	Route::get('/gatepasspdf/{id}', 'Getpasscontroller@gatepassPDF');
 });

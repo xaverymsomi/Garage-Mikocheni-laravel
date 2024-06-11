@@ -659,7 +659,9 @@
                       {{ getVehicleNumberPlate($invoice->vehicle_id) }}</i></p>
                   <p>
                     {{-- <img src="{{ URL::asset('public/customer/' . $customer->image) }}" width="20px" height="20px" class="rounded-circle"> --}}
+
                     {{ getCustomerName($invoice->customer_id) }} <a data-toggle="tooltip" data-placement="bottom" title="{{ getCustomerName($invoice->customer_id); }}" class="text-primary"><img src="{{ URL::asset('public/img/dashboard/icon.png') }}" width="14px"></a></p>
+
                 </div>
                 @if ($invoice->payment_status == 0)
                 <div style="margin-left: auto; background: rgba(255, 144, 84, 0.1); color:#E56E19" class="p-2">

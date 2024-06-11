@@ -70,6 +70,7 @@ class QuotationController extends Controller
 		$adminCurrentBranch = BranchSetting::find(1);
 		$serviceQuery = DB::table('tbl_services')->where('job_no', 'like', 'RMAL-RP-24-%')
 			->where('is_quotation', 1)
+
 			->where('quotation_modify_status', 1);
 	
 		if (!isAdmin(Auth::user()->role_id)) {

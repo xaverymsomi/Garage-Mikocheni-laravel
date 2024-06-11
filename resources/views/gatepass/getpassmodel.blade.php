@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <script language="javascript">
@@ -15,24 +16,26 @@
         }
     </script>
 </head>
-
-
 <body>
     <div id="getpassprint">
 
         <div class="row mx-4">
             <div class="col-md-6 col-sm-6 col-xs-6 col-xl-6 col-xxl-6 col-lg-6 mt-2">
+
                 <img src="..//public/general_setting/{{ $setting->logo_image }}" class="system_logo_img">
+
             </div>
             <div class="col-md-6 col-sm-6 col-xs-6 col-xl-6 col-xxl-6 col-lg-6 mt-1 gate_pass">
                 <div class="col-12 d-flex align-items-start m-1 mx-0">
                     <img src="{{ URL::asset('public/img/icons/Vector (14).png') }}">
                     <div class="col mx-2">
+
                         {{ $setting->address }}
                     </div>
                 </div>
                 <div class="mb-1">{{ trans('message.Gate Pass No. :') }}
                     <span class="txt_color fw-bold">{{ $getpassdata->gatepass_no }}</span>
+
                 </div>
             </div>
             <hr />
@@ -48,6 +51,7 @@
 
                             <tr>
                                 <td class="">{{ trans('message.Name') }}:</td>
+
                                 <td class="txt_color fw-bold">{{ $getpassdata->name }}</td>
                             </tr>
 
@@ -66,6 +70,7 @@
             <a href="" class="prints tagAforCloseBtn"><button type="button" data-bs-dismiss="modal" class="btn btn-outline-secondary closeButton btn-sm m-0">{{ trans('message.Close') }}</button></a>
         </div>
     </div>
+
 </body>
 
 </html>

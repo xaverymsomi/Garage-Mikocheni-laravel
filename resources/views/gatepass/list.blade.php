@@ -103,6 +103,7 @@
 
                     <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButtonaction">
                       @can('gatepass_view')
+
                       <li>
                         <a class="dropdown-item">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gateview" serviceid="" class="btn getgetpass border-0 p-0" getpassid="{{ $gatepasss->jobcard_id }}">
@@ -189,6 +190,7 @@
 
 
     $('body').on('click', '.getgetpass', function() {
+
     var getpassid = $(this).attr('getpassid');
     var url = "{{ url('/gatepass/gatepassview') }}";
 

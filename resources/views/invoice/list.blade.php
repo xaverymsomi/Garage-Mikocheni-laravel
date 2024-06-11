@@ -183,8 +183,10 @@
                                             @endcan
                                             @else
                                             @can('invoice_view')
+
                                             <li>
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" type_id="{{ $invoices->type }}" serviceid="{{ $invoices->sales_service_id }}" job_no="{{$invoices->job_card}}" auto_id="{{ $invoices->id }}" url="{!! url('/jobcard/modalview') !!}" sale_url="{!! url('/sales_part/list/modal') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }}</button></li>
+
                                             @endcan
                                             @endif
 

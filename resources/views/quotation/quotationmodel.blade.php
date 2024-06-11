@@ -35,9 +35,11 @@
                             <tbody>
                                 <tr>
                                     <td colspan="2">INSURER:</td>
+
                                     <td colspan="4"></td>
                                     <td colspan="2">REF NO.</td>
                                     <td colspan="5">{{ getQuotationNumber($service_data->job_no) }}</td>
+
                                 </tr>
                                 <tr>
                                     <td colspan="2">CLAIMANT</td>
@@ -49,6 +51,7 @@
                                 <tr>
                                     <td colspan="2">CLAIM NO.</td>
                                     <td colspan="4"></td>
+
                                     <td colspan="2">DATE</td>
                                     <?php $date_db = date('Y-m-d', strtotime($service_data->service_date)); ?>
                                     @if (!empty($current_month) && strpos($available, $date_db) !== false)

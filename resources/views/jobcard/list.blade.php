@@ -177,9 +177,11 @@
                                   <?php } } else { ?>
                         
                                 @can('invoice_view')
+
                                 {{-- <li>
                                   <button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button>
                                 </li> --}}
+
                                 @endcan <?php } ?>
                       @endcan
  
@@ -222,13 +224,17 @@
                       if ($view_data == "Yes") {
                       ?>
                       @can('invoice_view')
+
                         {{-- <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button></li> --}}
+
                       @endcan
                       <?php
                       } else {
                       ?>
                       @can('invoice_view')
+
                         {{-- <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-job" serviceid="{{ $servicess->id }}" job_no="{{ $servicess->job_no }}" url="{!! url('/jobcard/modalview') !!}" class="dropdown-item save" disabled><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View Invoice') }} </button></li> --}}
+
                       @endcan
                       <?php
                       }

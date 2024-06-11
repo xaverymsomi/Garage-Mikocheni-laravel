@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
 use App\User;
 use App\Color;
 use App\Branch;
 use App\Product;
+use Mpdf\Tag\Input;
 use App\CustomField;
 use App\BranchSetting;
-use App\tbl_product_units;
-use App\tbl_product_types;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProductAddEditFormRequest;
+
+// use DB;
+// use Auth;
+// use App\User;
+// use App\Color;
+// use App\Branch;
+// use App\Product;
+// use App\CustomField;
+// use App\BranchSetting;
+use App\tbl_product_units;
+use App\tbl_product_types;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Gate;
+// use App\Http\Requests\ProductAddEditFormRequest;
 
 class Productcontroller extends Controller
 {
@@ -31,6 +45,7 @@ class Productcontroller extends Controller
 
 		if (!isAdmin(Auth::User()->role_id)) {
 			if (Gate::allows('product_owndata')) {
+
 				$product = Product::where([
 					['soft_delete', 0],
 					['create_by', Auth::User()->id],
@@ -48,7 +63,7 @@ class Productcontroller extends Controller
 				['quantity', '>', 0] // Add condition to filter out products with quantity > 0
 			])->orderBy('id', 'DESC')->get();
 		}
-		
+
 
 		$tbl_custom_fields = CustomField::where([['form_name', '=', 'product'], ['soft_delete', 0], ['always_visable', '=', 'yes']])->get();
 
