@@ -26,7 +26,7 @@ class Stockcontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$stock = Product::join('tbl_stock_records', 'tbl_products.id', '=', 'tbl_stock_records.product_id')
 				->where('tbl_stock_records.branch_id', '=', $adminCurrentBranch->branch_id)
 				->orderBy('tbl_stock_records.id', 'DESC')->get();
@@ -43,6 +43,10 @@ class Stockcontroller extends Controller
 					->where('tbl_stock_records.branch_id', '=', $currentUser->branch_id)
 					->orderBy('tbl_stock_records.id', 'DESC')->get();
 			}
+		} elseif (Auth::User()->role_id === 6) {
+			$stock = Product::join('tbl_stock_records', 'tbl_products.id', '=', 'tbl_stock_records.product_id')
+				->where('tbl_stock_records.branch_id', '=', $currentUser->branch_id)
+				->orderBy('tbl_stock_records.id', 'DESC')->get();
 		} else {
 			$stock = Product::join('tbl_stock_records', 'tbl_products.id', '=', 'tbl_stock_records.product_id')
 				->where('tbl_stock_records.branch_id', '=', $currentUser->branch_id)

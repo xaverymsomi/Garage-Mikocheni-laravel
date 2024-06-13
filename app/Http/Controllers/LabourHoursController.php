@@ -2,25 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Labours;
+use App\BranchSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Labours;
+use Illuminate\Support\Facades\Auth;
 
 class LabourHoursController extends Controller
 {
     public function list()
     {
-
-        $o_type_point = DB::table('tbl_labours')->get()->toArray();
+			$o_type_point = DB::table('tbl_labours')->get()->toArray();
+        
         return view('labour.list', compact('o_type_point'));
     }
 
     public function add()
     {
-        $library = DB::table('tbl_products')->get()->toArray();
         $body_type = DB::table('tbl_vehicle_types')->get()->toArray();
-        $model_name = DB::table('tbl_vehicles')->get()->toArray();
+
+        $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+		if (Auth::User()->role_id === 1) {
+            $library = DB::table('tbl_products')->get()->toArray();
+            $model_name = DB::table('tbl_vehicles')->get()->toArray();
+
+		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+			$library = DB::table('tbl_products')->get()->toArray();
+            $model_name = DB::table('tbl_vehicles')->get()->toArray();
+
+		} elseif (Auth::User()->role_id === 6) {
+            $library = DB::table('tbl_products')->get()->toArray();
+            $model_name = DB::table('tbl_vehicles')->get()->toArray();
+        } else {
+			$library = DB::table('tbl_products')->get()->toArray();
+            $model_name = DB::table('tbl_vehicles')->get()->toArray();
+
+		}
 
         return view('labour.add', compact('library', 'body_type', 'model_name'));
     }

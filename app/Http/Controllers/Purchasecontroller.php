@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\tbl_purchase_history_records;
 use App\Http\Requests\PurchaseAddEditFormRequest;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class Purchasecontroller extends Controller
 {
@@ -30,7 +31,7 @@ class Purchasecontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$purchase = Purchase::where('branch_id', '=', $adminCurrentBranch->branch_id)->orderBy('id', 'DESC')->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Accountant') {
 			if (Gate::allows('purchase_owndata')) {
@@ -40,6 +41,9 @@ class Purchasecontroller extends Controller
 			}
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$purchase = Purchase::orderBy('id', 'DESC')->get();
+
+		} elseif (Auth::User()->role_id === 6) {
+			$purchase = Purchase::where('branch_id', '=', $currentUser->branch_id)->orderBy('id', 'DESC')->get();
 
 		} else {
 			$purchase = Purchase::where('branch_id', '=', $currentUser->branch_id)->orderBy('id', 'DESC')->get();
@@ -67,7 +71,7 @@ class Purchasecontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 
 			$Select_product = DB::table('tbl_product_types')
 				->join('tbl_products', 'tbl_products.product_type_id', '=', 'tbl_product_types.id')
@@ -103,6 +107,27 @@ class Purchasecontroller extends Controller
 			$product = Product::where([['soft_delete', '=', 0], ['product_type_id', reset($prd_type_id_array)]])->get();
 
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+
+			$Select_product = DB::table('tbl_product_types')
+				->join('tbl_products', 'tbl_products.product_type_id', '=', 'tbl_product_types.id')
+				->where('tbl_product_types.soft_delete', '=', 0)
+				->groupBy('tbl_products.product_type_id')
+				->get()
+				->toArray();
+
+			$prd_type_id_array = [];
+			foreach ($Select_product as $value) {
+				if ($currentUser->branch_id == $value->branch_id) {
+					$prd_type_id_array[] = $value->id;
+				}
+			}
+
+			$product = Product::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id], ['product_type_id', reset($prd_type_id_array)]])->get();
+
+			$first_product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
+
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		} else {
 
 			$Select_product = DB::table('tbl_product_types')
@@ -178,7 +203,7 @@ class Purchasecontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		if (isAdmin(Auth::User()->role_id) || getUsersRole(Auth::user()->role_id) == 'Branch Admin' || getUsersRole(Auth::user()->role_id) == 'Customer') {
-			$tbl_products = DB::table('tbl_products')->where([['product_type_id', '=', $id], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			$tbl_products = DB::table('tbl_products')->where([['product_type_id', '=', $id], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			if (!empty($tbl_products)) {   ?>
 				<!-- <option value="">Select Product</option> -->
 				<?php
@@ -217,8 +242,24 @@ class Purchasecontroller extends Controller
 		$id = $request->m_id;
 		$currentUser = User::where([['soft_delete', 0], ['id', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$tbl_products = DB::table('tbl_products')->where([['product_type_id', '=', $id], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+
+			if (!empty($tbl_products)) {   ?>
+				<option value="">--Select Product--</option>
+				<?php
+				foreach ($tbl_products as $tbl_productss) { ?>
+					<option value="<?php echo  $tbl_productss->id; ?>"><?php echo $tbl_productss->name.'-'.$tbl_productss->part_no; ?></option>
+				<?php
+				}
+			} else {
+				?>
+				<option value="">--Select Product--</option>
+			<?php
+			}
+		} elseif (Auth::User()->role_id === 6) {
+
+			$tbl_products = DB::table('tbl_products')->where([['product_type_id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 
 			if (!empty($tbl_products)) {   ?>
 				<option value="">--Select Product--</option>
@@ -394,7 +435,7 @@ class Purchasecontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 			$Select_product = DB::table('tbl_product_types')
 				->join('tbl_products', 'tbl_products.product_type_id', '=', 'tbl_product_types.id')
@@ -426,6 +467,25 @@ class Purchasecontroller extends Controller
 			}
 
 			$product = Product::where([['soft_delete', '=', 0], ['supplier_id', '=', $purchase->supplier_id]])->get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
+
+			$Select_product = DB::table('tbl_product_types')
+				->join('tbl_products', 'tbl_products.product_type_id', '=', 'tbl_product_types.id')
+				->where('tbl_product_types.soft_delete', '=', 0)
+				->where('tbl_products.supplier_id', '=', $purchase->supplier_id)
+				->groupBy('tbl_products.product_type_id')
+				->get()
+				->toArray();
+
+			$prd_type_id_array = [];
+			foreach ($Select_product as $value) {
+				if ($currentUser->branch_id == $value->branch_id) {
+					$prd_type_id_array[] = $value->id;
+				}
+			}
+
+			$product = Product::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id], ['supplier_id', '=', $purchase->supplier_id]])->get();
 		} else {
 			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
 
@@ -665,7 +725,7 @@ class Purchasecontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 
 			$Select_product = DB::table('tbl_product_types')
 				->join('tbl_products', 'tbl_products.product_type_id', '=', 'tbl_product_types.id')
@@ -681,6 +741,27 @@ class Purchasecontroller extends Controller
 			}
 			$first_product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 			$product = Product::where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id], ['product_type_id', reset($prd_type_id_array)]])->get();
+		} elseif (Auth::User()->role_id === 6) {
+
+
+			$Select_product = DB::table('tbl_product_types')
+				->join('tbl_products', 'tbl_products.product_type_id', '=', 'tbl_product_types.id')
+				->where('tbl_product_types.soft_delete', '=', 0)
+				->where('tbl_products.supplier_id', '=', $s_id)
+				->groupBy('tbl_products.product_type_id')
+				->get()
+				->toArray();
+
+			$prd_type_id_array = [];
+			foreach ($Select_product as $value) {
+				if ($currentUser->branch_id == $value->branch_id) {
+					$prd_type_id_array[] = $value->id;
+				}
+			}
+
+			$product = Product::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id], ['product_type_id', reset($prd_type_id_array)]])->get();
+
+			$first_product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
 		} else {
 
 

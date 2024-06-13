@@ -26,7 +26,14 @@ class Suppliercontroller extends Controller
 			} else {
 				$user = User::where([['role', '=', 'Supplier'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 			}
-		} else {
+		} elseif (Auth::user()->role_id === 6) {
+			if (Gate::allows('supplier_owndata')) {
+				$user = User::where([['role', '=', 'Supplier'], ['soft_delete', 0], ['create_by', '=', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+			} else {
+				$user = User::where([['role', '=', 'Supplier'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
+			}
+		} elseif (Auth::user()->role_id === 1) {
+			
 			$user = User::where([['role', '=', 'Supplier'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 		}
 		$server = "http://" . $_SERVER['SERVER_NAME'] . "/garrage";

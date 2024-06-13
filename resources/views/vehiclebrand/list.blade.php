@@ -42,7 +42,6 @@
                 @can('vehiclebrand_delete')
                 <th> </th>
                 @endcan
-                <th>{{ trans('message.Vehicle Type') }}</th>
                 <th>{{ trans('message.Vehicle Brand') }}</th>
 
                 <!-- Custom Field Data Label Name-->
@@ -70,9 +69,6 @@
                   </label>
                 </td>
               @endcan
-                <td><a href="{!! url('/vehiclebrand/list/edit/' . $vehicalbrands->id) !!}">{{ getVehicleBrand($vehicalbrands->vehicle_id) }}</a> 
-                  <!-- <a data-toggle="tooltip" data-placement="bottom" title="Vehicle Type" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-                </td>
                 <td><a href="{!! url('/vehiclebrand/list/edit/' . $vehicalbrands->id) !!}">{{ $vehicalbrands->vehicle_brand }}</a> 
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Vehicle Brand" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>

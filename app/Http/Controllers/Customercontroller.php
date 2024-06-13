@@ -51,10 +51,12 @@ class Customercontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -130,10 +132,12 @@ class Customercontroller extends Controller
 		$currentUser = User::where('soft_delete', 0)->where('id', Auth::User()->id)->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', 1)->first();
 	
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -164,10 +168,12 @@ class Customercontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -598,7 +604,7 @@ class Customercontroller extends Controller
 
 		$jobCards = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', $viewid]])->whereNotIn('quotation_modify_status', [1])->take(3)->get();
 
-		$quotations = DB::table('tbl_services')->where([['customer_id', '=', $viewid], ['job_no', 'like', 'J%'], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->take(3)->get();
+		$quotations = DB::table('tbl_services')->where([['customer_id', '=', $viewid], ['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->take(3)->get();
 		$invoices = Invoice::where([['customer_id', '=', $viewid], ['soft_delete', '=', 0]])->where('type', '!=', 2)->orderBy('id', 'DESC')->take(3)->get();
 
 		// dd($quotations);
@@ -1050,14 +1056,14 @@ class Customercontroller extends Controller
 		// dd($id);
 		$customer = User::where('id', '=', $id)->first();
 		$vehicles = Vehicle::where([['soft_delete', '=', 0], ['customer_id', '=', $id]])->orderBy('id', 'DESC')->first();
-		$services = Service::orderBy('id', 'desc')->where([['soft_delete', '=', 0], ['job_no', 'like', 'J%'], ['customer_id', '=', $id]])->whereNotIn('quotation_modify_status', [1])->get();
+		$services = Service::orderBy('id', 'desc')->where([['soft_delete', '=', 0], ['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', $id]])->whereNotIn('quotation_modify_status', [1])->get();
 
 		return view('customer.customerjobcards', compact('customer', 'services'));
 	}
 	public function customersquotation($id)
 	{
 		$customer = User::where('id', '=', $id)->first();
-		$service = DB::table('tbl_services')->where([['job_no', 'like', 'J%'], ['customer_id', '=', $id], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get();
+		$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', $id], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get();
 		return view('customer.customerquotation', compact('customer', 'service'));
 	}
 	public function customersinvoice($id)
@@ -1114,4 +1120,15 @@ class Customercontroller extends Controller
 
 		return response()->json(['success' => true, 'html' => $html]);
 	}
+
+	public function getModels($makeId, $bodyTypeId)
+{
+    // Fetch models based on makeId and bodyTypeId
+    $models = DB::table('tbl_model_names')->where('brand_id', $makeId)
+        ->where('vehicleType_id', $bodyTypeId)
+        ->pluck('model_name', 'id');
+
+    // Return the models as JSON response
+    return response()->json(['models' => $models]);
+}
 }

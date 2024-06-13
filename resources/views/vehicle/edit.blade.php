@@ -114,11 +114,22 @@
 
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                   <select class="form-control select_branch form-select" name="branch">
+                    @if (Auth::user()->role_id === 6)
+                                            @php
+                                            $branchDatar = App\Branch::where('id', 2)->get();
+                                            @endphp
+                    @foreach ($branchDatar as $branchData)
+                    <option value="{{ $branchData->id }}" <?php if ($vehicaledit->branch_id == $branchData->id) {
+                                                            echo 'selected';
+                                                          } ?>>{{ $branchData->branch_name }}</option>
+                    @endforeach
+                    @else
                     @foreach ($branchDatas as $branchData)
                     <option value="{{ $branchData->id }}" <?php if ($vehicaledit->branch_id == $branchData->id) {
                                                             echo 'selected';
                                                           } ?>>{{ $branchData->branch_name }}</option>
                     @endforeach
+                    @endif
                   </select>
                 </div>
               </div>

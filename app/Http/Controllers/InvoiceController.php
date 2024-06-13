@@ -72,9 +72,18 @@ class InvoiceController extends Controller
 				$updatekey = Updatekey::first();
 				$logo = Setting::first();
 			}
-		} else {
+		} elseif(Auth::user()->role_id === 1) {
 			$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 
+			$updatekey = Updatekey::first();
+			$logo = Setting::first();
+		}
+		elseif(Auth::user()->role_id === 6) {
+			if (Gate::allows('invoice_owndata')) {
+				$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['create_by', Auth::User()->id]])->orderBy('id', 'DESC')->get();
+			} else {
+				$invoice = Invoice::where([['type', '!=', 2], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+			}
 			$updatekey = Updatekey::first();
 			$logo = Setting::first();
 		}
@@ -109,9 +118,9 @@ class InvoiceController extends Controller
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$customer_job = null;
 		$total_amount = null;
-		if (isAdmin(Auth::User()->role_id) || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+		if ((Auth::User()->role_id === 1) || Auth::User()->role_id === 6) {
 			$branchDatas = Branch::get();
-			$tbl_sales = DB::table('tbl_sales')->where([['id', $id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+			$tbl_sales = DB::table('tbl_sales')->where([['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
 
 			if ($type === "Service") {
 
@@ -191,7 +200,11 @@ class InvoiceController extends Controller
 				$updatekey = Updatekey::first();
 				$logo = Setting::first();
 			}
-		} else {
+		} elseif(Auth::user()->role_id === 6) {
+			$invoice = Invoice::where([['type', 2], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+				$updatekey = Updatekey::first();
+				$logo = Setting::first();
+		}elseif(Auth::user()->role_id === 1) {
 			$invoice = Invoice::where([['type', 2], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
 			$updatekey = Updatekey::first();
 			$logo = Setting::first();
@@ -220,12 +233,15 @@ class InvoiceController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::user()->role_id === 1) {
 			$branchDatas = Branch::get();
 			$tbl_sales = DB::table('tbl_sale_parts')->where([['id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$tbl_sales = DB::table('tbl_sale_parts')->where('id', '=', $id)->first();
+		} elseif (Auth::user()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$tbl_sales = DB::table('tbl_sale_parts')->where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$tbl_sales = DB::table('tbl_sale_parts')->where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
@@ -266,15 +282,18 @@ class InvoiceController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
-			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'J%'], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
-			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'J%'], ['type', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+		if (Auth::User()->role_id === 1) {
+			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
+			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'RMAL-RP-24-%'], ['type', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
-			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'J%']])->get()->toArray();
-			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'J%'], ['type', '=', 0]])->get()->toArray();
+			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%']])->get()->toArray();
+			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'RMAL-RP-24-%'], ['type', '=', 0]])->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
+			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'RMAL-RP-24-%'], ['type', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		} else {
-			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'J%'], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'J%'], ['type', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$getJobcardNoFromServiceTbl = DB::table('tbl_services')->where([['customer_id', '=', $cus_id], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$invoiceTblJobcardNo = DB::table('tbl_invoices')->where([['customer_id', '=', $cus_id], ['job_card', 'like', 'RMAL-RP-24-%'], ['type', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		}
 
 		$serviceTblJobcardArray = array();
@@ -317,7 +336,7 @@ class InvoiceController extends Controller
 
 		$invoice_data = substr($job_no, 0, 1);
 		if ($invoice_data == "J") {
-			$job = DB::table('tbl_services')->where([['job_no', '=', $job_no], ['done_status', '=', 1], ['job_no', 'like', 'J%']])->first();
+			$job = DB::table('tbl_services')->where([['job_no', '=', $job_no], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%']])->first();
 			// dd($job);
 			$ser_id = $job->id;
 			$cus_id = $job->customer_id;
@@ -435,12 +454,15 @@ class InvoiceController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$get_sales_id = DB::table('tbl_sales')->where([['customer_id', $cus_id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$invoice_id = DB::table('tbl_invoices')->where([['customer_id', $cus_id], ['type', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$get_sales_id = DB::table('tbl_sales')->where([['customer_id', $cus_id], ['soft_delete', 0]])->get()->toArray();
 			$invoice_id = DB::table('tbl_invoices')->where([['customer_id', $cus_id], ['type', 1]])->get()->toArray();
+		} elseif (Auth::user()->role_id === 6) {
+			$get_sales_id = DB::table('tbl_sales')->where([['customer_id', $cus_id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$invoice_id = DB::table('tbl_invoices')->where([['customer_id', $cus_id], ['type', 1], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		} else {
 			$get_sales_id = DB::table('tbl_sales')->where([['customer_id', $cus_id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$invoice_id = DB::table('tbl_invoices')->where([['customer_id', $cus_id], ['type', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
@@ -1346,10 +1368,12 @@ class InvoiceController extends Controller
 	{
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = "";
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->first();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->first();
 		}
@@ -1439,12 +1463,15 @@ class InvoiceController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::get();
 			$invoice_edit = DB::table('tbl_invoices')->where([['id', $id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$invoice_edit = DB::table('tbl_invoices')->where('id', '=', $id)->first();
+		} elseif (Auth::user()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$invoice_edit = DB::table('tbl_invoices')->where([['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$invoice_edit = DB::table('tbl_invoices')->where([['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();

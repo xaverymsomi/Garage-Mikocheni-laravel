@@ -32,9 +32,9 @@ class BranchAdminController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchadmins = User::where([['role', '=', 'branch_admin'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
-		} elseif (getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+		} elseif (Auth::user()->role_id === 6) {
 			$branchadmins = User::where([['role', '=', 'branch_admin'], ['soft_delete', 0], ['id', Auth::User()->id]])->orderBy('id', 'DESC')->get();
 		} else {
 			$branchadmins = User::where([['role', '=', 'branch_admin'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();

@@ -17,10 +17,14 @@ class BranchSettingController extends Controller
 	//Branch Setting list
 	public function index()
 	{
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::get();
 			$branchSettingData = BranchSetting::where('id', '=', 1)->first();
-		} else {
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::get();
+			$branchSettingData = BranchSetting::where('id', '=', 2)->first();
+		}
+		else {
 			$branchDatas = "";
 			$branchSettingData = "";
 		}

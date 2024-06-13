@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Vehiclebrand;
 use App\CustomField;
+use App\Vehiclebrand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleBrandAddEditFormRequest;
 
 class VehicalbransControler extends Controller
@@ -38,12 +39,11 @@ class VehicalbransControler extends Controller
 	// vehiclebrand store
 	public function store(VehicleBrandAddEditFormRequest $request)
 	{
-		$vehiacal_id = $request->vehicaltypes;
+		
 		$vehical_brand = $request->vehicalbrand;
-		$count = DB::table('tbl_vehicle_brands')->where([['vehicle_id', '=', $vehiacal_id], ['vehicle_brand', '=', $vehical_brand]])->count();
+		$count = DB::table('tbl_vehicle_brands')->where([['vehicle_brand', '=', $vehical_brand]])->count();
 		if ($count == 0) {
 			$vehicalbrands = new Vehiclebrand;
-			$vehicalbrands->vehicle_id = $vehiacal_id;
 			$vehicalbrands->vehicle_brand = $vehical_brand;
 
 			//custom field Data
@@ -73,12 +73,11 @@ class VehicalbransControler extends Controller
 
 			return redirect('vehiclebrand/list')->with('message', 'Vehicle Brand Submitted Successfully');
 		} else {
-			$vehicleBrandRecord = DB::table('tbl_vehicle_brands')->where([['soft_delete', '!=', 1], ['vehicle_brand', '=', $vehical_brand], ['vehicle_id', '=', $vehiacal_id]])->first();
+			$vehicleBrandRecord = DB::table('tbl_vehicle_brands')->where([['soft_delete', '!=', 1], ['vehicle_brand', '=', $vehical_brand]])->first();
 			if (!empty($vehicleBrandRecord)) {
 				return redirect('/vehiclebrand/add')->with('message', 'Duplicate Data');
 			} else {
 				$vehicalbrands = new Vehiclebrand;
-				$vehicalbrands->vehicle_id = $vehiacal_id;
 				$vehicalbrands->vehicle_brand = $vehical_brand;
 				$vehicalbrands->save();
 				return redirect('/vehiclebrand/list')->with('message', 'Vehicle Brand Submitted Successfully');
@@ -109,25 +108,23 @@ class VehicalbransControler extends Controller
 	public function editbrand($id)
 	{
 		$editid = $id;
-		$vehicaltypes = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		$vehicalbrands = DB::table('tbl_vehicle_brands')->where('id', '=', $id)->first();
 
 		//Custom Field Data
 		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'vehiclebrand'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
 
-		return view('vehiclebrand/edit', compact('vehicalbrands', 'vehicaltypes', 'editid', 'tbl_custom_fields'));
+		return view('vehiclebrand/edit', compact('vehicalbrands', 'editid', 'tbl_custom_fields'));
 	}
 
 	// vehiclebrand update
 	public function brandupdate(VehicleBrandAddEditFormRequest $request, $id)
 	{
-		$vehiacal_id = $request->vehicaltypes;
+		
 		$vehical_brand = $request->vehicalbrand;
 
-		$count = DB::table('tbl_vehicle_brands')->where([['vehicle_id', '=', $vehiacal_id], ['vehicle_brand', '=', $vehical_brand], ['id', '!=', $id]])->count();
+		$count = DB::table('tbl_vehicle_brands')->where([['vehicle_brand', '=', $vehical_brand], ['id', '!=', $id]])->count();
 		if ($count == 0) {
 			$vehicalbrands = Vehiclebrand::find($id);
-			$vehicalbrands->vehicle_id = $vehiacal_id;
 			$vehicalbrands->vehicle_brand = $vehical_brand;
 
 			//custom field	

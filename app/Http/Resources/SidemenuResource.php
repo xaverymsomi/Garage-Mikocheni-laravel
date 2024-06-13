@@ -57,25 +57,11 @@ class SidemenuResource extends JsonResource
             'observation_library' => $regex->observationlibrary_view ?? false,
             'branch' => $regex->branch_view ?? false,
             'settings' => $regex->generalsetting_view ?? false,
-
-            // 'sales_view' => $regex->sales_view ?? false,
-            // 'timezone_view' => $regex->timezone_view ?? false,
-            // 'language_view' => $regex->language_view ?? false,
-            // 'dateformat_view' => $regex->dateformat_view ?? false,
-            // 'currency_view' => $regex->currency_view ?? false,
-            // 'accessrights_view' => $regex->accessrights_view ?? false,
-            // 'businesshours_view' => $regex->businesshours_view ?? false,
-            // 'stripesetting_view' => $regex->stripesetting_view ?? false,
-            // 'branchsetting_view' => $regex->branchsetting_view ?? false,
         ];
 
-        if ($this->name === 'admin') {
-            foreach ($sidemenu as &$menu) {
-                $menu['view_status'] = true;
-            }
-        }elseif ($this->name === 'Employee') {
-            foreach ($sidemenu as &$menu) {
-                $menu['view_status'] = true;
+        if ($this->name === 'admin' || $this->name === 'branch_admin') {
+            foreach ($sidemenu as $key => $value) {
+                $sidemenu[$key] = true;
             }
         }
 

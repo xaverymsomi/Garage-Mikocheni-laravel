@@ -58,7 +58,10 @@ class SalesPartcontroller extends Controller
 			} else {
 				$sales = SalePart::where('product_id', '!=', '<>')->where('branch_id', '=', $currentUser->branch_id)->groupby('bill_no')->orderBy('id', 'DESC')->get();
 			}
-		} else {
+		} elseif(Auth::user()->role_id === 6) {
+			$sales = SalePart::where('product_id', '!=', '<>')->where('branch_id', '=', $currentUser->branch_id)->groupby('bill_no')->orderBy('id', 'DESC')->get();
+
+		}elseif(Auth::user()->role_id === 1) {
 			$sales = SalePart::where('product_id', '!=', '<>')->groupby('bill_no')->orderBy('id', 'DESC')->get();
 		}
 		return view('sales_part.list', compact('sales'));
@@ -80,7 +83,7 @@ class SalesPartcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
@@ -93,6 +96,15 @@ class SalesPartcontroller extends Controller
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where('role', '=', 'Employee')->where('soft_delete', '=', 0)->get()->toArray();
 			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
+			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			$stockQuantities = [];
 			foreach ($brand as $brands) {
 				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
@@ -438,7 +450,7 @@ class SalesPartcontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$sales = SalePart::where([['id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->first();
@@ -450,6 +462,12 @@ class SalesPartcontroller extends Controller
 			$sales = SalePart::where('id', '=', $id)->first();
 			$brand = Product::where([['category', 1], ['soft_delete', '=', 0]])->get();
 			$stock = SalePart::where('bill_no', '=', $sales->bill_no)->get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$sales = SalePart::where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
+			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
+			$stock = SalePart::where([['bill_no', $sales->bill_no], ['branch_id', $currentUser->branch_id]])->get();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
@@ -620,10 +638,12 @@ class SalesPartcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$branchId = "";
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id ===1) {
 			$branchId = $adminCurrentBranch->branch_id;
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchId = "";
+		} elseif (Auth::User()->role_id === 6) {
+			$branchId = $currentUser->branch_id;
 		} else {
 			$branchId = $currentUser->branch_id;
 		}

@@ -125,7 +125,17 @@ class JobCardcontroller extends Controller
 					$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
 				}
 			}
-		} else {
+		} elseif (Auth::user()->role_id === 6) {
+			if (!empty($request->free)) {
+				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+			} elseif (!empty($request->paid)) {
+				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+			} elseif (!empty($request->repeatjob)) {
+				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+			} else {
+				$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
+			}
+		} elseif (Auth::user()->role_id === 1) {
 			if (!empty($request->free)) {
 				$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->get();
 			} elseif (!empty($request->paid)) {
@@ -176,12 +186,15 @@ class JobCardcontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 			$customer_job = DB::table('tbl_services')->where([['done_status', 1], ['id', $id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$customer_job = DB::table('tbl_services')->where([['done_status', 1], ['id', $id], ['soft_delete', 0]])->first();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$customer_job = DB::table('tbl_services')->where([['done_status', 1], ['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$customer_job = DB::table('tbl_services')->where([['done_status', 1], ['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
@@ -734,10 +747,12 @@ $code = $new_number;
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$branchId = "";
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchId = $adminCurrentBranch->branch_id;
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchId = "";
+		} elseif (Auth::User()->role_id === 6) {
+			$branchId = $currentUser->branch_id;
 		} else {
 			$branchId = $currentUser->branch_id;
 		}
@@ -914,7 +929,7 @@ public function view($id)
     $names = null;
 
     // Fetch data based on user role
-    if (isAdmin(Auth::User()->role_id)) {
+    if (Auth::User()->role_id === 1) {
         $brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
         $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
         $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get() : collect();
@@ -937,7 +952,19 @@ public function view($id)
                                      ->orWhere('vehicle_id', '=', 0)
                                      ->get()
                                      ->toArray();
-    } else {
+    } elseif (Auth::User()->role_id === 6) {
+		$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+        $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+        $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get() : collect();
+        $product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+        $employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
+        $tbl_checkout_categories = DB::table('tbl_checkout_categories')
+                                     ->where([['vehicle_id', $model_id], ['soft_delete', 0]])
+                                     ->orWhere('vehicle_id', '=', 0)
+                                     ->where('branch_id', '=', $currentUser->branch_id)
+                                     ->get()
+                                     ->toArray();
+	} else {
         $brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
         $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
         $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get() : collect();
@@ -1250,9 +1277,9 @@ public function view($id)
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$customer_job = null;
 		$total_amount = null;
-		if (isAdmin(Auth::User()->role_id) || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+		if ((Auth::User()->role_id === 1) || (Auth::User()->role_id === 6)) {
 			$branchDatas = Branch::get();
-			$tbl_sales = DB::table('tbl_sales')->where([['id', $id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+			$tbl_sales = DB::table('tbl_sales')->where([['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
 
 			if ($type === "Service") {
 
@@ -1379,7 +1406,7 @@ public function view($id)
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$names = null;
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $v_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->get()->toArray();
@@ -1387,6 +1414,10 @@ public function view($id)
 			$product = Product::where('soft_delete', '=', 0)->get();
 			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $v_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
+			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', $v_id], ['soft_delete', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get()->toArray();
 		} else {
 			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			$employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();

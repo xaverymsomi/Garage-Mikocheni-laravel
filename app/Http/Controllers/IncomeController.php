@@ -31,7 +31,7 @@ class IncomeController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$incomes = Income::join('tbl_income_history_records', 'tbl_incomes.id', '=', 'tbl_income_history_records.tbl_income_id')
 				->where([['tbl_income_history_records.soft_delete', 0], ['tbl_income_history_records.branch_id', $adminCurrentBranch->branch_id]])
 				->groupBy('tbl_income_history_records.tbl_income_id')
@@ -41,6 +41,13 @@ class IncomeController extends Controller
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$incomes = Income::join('tbl_income_history_records', 'tbl_incomes.id', '=', 'tbl_income_history_records.tbl_income_id')
 				->where([['tbl_incomes.soft_delete', 0], ['tbl_incomes.customer_id', Auth::user()->id]])
+				->groupBy('tbl_income_history_records.tbl_income_id')
+				->orderBy('tbl_incomes.id', 'DESC')
+				->select('tbl_incomes.*', 'tbl_income_history_records.*')
+				->get();
+		} elseif (Auth::User()->role_id === 6) {
+			$incomes = Income::join('tbl_income_history_records', 'tbl_incomes.id', '=', 'tbl_income_history_records.tbl_income_id')
+				->where([['tbl_income_history_records.soft_delete', 0], ['tbl_income_history_records.branch_id', $currentUser->branch_id]])
 				->groupBy('tbl_income_history_records.tbl_income_id')
 				->orderBy('tbl_incomes.id', 'DESC')
 				->select('tbl_incomes.*', 'tbl_income_history_records.*')
@@ -83,12 +90,15 @@ class IncomeController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 			$left_invoice = DB::table('tbl_invoices')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$left_invoice = DB::table('tbl_invoices')->where('soft_delete', '=', 0)->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$left_invoice = DB::table('tbl_invoices')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$left_invoice = DB::table('tbl_invoices')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
@@ -224,7 +234,7 @@ class IncomeController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 			$first_data = DB::table("tbl_incomes")->where([['id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 			$sec_data = DB::table("tbl_income_history_records")->where([['tbl_income_id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
@@ -232,6 +242,10 @@ class IncomeController extends Controller
 			$branchDatas = Branch::get();
 			$first_data = DB::table("tbl_incomes")->where('id', $id)->first();
 			$sec_data = DB::table("tbl_income_history_records")->where('tbl_income_id', $id)->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
+			$first_data = DB::table("tbl_incomes")->where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
+			$sec_data = DB::table("tbl_income_history_records")->where([['tbl_income_id', $id], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
 			$first_data = DB::table("tbl_incomes")->where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
@@ -419,7 +433,7 @@ class IncomeController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$month_income = Income::join('tbl_income_history_records', 'tbl_incomes.id', '=', 'tbl_income_history_records.tbl_income_id')
 				->where('tbl_income_history_records.soft_delete', 0)
 				->whereBetween('date', [$start_date, $end_date])
@@ -438,6 +452,15 @@ class IncomeController extends Controller
 				->orderBy('tbl_income_history_records.id', 'DESC')
 				->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
+			$month_income = Income::join('tbl_income_history_records', 'tbl_incomes.id', '=', 'tbl_income_history_records.tbl_income_id')
+				->where('tbl_income_history_records.soft_delete', 0)
+				->whereBetween('date', [$start_date, $end_date])
+				->select('tbl_incomes.*', 'tbl_income_history_records.*')
+				->where('income_amount', '!=', '')
+				->where('tbl_incomes.branch_id', '=', $currentUser->branch_id)
+				->orderBy('tbl_income_history_records.id', 'DESC')
+				->get();
+		} elseif (Auth::User()->role_id === 6) {
 			$month_income = Income::join('tbl_income_history_records', 'tbl_incomes.id', '=', 'tbl_income_history_records.tbl_income_id')
 				->where('tbl_income_history_records.soft_delete', 0)
 				->whereBetween('date', [$start_date, $end_date])

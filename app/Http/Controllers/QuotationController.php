@@ -41,59 +41,52 @@ class QuotationController extends Controller
 	{
 		$month = date('m');
 		$year = date('Y');
-		$start_date = "$year/$month/01";
-		$end_date = "$year/$month/30";
 		$available = "";
 		$servi_id = "";
-	
-		// Fetch service dates for the current month
-		$current_month = DB::table('tbl_services')
-			->whereBetween('service_date', [$start_date, $end_date])
-			->pluck('service_date')
-			->toArray();
-	
-		if (!empty($current_month)) {
-			$available = json_encode($current_month);
-		}
-	
-		// Fetch all job card details and extract service IDs
-		$ser_id_jobcard_details = DB::table('tbl_jobcard_details')->get();
-		if (!$ser_id_jobcard_details->isEmpty()) {
-			$servi_id = $ser_id_jobcard_details->last()->service_id;
-		}
-	
-		$currentUser = User::where([
-			['soft_delete', 0],
-			['id', Auth::id()]
-		])->orderBy('id', 'DESC')->first();
-	
-		$adminCurrentBranch = BranchSetting::find(1);
-		$serviceQuery = DB::table('tbl_services')->where('job_no', 'like', 'RMAL-RP-24-%')
-			->where('is_quotation', 1)
+		$start_date = "$year/$month/01";
+		$end_date = "$year/$month/30";
+		$current_month = DB::select("SELECT service_date FROM tbl_services where service_date BETWEEN  '$start_date' AND '$end_date'");
 
-			->where('quotation_modify_status', 1);
-	
-		if (!isAdmin(Auth::user()->role_id)) {
+		if (!empty($current_month)) {
+			foreach ($current_month as $list) {
+				$date[] = $list->service_date;
+			}
+			$available = json_encode($date);
+		}
+
+		$ser_id_jobcard_details = DB::table('tbl_jobcard_details')->get()->toArray();
+		foreach ($ser_id_jobcard_details as $ser_id) {
+			$servi_id = $ser_id->service_id;
+		}
+
+		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
+		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
+
+		if (!isAdmin(Auth::User()->role_id)) {
 			if (getUsersRole(Auth::user()->role_id) == 'Customer') {
 				if (Gate::allows('quotation_owndata')) {
-					$serviceQuery->where('customer_id', Auth::id());
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['customer_id', '=', Auth::User()->id], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
 				} else {
-					$serviceQuery->where('branch_id', $adminCurrentBranch->branch_id);
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
 				}
-			} elseif (in_array(getUsersRole(Auth::user()->role_id), ['Employee', 'Support Staff', 'Accountant', 'branch_admin'])) {
+			} elseif (getUsersRole(Auth::user()->role_id) == 'Employee' || getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
 				if (Gate::allows('quotation_owndata')) {
-					$serviceQuery->where('create_by', Auth::id());
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['create_by', '=', Auth::User()->id], ['is_quotation', '=', 1], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
 				} else {
-					$serviceQuery->where('branch_id', $adminCurrentBranch->branch_id);
+					$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['branch_id', $adminCurrentBranch->branch_id], ['soft_delete', '=', 0]])->orderBy('id', 'DESC')->get()->toArray();
 				}
 			}
-		} else {
-			$serviceQuery->where('branch_id', $adminCurrentBranch->branch_id);
-		}
-	
-		$service = $serviceQuery->orderBy('id', 'ASC')->get()->toArray();
-	
-		return view('quotation.list', compact('service', 'available', 'current_month', 'servi_id'));
+		} elseif (Auth::user()->role_id === 1) {
+			$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'ASC')->get()->toArray();
+
+		} elseif (Auth::user()->role_id === 6) {
+			$service = DB::table('tbl_services')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['is_quotation', '=', 1], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'ASC')->get()->toArray();
+
+		} 
+		
+		
+
+		return view('quotation/list', compact('service', 'available', 'current_month', 'servi_id'));
 	}
 	
 
@@ -143,7 +136,8 @@ class QuotationController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		$adminBranch = BranchSetting::where('id', '=', 2)->first();
+		if (Auth::User()->role_id === 1) {
 			$vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->get();
             $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->get();
 			$branchDatas = Branch::get();
@@ -156,7 +150,22 @@ class QuotationController extends Controller
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
-		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
+		} elseif (Auth::User()->role_id === 6) {
+			$vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
+            $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id',  $currentUser->branch_id]])->get()->toArray();
+			$stockQuantities = [];
+			foreach ($brand as $brands) {
+				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
+			}
+			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+		
+		}
+		 elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$vehicle_name = Vehicle::where('soft_delete', '=', 0)->get();
             $cat_name = CheckoutCategory::where('soft_delete', '=', 0)->distinct()->select('checkout_point')->get();
@@ -169,19 +178,6 @@ class QuotationController extends Controller
 			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
-		} else {
-			$vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
-            $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
-			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
-			$employee = DB::table('users')->where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-			$brand = DB::table('tbl_products')->where([['category', '=', 1], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-			$stockQuantities = [];
-			foreach ($brand as $brands) {
-				$stockQuantities[$brands->id] = $brands->quantity; // Assuming 'stock_quantity' is the field for available stock
-			}
-			$manufacture_name = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
-			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
-			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		}
 
 		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'salepart'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
@@ -425,7 +421,7 @@ class QuotationController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if ((Auth::User()->role_id === 1)) {
 			$product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where('vehicle_id', '=', $model_id)->orWhere('vehicle_id', '=', 0)->get()->toArray();
 			$tbl_checkout_categories = DB::table('tbl_checkout_categories')->where([['vehicle_id', '=', $model_id], ['soft_delete', '=', 0]])->orWhere('vehicle_id', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->get()->toArray();
@@ -493,7 +489,7 @@ class QuotationController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if ((Auth::User()->role_id === 1)) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
 			$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
@@ -505,13 +501,15 @@ class QuotationController extends Controller
 			$brand = Product::where([['category', 1], ['soft_delete', '=', 0]])->get();
 			$stock = Details::where('bill_no', '=', $sales->bill_no)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
-		} else {
-			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
-			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
-			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
-		}
+		} elseif (Auth::user()->role_id === 6) {
+			
+				$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+				$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', 2]])->get();
+				$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', 2]])->first();
+				$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', 2]])->get();
+				$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			
+		} 
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', 0]])->get()->toArray();
 
@@ -714,7 +712,7 @@ class QuotationController extends Controller
 			$custo_info = DB::table('users')->where('id', $c_id)->first();
 			$vehi_name = $tbl_services->vehicle_id;
 			$Vehicle_inf = DB::table('tbl_vehicles')->where('id', $vehi_name)->first();
-			$maker = $Vehicle_inf->vehicletype_id;
+			$maker = $Vehicle_inf->vehiclebrand_id;
 			$chassis_no = $Vehicle_inf->chassisno;
 
 			$mpdf = new Mpdf();
@@ -912,7 +910,7 @@ class QuotationController extends Controller
 		$jobcard = $tbl_services->job_no;
 		$vehi_name = $tbl_services->vehicle_id;
 		$Vehicle_inf = DB::table('tbl_vehicles')->where('id', $vehi_name)->first();
-		$maker = $Vehicle_inf->vehicletype_id;
+		$maker = $Vehicle_inf->vehiclebrand_id;
 		$chassis_no = $Vehicle_inf->chassisno;
 
 		$all_data3 = DB::table('tbl_details')->where([['quotation_id', $jobcard]])->get()->toArray();
@@ -1049,7 +1047,7 @@ class QuotationController extends Controller
 		}
 
 		$Vehicle_inf = DB::table('tbl_vehicles')->where('id', $vehi_name)->first();
-		$maker = $Vehicle_inf->vehicletype_id;
+		$maker = $Vehicle_inf->vehiclebrand_id;
 		$chassis_no = $Vehicle_inf->chassisno;
 
 		$logo = DB::table('tbl_settings')->first();
@@ -1183,7 +1181,7 @@ class QuotationController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if ((Auth::User()->role_id) === 1) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
 			$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
@@ -1197,9 +1195,9 @@ class QuotationController extends Controller
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
-			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
-			$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', $adminCurrentBranch->branch_id]])->first();
-			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $adminCurrentBranch->branch_id]])->get();
+			$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
+			$sales = Details::where([['quotation_id', $service->job_no], ['branch_id', $currentUser->branch_id]])->first();
+			$stock = Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $currentUser->branch_id]])->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 		}
 
@@ -1585,11 +1583,13 @@ class QuotationController extends Controller
 // sale part delete
 public function sale_part_destroy(Request $request)
 {
-	$id = $request->procuctid;
-	//$sales = DB::table('tbl_sale_parts')->where('id','=',$id)->delete();
-	$sales = DB::table('tbl_details')->where('id', '=', $id)->update(['soft_delete' => 1]);
+    $id = $request->id; // Corrected to 'id', not 'procuctid'
 
-	//return redirect('sales_part/list')->with('message','Part Sell Deleted Successfully');
+    // Update the 'soft_delete' flag instead of deleting
+    $sales = DB::table('tbl_details')->where('id', $id)->update(['soft_delete' => 1]);
+
+    // Optionally, you can return a JSON response indicating success
+    return response()->json(['message' => 'Sales part deleted successfully'], 200);
 }
 
 	public function save_observation(Request $request)

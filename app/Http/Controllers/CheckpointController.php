@@ -25,11 +25,15 @@ class CheckpointController extends Controller
         $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
         $adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-        if (isAdmin(Auth::User()->role_id)) {
+        if (Auth::User()->role_id === 1) {
             $check_data = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->groupBy('vehicle_id')->orderBy('id', 'DESC')->get();
         } elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
             $check_data = CheckoutCategory::where('soft_delete', '=', 0)->groupBy('vehicle_id')->orderBy('id', 'DESC')->get();
-        } else {
+        } elseif (Auth::User()->role_id === 6) {
+            $check_data = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->groupBy('vehicle_id')->orderBy('id', 'DESC')->get();
+
+        }
+         else {
             $check_data = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->groupBy('vehicle_id')->orderBy('id', 'DESC')->get();
         }
 
@@ -44,12 +48,15 @@ class CheckpointController extends Controller
         $adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
         $model_name = DB::table('tbl_model_names')->where([['soft_delete', '=', 0]])->get()->toArray();
 
-        if (isAdmin(Auth::User()->role_id)) {
+        if (Auth::User()->role_id === 1) {
             $vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->get();
             $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $adminCurrentBranch->branch_id]])->get();
         } elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
             $vehicle_name = Vehicle::where('soft_delete', '=', 0)->get();
             $cat_name = CheckoutCategory::where('soft_delete', '=', 0)->distinct()->select('checkout_point')->get();
+        }elseif (Auth::User()->role_id === 6) {
+            $vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
+            $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
         } else {
             $vehicle_name = Vehicle::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
             $cat_name = CheckoutCategory::where([['soft_delete', '=', 0], ['branch_id', '=', $currentUser->branch_id]])->get();
@@ -68,10 +75,12 @@ class CheckpointController extends Controller
         $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
         $adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
         $bramnchId = "";
-        if (isAdmin(Auth::User()->role_id)) {
+        if (Auth::User()->role_id === 1) {
             $bramnchId = $adminCurrentBranch->branch_id;
         } elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
             $bramnchId = "";
+        } elseif (Auth::User()->role_id === 6) {
+            $bramnchId = $currentUser->branch_id;
         } else {
             $bramnchId = $currentUser->branch_id;
         }
@@ -98,10 +107,12 @@ class CheckpointController extends Controller
         $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
         $adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
         $bramnchId = "";
-        if (isAdmin(Auth::User()->role_id)) {
+        if (Auth::User()->role_id === 1) {
             $bramnchId = $adminCurrentBranch->branch_id;
         } elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
             $bramnchId = "";
+        } elseif (Auth::User()->role_id === 6) {
+            $bramnchId = $currentUser->branch_id;
         } else {
             $bramnchId = $currentUser->branch_id;
         }

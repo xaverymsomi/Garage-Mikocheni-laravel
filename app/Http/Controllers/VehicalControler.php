@@ -23,7 +23,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\tbl_vehicle_discription_records;
 use App\Http\Requests\VehicleAddEditFormRequest;
-
+use PhpParser\Node\Stmt\Else_;
 
 class VehicalControler extends Controller
 {
@@ -44,7 +44,7 @@ class VehicalControler extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (!isAdmin(Auth::User()->role_id)) {
+		if ((Auth::User()->role_id != 1)) {
 			if (getUsersRole(Auth::User()->role_id) == 'Customer') {
 				$vehical = Vehicle::where([['soft_delete', '=', 0], ['customer_id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->get();
 			} elseif (getUsersRole(Auth::User()->role_id) == 'Employee') {
@@ -53,6 +53,9 @@ class VehicalControler extends Controller
 
 				$vehical = Vehicle::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
 			}
+		} elseif (Auth::User()->role_id === 6) {
+			$vehical = Vehicle::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+
 		} else {
 			$vehical = Vehicle::where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
 		}
@@ -73,10 +76,13 @@ class VehicalControler extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -139,10 +145,13 @@ class VehicalControler extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -505,14 +514,14 @@ class VehicalControler extends Controller
 		$editid = $id;
 		$vehicaledit = DB::table('tbl_vehicles')->where('id', '=', $id)->first();
 		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
-		$vehical_brand = DB::table('tbl_vehicle_brands')->where('vehicle_id', '=', $vehicaledit->vehiclebrand_id)->where('soft_delete', '=', 0)->get()->toArray();
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
 		$fueltype = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
 		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
 
 		$colors1 = DB::table('tbl_vehicle_colors')->where('vehicle_id', '=', $id)->get()->toArray();
 		$images1 = DB::table('tbl_vehicle_images')->where('vehicle_id', '=', $id)->get()->toArray();
 		$vehicaldes = DB::table('tbl_vehicle_discription_records')->where('vehicle_id', '=', $id)->get()->toArray();
-		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->where('brand_id', '=', $vehicaledit->vehiclebrand_id)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->where('brand_id', '=', $vehicaledit->vehiclebrand_id)->where('vehicleType_id', '=', $vehicaledit->vehicletype_id)->get()->toArray();
 		$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
 
 		//Custom Field Data
@@ -520,10 +529,13 @@ class VehicalControler extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -812,7 +824,7 @@ class VehicalControler extends Controller
 		} else {
 			$image_name[] = URL::to('/public/vehicle/avtar.png');
 		}
-		$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'J%'], ['done_status', '=', 1], ['vehicle_id', $id]])->get();
+		$services = Service::orderBy('service_date', 'asc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['done_status', '=', 1], ['vehicle_id', $id]])->get();
 		$available = json_encode($image_name);
 
 		return view('/vehicle/vehicalMaintainance', compact('vehical', 'services', 'available'));

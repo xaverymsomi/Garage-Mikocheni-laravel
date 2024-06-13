@@ -213,6 +213,13 @@
                       @elseif(getAlreadypasss($servicess->job_no) == 1)
                       @can('gatepass_view')
                       <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gate" serviceid="" class="dropdown-item getgetpass" getid="{{ $servicess->job_no }}"><img src="{{ URL::asset('public/img/list/receipt.png') }}" class="me-3">{{ trans('message.Gate Receipt') }}</li>
+                        <li>
+                          <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                          </form>
+                        </li>
                       @endcan
                       @endif
                       @endcan
@@ -276,6 +283,14 @@
                       @elseif(getAlreadypasss($servicess->job_no) == 1)
                       @can('gatepass_view')
                       <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gate" serviceid="" class="dropdown-item getgetpass" getid="{{ $servicess->job_no }}"><img src="{{ URL::asset('public/img/list/receipt.png') }}" class="me-3">{{ trans('message.Gate Receipt') }}</button></li>
+
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @endif
                       @endcan
@@ -370,6 +385,7 @@
                       @elseif(getAlreadypasss($servicess->job_no) == 1)
                       @can('gatepass_view')
                       <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gate" serviceid="" class="dropdown-item getgetpass" getid="{{ $servicess->job_no }}"><img src="{{ URL::asset('public/img/list/receipt.png') }}" class="me-3">{{ trans('message.Gate Receipt') }}</button></li>
+
                       <li>
                         <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
                           @csrf
@@ -462,6 +478,13 @@
                       @elseif(getAlreadypasss($servicess->job_no) == 1)
                       @can('gatepass_view')
                       <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gate" serviceid="" class="dropdown-item getgetpass" getid="{{ $servicess->job_no }}"><img src="{{ URL::asset('public/img/list/receipt.png') }}" class="me-3">{{ trans('message.Gate Receipt') }}</button></li>
+                      <li>
+                        <form action="{{ route('jobcard.destroy', $servicess->id) }}" method="POST" onsubmit="return confirm('{{ trans('message.Are you sure you want to delete this Job Card?') }}');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item"><img src="{{ URL::asset('public/img/list/delete.png') }}" class="me-3">{{ trans('Delete Job Card') }}</button>
+                        </form>
+                      </li>
                       @endcan
                       @endif
                       @endcan

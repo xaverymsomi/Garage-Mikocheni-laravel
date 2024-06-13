@@ -25,7 +25,7 @@ class VehicleBrandAddEditFormRequest extends FormRequest
     {
         return [
             'vehicalbrand' => 'required|regex:/^[(a-zA-Z0-9\s)\p{L}]+$/u|max:50',
-            'vehicaltypes' => 'required',
+            // 'vehicaltypes' => 'required',
         ];
     }
 

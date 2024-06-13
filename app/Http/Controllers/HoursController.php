@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 
+use App\User;
+use App\Branch;
 use App\Holiday;
 use App\BusinessHour;
+use App\BranchSetting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HoursController extends Controller
 {
@@ -17,10 +22,9 @@ class HoursController extends Controller
 	// businesshours list
 	public function index()
 	{
-		$tbl_holidays = Holiday::ORDERBY('date', 'ASC')->get();
-		$tbl_hours = BusinessHour::ORDERBY('day', 'ASC')->get();
-
-		return view('Businesshours.list', compact('tbl_holidays', 'tbl_hours'));
+			$tbl_holidays = Holiday::ORDERBY('date', 'ASC')->get();
+			$tbl_hours = BusinessHour::ORDERBY('day', 'ASC')->get();
+			return view('Businesshours.list', compact('tbl_holidays', 'tbl_hours'));
 	}
 
 	// businesshours store

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Controllers\VehicalControler;
 use App\Http\Controllers\JobCardcontroller;
+use App\Http\Controllers\Customercontroller;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\CompanyVehicleController;
 
@@ -337,9 +338,10 @@ Route::group(['prefix' => 'quotation'], function () {
 	Route::get('quotationsend/{service_id}', 'QuotationController@quotationSend')->name('quotationSend');
 });
 
-Route::post('/quotation/updatesalespart', ['as' => '/quotation/updatesalespart', 'uses' => 'QuotationController@processQuotation'])->middleware('can:quotation_edit');
-// Route::post('/quotation/deleteSalesPart', [QuotationController::class, 'deleteSalesPart'])->name('quotation.deleteSalesPart');
-Route::get('/quotation/deleteproduct', 'QuotationController@sale_part_destroy');
+Route::post('/quotation/updatesalespart', ['as' => 'quotation.updatesalespart', 'uses' => 'QuotationController@processQuotation'])->middleware('can:quotation_edit');
+
+Route::delete('/quotation/deleteproduct', 'QuotationController@sale_part_destroy')->name('quotation.deleteproduct');
+
 
 
 //Invoice
@@ -673,6 +675,7 @@ Route::group(['prefix' => 'gatepass'], function () {
 
 	Route::get('/gatepassview', ['as' => 'gatepass.gatepassview', 'uses' => 'Getpasscontroller@gatepassview'])->middleware('can:gatepass_view');
 	// Route::get('/gatepassview', ['as' => '/gatepass/gatepassview', 'uses' => 'Getpasscontroller@gatepassview'])->middleware('can:gatepass_view');
+	Route::get('list/view', ['as' => 'gatepass/list/view', 'uses' => 'Getpasscontroller@serviceview']);
 
 	Route::get('/gatedata', ['as' => '/gatepass/gatedata', 'uses' => 'Getpasscontroller@gatedata']);
 	Route::get('/gatepasspdf/{id}', 'Getpasscontroller@gatepassPDF');

@@ -51,7 +51,9 @@ class employeecontroller extends Controller
 					$user = User::where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
 				}
 			}
-		} else {
+		}elseif(Auth::User()->role_id === 6) {
+			$user = User::where([['role', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
+		} elseif (Auth::User()->role_id === 1) {
 			$user = User::where([['role', 'employee'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 		}
 

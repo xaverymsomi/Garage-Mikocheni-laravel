@@ -355,11 +355,10 @@ use Carbon\Carbon;
                 <thead>
                     <tr>
                         <th>{{ trans('message.Photo') }}</th>
-                        <th>{{ trans('message.BRAND/MODEL NAME') }}</th>
-                        <th>{{ trans('message.TYPE') }}</th>
+                        <th>{{ trans('MODEL NAME') }}</th>
+                        <th>{{ trans('MAKE') }}</th>
                         <th>{{ trans('message.NUMBER PLATE') }}</th>
                         <th>{{ trans('message.LAST SERVICE DATE') }}</th>
-                        <th>{{ trans('message.MOT Test Details') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -371,22 +370,11 @@ use Carbon\Carbon;
                             <img src="{{ URL::asset('public/vehicle/' . $vehicleimage) }}" width="50px" height="50px" class="rounded">
                         </td>
                         <td>{{ $vehicals->modelname }}</td>
-                        <td>{{ getVehicleType($vehicals->vehicletype_id) }}</td>
+                        <td>{{ getVehicleBrand($vehicals->vehiclebrand_id) }}</td>
                         <td>{{ $vehicals->number_plate }}</td>
                         <td>{{ $vehicals->lastServiceDate ? $vehicals->lastServiceDate->format('Y-m-d') : 'No service records' }}</td>
                         <!-- <td><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" serviceid="{{ $vehicals->id }}" class="btn save border-0"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"></button></td> -->
-                        <td>
-                            <div class="dropdown_toggle">
-                                <img src="{{ URL::asset('public/img/list/dots.png') }}" class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButtonAction" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButtonAction">
-                                    @can('customer_view')
-                                    <li><a data-bs-toggle="modal" data-bs-target="#exampleModal" serviceid="{{ $vehicals->id }}" class="save border-0" href="{!! url('/vehical/list/' . $vehicals->id) !!}"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View') }}</a></li>
-                                    @endcan
-                                </ul>
-
-                            </div>
-                        </td>
+                  
                     </tr>
                     @endforeach
                     @endif

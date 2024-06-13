@@ -15,19 +15,11 @@
 <div class="right_col" role="main">
   <!--gate pass view modal-->
   <div id="myModal-gateview" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg modal-xs">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 id="myLargeModalLabel" class="modal-title">{{ getNameSystem() }}</h4>
-          <a href="{!! url('/gatepass/list') !!}" class="prints"><input type="submit" class="btn-close " data-bs-dismiss="modal" value=""></a>
-        </div>
-        <div class="modal-body">
-
-        </div>
+      <div class="modal-dialog modal-lg" size="xl">
+          <!-- Modal content-->
+          <div class="modal-content modal_data p-2">
+          </div>
       </div>
-    </div>
   </div>
   <div class="">
     <div class="page-title">
@@ -103,15 +95,16 @@
 
                     <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButtonaction">
                       @can('gatepass_view')
+                      <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gateview" serviceid="{{ $gatepasss->jobcard_id }}" url="{!! url('/gatepass/list/view') !!}" class="dropdown-item save border-0"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View') }}</button></li>
 
-                      <li>
+                      {{-- <li>
                         <a class="dropdown-item">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#myModal-gateview" serviceid="" class="btn getgetpass border-0 p-0" getpassid="{{ $gatepasss->jobcard_id }}">
                             <img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3">
                             {{ trans('message.View') }}
                           </button>
                         </a>
-                      </li>
+                      </li> --}}
                       @endcan
 
                       @can('gatepass_edit')
@@ -188,26 +181,48 @@
       ]
     });
 
+    $('body').on('click', '.save', function() {
+            var servicesid = $(this).attr("serviceid");
+            var url = $(this).attr('url');
+            var msg10 = "{{ trans('message.An error occurred :') }}";
 
-    $('body').on('click', '.getgetpass', function() {
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {
+                    servicesid: servicesid
+                },
+                success: function(data) {
+                    $('.modal_data').html(data.html);
+                },
+                error: function(e) {
+                    alert(msg10 + " " + e.responseText);
+                    console.log(e);
+                }
+            });
 
-    var getpassid = $(this).attr('getpassid');
-    var url = "{{ url('/gatepass/gatepassview') }}";
+        });
 
-    $.ajax({
-        type: 'GET',
-        url: url,
-        data: { getpassid: getpassid, page_action: 'view' },
-        dataType: 'json',
-        success: function(response) {
-            if (response.success) {
-                $('.modal-body').html(response.html);
-            } else {
-                $('.modal-body').html('<p>No data found.</p>');
-            }
-        },
-    });
-});
+
+//     $('body').on('click', '.getgetpass', function() {
+
+//     var getpassid = $(this).attr('getpassid');
+//     var url = "{{ url('/gatepass/gatepassview') }}";
+
+//     $.ajax({
+//         type: 'GET',
+//         url: url,
+//         data: { getpassid: getpassid, page_action: 'view' },
+//         dataType: 'json',
+//         success: function(response) {
+//             if (response.success) {
+//                 $('.modal-body').html(response.html);
+//             } else {
+//                 $('.modal-body').html('<p>No data found.</p>');
+//             }
+//         },
+//     });
+// });
 
 
     // For get getParameterByName

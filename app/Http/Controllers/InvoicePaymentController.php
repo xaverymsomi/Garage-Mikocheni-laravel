@@ -43,10 +43,12 @@ class InvoicePaymentController extends Controller
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$currentCustomer = Invoice::where('id', '=', $invoice_id)->first();
 		$bramnchId = "";
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$bramnchId = $adminCurrentBranch->branch_id;
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$bramnchId = $currentCustomer->branch_id;
+		} elseif (Auth::User()->role_id === 6) {
+			$bramnchId = $currentUser->branch_id;
 		} else {
 			$bramnchId = $currentUser->branch_id;
 		}

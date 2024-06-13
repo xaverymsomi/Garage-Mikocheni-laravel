@@ -18,6 +18,7 @@ use App\Vehiclebrand;
 use App\PaymentMethod;
 use App\BranchSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class Salescontroller extends Controller
 {
@@ -45,8 +46,11 @@ class Salescontroller extends Controller
 			} else {
 				$sales = Sale::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
 			}
-		} else {
+		} elseif(Auth::user()->role_id === 1) {
 			$sales = Sale::where([['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
+		}
+		elseif(Auth::user()->role_id === 6) {
+			$sales = Sale::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
 		}
 
 		return view('sales.list', compact('sales'));
@@ -68,7 +72,7 @@ class Salescontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['branch_id', $adminCurrentBranch->branch_id]])->where('soft_delete', '=', 0)->get()->toArray();
 			$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
@@ -77,6 +81,10 @@ class Salescontroller extends Controller
 			$employee = DB::table('users')->where('role', 'employee')->where('soft_delete', '=', 0)->get()->toArray();
 			$customer = DB::table('users')->where([['role', '=', 'Customer'], ['soft_delete', '=', 0]])->get()->toArray();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$employee = DB::table('users')->where([['role', 'employee'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->get()->toArray();
+			$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 			$employee = DB::table('users')->where([['role', 'employee'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->get()->toArray();
 			$customer = DB::table('users')->where([['role', 'Customer'], ['soft_delete', 0]])->get()->toArray();
@@ -171,19 +179,25 @@ class Salescontroller extends Controller
 				$vehical_id[] = $datas->vehicle_id;
 			}
 
-			if (isAdmin(Auth::User()->role_id)) {
+			if (Auth::User()->role_id === 1) {
 				$vehicale = DB::table('tbl_vehicles')->whereNotIn('id', $vehical_id)->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 				$vehicale = DB::table('tbl_vehicles')->whereNotIn('id', $vehical_id)->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0]])->get()->toArray();
+			} elseif (Auth::User()->role_id === 6) {
+				$vehicale = DB::table('tbl_vehicles')->whereNotIn('id', $vehical_id)->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+				
 			} else {
 				$vehicale = DB::table('tbl_vehicles')->whereNotIn('id', $vehical_id)->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			}
 		} else {
-			if (isAdmin(Auth::User()->role_id)) {
+			if (Auth::User()->role_id === 1) {
 				$vehicale = DB::table('tbl_vehicles')->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get()->toArray();
 			} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 				$vehicale = DB::table('tbl_vehicles')->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0]])->get()->toArray();
-			} else {
+			} elseif (Auth::User()->role_id === 6) {
+				$vehicale = DB::table('tbl_vehicles')->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
+			}
+			 else {
 				$vehicale = DB::table('tbl_vehicles')->where([['vehiclebrand_id', $brand_name], ['added_by_service', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
 			}
 		}
@@ -448,7 +462,7 @@ class Salescontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::get();
 			$sales = Sale::where([['id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 			$employee = User::where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->get();
@@ -467,6 +481,13 @@ class Salescontroller extends Controller
 			$sales = Sale::where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
 			$customer = User::where([['role', 'Customer'], ['soft_delete', 0], ['id', $sales->customer_id]])->get();
 			$employee = User::where([['role', 'Employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
+			$vehicale = Vehicle::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id], ['id', $sales->vehicle_id]])->get();
+			$sales_services = Service::where([['sales_id', $id], ['branch_id', $currentUser->branch_id]])->get();
+		} elseif (Auth::user()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+			$sales = Sale::where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
+			$employee = DB::table('users')->where([['role', 'employee'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->get()->toArray();
+			$customer = User::where([['role', '=', 'Customer'], ['soft_delete', '=', 0], ['id', $sales->customer_id]])->get();
 			$vehicale = Vehicle::where([['soft_delete', 0], ['branch_id', $currentUser->branch_id], ['id', $sales->vehicle_id]])->get();
 			$sales_services = Service::where([['sales_id', $id], ['branch_id', $currentUser->branch_id]])->get();
 		} else {
@@ -594,16 +615,16 @@ class Salescontroller extends Controller
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		$customer_job = null;
 		$total_amount = null;
-		if (isAdmin(Auth::User()->role_id) || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
+		if ((Auth::User()->role_id === 1) || (Auth::user()->role_id === 6)) {
 			$branchDatas = Branch::get();
-			$tbl_sales = DB::table('tbl_sales')->where([['id', $id], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->first();
+			$tbl_sales = DB::table('tbl_sales')->where([['id', $id], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->first();
 
 			if ($type === "Service") {
 
 
 				$customer_job = DB::table('tbl_jobcard_details')->where([['service_id', $id], ['soft_delete', 0]])->first();
 				// dd($customer_job);
-				$job = DB::table('tbl_services')->where([['job_no', '=', $customer_job->jocard_no], ['done_status', '=', 1], ['job_no', 'like', 'J%']])->first();
+				$job = DB::table('tbl_services')->where([['job_no', '=', $customer_job->jocard_no], ['done_status', '=', 1], ['job_no', 'like', 'RMAL-RP-24-%']])->first();
 				// dd($job);
 				$ser_id = $job->id;
 				$cus_id = $job->customer_id;

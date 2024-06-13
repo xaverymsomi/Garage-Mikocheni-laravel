@@ -24,21 +24,6 @@
             <form id="vehicleBrandAdd-Form" action="{{ url('/vehiclebrand/store') }}" method="post" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left vehicleBrandAddForm">
 
               <div class="row row-mb-0">
-                <label class="control-label col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2 text-center" for="first-name">{{ trans('message.Vehicle Types') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select name="vehicaltypes" class="form-control col-md-7 col-xs-12 vehicle_types form-select" required="required">
-                    <option value="">{{ trans('message.Select Vehicle Type') }}</option>
-                    @if (!empty($vehicaltypes))
-                    @foreach ($vehicaltypes as $vehicaltypess)
-                    <option value="{{ $vehicaltypess->id }}">{{ $vehicaltypess->vehicle_type }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-                <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2"></div>
-              </div>
-
-              <div class="row row-mb-0">
                 <label class="control-label col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2 text-center" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label>
                 </label>
                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">

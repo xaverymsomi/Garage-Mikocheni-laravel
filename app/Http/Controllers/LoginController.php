@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class LoginController extends Controller
 {

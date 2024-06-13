@@ -32,7 +32,7 @@ class Supportstaffcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$supportstaff = User::where([['role', '=', 'supportstaff'], ['soft_delete', 0], ['branch_id', $adminCurrentBranch->branch_id]])->orderBy('id', 'DESC')->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff') {
 			if (Gate::allows('supportstaff_owndata')) {
@@ -45,6 +45,12 @@ class Supportstaffcontroller extends Controller
 				$supportstaff = User::where([['role', '=', 'supportstaff'], ['create_by', Auth::User()->id], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 			} else {
 				$supportstaff = User::where([['role', '=', 'supportstaff'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
+			}
+		} elseif (Auth::User()->role_id === 6) {
+			if (Gate::allows('supportstaff_owndata')) {
+				$supportstaff = User::where([['role', '=', 'supportstaff'], ['create_by', Auth::User()->id], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
+			} else {
+				$supportstaff = User::where([['role', '=', 'supportstaff'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->orderBy('id', 'DESC')->get();
 			}
 		} else {
 			if (Gate::allows('supportstaff_owndata')) {
@@ -67,11 +73,14 @@ class Supportstaffcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
+
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -303,7 +312,17 @@ class Supportstaffcontroller extends Controller
 			} else {
 				return abort('403', 'This action is unauthorized.');
 			}
-		} else {
+		} elseif(Auth::user()->role_id === 1) {
+			$country = DB::table('tbl_countries')->get()->toArray();
+			$supportstaff = DB::table('users')->where('id', '=', $id)->first();
+			$state = DB::table('tbl_states')->where('country_id', $supportstaff->country_id)->get()->toArray();
+			$city = DB::table('tbl_cities')->where('state_id', $supportstaff->state_id)->get()->toArray();
+			$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'supportstaff'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
+			$branchDatas = Branch::get();
+
+			return view('supportstaff.update', compact('country', 'supportstaff', 'state', 'city', 'editid', 'tbl_custom_fields', 'branchDatas'));
+		}
+		elseif(Auth::user()->role_id === 1) {
 			$country = DB::table('tbl_countries')->get()->toArray();
 			$supportstaff = DB::table('users')->where('id', '=', $id)->first();
 			$state = DB::table('tbl_states')->where('country_id', $supportstaff->country_id)->get()->toArray();

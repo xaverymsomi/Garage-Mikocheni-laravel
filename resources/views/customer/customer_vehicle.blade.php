@@ -243,14 +243,7 @@
                             </div>
                          </div>
                          <div class="row">
-                            {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                               <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="city">{{ trans('message.Town/City') }}</label>
-                               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                  <select class="form-control city_of_state form-select" name="city">
-                                     <option value="">{{ trans('message.Select City') }}</option>
-                                  </select>
-                               </div>
-                            </div> --}}
+                            
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('address') ? ' has-error' : '' }}">
                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="address">{{ trans('message.Address') }} <label class="color-danger">*</label></label>
                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
@@ -401,14 +394,6 @@
                             </div>
                          </div>
                          <div class="row">
-                            {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group has-feedback">
-                               <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="city">{{ trans('message.Town/City') }}</label>
-                               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                  <select class="form-control city_of_state form-select" name="city">
-                                     <option value="">{{ trans('message.Select City') }}</option>
-                                  </select>
-                               </div>
-                            </div> --}}
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback {{ $errors->has('address') ? ' has-error' : '' }}">
                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="address">{{ trans('message.Address') }} <label class="color-danger">*</label></label>
                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
@@ -422,7 +407,7 @@
                             </div>
                          </div>
                     </div>
-                
+            
                     <!-- VEHICLE INFORMATION -->
                     <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
                         <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
@@ -433,134 +418,146 @@
                         <!-- Vehicle Info Template -->
                         <div class="vehicle-info-template row row-mb-0">
                            <div class="row">
-                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Body Type') }} <label class="color-danger">*</label></label>
-                                 <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                                    <div class="select-wrapper">
-                                       <select class="form-control select_vehicaltype form-select" name="vehicles[0][vehical_id]" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}" required>
-                                          <option value="">{{ trans('Select Body Type') }}</option>
-                                          @if (!empty($vehical_type))
-                                          @foreach ($vehical_type as $vehical_types)
-                                          <option value="{{ $vehical_types->id }}">
-                                             {{ $vehical_types->vehicle_type }}
-                                          </option>
-                                          @endforeach
-                                          @endif
-                                       </select>
-                                       <div class="arrow-icon-vehicle"></div>
-                                    </div>
-                                 </div>
-                              </div>
-                                <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                   <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
-                                   <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                      <input type="text" name="vehicles[0][number_plate]" value="{{ old('number_plate') }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
-                                   </div>
-                                </div>
-                           </div>
-                           <div class="row">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Make') }} <label class="color-danger">*</label></label>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                                   <div class="select-wrapper">
-                                      <select class="form-control select_vehicalbrand form-select" name="vehicles[0][vehicabrand]" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
-                                         <option value="">{{ trans('Select Make') }}</option>
-                                      </select>
-                                      <div class="arrow-icon-vehicle"></div>
-                                   </div>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <input type="text" name="vehicles[0][number_plate]" value="{{ old('number_plate') }}" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
                                 </div>
-                                {{-- <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand " data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                                </div> --}}
                              </div>
-                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }} <label class="text-danger">*</label></label>
-                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="vehicles[0][chassis_no]" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
-                                 </div>
-                              </div>
-                         </div>
-                         <div class="row">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
-                                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                                   <div class="select-wrapper">
-                                      <select class="form-control model_addname form-select" name="vehicles[0][modelname]" required>
-                                         <option value="">{{ trans('message.Select Model') }}</option>
-                                      </select>
-                                      <div class="arrow-icon-vehicle"></div>
-                                   </div>
-                                </div>
-                                {{-- <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                                   <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                                </div> --}}
-                             </div>
-                              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }} <label class="text-danger">*</label></label>
-                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <input type="text" name="vehicles[0][engine_no]" placeholder="{{ trans('message.Enter Engine No') }}" class="form-control">
-                                 </div>
-                              </div>
-                         </div>
-                         <div class="row">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                               <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Fuel') }} <label class="color-danger">*</label></label>
-                               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                  <div class="select-wrapper">
-                                     <select class="form-control select_branch form-select" name="vehicles[0][fueltype]">
-                                       <option value="">{{ trans('message.Select fuel') }} </option>
-                                        @if (!empty($fuel_type))
-                                        @foreach ($fuel_type as $fuel_types)
-                                        <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
-                                        </option>
-                                        @endforeach
-                                        @endif
-                                     </select>
-                                     <div class="arrow-icon-branch"></div>
-                                  </div>
-                               </div>
-                            </div>
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                            
+                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="text-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
                                    <input type="text" name="vehicles[0][model_year]" autocomplete="off" class="form-control" id="myDatepicker2" />
                                 </div>
-                             </div>   
+                             </div>
+                           </div>
+                           <div class="row">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Make') }}<label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                    <div class="select-wrapper">
+                                        <select class="form-control select_make select_branch form-select" name="vehicles[0][vehicabrand]" id="vehicabrand">
+                                            <option value="">{{ trans('Select Make') }}</option>
+                                            @if (!empty($vehical_brand))
+                                                @foreach ($vehical_brand as $vehical_brands)
+                                                    <option value="{{ $vehical_brands->id }}">
+                                                        {{ $vehical_brands->vehicle_brand }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <div class="arrow-icon-branch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }} <label class="text-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <input type="text" name="vehicles[0][chassis_no]" value="{{ old('chasicno') }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
+                                </div>
+                             </div>
+                            
+                              
+                         </div>
+                         <div class="row">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Body Type') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                    <div class="select-wrapper">
+                                        <select class="form-control select_body_type select_branch form-select" name="vehicles[0][vehical_id]" id="vehical_id">
+                                            <option value="">{{ trans('message.Select Type') }}</option>
+                                            @if (!empty($vehical_type))
+                                                @foreach ($vehical_type as $vehical_types)
+                                                    <option value="{{ $vehical_types->id }}">
+                                                        {{ $vehical_types->vehicle_type }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <div class="arrow-icon-branch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }} <label class="text-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <input type="text" name="vehicles[0][engine_no]" placeholder="{{ trans('message.Enter Engine No') }}" class="form-control">
+                                </div>
+                             </div>
+                           
+                              
+                         </div>
+                         <div class="row">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Model Name') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                    <div class="select-wrapper">
+                                        <select class="form-control select_branch form-select" name="vehicles[0][modelname]" id="modelname">
+                                            <option value="">{{ trans('message.Select Model') }}</option>
+                                        </select>
+                                        <div class="arrow-icon-branch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Fuel') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <div class="select-wrapper">
+                                      <select class="form-control select_branch form-select" name="vehicles[0][fueltype]">
+                                        <option value="">{{ trans('message.Select fuel') }} </option>
+                                         @if (!empty($fuel_type))
+                                         @foreach ($fuel_type as $fuel_types)
+                                         <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
+                                         </option>
+                                         @endforeach
+                                         @endif
+                                      </select>
+                                      <div class="arrow-icon-branch"></div>
+                                   </div>
+                                </div>
+                             </div> 
+                            
+
+                              
                         </div>
                         <div class="row">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                               <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
-                               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                  <div class="select-wrapper">
-                                     <select class="form-control select_branch form-select" name="vehicles[0][branch]">
-                                        @foreach ($branchDatas as $branchData)
-                                        <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
-                                        </option>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('Color') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <div class="select-wrapper">
+                                      <select class="form-control select_branch form-select" name="vehicles[0][color]">
+                                        <option value="">{{ trans('message.-- Select Color --') }}</option>
+                                        @if (!empty($color))
+                                        @foreach ($color as $colors)
+                                        <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff;">{{ $colors->color }}</option>
                                         @endforeach
-                                     </select>
-                                     <div class="arrow-icon-branch"></div>
-                                  </div>
-                               </div>
-                            </div>
-                             
-                             
+                                        @endif
+                                      </select>
+                                      <div class="arrow-icon-branch"></div>
+                                   </div>
+                                </div>
+                             </div>
+                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
+                                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                                   <div class="select-wrapper">
+                                      <select class="form-control select_branch form-select" name="vehicles[0][branch]">
+                                         @foreach ($branchDatas as $branchData)
+                                         <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
+                                         </option>
+                                         @endforeach
+                                      </select>
+                                      <div class="arrow-icon-branch"></div>
+                                   </div>
+                                </div>
+                             </div>
+                            
                          </div>
-                        <div class="row row-mb-0">
-                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                               <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Color') }}. <label class="text-danger">*</label></label>
-                               <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                <select id="color_type_product" name="vehicles[0][color]" class="form-control color_name_data form-select">
-                                   <option value="">{{ trans('message.-- Select Color --') }}</option>
-                                   @if (!empty($color))
-                                   @foreach ($color as $colors)
-                                   <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff;">{{ $colors->color }}</option>
-                                   @endforeach
-                                   @endif
-                                 </select>
-                                  {{-- <input type="text" name="vehicles[0][color]" value="{{ old('color') }}" placeholder="{{ trans('Enter vehicle color') }}" maxlength="30" class="form-control chassis_no"> --}}
-                               </div>
-                            </div>
-                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
+                         <div class="row row-mb-0">
+                            <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group my-form-group has-feedback">
                                  <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">Vehicle Images <label class="color-danger">*</label></label>
                                  <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                      <!-- Allow multiple image uploads -->
@@ -568,7 +565,7 @@
                                  </div>
                              </div>
                          </div>
-                        </div>
+                    </div>
                     </div>
                 
                   <!-- Custom field data  -->
@@ -1245,842 +1242,7 @@
        var msg15 = "{{ trans('message.Only blank space not allowed') }}";
        var msg16 = "{{ trans('message.This Record is Duplicate') }}";
    
-       /*vehicle type*/
-       $('.vehicaltypeadd').click(function() {
-   
-           var vehical_type = $('.vehical_type').val();
-           var url = $(this).attr('url');
-           // alert(vehical_type);
-           var msg13 = "{{ trans('message.Please enter vehicle type') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_type_value: $('.vehical_type').val(),
-                   vehicle_type_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_type_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehicletypeadd = define_variable();
-   
-           if (vehical_type == "") {
-               swal({
-                   title: msg13,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-   
-           } else if (!call_var_vehicletypeadd.vehicle_type_pattern.test(call_var_vehicletypeadd
-                   .vehicle_type_value)) {
-               $('.vehical_type').val("");
-               swal({
-                   title: msg14,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!vehical_type.replace(/\s/g, '').length) {
-               $('.vehical_type').val("");
-               swal({
-                   title: msg15,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehicletypeadd.vehicle_type_pattern2.test(call_var_vehicletypeadd
-                   .vehicle_type_value)) {
-               $('.vehical_type').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: url,
-   
-                   data: {
-                       vehical_type: vehical_type
-                   },
-   
-                   beforeSend: function() {
-                       $(".vehicaltypeadd").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-   
-                       var newd = $.trim(data);
-                       var classname = 'del-' + newd;
-   
-                       if (newd == '01') {
-                           swal({
-                               title: msg16,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.vehical_type_class').append('<tr class=" data_color_name row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' +
-                               vehical_type +
-                               '</td><td class="text-end col-6"><button type="button" vehicletypeid=' +
-                               data +
-                               ' deletevehical="{!! url('/vehicle/vehicaltypedelete') !!}" class="btn btn-danger text-white border-0 deletevehicletype"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-   
-                           $('.select_vehicaltype').append('<option value=' + data + '>' +
-                               vehical_type + '</option>');
-                           $('.vehical_type').val('');
-   
-                           $('.vehical_id').append('<option value=' + data + '>' +
-                               vehical_type + '</option>');
-                           $('.vehical_type').val('');
-                       }
-   
-                       $(".vehicaltypeadd").prop('disabled', false);
-                       return false;
-                   },
-               });
-           }
-       });
-   
-   
-       var msg1 = "{{ trans('message.Are You Sure?') }}";
-       var msg2 = "{{ trans('message.You will not be able to recover this data afterwards!') }}";
-       var msg3 = "{{ trans('message.Cancel') }}";
-       var msg4 = "{{ trans('message.Yes, delete!') }}";
-       var msg5 = "{{ trans('message.Done!') }}";
-       var msg6 = "{{ trans('message.It was succesfully deleted!') }}";
-       var msg7 = "{{ trans('message.Cancelled') }}";
-       var msg8 = "{{ trans('message.Your data is safe') }}";
-       var vtypedelete = "{{ trans('message.Vehicle Type Deleted Successfully') }}";
-       var vbranddelete = "{{ trans('message.Vehicle Brand Deleted Successfully') }}";
-       var fueldelete = "{{ trans('message.Fuel Type Deleted Successfully') }}";
-       var modeldelete = "{{ trans('message.Model Deleted Successfully') }}";
-       var colordelete = "{{ trans('message.Color Deleted Successfully') }}";
-   
-       /*vehical Type delete*/
-       $('body').on('click', '.deletevehicletype', function() {
-   
-           var vtypeid = $(this).attr('vehicletypeid');
-           var url = $(this).attr('deletevehical');
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           vtypeid: vtypeid
-                       },
-                       success: function(data) {
-                           $('.del-' + vtypeid).remove();
-                           $(".select_vehicaltype option[value=" + vtypeid + "]")
-                               .remove();
-                           $("#vehicleTypeSelect option[value=" + vtypeid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: vtypedelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-   
-       });
-   
-       /*vehical brand*/
-       $('.vehicalbrandadd').click(function() {
-   
-           var vehical_id = $('.vehical_id').val();
-           var vehical_brand = $('.vehical_brand').val();
-           var url = $(this).attr('vehiclebrandurl');
-   
-           var msg17 = "{{ trans('message.Please first select vehicle type') }}";
-           var msg18 = "{{ trans('message.Please enter vehicle brand') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_brand_value: $('.vehical_brand').val(),
-                   vehicle_brand_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_brand_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehiclebrandadd = define_variable();
-   
-           if ($("#vehicleTypeSelect")[0].selectedIndex <= 0) {
-   
-               swal({
-                   title: msg17,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else {
-               if (vehical_brand == "") {
-                   swal({
-                       title: msg18,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               } else if (!call_var_vehiclebrandadd.vehicle_brand_pattern.test(call_var_vehiclebrandadd
-                       .vehicle_brand_value)) {
-                   $('.vehical_brand').val("");
-                   swal({
-                       title: msg33,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               } else if (!vehical_brand.replace(/\s/g, '').length) {
-                   // var str = "    ";
-                   $('.vehical_brand').val("");
-                   swal({
-                       title: msg32,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               } else if (!call_var_vehiclebrandadd.vehicle_brand_pattern2.test(
-                       call_var_vehiclebrandadd
-                       .vehicle_brand_value)) {
-                   $('.vehical_brand').val("");
-                   swal({
-                       title: msg34,
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-   
-               } else {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-   
-                       data: {
-                           vehical_id: vehical_id,
-                           vehical_brand: vehical_brand
-                       },
-   
-                       beforeSend: function() {
-                           $(".vehicalbrandadd").prop('disabled', true);
-                       },
-   
-                       success: function(data) {
-                           var newd = $.trim(data);
-                           var classname = 'del-' + newd;
-   
-                           if (newd == "01") {
-                               swal({
-                                   title: msg16,
-                                   cancelButtonColor: '#C1C1C1',
-                                   buttons: {
-                                       cancel: msg35,
-                                   },
-                                   dangerMode: true,
-                               });
-                           } else {
-                               $('.vehical_brand_class').append('<tr class=" data_color_name row mx-3 ' + classname +
-                                   '"><td class="text-start col-6">' + vehical_brand +
-                                   '</td><td class="text-end col-6"><button type="button" brandid=' +
-                                   data +
-                                   ' deletevehicalbrand="{!! url('vehicle/vehicalbranddelete') !!}" class="btn btn-danger text-white border-0 deletevehiclebrands"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                               );
-   
-                               $('.select_vehicalbrand').append('<option value=' + data +
-                                   '>' + vehical_brand +
-                                   '</option>');
-   
-                               $('.vehi_brand_id').append('<option value=' + data +
-                                   '>' + vehical_brand +
-                                   '</option>');
-   
-                               $('.vehical_brand').val('');
-                           }
-   
-                           $(".vehicalbrandadd").prop('disabled', false);
-                           return false;
-                       },
-   
-                   });
-               }
-           }
-       });
-   
-   
-       /*vehical brand delete*/
-       $('body').on('click', '.deletevehiclebrands', function() {
-   
-           var vbrandid = $(this).attr('brandid');
-           var url = $(this).attr('deletevehicalbrand');
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           vbrandid: vbrandid
-                       },
-                       success: function(data) {
-                           $('.del-' + vbrandid).remove();
-                           $(".select_vehicalbrand option[value=" + vbrandid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: vbranddelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-       });
-   
-   
-   
-       $('.fueltypeadd').click(function() {
-   
-           var fuel_type = $('.fuel_type').val();
-           var url = $(this).attr('fuelurl');
-   
-           var msg21 = "{{ trans('message.Please enter fuel type') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_fuel_value: $('.fuel_type').val(),
-                   vehicle_fuel_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_fuel_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehiclefueladd = define_variable();
-   
-           if (fuel_type == "") {
-               swal({
-                   title: msg21,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclefueladd.vehicle_fuel_pattern.test(call_var_vehiclefueladd
-                   .vehicle_fuel_value)) {
-               $('.fuel_type').val("");
-               swal({
-                   title: msg14,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!fuel_type.replace(/\s/g, '').length) {
-               // var str = "    ";
-               $('.fuel_type').val("");
-               swal({
-                   title: msg15,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclefueladd.vehicle_fuel_pattern2.test(call_var_vehiclefueladd
-                   .vehicle_fuel_value)) {
-               $('.fuel_type').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-   
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: url,
-   
-                   data: {
-                       fuel_type: fuel_type
-                   },
-   
-                   beforeSend: function() {
-                       $(".fueltypeadd").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-                       var newd = $.trim(data);
-                       var classname = 'del-' + newd;
-   
-                       if (newd == '01') {
-                           swal({
-                               title: msg16,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.fuel_type_class').append('<tr class=" data_of_type row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' +
-                               fuel_type +
-                               '</td><td class="text-end col-6"><button type="button" fuelid=' +
-                               data +
-                               ' deletefuel="{!! url('/vehicle/fueltypedelete') !!}" class="btn btn-danger text-white border-0 fueldeletes"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-   
-                           $('.select_fueltype').append('<option value=' + data + '>' +
-                               fuel_type + '</option>');
-   
-                           $('.fuel_type').val('');
-                       }
-   
-                       $(".fueltypeadd").prop('disabled', false);
-                       return false;
-                   },
-   
-               });
-           }
-       });
-   
-   
-       /*Fuel  Type delete*/
-       $('body').on('click', '.fueldeletes', function() {
-           var fueltypeid = $(this).attr('fuelid');
-           var url = $(this).attr('deletefuel');
-   
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: url,
-                       data: {
-                           fueltypeid: fueltypeid
-                       },
-                       success: function(data) {
-                           $('.del-' + fueltypeid).remove();
-                           $(".select_fueltype option[value=" + fueltypeid + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: fueldelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-       });
-   
-   
-       /*Add Vehicle Model*/
-       $('.vehi_model_add').click(function() {
-           var model_name = $('.vehi_modal_name').val();
-           var model_url = $(this).attr('modelurl');
-           var brand_id = $('.vehi_brand_id').val();
-   
-           var msg9 = "{{ trans('message.Please enter model name') }}";
-   
-           function define_variable() {
-               return {
-                   vehicle_model_value: $('.vehi_modal_name').val(),
-                   vehicle_model_pattern: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]+$/,
-                   vehicle_model_pattern2: /^[a-zA-Z0-9\u0621-\u064A\u00C0-\u017F\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\u0900-\u097F\s]*$/
-               };
-           }
-   
-           var call_var_vehiclemodeladd = define_variable();
-   
-           if (model_name == "") {
-               swal({
-                   title: msg9,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclemodeladd.vehicle_model_pattern.test(call_var_vehiclemodeladd
-                   .vehicle_model_value)) {
-               $('.vehi_modal_name').val("");
-               swal({
-                   title: msg14,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!model_name.replace(/\s/g, '').length) {
-               $('.vehi_modal_name').val("");
-               swal({
-                   title: msg15,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else if (!call_var_vehiclemodeladd.vehicle_model_pattern2.test(call_var_vehiclemodeladd
-                   .vehicle_model_value)) {
-               $('.vehi_modal_name').val("");
-               swal({
-                   title: msg34,
-                   cancelButtonColor: '#C1C1C1',
-                   buttons: {
-                       cancel: msg35,
-                   },
-                   dangerMode: true,
-               });
-           } else {
-               $.ajax({
-                   type: 'GET',
-                   url: model_url,
-                   data: {
-                       model_name: model_name,
-                       brand_id: brand_id
-                   },
-   
-                   beforeSend: function() {
-                       $(".vehi_model_add").prop('disabled', true);
-                   },
-   
-                   success: function(data) {
-                       var newd = $.trim(data);
-                       var classname = 'mod-' + newd;
-   
-                       if (newd == '01') {
-                           swal({
-                               title: msg16,
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       } else {
-                           $('.vehi_model_class').append('<tr class=" data_color_name row mx-1 ' + classname +
-                               '"><td class="text-start col-6">' +
-                               model_name +
-                               '</td><td class="text-end col-6"><button type="button" modelid=' +
-                               data +
-                               ' deletemodel="{!! url('/vehicle/vehicle_model_delete') !!}" class="btn btn-danger text-white border-0 modeldeletes"><i class="fa fa-trash" aria-hidden="true"></i></button></a></td><tr>'
-                           );
-                           $('.model_addname').append("<option value='" + model_name +
-                               "'>" + model_name +
-                               "</option>");
-                           $('.vehi_modal_name').val('');
-                       }
-   
-                       $(".vehi_model_add").prop('disabled', false);
-                       return false;
-                   },
-               });
-           }
-       });
-   
-       /*Delete vehicle model*/
-       $('body').on('click', '.modeldeletes', function() {
-   
-           var mod_del_id = $(this).attr('modelid');
-           var del_url = $(this).attr('deletemodel');
-   
-           swal({
-               title: msg1,
-               text: msg2,
-               icon: "warning",
-               buttons: [msg3, msg4],
-               dangerMode: true,
-               cancelButtonColor: "#C1C1C1",
-           }).then((isConfirm) => {
-               if (isConfirm) {
-                   $.ajax({
-                       type: 'GET',
-                       url: del_url,
-                       data: {
-                           mod_del_id: mod_del_id
-                       },
-                       success: function(data) {
-                           $('.mod-' + mod_del_id).remove();
-                           $(".model_addname option[value=" + mod_del_id + "]")
-                               .remove();
-                           swal({
-                               title: msg5,
-                               text: modeldelete,
-                               icon: 'success',
-                               cancelButtonColor: '#C1C1C1',
-                               buttons: {
-                                   cancel: msg35,
-                               },
-                               dangerMode: true,
-                           });
-                       }
-                   });
-               } else {
-                   swal({
-                       title: msg7,
-                       text: msg8,
-                       icon: 'error',
-                       cancelButtonColor: '#C1C1C1',
-                       buttons: {
-                           cancel: msg35,
-                       },
-                       dangerMode: true,
-                   });
-               }
-           })
-   
-       });
-   
-   
-       /*vehical Type from brand*/
-       $('.select_vehicaltype').change(function() {
-           vehical_id = $(this).val();
-           var url = $(this).attr('vehicalurl');
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   vehical_id: vehical_id
-               },
-               success: function(response) {
-                   $('.select_vehicalbrand').html(response);
-   
-                   $('.select_vehicalbrand').trigger('change');
-               }
-           });
-       });
-   
-       /*vehical Model from brand*/
-       $('.select_vehicalbrand').change(function() {
-           id = $(this).val();
-           var url = $(this).attr('url');
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   id: id
-               },
-               success: function(response) { 
-                   $('.model_addname').html(response);
-               }
-           });
-       });
-   
-       var msg100 = "{{ trans('message.An error occurred :') }}";
-   
-       /*Vehical Description*/
-       $("#add_new_description").click(function() {
-   
-           var row_id = $("#tab_decription_detail > tbody > tr").length;
-           var url = $(this).attr('url');
-           var row_number = row_id + 1;
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   row_id: row_id
-               },
-               beforeSend: function() {
-                   $("#add_new_description").prop('disabled', true); // disable button
-               },
-               success: function(response) {
-                   $("#tab_decription_detail > tbody").append(response.html);
-                   $("#tab_decription_detail > tbody").css({
-                       borderTop: "1px solid #dee2e6",
-                   });
-                   // $("#tab_decription_detail > tbody > tr").style.borderTop = "thick solid #0000FF";
-                   document.getElementById('row_id_' + row_number).style.borderTop =
-                       "1px solid #dee2e6"
-   
-                   $("#add_new_description").prop('disabled', false); // enable button
-                   return false;
-               },
-               error: function(e) {
-                   alert(msg100 + " " + e.responseText);
-                   console.log(e);
-               }
-           });
-       });
-   
-   
-       $('body').on('click', '.delete_description', function() {
-           var row_id = $(this).attr('data-id');
-   
-           $('table#tab_decription_detail tr#row_id_' + row_id).remove();
-           return false;
-       });
-   
-   
-       /*vehical color*/
-       $("#add_new_color").click(function() {
-           var color_id = $("#tab_color > tbody > tr").length;
-           var url = $(this).attr('url');
-   
-           $.ajax({
-               type: 'GET',
-               url: url,
-               data: {
-                   color_id: color_id
-               },
-               beforeSend: function() {
-                   $("#add_new_color").prop('disabled', true); // disable button
-               },
-               success: function(response) {
-                   $("#tab_color > tbody").append(response.html);
-                   $("#add_new_color").prop('disabled', false); // disable button
-                   return false;
-               },
-               error: function(e) {
-                   alert(msg42 + " " + e.responseText);
-                   console.log(e);
-               }
-           });
-       });
-   
-       // Initialize the color picker on the input field
-   // $("#color_picker_input").colorpicker();
-   
-   // $("#add_new_color").click(function() {
-   //     var color_id = $("#tab_color > tbody > tr").length;
-   //     var url = $(this).attr('url');
-   //     var selectedColor = $("#color_picker_input").val(); // Get the selected color from the input field
-   
-   //     $.ajax({
-   //         type: 'GET',
-   //         url: url,
-   //         data: {
-   //             color_id: color_id,
-   //             selectedColor: selectedColor // Send the selected color to the server
-   //         },
-   //         beforeSend: function() {
-   //             $("#add_new_color").prop('disabled', true);
-   //         },
-   //         success: function(response) {
-   //             $("#tab_color > tbody").append(response.html);
-   //             $("#add_new_color").prop('disabled', false);
-   //         },
-   //         error: function(e) {
-   //             alert(msg42 + " " + e.responseText);
-   //             console.log(e);
-   //         }
-   //     });
-   // });
-   
-   
-   
-   
-       $('body').on('click', '.remove_color', function() {
-   
-           var color_id = $(this).attr('data-id');
-   
-           $('table#tab_color tr#color_id_' + color_id).remove();
-           return false;
-       });
-   
+
    
        // Basic
        $('.dropify').dropify();
@@ -2902,6 +2064,44 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 </script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Include all model data in JSON format -->
+<script>
+    const allModels = @json($model_name);
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const vehicleBrandSelect = document.getElementById('vehicabrand');
+        const vehicleTypeSelect = document.getElementById('vehical_id');
+        const modelNameSelect = document.getElementById('modelname');
+        const allModels = @json($model_name);
+
+        function filterModels() {
+            const selectedBrand = vehicleBrandSelect.value;
+            const selectedType = vehicleTypeSelect.value;
+
+            // Clear the model name select options
+            modelNameSelect.innerHTML = '<option value="">{{ trans('message.Select Model') }}</option>';
+
+            // Filter and populate the model name select
+            allModels.forEach(function (model) {
+                if (model.vehicleType_id == selectedType && model.brand_id == selectedBrand) {
+                    const option = document.createElement('option');
+                    option.value = model.model_name;
+                    option.textContent = model.model_name;
+                    modelNameSelect.appendChild(option);
+                }
+            });
+        }
+
+        vehicleBrandSelect.addEventListener('change', filterModels);
+        vehicleTypeSelect.addEventListener('change', filterModels);
+    });
+</script>
+
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\VehicleAddEditFormRequest', '#demo-form2') !!}

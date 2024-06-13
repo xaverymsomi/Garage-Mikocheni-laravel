@@ -21,24 +21,6 @@
         <div class="x_content">
           <div class="x_panel">
             <form id="vehicleBrandEdit-Form" action="update/{{ $vehicalbrands->id }}" method="post" enctype="multipart/form-data" data-parsley-validate class="form-horizontal form-label-left">
-
-              <div class="row row-mb-0">
-                <label class="control-label col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2 text-center" for="first-name">{{ trans('message.Vehicle Types') }} <label class="color-danger">*</label>
-                </label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select name="vehicaltypes" class="form-control col-md-7 col-xs-12 form-select">
-                    <option value="">{{ trans('message.Select Vehicle Type') }}</option>
-                    @if (!empty($vehicaltypes))
-                    @foreach ($vehicaltypes as $vehicaltypess)
-                    <option value="{{ $vehicaltypess->id }}" <?php if ($vehicaltypess->id == $vehicalbrands->vehicle_id) {
-                                                                echo 'selected';
-                                                              } ?>> {{ $vehicaltypess->vehicle_type }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-              </div>
-
               <div class="row row-mb-0">
                 <label class="control-label col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2 text-center" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label>
                 </label>

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Vehicletype;
 use App\CustomField;
+use App\Vehicletype;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\VehicleTypeAddEditFormRequest;
+
+
 
 class VehicaltypesControler extends Controller
 {

@@ -55,9 +55,14 @@ class Getpasscontroller extends Controller
 					->where('tbl_services.branch_id', $currentUser->branch_id)
 					->orderby('tbl_gatepasses.id', 'DESC')->get();
 			}
-		} else {
+		} elseif (Auth::user()->role_id === 1) {
 			$gatepass = Service::join('tbl_gatepasses', 'tbl_services.job_no', '=', 'tbl_gatepasses.jobcard_id')
 				->where('tbl_services.branch_id', $adminCurrentBranch->branch_id)
+				->orderby('tbl_gatepasses.id', 'DESC')->get();
+		} elseif (Auth::user()->role_id === 6) {
+		
+			$gatepass = Service::join('tbl_gatepasses', 'tbl_services.job_no', '=', 'tbl_gatepasses.jobcard_id')
+				->where('tbl_services.branch_id', $currentUser->branch_id)
 				->orderby('tbl_gatepasses.id', 'DESC')->get();
 		}
 
@@ -84,13 +89,18 @@ class Getpasscontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
 				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
 				->where('tbl_services.branch_id', '=', $adminCurrentBranch->branch_id)
 				->whereNotIn('tbl_invoices.job_card', $job_no)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$jobno = DB::table('tbl_invoices')->where('job_card', 'like', 'RMAL-RP-24-%')->whereNotIn('job_card', $job_no)->get()->toArray();
+		} elseif (Auth::User()->role_id === 6) {
+			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
+				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
+				->where('tbl_services.branch_id', '=', $currentUser->branch_id)
+				->whereNotIn('tbl_invoices.job_card', $job_no)->get();
 		} else {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
 				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
@@ -163,12 +173,16 @@ class Getpasscontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
 				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
 				->where('tbl_services.branch_id', '=', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$jobno = DB::table('tbl_invoices')->where('job_card', 'like', 'RMAL-RP-24-%')->get()->toArray();
+		} elseif (Auth::User()->role_id === 1) {
+			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
+				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
+				->where('tbl_services.branch_id', '=', $currentUser->branch_id)->get();
 		} else {
 			$jobno = Service::join('tbl_invoices', 'tbl_services.job_no', '=', 'tbl_invoices.job_card')
 				->where('tbl_invoices.job_card', 'like', 'RMAL-RP-24-%')
@@ -260,24 +274,24 @@ class Getpasscontroller extends Controller
 	}
 
 	//gatepass modal 
-	public function gatepassview(Request $request)
+	public function serviceview(Request $request)
 	{
-		$getpassid = $request->getpassid;
-		$page_action = $request->page_action;
+		$getpassid = $request->servicesid;
+		// $page_action = $request->page_action;
 
 
 		 $getpassdata = Gatepass::join('users', 'users.id', '=', 'tbl_gatepasses.customer_id')
 
 			->join('tbl_vehicles', 'tbl_gatepasses.vehicle_id', '=', 'tbl_vehicles.id')
 			->join('tbl_services', 'tbl_gatepasses.jobcard_id', '=', 'tbl_services.job_no')
-			->select('tbl_gatepasses.*', 'tbl_services.service_date', 'tbl_vehicles.number_plate', 'tbl_vehicles.modelname', 'tbl_vehicles.vehicletype_id', 'tbl_vehicles.chassisno', 'tbl_vehicles.odometerreading', 'users.name')
+			->select('tbl_gatepasses.*', 'tbl_services.service_date', 'tbl_vehicles.number_plate', 'tbl_vehicles.modelname', 'tbl_vehicles.vehicletype_id', 'tbl_vehicles.chassisno', 'users.name')
 			->where('jobcard_id', $getpassid)->first();
 
 		$vehicle = Vehicle::where('id', '=', $getpassdata->vehicle_id)->first();
 		$job = DB::table('tbl_jobcard_details')->where('jocard_no', '=', $getpassid)->first();
 		$setting = Setting::first();
 
-		$html = view('gatepass.getpassmodel')->with(compact('page_action', 'getpassid', 'getpassdata', 'setting', 'vehicle', 'job'))->render();
+		$html = view('gatepass.getpassmodel')->with(compact('getpassid', 'getpassdata', 'setting', 'vehicle', 'job'))->render();
 
 		return response()->json(['success' => true, 'html' => $html]);
 	}

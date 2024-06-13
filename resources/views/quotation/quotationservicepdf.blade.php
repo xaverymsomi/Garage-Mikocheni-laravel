@@ -232,12 +232,12 @@
                                     <tbody>
                                         <tr>
                                             <td colspan="2">{{ $Vehicle_inf->number_plate }}</td>
-                                            <td colspan="2">{{ getVehicleType($maker) }}</td>
+                                            <td colspan="2">{{ getVehicleBrand($maker) }}</td>
                                             <td colspan="2">{{ getVehicleName($vehi_name) }}</td>
                                             <td colspan="2">{{ $chassis_no }}</td>
                                             <td colspan="2">{{ $Vehicle_inf->modelyear }}</td>
                                             
-                                            <td colspan="2">{{ $Vehicle_inf->color }}</td>
+                                            <td colspan="2">{{ getColor($Vehicle_inf->color) }}</td>
                                             <td colspan="2">{{ $Vehicle_inf->engineno }}</td>
                                         </tr>
                                     </tbody>

@@ -28,7 +28,7 @@ class ExpenseController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$expense = Expense::join('tbl_expenses_history_records', 'tbl_expenses.id', '=', 'tbl_expenses_history_records.tbl_expenses_id')
 				->where('tbl_expenses.branch_id', '=', $adminCurrentBranch->branch_id)
 				->groupBy('tbl_expenses_history_records.tbl_expenses_id')
@@ -36,6 +36,12 @@ class ExpenseController extends Controller
 				->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$expense = Expense::join('tbl_expenses_history_records', 'tbl_expenses.id', '=', 'tbl_expenses_history_records.tbl_expenses_id')
+				->groupBy('tbl_expenses_history_records.tbl_expenses_id')
+				->orderBy('tbl_expenses.id', 'DESC')
+				->get();
+		} elseif (Auth::User()->role_id === 6) {
+			$expense = Expense::join('tbl_expenses_history_records', 'tbl_expenses.id', '=', 'tbl_expenses_history_records.tbl_expenses_id')
+				->where('tbl_expenses.branch_id', '=', $currentUser->branch_id)
 				->groupBy('tbl_expenses_history_records.tbl_expenses_id')
 				->orderBy('tbl_expenses.id', 'DESC')
 				->get();
@@ -60,10 +66,12 @@ class ExpenseController extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if(Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -138,13 +146,17 @@ class ExpenseController extends Controller
 	{
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 			$first_data = Expense::where([['id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 			$sec_data = ExpenseHistoryRecord::where('tbl_expenses_id', $id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$first_data = Expense::where('id', $id)->first();
+			$sec_data = ExpenseHistoryRecord::where('tbl_expenses_id', $id)->get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
+			$first_data = Expense::where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
 			$sec_data = ExpenseHistoryRecord::where('tbl_expenses_id', $id)->get();
 		} else {
 			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
@@ -246,7 +258,7 @@ class ExpenseController extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$month_expense = Expense::join('tbl_expenses_history_records', 'tbl_expenses.id', '=', 'tbl_expenses_history_records.tbl_expenses_id')
 				->whereBetween('date', [$start_date, $end_date])
 				->select('tbl_expenses.*', 'tbl_expenses_history_records.*')
@@ -261,6 +273,13 @@ class ExpenseController extends Controller
 				->orderBy('tbl_expenses_history_records.id', 'DESC')
 				->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Employee') {
+			$month_expense = Expense::join('tbl_expenses_history_records', 'tbl_expenses.id', '=', 'tbl_expenses_history_records.tbl_expenses_id')
+				->whereBetween('date', [$start_date, $end_date])
+				->select('tbl_expenses.*', 'tbl_expenses_history_records.*')
+				->where('tbl_expenses.branch_id', '=', $currentUser->branch_id)
+				->orderBy('tbl_expenses_history_records.id', 'DESC')
+				->get();
+		} elseif (Auth::User()->role_id === 6) {
 			$month_expense = Expense::join('tbl_expenses_history_records', 'tbl_expenses.id', '=', 'tbl_expenses_history_records.tbl_expenses_id')
 				->whereBetween('date', [$start_date, $end_date])
 				->select('tbl_expenses.*', 'tbl_expenses_history_records.*')

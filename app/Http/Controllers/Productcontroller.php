@@ -94,10 +94,12 @@ class Productcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', $adminCurrentBranch->branch_id)->get();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		} else {
 			$branchDatas = Branch::where('id', $currentUser->branch_id)->get();
 		}
@@ -303,12 +305,15 @@ class Productcontroller extends Controller
 
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			$branchDatas = Branch::where('id', '=', $adminCurrentBranch->branch_id)->get();
 			$product = Product::where([['id', $id], ['branch_id', $adminCurrentBranch->branch_id]])->first();
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Customer') {
 			$branchDatas = Branch::get();
 			$product = Product::where('id', '=', $id)->first();
+		} elseif (Auth::User()->role_id === 6) {
+			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
+			$product = Product::where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();
 		} else {
 			$branchDatas = Branch::where('id', '=', $currentUser->branch_id)->get();
 			$product = Product::where([['id', $id], ['branch_id', $currentUser->branch_id]])->first();

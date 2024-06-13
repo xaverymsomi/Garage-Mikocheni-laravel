@@ -635,7 +635,7 @@ class homecontroller extends Controller
 		$start_date = "$year/$month/01";
 		$end_date = "$year/$month/30";
 
-		if (isAdmin(Auth::User()->role_id)) {
+		if (Auth::User()->role_id === 1) {
 			//top five vehicle service
 			$vehical = DB::select("SELECT count(id) as count,`vehicle_id` as vid FROM tbl_services where (done_status=1) and (branch_id = '" . $adminCurrentBranch->branch_id . "') and (service_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "') group by `vehicle_id` limit 5");
 
@@ -644,6 +644,15 @@ class homecontroller extends Controller
 
 			// ontime service 
 			$datediff = DB::select("SELECT DATEDIFF(tbl_gatepasses.service_out_date,tbl_services.service_date) as days,COUNT(tbl_services.job_no) as counts FROM `tbl_services` join tbl_gatepasses on tbl_services.job_no=tbl_gatepasses.jobcard_id where tbl_services.done_status=1 and (tbl_services.branch_id = '" . $adminCurrentBranch->branch_id . "') and (tbl_services.service_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "') and (tbl_gatepasses.service_out_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "')GROUP BY days ");
+		} elseif (Auth::User()->role_id === 6) {
+			//top five vehicle service
+			$vehical = DB::select("SELECT count(id) as count,`vehicle_id` as vid FROM tbl_services where (done_status=1) and (branch_id = '" . $currentUser->branch_id . "') and (service_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "') group by `vehicle_id` limit 5");
+
+			//top five employee performance
+			$performance = DB::select("SELECT count(id) as count,`assign_to` as a_id FROM tbl_services where (done_status=1) and (branch_id = '" . $currentUser->branch_id . "') and (service_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "') group by `assign_to` limit 5");
+
+			// ontime service 
+			$datediff = DB::select("SELECT DATEDIFF(tbl_gatepasses.service_out_date,tbl_services.service_date) as days,COUNT(tbl_services.job_no) as counts FROM `tbl_services` join tbl_gatepasses on tbl_services.job_no=tbl_gatepasses.jobcard_id where tbl_services.done_status=1 and (tbl_services.branch_id = '" . $currentUser->branch_id . "') and (tbl_services.service_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "') and (tbl_gatepasses.service_out_date BETWEEN '" . $start_date . "' AND  '" . $end_date . "')GROUP BY days ");
 		} elseif (getUsersRole(Auth::user()->role_id) == 'Support Staff' || getUsersRole(Auth::user()->role_id) == 'Accountant' || getUsersRole(Auth::user()->role_id) == 'Employee' || getUsersRole(Auth::user()->role_id) == 'Branch Admin') {
 
 			//top five vehicle service
@@ -871,7 +880,7 @@ class homecontroller extends Controller
 				$Supplier = User::where([['role', '=', 'Supplier'], ['soft_delete', '=', 0]])->count();
 				$product = Product::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
 				$sales = Sale::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
-				$service = Service::where([['job_no', 'like', 'J%'], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id], ['is_quotation', '=', 0]])->count();
+				$service = Service::where([['job_no', 'like', 'RMAL-RP-24-%'], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id], ['is_quotation', '=', 0]])->count();
 
 				$have_supportstaff = User::where([['role', '=', 'supportstaff'], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->count();
 				$have_vehicle = Vehicle::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
@@ -913,14 +922,62 @@ class homecontroller extends Controller
 				//holiday show Calendar
 				$holiday = Holiday::ORDERBY('date', 'ASC')->get();
 			}
-		} else {
+		} elseif (Auth::user()->role_id === 6) {
+			$employee = User::where([['role', '=', 'employee'], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->count();
+				$Customer = User::where([['role', '=', 'Customer'], ['soft_delete', '=', 0]])->count();
+				$Supplier = User::where([['role', '=', 'Supplier'], ['soft_delete', '=', 0]])->count();
+				$product = Product::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
+				$sales = Sale::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
+				$service = Service::where([['job_no', 'like', 'RMAL-RP-24-%'], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id], ['is_quotation', '=', 0]])->count();
+
+				$have_supportstaff = User::where([['role', '=', 'supportstaff'], ['soft_delete', '=', 0], ['branch_id', $currentUser->branch_id]])->count();
+				$have_vehicle = Vehicle::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
+				$have_product = Product::where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
+				$have_purchase = DB::table('tbl_purchases')->where('branch_id', '=', $currentUser->branch_id)->count();
+				$have_observationCount = DB::table('tbl_points')->where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->count();
+
+				//free service
+				$sale = Service::where([['tbl_services.done_status', '!=', 2], ['tbl_services.service_type', '=', 'free']])->orderBy('tbl_services.id', 'desc')->take(5)
+					->where('soft_delete', '=', 0)
+					->where('branch_id', '=', $currentUser->branch_id)
+					->whereNotIn('quotation_modify_status', [1])
+					->select('tbl_services.*')
+					->get();
+
+				//Paid service					
+				$sale1 = Service::where([['tbl_services.done_status', '!=', 2], ['tbl_services.service_type', '=', 'paid']])->orderBy('tbl_services.id', 'desc')->take(5)
+					->where('soft_delete', '=', 0)
+					->where('branch_id', '=', $currentUser->branch_id)
+					->whereNotIn('quotation_modify_status', [1])
+					->select('tbl_services.*')
+					->get();
+
+				//Repeat job service
+				$sale2 = Service::where([['tbl_services.done_status', '!=', 2], ['tbl_services.service_category', '=', 'repeat job']])
+					->orderBy('tbl_services.id', 'desc')->take(5)
+					->where('soft_delete', '=', 0)
+					->whereNotIn('quotation_modify_status', [1])
+					->where('branch_id', '=', $currentUser->branch_id)
+					->select('tbl_services.*')
+					->get();
+
+				//Recent join customer
+				$Customere = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'desc')->take(5)->get();
+
+				//Calendar Events
+				$serviceevent = Service::where('tbl_services.done_status', '!=', 2)->where('soft_delete', '=', 0)->where('branch_id', '=', $currentUser->branch_id)->get();
+
+				//holiday show Calendar
+				$holiday = Holiday::ORDERBY('date', 'ASC')->get();
+			
+		} elseif (Auth::user()->role_id === 1) {
 			//count employee,customer,supplier,product,sales,service			
 			$employee = User::where([['role', '=', 'employee'], ['soft_delete', '=', 0]])->count();
 			$Customer = User::where([['role', '=', 'Customer'], ['soft_delete', '=', 0]])->count();
 			$Supplier = User::where([['role', '=', 'Supplier'], ['soft_delete', '=', 0]])->count();
 			$product = Product::where('soft_delete', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->count();
 			$sales = Sale::where('soft_delete', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->count();
-			$service = Service::where([['job_no', 'like', 'J%'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id], ['is_quotation', '=', 0]])->count();
+			$service = Service::where([['job_no', 'like', 'RMAL-RP-24-%'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id], ['is_quotation', '=', 0]])->count();
 
 			$have_supportstaff = User::where([['role', '=', 'supportstaff'], ['soft_delete', '=', 0], ['branch_id', $adminCurrentBranch->branch_id]])->count();
 			$have_vehicle = Vehicle::where('soft_delete', '=', 0)->where('branch_id', '=', $adminCurrentBranch->branch_id)->count();
