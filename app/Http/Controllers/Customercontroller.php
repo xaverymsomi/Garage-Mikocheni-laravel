@@ -189,6 +189,7 @@ class Customercontroller extends Controller
 	public function storecustomer(CustomerAddEditFormRequest $request)
 	{
 		$customerType = $request->customer_type;
+
 		$vehicla = $request->input('vehicles');
         $branchData = $vehicla[0]['branch'];
 
@@ -202,6 +203,7 @@ class Customercontroller extends Controller
 			$birthdate = $request->dob;
 			$email = $request->email;
 			$mobile = $request->mobile;
+
 			$address = $request->addressname;
 			$country_id = $request->country_id;
 			$state_id = $request->state_id;
@@ -232,12 +234,14 @@ class Customercontroller extends Controller
 			$customer->email = $email;
 			$customer->password = bcrypt($password);
 			$customer->mobile_no = $mobile;
+
 			$customer->address = $request->addressname;
 			$customer->country_id = $country_id;
 			$customer->state_id = $state_id;
 			$customer->city_id = $city;
 			$customer->tin_no = $tin_no;
 			$customer->nida_no = $nida_no;
+
 			$customer->branch_id = $branchData;
 			$customer->create_by = Auth::User()->id;
 
@@ -391,6 +395,7 @@ class Customercontroller extends Controller
 		}
 		elseif ($customerType === 'corporate') {
 			// dd($request->all());
+
 			$vehicla = $request->input('vehicles');
         	$branchData = $vehicla[0]['branch'];
 			$firstname = $request->firstname;
@@ -401,7 +406,9 @@ class Customercontroller extends Controller
 			$mobile = $request->mobile;
 			$nida_no= $request->nida_no;
 			$tin_no = $request->tin_no;
+
 			$address = $request->addressname;
+
 			$country_id = $request->country_id;
 			$state_id = $request->state_id;
 			$city = $request->city;
@@ -421,6 +428,7 @@ class Customercontroller extends Controller
 			$customer->city_id = $city;
 			$customer->tin_no = $tin_no;
 			$customer->nida_no = $nida_no;
+
 			$customer->branch_id = $branchData;
 			$customer->create_by = Auth::User()->id;
 			$customer->contact_person = $person;
@@ -577,6 +585,7 @@ class Customercontroller extends Controller
 			//customer list
 	public function index()
 	{
+
 		if (Auth::user()->role_id === 1) {
 			$customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->orderBy('id', 'DESC')->get();
 		} elseif (Auth::user()->role_id === 6) {
@@ -601,6 +610,7 @@ class Customercontroller extends Controller
 
 		return view('customer.list', compact('customer'));
 	}
+
 
 	//customer show
 	public function customershow($id)

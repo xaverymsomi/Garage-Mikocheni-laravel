@@ -50,15 +50,13 @@ class JobCardcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
+
 		if (Auth::user()->role_id === 1) {
 			$services = Service::where([['soft_delete', 0], ['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $adminCurrentBranch->branch_id]])->whereNotIn('quotation_modify_status', [1])->orderBy('id', 'desc')->get();
 		}elseif (Auth::user()->role_id === 6) {
 			$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
-		} elseif (Auth::user()->role == "Customer") {
-			
-		}elseif (Auth::user()->role == "Employee") {
-			
-		}else {
+		} else {
+			$services = Service::orderBy('id', 'desc')->where([['job_no', 'like', 'RMAL-RP-24-%'], ['branch_id', $currentUser->branch_id]])->where('soft_delete', '=', 0)->whereNotIn('quotation_modify_status', [1])->get();
 			
 		}
 
@@ -868,9 +866,11 @@ public function view($id)
                                      ->get()
                                      ->toArray();
     } elseif (Auth::User()->role_id === 6) {
+
 		$brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
         $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $currentUser->branch_id]])->first();
         $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $currentUser->branch_id]])->get() : collect();
+
         $product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
         $employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
         $tbl_checkout_categories = DB::table('tbl_checkout_categories')
@@ -880,9 +880,11 @@ public function view($id)
                                      ->get()
                                      ->toArray();
 	} else {
+
         $brand = Product::where([['category', 1], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
         $sales = Details::where([['quotation_id', $services->job_no], ['branch_id', $currentUser->branch_id]])->first();
         $stock = $sales ? Details::where([['quotation_id', $sales->quotation_id], ['branch_id', $currentUser->branch_id]])->get() : collect();
+
         $product = DB::table('tbl_products')->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get()->toArray();
         $employees = DB::table('users')->where([['role', 'employee'], ['soft_delete', 0]])->get()->toArray();
         $tbl_checkout_categories = DB::table('tbl_checkout_categories')

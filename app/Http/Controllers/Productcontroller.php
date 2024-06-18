@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\tbl_product_types;
 use App\Color;
+use App\tbl_product_units;
 use App\Branch;
 use App\Product;
 use Mpdf\Tag\Input;
 use App\CustomField;
 use App\BranchSetting;
 use Illuminate\Http\Request;
-use App\tbl_product_units;
-use App\tbl_product_types;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +31,7 @@ class Productcontroller extends Controller
 		$currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 
+
 		if (Auth::user()->role_id === 1) {
 			$product = Product::where([
 				['soft_delete', '=', 0],
@@ -44,6 +45,7 @@ class Productcontroller extends Controller
 				['branch_id', '=', 2] // Add condition to filter out products with quantity > 0
 			])->orderBy('id', 'DESC')->get();
 		} else {
+
 			if (Gate::allows('product_owndata')) {
 
 				$product = Product::where([
@@ -57,6 +59,7 @@ class Productcontroller extends Controller
 					['quantity', '>', 0] // Add condition to filter out products with quantity > 0
 				])->orderBy('id', 'DESC')->get();
 			}
+
 		}
 
 
@@ -66,12 +69,14 @@ class Productcontroller extends Controller
 	}
 
 	//product list
+
 	// public function indexid($id)
 	// {
 	// 	$product = Product::where([['id', '=', $id], ['soft_delete', '=', 0]])->get();
 
 	// 	return view('product.list', compact('product'));
 	// }
+
 
 	//product add form
 	public function addproduct()
@@ -292,9 +297,11 @@ class Productcontroller extends Controller
 		$editid = $id;
 		$color = Color::where('soft_delete', '=', 0)->get();
 		$product_type = DB::table('tbl_product_types')->where('soft_delete', '=', 0)->get()->toArray();
+
 		$supplier = User::where([['role', '=', 'Supplier'], ['soft_delete', '=', 0]])->get();
 		
 		// $supplier = User::where('role', '=', 'Supplier')->where('soft_delete', '=', 0)->get();
+
 		$unitproduct = DB::table('tbl_product_units')->get()->toArray();
 
 		//Custom Field Data

@@ -25,6 +25,7 @@ class LabourHoursController extends Controller
         else {
 		    $o_type_point = DB::table('tbl_labours')->where('branch_id', $currentUser->branch_id)->get()->toArray();
         }
+
         
         return view('labour.list', compact('o_type_point'));
     }
@@ -32,17 +33,21 @@ class LabourHoursController extends Controller
     public function add()
     {
         $body_type = DB::table('tbl_vehicle_types')->get()->toArray();
+
         $model_name = DB::table('tbl_model_names')->get()->toArray();
+
 
         $currentUser = User::where([['soft_delete', 0], ['id', '=', Auth::User()->id]])->orderBy('id', 'DESC')->first();
 		$adminCurrentBranch = BranchSetting::where('id', '=', 1)->first();
 		if (Auth::User()->role_id === 1) {
+
             $library = DB::table('tbl_products')->where('branch_id', $adminCurrentBranch->branch_id)->get()->toArray();
 
 		} elseif (Auth::User()->role_id === 6) {
             $library = DB::table('tbl_products')->where('branch_id', $currentUser->branch_id)->get()->toArray();
         } else {
 			$library = DB::table('tbl_products')->where('branch_id', $currentUser->branch_id)->get()->toArray();
+
 
 		}
 
@@ -55,6 +60,7 @@ class LabourHoursController extends Controller
         $vehicleType = $request->vehicleType;
         $modelName = $request->modelName;
         $time = $request->hours;
+
 
         if (Auth::user()->role_id === 1) {
 
@@ -82,12 +88,14 @@ class LabourHoursController extends Controller
         }
 
         
+
         // dd($request->all());
     }
 
     public function edit($id)
     {
         $editid = $id;
+
 
         // $library = DB::table('tbl_products')->get()->toArray();
         $body_type = DB::table('tbl_vehicle_types')->get()->toArray();
@@ -105,6 +113,7 @@ class LabourHoursController extends Controller
 			$library = DB::table('tbl_products')->where('branch_id', $currentUser->branch_id)->get()->toArray();
             $o_type_point = DB::table('tbl_labours')->where('id', '=', $id)->where('branch_id', $currentUser->branch_id)->first();
 		}
+
         return view('labour.edit', compact('o_type_point', 'editid', 'library', 'body_type', 'model_name'));
     }
 
