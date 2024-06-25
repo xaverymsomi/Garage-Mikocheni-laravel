@@ -2,32 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use URL;
-use PDF;
-use Mpdf\Mpdf;
-use Mail;
-use Auth;
 use App\Sale;
 use App\User;
+use Mpdf\Mpdf;
+use App\Branch;
+use App\Income;
+use App\RtoTax;
 use App\Invoice;
 use App\Service;
-use App\Income;
 use App\Setting;
 use App\Vehicle;
-use App\RtoTax;
-use App\Product;
 use App\Washbay;
-use App\Branch;
 use App\SalePart;
 use App\Updatekey;
-use App\JobcardDetail;
 use App\BranchSetting;
+use App\JobcardDetail;
 use App\IncomeHistoryRecord;
-use App\tbl_payment_records;
 use Illuminate\Http\Request;
 use Mpdf\Output\Destination;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
+
+
+// use DB;
+// use URL;
+use PDF;
+// use Mpdf\Mpdf;
+// use Mail;
+// use Auth;
+// use App\Sale;
+// use App\User;
+// use App\Invoice;
+// use App\Service;
+// use App\Income;
+// use App\Setting;
+// use App\Vehicle;
+// use App\RtoTax;
+// use App\Product;
+// use App\Washbay;
+// use App\Branch;
+// use App\SalePart;
+// use App\Updatekey;
+// use App\JobcardDetail;
+// use App\BranchSetting;
+// use App\IncomeHistoryRecord;
+use App\tbl_payment_records;
+// use Illuminate\Http\Request;
+// use Mpdf\Output\Destination;
+// use Illuminate\Support\Facades\Gate;
 
 class InvoiceController extends Controller
 {
