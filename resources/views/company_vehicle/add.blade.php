@@ -40,15 +40,15 @@
             </div>
 
 
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+            {{-- <div class="row row-mb-0"> --}}
+              {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Name') }} <label class="color-danger">*</label></label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                   <input type="text" id="name" name="name" class="form-control" placeholder="{{ trans('Enter Vehicle Name') }}" value="{{ old('name') }}" maxlength="30" required>
                 </div>
-              </div>
+              </div> --}}
 
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+              {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
 
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
@@ -59,10 +59,168 @@
                     @endforeach
                   </select>
                 </div>
-              </div>
-            </div>
+              </div> --}}
+            {{-- </div> --}}
 
-              <div class="row row-mb-0">
+              
+
+            <div class="row row-mb-0">
+              {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Manufacturer Name') }} <label class="color-danger">*</label></label>
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
+                  <select id="p_type" name="p_type" class="form-control product_type_data form-select">
+                    <option value="">--{{ trans('message.Select Manufacturing Name') }}--
+                    </option>
+                    @if (!empty($vehical_type))
+                                 @foreach ($vehical_type as $vehical_types)
+                                 <option value="{{ $vehical_types->id }}">
+                                    {{ $vehical_types->vehicle_type }}
+                                 </option>
+                                 @endforeach
+                                 @endif
+                  </select>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
+                  <button type="button" data-bs-target="#responsive-modal" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm">{{ trans('message.Add/Remove') }}</button>
+                </div>
+              </div> --}}
+
+              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('Quantity') }}</label>
+                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                  <input type="number" id="quantity" name="quantity" class="form-control" placeholder="{{ trans('Enter Quantity') }}" value="1" maxlength="20">
+                </div>
+              </div>
+              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
+                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Warranty') }}</label>
+                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                  <input type="text" id="warranty" name="warranty" class="form-control" placeholder="{{ trans('Enter Vehicle Warranty') }}" value="{{ old('warranty') }}" maxlength="20">
+                </div>
+              </div>
+              
+             
+            </div>
+            <!-- VEHICLE INFORMATION -->
+            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
+              <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
+              <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+          </div>
+      
+          <div id="vehicle-info-container">
+              <div class="vehicle-info-template row row-mb-0">
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="number_plate">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][number_plate]" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="model_year">{{ trans('message.Model Years') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][model_year]" autocomplete="off" class="form-control model_year">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="vehicabrand">{{ trans('Make') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_make" name="vehicles[0][vehicabrand]" id="vehicabrand">
+                                  <option value="">{{ trans('Select Make') }}</option>
+                                  @foreach ($vehical_brand as $vehical_brands)
+                                      <option value="{{ $vehical_brands->id }}">{{ $vehical_brands->vehicle_brand }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="chassis_no">{{ trans('message.Chassis No') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][chassis_no]" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="vehical_id">{{ trans('Body Type') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_body_type" name="vehicles[0][vehical_id]" id="vehical_id">
+                                  <option value="">{{ trans('message.Select Type') }}</option>
+                                  @foreach ($vehical_type as $vehical_types)
+                                      <option value="{{ $vehical_types->id }}">{{ $vehical_types->vehicle_type }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="engine_no">{{ trans('message.Engine No') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][engine_no]" placeholder="{{ trans('message.Enter Engine No') }}" class="form-control engine_no">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="modelname">{{ trans('Model Name') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_model_name" name="vehicles[0][modelname]" id="modelname">
+                                  <option value="">{{ trans('message.Select Model') }}</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="fueltype">{{ trans('Fuel') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_fuel" name="vehicles[0][fueltype]">
+                                  <option value="">{{ trans('message.Select fuel') }}</option>
+                                  @foreach ($fuel_type as $fuel_types)
+                                      <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="color">{{ trans('Color') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_color" name="vehicles[0][color]">
+                                  <option value="">{{ trans('message.-- Select Color --') }}</option>
+                                  @foreach ($color as $colors)
+                                      <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff;">{{ $colors->color }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="branch">{{ trans('message.Branch') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_branch" name="vehicles[0][branch]">
+                                  @foreach ($branchDatas as $branchData)
+                                      <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row row-mb-0">
+                      <div class="row col-md-6 form-group">
+                          <label class="control-label col-md-4" for="vehicle_images">Vehicle Images <label class="text-danger">*</label></label>
+                          {{-- <div class="col-md-8">
+                              
+                          </div> --}}
+                          <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                              {{-- <input type="file" id="image" name="image" class="form-control chooseImage"> --}}
+                              <input type="file" name="vehicles[0][vehicle_images][]" class="form-control" multiple>
+                              <img src="{{ url('public/product/avtar.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row row-mb-0">
 
             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Dealer Price') }} <label class="color-danger">*</label></label>
@@ -81,65 +239,6 @@
                     <strong>{{ $errors->first('price') }}</strong>
                   </span>
                   @endif
-                </div>
-              </div>
-            </div>
-
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Manufacturer Name') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select id="p_type" name="p_type" class="form-control product_type_data form-select">
-                    <option value="">--{{ trans('message.Select Manufacturing Name') }}--
-                    </option>
-                    @if (!empty($vehical_type))
-                                 @foreach ($vehical_type as $vehical_types)
-                                 <option value="{{ $vehical_types->id }}">
-                                    {{ $vehical_types->vehicle_type }}
-                                 </option>
-                                 @endforeach
-                                 @endif
-                  </select>
-                </div>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                  <button type="button" data-bs-target="#responsive-modal" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm">{{ trans('message.Add/Remove') }}</button>
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('Quantity') }}</label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="number" id="quantity" name="quantity" class="form-control" placeholder="{{ trans('Enter Quantity') }}" value="1" maxlength="20">
-                </div>
-              </div>
-
-             
-            </div>
-
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Warranty') }}</label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="warranty" name="warranty" class="form-control" placeholder="{{ trans('Enter Vehicle Warranty') }}" value="{{ old('warranty') }}" maxlength="20">
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="color-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 date">
-                   <input type="text" name="modelyear" autocomplete="off" class="form-control" id="myDatepicker2" />
-                </div>
-             </div>
-              
-              
-            </div>
-            <div class="row">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 has-feedback {{ $errors->has('image') ? ' has-error' : '' }}">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="image">{{ trans('message.Image') }}</label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="file" id="image" name="image" class="form-control chooseImage">
-
-                  <img src="{{ url('public/product/avtar.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
                 </div>
               </div>
             </div>

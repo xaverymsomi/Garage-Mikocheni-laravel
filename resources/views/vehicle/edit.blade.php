@@ -59,271 +59,181 @@
         <div class="x_content">
           <form id="vehicleEdit-Form" action="update/{{ $vehicaledit->id }}" method="post" enctype="multipart/form-data" class="form-horizontal upperform">
 
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Type') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select class="form-control select_vehicaltype form-select" name="vehical_id" vehicalurl="{!! url('/vehicle/vehicaltypefrombrand') !!}">
-                    <!-- <option value="">{{ trans('message.Select Vehicle Type') }}</option> -->
-                    @if (!empty($vehical_type))
-                    @foreach ($vehical_type as $vehical_types)
-                    <option value="{{ $vehical_types->id }}" <?php if ($vehical_types->id == $vehicaledit->vehicletype_id) {
-                                                                echo 'selected';
-                                                              } ?>>{{ $vehical_types->vehicle_type }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                  <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('Plate Number') }} <label class="text-danger">*</label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="number_plate" value="{{ $vehicaledit->number_plate }}" placeholder="{{ trans('Enter Plate Number') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
-
-             
-            </div>
-
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Vehicle Brand') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select class="form-control select_vehicalbrand form-select" name="vehicabrand" url="{!! url('/vehicle/vehicalmodelfrombrand') !!}">
-                    <!-- <option value="">{{ trans('message.Select Vehicle Brand') }}</option> -->
-                    @if (!empty($vehical_brand))
-                    @foreach ($vehical_brand as $vehical_brands)
-                    <option value="{{ $vehical_brands->id }}" <?php if ($vehical_brands->id == $vehicaledit->vehiclebrand_id) {
-                                                                echo 'selected';
-                                                              } ?>>{{ $vehical_brands->vehicle_brand }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                  <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-brand" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
-
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <select class="form-control select_branch form-select" name="branch">
-                    @if (Auth::user()->role_id === 6)
-                                            @php
-                                            $branchDatar = App\Branch::where('id', 2)->get();
-                                            @endphp
-                    @foreach ($branchDatar as $branchData)
-                    <option value="{{ $branchData->id }}" <?php if ($vehicaledit->branch_id == $branchData->id) {
-                                                            echo 'selected';
-                                                          } ?>>{{ $branchData->branch_name }}</option>
-                    @endforeach
-                    @else
-                    @foreach ($branchDatas as $branchData)
-                    <option value="{{ $branchData->id }}" <?php if ($vehicaledit->branch_id == $branchData->id) {
-                                                            echo 'selected';
-                                                          } ?>>{{ $branchData->branch_name }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-              </div>
-              
-            </div>
-
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Fuel Type') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select class="form-control select_fueltype form-select" name="fueltype">
-                    <!-- <option value="">{{ trans('message.Select fuel type') }}</option> -->
-                    @if (!empty($fueltype))
-                    @foreach ($fueltype as $fueltypes)
-                    <option value="{{ $fueltypes->id }}" <?php if ($fueltypes->id == $vehicaledit->fuel_id) {
-                                                            echo 'selected';
-                                                          } ?>> {{ $fueltypes->fuel_type }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                  <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-fuel" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Model Name') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-
-                  <select class="form-control model_addname form-select" name="modelname" required>
-                    <!-- <option value="{{ $vehicaledit->modelname }}">{{ $vehicaledit->modelname }}</option> -->
-                    @if (!empty($model_name))
-                    @foreach ($model_name as $model_names)
-                    <option value="{{ $model_names->model_name }}" <?php if ($model_names->model_name == $vehicaledit->modelname) {
-                                                                      echo 'selected';
-                                                                    } ?>>{{ $model_names->model_name }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                  <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-target="#responsive-modal-vehi-model" data-bs-toggle="modal">{{ trans('message.Add/Remove') }}</button>
-                </div>
-              </div>
-              
-            </div>
-
-            <div class="row row-mb-0">
-              
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6" id="customer-field">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="customer">{{ trans('message.Select Customer') }} <label class="color-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <select class="form-control select_customer form-select" name="customer">
-                    <option value="">{{ trans('message.Select Customer') }}</option>
-                    @if (!empty($customer))
-                    @foreach ($customer as $customers)
-                    <option value="{{ $customers->id }}" <?php if ($customers->id == $vehicaledit->customer_id) {
-                                                                      echo 'selected';
-                                                                    } ?>>{{ getCustomerName($customers->id) }}</option>
-                    @endforeach
-                    @endif
-                  </select>
-                </div>
-              </div>
-
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Engine No') }}. <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="engineno" value="{{ $vehicaledit->engineno }}" placeholder="{{ trans('message.Enter Engine No.') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
-              
-            </div>
-
-            <div class="row row-mb-0">
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Model Years') }} <label class="text-danger"></label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8 input-group-date date" id="">
-                  <input type="text" name="modelyear" autocomplete="off" value="{{ $vehicaledit->modelyear }}" class="form-control myDatepicker2" readonly />
-                </div>
-              </div>
-             
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-              <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Chassis No') }}. <label class="text-danger"></label> </label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" name="chasicno" value="{{ $vehicaledit->chassisno }}" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control">
-                </div>
-              </div>
-            </div>
-
-            <div class="row row-mb-0">
-              <!-- Vehical images  -->
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 mt-0">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Select Multiple Images') }}
-                </label>
-                <div class="form-group col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="file" name="image[]" class="form-control imageclass" data-max-file-size="5M" id="images" onchange="preview_images();" multiple>
-
-                  <div class="row mt-2" id="image_preview">
-                    @if (!empty($images1))
-                    @foreach ($images1 as $images2)
-                    <div class="col-md-4 col-sm-4 col-xs-12 removeimage delete_image" id="image_remove_<?php echo $images2->id; ?>" imgaeid="{{ $images2->id }}" delete_image="{!! url('vehicle/delete/getImages') !!}">
-                      <a href=""><img src="{{ url('public/vehicle/' . $images2->image) }}" width="100px" height="60px">
-                        <p class="text">{{ trans('message.Remove') }}</p>
-                      </a>
-                    </div>
-                    @endforeach
-                    @endif
+            <!-- VEHICLE INFORMATION -->
+            <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 space">
+              <h4><b>{{ trans('VEHICLE INFORMATION') }}</b></h4>
+              <p class="col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 ln_solid"></p>
+          </div>
+      
+          <div id="vehicle-info-container">
+              <div class="vehicle-info-template row row-mb-0">
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="number_plate">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][number_plate]" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" value="{{ $vehicaledit->number_plate }}" class="form-control number_plate">
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="model_year">{{ trans('message.Model Years') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][model_year]" autocomplete="off" class="form-control model_year" value="{{ $vehicaledit->modelyear }}" >
+                          </div>
+                      </div>
                   </div>
-                </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="vehicabrand">{{ trans('Make') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_make" name="vehicles[0][vehicabrand]" id="vehicabrand">
+                                  <!-- <option value="">{{ trans('message.Select Vehicle Brand') }}</option> -->
+                                  @if (!empty($vehical_brand))
+                                  @foreach ($vehical_brand as $vehical_brands)
+                                  <option value="{{ $vehical_brands->id }}" <?php if ($vehical_brands->id == $vehicaledit->vehiclebrand_id) {
+                                                                              echo 'selected';
+                                                                            } ?>>{{ $vehical_brands->vehicle_brand }}</option>
+                                  @endforeach
+                                  @endif
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="chassis_no">{{ trans('message.Chassis No') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][chassis_no]" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no" value="{{ $vehicaledit->chassisno }}">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="vehical_id">{{ trans('Body Type') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_body_type" name="vehicles[0][vehical_id]" id="vehical_id">
+                                  <!-- <option value="">{{ trans('message.Select Vehicle Type') }}</option> -->
+                                  @if (!empty($vehical_type))
+                                  @foreach ($vehical_type as $vehical_types)
+                                  <option value="{{ $vehical_types->id }}" <?php if ($vehical_types->id == $vehicaledit->vehicletype_id) {
+                                                                              echo 'selected';
+                                                                            } ?>>{{ $vehical_types->vehicle_type }}</option>
+                                  @endforeach
+                                  @endif
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="engine_no">{{ trans('message.Engine No') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="text" name="vehicles[0][engine_no]" placeholder="{{ trans('message.Enter Engine No') }}" value="{{ $vehicaledit->engineno }}" class="form-control engine_no">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="modelname">{{ trans('Model Name') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_model_name" name="vehicles[0][modelname]" id="modelname">
+                             <!-- <option value="{{ $vehicaledit->modelname }}">{{ $vehicaledit->modelname }}</option> -->
+                              @if (!empty($model_name))
+                              @foreach ($model_name as $model_names)
+                              <option value="{{ $model_names->model_name }}" <?php if ($model_names->model_name == $vehicaledit->modelname) {
+                                                                                echo 'selected';
+                                                                              } ?>>{{ $model_names->model_name }}</option>
+                              @endforeach
+                              @endif
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="fueltype">{{ trans('Fuel') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_fuel" name="vehicles[0][fueltype]">
+                                @if (!empty($fueltype))
+                                @foreach ($fueltype as $fueltypes)
+                                <option value="{{ $fueltypes->id }}" <?php if ($fueltypes->id == $vehicaledit->fuel_id) {
+                                                                        echo 'selected';
+                                                                      } ?>> {{ $fueltypes->fuel_type }}</option>
+                                @endforeach
+                                @endif
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="color">{{ trans('Color') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_color" name="vehicles[0][color]">
+                                  <option value="">{{ trans('message.-- Select Color --') }}</option>
+                                  @if (!empty($color))
+                                    @foreach ($color as $colors)
+                                    <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff;"
+                                      <?php if ($colors->id == $vehicaledit->color) {
+                                        echo 'selected';
+                                      } ?> >
+                                        {{ $colors->color }}
+                                    </option>
+                                    @endforeach
+                                    @endif
+                              </select>
+                          </div>
+                      </div>
+                      <div class="row col-md-6">
+                          <label class="control-label col-md-4" for="branch">{{ trans('message.Branch') }} <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <select class="form-control select_branch" name="vehicles[0][branch]">
+                                @if (Auth::user()->role_id === 6)
+                                @php
+                                $branchDatar = App\Branch::where('id', 2)->get();
+                                @endphp
+                                @foreach ($branchDatar as $branchData)
+                                <option value="{{ $branchData->id }}" <?php if ($vehicaledit->branch_id == $branchData->id) {
+                                                                        echo 'selected';
+                                                                      } ?>>{{ $branchData->branch_name }}</option>
+                                @endforeach
+                                @else
+                                @foreach ($branchDatas as $branchData)
+                                <option value="{{ $branchData->id }}" <?php if ($vehicaledit->branch_id == $branchData->id) {
+                                                                        echo 'selected';
+                                                                      } ?>>{{ $branchData->branch_name }}</option>
+                                @endforeach
+                                @endif
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row row-mb-0">
+                    <!-- Vehical images  -->
+                    <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 mt-0">
+                      <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">{{ trans('message.Select Multiple Images') }}
+                      </label>
+                      <div class="form-group col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
+                        <input type="file" name="vehicles[0][vehicle_images][]" class="form-control imageclass" data-max-file-size="5M" id="images" onchange="preview_images();" multiple>
+      
+                        <div class="row mt-2" id="image_preview">
+                          @if (!empty($images1))
+                          @foreach ($images1 as $images2)
+                          <div class="col-md-4 col-sm-4 col-xs-12 removeimage delete_image" id="image_remove_<?php echo $images2->id; ?>" imgaeid="{{ $images2->id }}" delete_image="{!! url('vehicle/delete/getImages') !!}">
+                            <a href=""><img src="{{ url('public/vehicle/' . $images2->image) }}" width="100px" height="60px">
+                              <p class="text">{{ trans('message.Remove') }}</p>
+                            </a>
+                          </div>
+                          @endforeach
+                          @endif
+                        </div>
+                      </div>
+                    </div>
+                   
+                  </div>
+                  {{-- <div class="row row-mb-0">
+                      <div class="row col-md-6 form-group">
+                          <label class="control-label col-md-4" for="vehicle_images">Vehicle Images <label class="text-danger">*</label></label>
+                          <div class="col-md-8">
+                              <input type="file" name="vehicles[0][vehicle_images][]" class="form-control" multiple>
+                          </div>
+                      </div>
+                  </div> --}}
               </div>
-             
-            </div>
-
-            <div class="row row-mb-0">
-              <!-- Vehical Description  -->
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group">
-                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                  <h2 class="fw-bold">{{ trans('message.Vehicle Description') }}</h2><br>
-                  <button type="button" id="add_new_description" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton" url="{!! url('vehicle/add/getDescription') !!}">{{ trans('+') }}
-                    </button>
-                </div>
-                <div class="table-responsive mt-3 col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12 table-bordered">
-                  <table class="table table-bordered addtaxtype" id="tab_decription_detail" align="center">
-                    <thead>
-                      <tr>
-                        <th class="all">{{ trans('message.Description') }}</th>
-                        <th>{{ trans('message.Action') }}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @if (!empty($vehicaldes))
-                      @foreach ($vehicaldes as $vehicaldess)
-                      <tr id="row_id_{{ $vehicaldess->id }}">
-                        
-                        <td>
-                          <textarea name="description[]" class="form-control" id="tax_{{ $vehicaldess->id }}" maxlength="100">{{ $vehicaldess->vehicle_description }}</textarea>
-                        </td>
-                        <td class="text-center">
-                          <span class="delete_description" data-id="{{ $vehicaldess->id }}" delete_description="{!! url('vehicle/delete/getDescription') !!}"><i class="fa fa-trash fa-2x"></i></span>
-                        </td>
-                      </tr>
-                      @endforeach
-                      @endif
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <!--vehicle color-->
-              <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 form-group ms-1">
-                                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                    <h2 class="fw-bold">{{ trans('message.Vehicle Color') }} </h2></span><br>
-                                    <button type="button" id="add_new_color" class="btn btn-outline-secondary newaddvehicledescription btn-sm float-end addbutton mb-1" url="{!! url('vehicle/add/getcolor') !!}">{{ trans('+') }}
-                                        </button>
-                                </div>
-                                <div class="col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 text-end mb-3">
-                                    <button type="button" data-bs-target="#responsive-modal-color" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm newaddvehicledescription mt-0">{{ trans('message.Add/Remove') }}</button><br>
-                                </div>
-                                <div class="table-responsive col-md-12 col-lg-12 col-xl-12 col-xxl-12 col-sm-12 col-xs-12">
-                                    <table class="table table-bordered addtaxtype" id="tab_color">
-                                        <thead>
-                                            <tr>
-                                                <th class="all">{{ trans('message.Colors') }}</th>
-                                                <th>{{ trans('message.Action') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr id="color_id_1">
-                                                <td>
-                                                    <select name="color[]" class="form-control color form-select" id="tax_1" data-id="1">
-                                                        <option value="">{{ trans('message.Select Color') }}
-                                                        </option>
-                                                        
-                                                        @if (!empty($color))
-                                                        @foreach ($color as $colors)
-                                                        <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff;">
-                                                            {{ $colors->color }}
-                                                        </option>
-                                                        @endforeach
-                                                        @endif
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-            </div>
+          </div>
 
             <!-- Custom Filed data value -->
             @if (!empty($tbl_custom_fields))

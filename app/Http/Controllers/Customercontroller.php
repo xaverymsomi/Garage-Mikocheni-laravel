@@ -903,6 +903,7 @@ class Customercontroller extends Controller
 				if (Auth::User()->id == $id) {
 					//dd(Gate::allows('customer_owndata'), 1);
 					$customer = DB::table('users')->where('id', '=', $id)->first();
+					$vehicles = Vehicle::where([['soft_delete', '=', 0], ['customer_id', '=', $customer->id]])->orderBy('id', 'DESC')->get();
 
 					$country = DB::table('tbl_countries')->get()->toArray();
 					$state = DB::table('tbl_states')->where('country_id', $customer->country_id)->get()->toArray();
@@ -914,7 +915,7 @@ class Customercontroller extends Controller
 				} else if (Gate::allows('customer_edit')) {
 					//dd(Gate::allows('customer_edit'), 2);
 					$customer = DB::table('users')->where('id', '=', $id)->first();
-
+             		$vehicles = Vehicle::where([['soft_delete', '=', 0], ['customer_id', '=', $customer->id]])->orderBy('id', 'DESC')->get();
 					$country = DB::table('tbl_countries')->get()->toArray();
 					$state = DB::table('tbl_states')->where('country_id', $customer->country_id)->get()->toArray();
 					$city = DB::table('tbl_cities')->where('state_id', $customer->state_id)->get()->toArray();
@@ -927,7 +928,7 @@ class Customercontroller extends Controller
 				}
 			} else if (Gate::allows('customer_edit')) {
 				$customer = DB::table('users')->where('id', '=', $id)->first();
-
+				$vehicles = Vehicle::where([['soft_delete', '=', 0], ['customer_id', '=', $customer->id]])->orderBy('id', 'DESC')->get();
 				$country = DB::table('tbl_countries')->get()->toArray();
 				$state = DB::table('tbl_states')->where('country_id', $customer->country_id)->get()->toArray();
 				$city = DB::table('tbl_cities')->where('state_id', $customer->state_id)->get()->toArray();
@@ -940,6 +941,7 @@ class Customercontroller extends Controller
 			}
 		} else {
 			$customer = DB::table('users')->where('id', '=', $id)->first();
+			$vehicles = Vehicle::where([['soft_delete', '=', 0], ['customer_id', '=', $customer->id]])->orderBy('id', 'DESC')->get();
 
 			$country = DB::table('tbl_countries')->get()->toArray();
 			$state = DB::table('tbl_states')->where('country_id', $customer->country_id)->get()->toArray();
@@ -947,7 +949,7 @@ class Customercontroller extends Controller
 
 			$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'customer'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
 
-			return view('customer.update', compact('country', 'customer', 'state', 'city', 'editid', 'tbl_custom_fields'));
+			return view('customer.update', compact('vehicles','country', 'customer', 'state', 'city', 'editid', 'tbl_custom_fields'));
 		}
 	}
 

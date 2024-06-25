@@ -36,26 +36,6 @@
                           <label class="">{{ trans('message.Display Name') }} </label><br>
                           <label class="fw-bold">{{ $customer->name }}<br></label>
                         </div>
-                        <div class="col-xl-3 col-md-3 col-sm-6">
-                          <label class="">{{ trans('message.Date of Birth') }}</label><br>
-                          <label class="fw-bold">
-                            @if (!empty($customer->birth_date))
-                            {{ date(getDateFormat(), strtotime($customer->birth_date)) }}
-                            @else
-                            {{ trans('message.Not Added') }}
-                            @endif<br>
-                          </label>
-                        </div>
-                        <div class="col-xl-3 col-md-3 col-sm-6">
-                          <label class="">{{ trans('message.Gender') }} </label><br>
-                          <span class="txt_color fw-bold">
-                            @if ($customer->gender == '0')
-                            <?php echo trans('message.Male'); ?>
-                            @else
-                            <?php echo trans('message.Female'); ?>
-                            @endif
-                          </span>
-                        </div>
                       </div>
                       <div class="row mt-3">
                         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -114,7 +94,6 @@
                                     <th>{{ trans('message.TYPE') }}</th>
                                     <th>{{ trans('message.NUMBER PLATE') }}</th>
                                     <th>{{ trans('message.LAST SERVICE DATE') }}</th>
-                                    <th>{{ trans('message.MOT Test Details') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -130,18 +109,7 @@
                                     <td>{{ $vehicals->number_plate }}</td>
                                     <td>{{ $vehicals->lastServiceDate ? $vehicals->lastServiceDate->format('Y-m-d') : 'No service records' }}</td>
                                     <!-- <td><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" serviceid="{{ $vehicals->id }}" class="btn save border-0"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"></button></td> -->
-                                    <td>
-                                        <div class="dropdown_toggle">
-                                            <img src="{{ URL::asset('public/img/list/dots.png') }}" class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButtonAction" data-bs-toggle="dropdown" aria-expanded="false">
-            
-                                            <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButtonAction">
-                                                @can('customer_view')
-                                                <li><a data-bs-toggle="modal" data-bs-target="#exampleModal" serviceid="{{ $vehicals->id }}" class="save border-0" href="{!! url('/vehical/list/' . $vehicals->id) !!}"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3"> {{ trans('message.View') }}</a></li>
-                                                @endcan
-                                            </ul>
-            
-                                        </div>
-                                    </td>
+                                    
                                 </tr>
                                 @endforeach
                                 @endif

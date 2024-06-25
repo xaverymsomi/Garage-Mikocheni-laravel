@@ -78,7 +78,13 @@ class CompanyVehicleController extends Controller
 		$characters = '0123456789';
 		$code =  'VEHICLE' . '' . substr(str_shuffle($characters), 0, 6);
 
-		$vehicle_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		// $vehicle_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
+		// dd($vehical_type);
+		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
 
 		$tbl_custom_fields = CustomField::where([['form_name', '=', 'company_vehicle'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get();
 
@@ -96,10 +102,10 @@ class CompanyVehicleController extends Controller
 		}
         $vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		
-		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		// $vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
 
 		// Return the view for adding a new company vehicle
-        return view('company_vehicle.add', compact('vehical_type', 'vehical_brand', 'code', 'tbl_custom_fields', 'branchDatas'));
+        return view('company_vehicle.add', compact('vehical_type','fuel_type','model_name', 'vehical_brand', 'code','color', 'tbl_custom_fields', 'branchDatas'));
     }
 
 

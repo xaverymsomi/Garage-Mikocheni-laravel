@@ -69,9 +69,12 @@
                 <div class="col-md-8">
                     <select class="form-control select_fuel" name="vehicles[0][fueltype]">
                         <option value="">{{ trans('message.Select fuel') }}</option>
-                        @foreach ($model_name as $model_names)
-                            <option value="{{ $model_names->model_name }}" data-make-id="{{ $model_names->brand_id }}" data-vehicle-type="{{ $model_names->vehicleType_id }}" style="display: none;"></option>
-                        @endforeach
+                        @if (!empty($fuel_type))
+                                     @foreach ($fuel_type as $fuel_types)
+                                     <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
+                                     </option>
+                                     @endforeach
+                                     @endif
                     </select>
                 </div>
             </div>

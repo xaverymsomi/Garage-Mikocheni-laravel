@@ -206,26 +206,6 @@
       </div>
     </div>
   </div>
-  {{-- <div class="x_content">
-      <ul class="nav nav-tabs bar_tabs"
-        role="tablist">
-        @can('customer_view')
-          <li role="presentation" class=""><a href="{!! url('/customer/list') !!}"><span class="visible-xs"></span><i class="fa fa-list fa-lg">&nbsp;</i> {{ trans('message.Customer List') }}</a></li>
-        @endcan
-
-  @can('customer_edit')
-  <li role="presentation" class="active" style="margin-left: 8px;"><a href="{!! url('/customer/list/edit/' . $editid) !!}"><span class="visible-xs"></span><i class="fa fa-pencil-square-o" aria-hidden="true">&nbsp;</i> <b>{{ trans('message.Edit Customer') }}</b></a></li>
-  @endcan
-
-  @if (getUserRoleFromUserTable(Auth::User()->id) == 'Customer')
-  @if (!Gate::allows('customer_edit'))
-  @can('customer_owndata')
-  <li role="presentation" class="active"><a href="{!! url('/customer/list/edit/' . $editid) !!}"><span class="visible-xs"></span><i class="fa fa-pencil-square-o" aria-hidden="true">&nbsp;</i> <b>{{ trans('message.Edit Customer') }}</b></a></li>
-  @endcan
-  @endif
-  @endif
-  </ul>
-</div> --}}
 <div class="clearfix"></div>
 @if ($errors->any())
 @foreach ($errors->all() as $error)
@@ -390,6 +370,74 @@
               </div>
             </div>
           </div>
+
+          <div class="x_panel bgr">
+            <div class="row">
+                <?php
+                if (count($vehicles) == 0) {
+                ?>
+                    <p style="text-align: center;"><img src="{{ URL::asset('public/img/dashboard/No-Data.png') }}" width="300px"></p>
+                <?php
+                } else {
+                    foreach ($vehicles as $vehicals)
+                ?>
+
+                <?php
+            }
+                ?>
+            </div>
+            @if (!empty($vehicals))
+            <div class="row mt-4">
+              <div class="col-md-10 col-lg-10 col-xl-10 col-xxl-10 col-sm-10 col-xs-10 header">
+                  <h4><b>{{ trans('LIST OF VEHICLES') }}</b>
+                  </h4>   
+              </div>
+              <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 col-sm-2 col-xs-2">
+              </div>
+          </div>
+            <table id="supplier" class="table responsive jumbo_table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>{{ trans('message.Photo') }}</th>
+                        <th>{{ trans('message.BRAND/MODEL NAME') }}</th>
+                        <th>{{ trans('message.TYPE') }}</th>
+                        <th>{{ trans('message.NUMBER PLATE') }}</th>
+                        <th>{{ trans('message.LAST SERVICE DATE') }}</th>
+                        <th>{{ trans('message.Action') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (count($vehicles) !== 0)
+                    @foreach ($vehicles as $vehicals)
+                    <tr>
+                        <?php $vehicleimage = getVehicleImage($vehicals->id); ?>
+                        <td>
+                            <img src="{{ URL::asset('public/vehicle/' . $vehicleimage) }}" width="50px" height="50px" class="rounded">
+                        </td>
+                        <td>{{ $vehicals->modelname }}</td>
+                        <td>{{ getVehicleType($vehicals->vehicletype_id) }}</td>
+                        <td>{{ $vehicals->number_plate }}</td>
+                        <td>{{ $vehicals->lastServiceDate ? $vehicals->lastServiceDate->format('Y-m-d') : 'No service records' }}</td>
+                        
+                        <td>
+                          <div class="dropdown_toggle">
+                              <img src="{{ URL::asset('public/img/list/dots.png') }}" class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButtonAction" data-bs-toggle="dropdown" aria-expanded="false">
+
+                              <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButtonAction">
+                                  @can('vehicle_edit')
+                                  <li><a class="dropdown-item" href="{!! url('/vehicle/list/edit/' . $vehicals->id) !!}"><img src="{{ URL::asset('public/img/list/Edit.png') }}" class="me-3"> {{ trans('message.Edit') }}</a></li>
+                                  @endcan
+                              </ul>
+
+                          </div>
+                      </td>
+                    </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+            </table>
+            @endif
+        </div>
 
           <!-- Custom field  -->
           @if (!empty($tbl_custom_fields))

@@ -40,7 +40,7 @@
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="cus_name">{{ trans('message.Customer Name') }} <label class="color-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <select name="Customer" id="cust" class="form-control select_cus customer_name form-select" customer_url="{!! url('invoice/get_jobcard_no') !!}" disabled>
+                                    <select name="Customer" id="cust" class="form-control select_cus customer_name form-select" customer_url="{!! url('invoice/get_jobcard_no') !!}">
                                         <option value="">{{ trans('message.Select Customer') }}</option>
                                         @foreach ($customer as $customers)
                                         <option value="{{ $customers->customer_id }}" <?php if ($customers->customer_id == $invoice_edit->customer_id) {
@@ -117,7 +117,7 @@
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="cus_name">{{ trans('message.Status') }} <label class="color-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <select name="Status" class="form-control paymentStatusSelect form-select" required disabled>
+                                    <select name="Status" class="form-control paymentStatusSelect form-select" required>
                                         <option value="">{{ trans('message.Select Payment Status') }}</option>
                                         <option value="1" <?php if ($invoice_edit->payment_status == '1') {
                                                                 echo 'selected';
@@ -138,7 +138,7 @@
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 paymentTypeMainDiv">
                                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="cus_name">{{ trans('message.Payment Type') }} <label class="color-danger">*</label></label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                                    <select name="Payment_type" class="form-control paymentType form-select" disabled>
+                                    <select name="Payment_type" class="form-control paymentType form-select">
                                         <option value="">{{ trans('message.Select Payment Type') }}</option>
                                         @if (!empty($tbl_payments))
                                         @foreach ($tbl_payments as $tbl_paymentss)
@@ -164,7 +164,7 @@
                                         $paidAmount = 0;
                                     }
                                     ?>    
-                                    <input type="text" name="paidamount" value="{{ number_format($paidAmount,2) }}" class="form-control paidamount" readonly>
+                                    <input type="text" name="paidamount" value="{{ number_format($paidAmount,2) }}" class="form-control paidamount">
                                     <input type="hidden" id="amount_recevied" value="{{ $invoice_edit->amount_recevied }}">
                                 </div>
                             </div>
