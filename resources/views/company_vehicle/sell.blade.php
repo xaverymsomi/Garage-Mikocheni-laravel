@@ -147,15 +147,35 @@
 
                         <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                             <label class=""> {{ trans('message.Vehicle Name :') }} </label>
-                            <label class="fw-bold">{{ $company_vehicle->name }} </label>
+                            <label class="fw-bold">{{ getVehicleBrand($company_vehicle->name) }} </label>
                         </div>
 
                         
 
                         <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                            <label class=""> {{ trans('message.Vehicle Type') }} : </label>
-                            <label class="fw-bold"> {{ getVehicleType($company_vehicle->manufacturer) }} </label>
-                        </div>
+                          <label class=""> {{ trans('Body Type') }} : </label>
+                          <label class="fw-bold"> {{ getVehicleType($company_vehicle->manufacturer) }} </label>
+                      </div>
+                      <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
+                        <label class=""> {{ trans('Model Name') }} : </label>
+                        <label class="fw-bold"> {{ ($company_vehicle->model_name) }} </label>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
+                      <label class=""> {{ trans('Date of Manufactured') }} : </label>
+                          <label class="fw-bold"> {{ $company_vehicle->year }} </label>
+                      </div>
+                      <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
+                        <label class=""> {{ trans('Plate Number') }} : </label>
+                        <label class="fw-bold"> {{ $company_vehicle->plate_number }} </label>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
+                      <label class=""> {{ trans('Engine Number') }} : </label>
+                      <label class="fw-bold"> {{ $company_vehicle->engine_no }} </label>
+                  </div>
+                  <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
+                    <label class=""> {{ trans('Chassis Number') }} : </label>
+                    <label class="fw-bold"> {{ $company_vehicle->chassis_no }} </label>
+                </div>
 
                         <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                             <label class=""> {{ trans('Available in Stock') }} : </label>
@@ -184,7 +204,7 @@
                                     <input class="form-control" type="text" name="" value="{{ getVehicleType($company_vehicle->manufacturer) }}">
                                 </td>
                                 <td class="tbl_td_selectProductname_error_1">
-                                    <input class="form-control" type="text" name="" id="" value="{{ $company_vehicle->name }}">
+                                    <input class="form-control" type="text" name="" id="" value="{{ getVehicleBrand($company_vehicle->name) }}">
                                 </td>
                                 <td class="tbl_td_quantity_error_1">
                                     <input type="number" name="quantity" class="quantity form-control qty qty_1 qtyt" id="qty_1" autocomplete="off" row_id="1" value="1" maxlength="8" oninput="calculateTotalPrice()">
@@ -197,7 +217,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>Total Price</td>
-                                <td id="total_price">NAN</td>
+                                <td id="total_price">{{ $company_vehicle->Price }}</td>
                             </tr>
                         </tbody>
                         

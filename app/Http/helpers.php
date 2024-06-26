@@ -1003,6 +1003,8 @@ if (!function_exists('Getvehiclecheckpoint')) {
 }*/
 
 
+
+
 // Get Vehicle type value In vehicle brand module
 if (!function_exists('getVehicleBrand')) {
 	function getVehicleBrand($id)

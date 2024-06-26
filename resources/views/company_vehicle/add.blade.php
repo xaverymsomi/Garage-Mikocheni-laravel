@@ -37,54 +37,9 @@
                   <input type="text" id="p_date" name="p_date" autocomplete="off" class="form-control datepicker productDate" value="{{ old('p_date', date('Y-m-d')) }}" placeholder="<?php echo getDatepicker(); ?>" style="width=" onkeypress="return false;">
                 </div>
               </div>
-            </div>
-
-
-            {{-- <div class="row row-mb-0"> --}}
-              {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('message.Name') }} <label class="color-danger">*</label></label>
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <input type="text" id="name" name="name" class="form-control" placeholder="{{ trans('Enter Vehicle Name') }}" value="{{ old('name') }}" maxlength="30" required>
-                </div>
-              </div> --}}
-
-              {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="branch">{{ trans('message.Branch') }} <label class="color-danger">*</label></label>
-
-                <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
-                  <select class="form-control select_branch_product form-select" name="branch">
-                    @foreach ($branchDatas as $branchData)
-                    <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}
-                    </option>
-                    @endforeach
-                  </select>
-                </div>
-              </div> --}}
-            {{-- </div> --}}
-
-              
+            </div>              
 
             <div class="row row-mb-0">
-              {{-- <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="first-name">{{ trans('message.Manufacturer Name') }} <label class="color-danger">*</label></label>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4">
-                  <select id="p_type" name="p_type" class="form-control product_type_data form-select">
-                    <option value="">--{{ trans('message.Select Manufacturing Name') }}--
-                    </option>
-                    @if (!empty($vehical_type))
-                                 @foreach ($vehical_type as $vehical_types)
-                                 <option value="{{ $vehical_types->id }}">
-                                    {{ $vehical_types->vehicle_type }}
-                                 </option>
-                                 @endforeach
-                                 @endif
-                  </select>
-                </div>
-                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4 addremove">
-                  <button type="button" data-bs-target="#responsive-modal" data-bs-toggle="modal" class="btn btn-outline-secondary btn-sm">{{ trans('message.Add/Remove') }}</button>
-                </div>
-              </div> --}}
-
               <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
                 <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="last-name">{{ trans('Quantity') }}</label>
                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
@@ -112,13 +67,13 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="number_plate">{{ trans('message.Number Plate') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <input type="text" name="vehicles[0][number_plate]" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
+                              <input type="text" name="number_plate" placeholder="{{ trans('message.Enter Number Plate') }}" maxlength="30" class="form-control number_plate">
                           </div>
                       </div>
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="model_year">{{ trans('message.Model Years') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <input type="text" name="vehicles[0][model_year]" autocomplete="off" class="form-control model_year">
+                              <input type="text" name="model_year" autocomplete="off" class="form-control model_year">
                           </div>
                       </div>
                   </div>
@@ -126,7 +81,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="vehicabrand">{{ trans('Make') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <select class="form-control select_make" name="vehicles[0][vehicabrand]" id="vehicabrand">
+                              <select class="form-control select_make" name="vehicabrand" id="vehicabrand">
                                   <option value="">{{ trans('Select Make') }}</option>
                                   @foreach ($vehical_brand as $vehical_brands)
                                       <option value="{{ $vehical_brands->id }}">{{ $vehical_brands->vehicle_brand }}</option>
@@ -137,7 +92,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="chassis_no">{{ trans('message.Chassis No') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <input type="text" name="vehicles[0][chassis_no]" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
+                              <input type="text" name="chassis_no" placeholder="{{ trans('message.Enter Chassis No.') }}" maxlength="30" class="form-control chassis_no">
                           </div>
                       </div>
                   </div>
@@ -145,7 +100,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="vehical_id">{{ trans('Body Type') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <select class="form-control select_body_type" name="vehicles[0][vehical_id]" id="vehical_id">
+                              <select class="form-control select_body_type" name="vehical_id" id="vehical_id">
                                   <option value="">{{ trans('message.Select Type') }}</option>
                                   @foreach ($vehical_type as $vehical_types)
                                       <option value="{{ $vehical_types->id }}">{{ $vehical_types->vehicle_type }}</option>
@@ -156,7 +111,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="engine_no">{{ trans('message.Engine No') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <input type="text" name="vehicles[0][engine_no]" placeholder="{{ trans('message.Enter Engine No') }}" class="form-control engine_no">
+                              <input type="text" name="engine_no" placeholder="{{ trans('message.Enter Engine No') }}" class="form-control engine_no">
                           </div>
                       </div>
                   </div>
@@ -164,7 +119,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="modelname">{{ trans('Model Name') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <select class="form-control select_model_name" name="vehicles[0][modelname]" id="modelname">
+                              <select class="form-control select_model_name" name="modelname" id="modelname">
                                   <option value="">{{ trans('message.Select Model') }}</option>
                               </select>
                           </div>
@@ -172,7 +127,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="fueltype">{{ trans('Fuel') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <select class="form-control select_fuel" name="vehicles[0][fueltype]">
+                              <select class="form-control select_fuel" name="fueltype">
                                   <option value="">{{ trans('message.Select fuel') }}</option>
                                   @foreach ($fuel_type as $fuel_types)
                                       <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}</option>
@@ -185,7 +140,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="color">{{ trans('Color') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <select class="form-control select_color" name="vehicles[0][color]">
+                              <select class="form-control select_color" name="color">
                                   <option value="">{{ trans('message.-- Select Color --') }}</option>
                                   @foreach ($color as $colors)
                                       <option value="{{ $colors->id }}" style="background-color:{{ $colors->color_code }}; color: #ffffff;">{{ $colors->color }}</option>
@@ -196,7 +151,7 @@
                       <div class="row col-md-6">
                           <label class="control-label col-md-4" for="branch">{{ trans('message.Branch') }} <label class="text-danger">*</label></label>
                           <div class="col-md-8">
-                              <select class="form-control select_branch" name="vehicles[0][branch]">
+                              <select class="form-control select_branch" name="branch">
                                   @foreach ($branchDatas as $branchData)
                                       <option value="{{ $branchData->id }}">{{ $branchData->branch_name }}</option>
                                   @endforeach
@@ -212,7 +167,7 @@
                           </div> --}}
                           <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                               {{-- <input type="file" id="image" name="image" class="form-control chooseImage"> --}}
-                              <input type="file" name="vehicles[0][vehicle_images][]" class="form-control" multiple>
+                              <input type="file" name="image" class="form-control" multiple>
                               <img src="{{ url('public/product/avtar.png') }}" id="imagePreview" alt="User Image" class="datatable_img" style="width: 52px; padding-top: 8px;">
                             </div>
                           </div>
@@ -1396,14 +1351,43 @@
     });
 </script>
 
+<script>
+    const allModels = @json($model_name);
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const vehicleBrandSelect = document.getElementById('vehicabrand');
+        const vehicleTypeSelect = document.getElementById('vehical_id');
+        const modelNameSelect = document.getElementById('modelname');
+        const allModels = @json($model_name);
+
+        function filterModels() {
+            const selectedBrand = vehicleBrandSelect.value;
+            const selectedType = vehicleTypeSelect.value;
+
+            // Clear the model name select options
+            modelNameSelect.innerHTML = '<option value="">{{ trans('message.Select Model') }}</option>';
+
+            // Filter and populate the model name select
+            allModels.forEach(function (model) {
+                if (model.vehicleType_id == selectedType && model.brand_id == selectedBrand) {
+                    const option = document.createElement('option');
+                    option.value = model.model_name;
+                    option.textContent = model.model_name;
+                    modelNameSelect.appendChild(option);
+                }
+            });
+        }
+
+        vehicleBrandSelect.addEventListener('change', filterModels);
+        vehicleTypeSelect.addEventListener('change', filterModels);
+    });
+</script>
+
+
 
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\ProductAddEditFormRequest', '#productAdd-Form') !!}
-<<<<<<< HEAD
 <script type="text/javascript"src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
-=======
-<script type="text/javascript"
-  src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
-
->>>>>>> 723c46cc149b3e892bfe937a70101070799b9d16
 @endsection

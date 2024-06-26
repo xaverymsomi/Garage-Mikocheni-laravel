@@ -137,6 +137,7 @@ Route::group(['prefix' => 'customer'], function () {
 	Route::get('/list/invoice/{id}', ['as' => 'customer/list/invoice/{id}', 'uses' => 'Customercontroller@customersinvoice'])->middleware('can:customer_view');
 	Route::get('/list/payment/{id}', ['as' => 'customer/list/payment/{id}', 'uses' => 'Customercontroller@customerspayment'])->middleware('can:customer_view');
 });
+
 	Route::get('/mot', 'Customercontroller@customersmot')->middleware('can:customer_view');
 
 	Route::get('/labor_hour/list', 'LabourHoursController@list')->middleware('can:labor_hours');
@@ -219,6 +220,9 @@ Route::group(['prefix' => 'vehicle'], function () {
 	Route::get('/list/view/maintainance/{id}', ['as' => 'vehicle/list/view/maintainance/{id}', 'uses' => 'VehicalControler@vehicalMaintainance'])->middleware('can:vehicle_view');
 	Route::get('/list/view/MOT/{id}', ['as' => 'vehicle/list/view/MOT/{id}', 'uses' => 'VehicalControler@vehicalMOT'])->middleware('can:vehicle_view');
 });
+
+
+	Route::post('/filter-model-names', 'Customercontroller@getFilteredModelNames')->name('filterModelNames');
 
 
 /*vehical type*/

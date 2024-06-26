@@ -371,26 +371,8 @@
           <label class="">{{ trans('message.Display Name') }} </label><br>
           <label class="fw-bold">{{ $customer->name }}<br></label>
         </div>
-        <div class="col-xl-3 col-md-3 col-sm-6">
-          <label class="">{{ trans('message.Date of Birth') }}</label><br>
-          <label class="fw-bold">
-            @if (!empty($customer->birth_date))
-            {{ date(getDateFormat(), strtotime($customer->birth_date)) }}
-            @else
-            {{ trans('message.Not Added') }}
-            @endif<br>
-          </label>
-        </div>
-        <div class="col-xl-3 col-md-3 col-sm-6">
-          <label class="">{{ trans('message.Gender') }} </label><br>
-          <span class="txt_color fw-bold">
-            @if ($customer->gender == '0')
-            <?php echo trans('message.Male'); ?>
-            @else
-            <?php echo trans('message.Female'); ?>
-            @endif
-          </span>
-        </div>
+        
+        
       </div>
       <div class="row mt-3">
         <div class="col-xl-6 col-md-6 col-sm-6">
@@ -452,21 +434,17 @@
                 </label>
               </div>
               <div class="col-xl-6 col-md-6 col-sm-12 mt-1">
-                <label class=""> {{ trans('message.State') }}: </label>
+                <label class=""> {{ trans('message.Town/City') }}: </label>
                 <label class="fw-bold">
                   {{ getStateName($customer->state_id)  ?? trans('message.Not Added') }}
                 </label>
               </div>
               <div class="col-xl-12 col-md-12 col-sm-12 mt-1">
-                <label class=""> {{ trans('message.Town/City') }}: </label>
+                <label class=""> {{ trans('message.Address') }}: </label>
                 <label class="fw-bold">
-                  {{ getCityName($customer->city_id)  ?? trans('message.Not Added') }}
+                  {{ getCityName($customer->address)  ?? trans('message.Not Added') }}
                 </label>
               </div>
-              <!-- <div class="col-xl-6 col-md-6 col-sm-12 mt-1">
-                <label class=""> {{ trans('message.Address') }}: </label>
-                <label class="text-dark fw-bold">{{ $customer->address }}</label>
-              </div> -->
             </div>
 
           </div>

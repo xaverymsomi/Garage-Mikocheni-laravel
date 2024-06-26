@@ -182,7 +182,7 @@
                                                 @if (!empty($vehical->dom))
                                                 {{ date(getDateFormat(), strtotime($vehical->dom)) }}
                                                 @else
-                                                {{ trans('message.Not Added') }}
+                                                {{ $vehical->modelyear }}
                                                 @endif
                                             </span>
                                         </div>

@@ -182,7 +182,7 @@
                                                 @if (!empty($vehical->dom))
                                                 {{ date(getDateFormat(), strtotime($vehical->dom)) }}
                                                 @else
-                                                {{ trans('message.Not Added') }}
+                                                {{ $vehical->modelyear }}
                                                 @endif
                                             </span>
                                         </div>
@@ -274,10 +274,10 @@
                                     <label class="">{{ trans('message.Date of Manufacturing') }} </label><br>
                                     <label class="fw-bold">
                                         @if (!empty($vehical->dom))
-                                        {{ date(getDateFormat(), strtotime($vehical->dom)) }}
-                                        @else
-                                        {{ trans('message.Not Added') }}
-                                        @endif
+                                                                        {{ $vehical->modelyear }}
+                                                                        @else
+                                                                        {{ $vehical->modelyear }}
+                                                                        @endif
                                     </label>
                                 </div>
                                 <div class="col-xl-3 col-md-3 col-sm-6">
@@ -333,10 +333,11 @@
                                                                 <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                                                                     <label class=""> {{ trans('message.Date of Manufacturing') }} : </label>
                                                                     <label class="fw-bold">@if (!empty($vehical->dom))
-                                                                        {{ date(getDateFormat(), strtotime($vehical->dom)) }}
+                                                                        {{ $vehical->modelyear }}
                                                                         @else
-                                                                        {{ trans('message.Not Added') }}
-                                                                        @endif</label>
+                                                                        {{ $vehical->modelyear }}
+                                                                        @endif
+                                                                    </label>
                                                                 </div>
 
                                                                 <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
@@ -344,66 +345,33 @@
                                                                     <label class="fw-bold"> {{ getVehicleType($vehical->vehicletype_id) }} </label>
                                                                 </div>
 
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class=""> {{ trans('message.Gear Box') }} :</label>
-                                                                    <label class="fw-bold"> {{ $vehical->gearbox ?? trans('message.Not Added') }} </label>
-                                                                </div>
+                                                                
 
                                                                 <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                                                                     <label class=""> {{ trans('message.Chassis No') }} : </label>
                                                                     <label class="fw-bold"> {{ $vehical->chassisno ?? trans('message.Not Added') }} </label>
                                                                 </div>
 
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class=""> {{ trans('message.Gear Box No :') }} </label>
-                                                                    <label class="fw-bold"> {{ $vehical->gearboxno ?? trans('message.Not Added') }} </label>
-                                                                </div>
+                                                                
 
                                                                 <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                                                                     <label class=""> {{ trans('message.Number Plate') }} : </label>
                                                                     <label class="fw-bold"> {{ $vehical->number_plate ?? trans('message.Not Added') }} </label>
                                                                 </div>
 
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class="">{{ trans('message.Engine No:') }} </label>
-                                                                    <label class="fw-bold"> {{ $vehical->engineno ?? trans('message.Not Added') }} </label>
-                                                                </div>
+                                                               
 
                                                                 <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                                                                     <label class=""> {{ trans('message.Fuel type :') }} </label>
                                                                     <label class="fw-bold"> {{ getFuelType($vehical->fuel_id) ?? trans('message.Not Added') }} </label>
                                                                 </div>
 
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class="">{{ trans('message.Engine Size:') }} </label>
-                                                                    <label class="fw-bold"> {{ $vehical->enginesize ?? trans('message.Not Added') }} </label>
-                                                                </div>
 
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class=""> {{ trans('message.No of Gears:') }} </label>
-                                                                    <label class="fw-bold"> {{ $vehical->nogears ?? trans('message.Not Added') }} </label>
-                                                                </div>
-
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class="">{{ trans('message.Key No :') }} </label>
-                                                                    <label class="fw-bold"> {{ $vehical->keyno ?? trans('message.Not Added') }} </label>
-                                                                </div>
-
-                                                                <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
-                                                                    <label class=""> {{ trans('message.Odometer Reading  :') }} </label>
-                                                                    <label class="fw-bold"> {{ $vehical->odometerreading ?? trans('message.Not Added') }} </label>
-                                                                </div>
 
                                                                 <div class="col-xl-6 col-md-6 col-sm-12 mt-2">
                                                                     <label class=""> {{ trans('message.Color') }} : </label>
-                                                                    <label class="fw-bold"> @if (!empty($col))
-                                                                        @foreach ($col as $color_id)
-                                                                        <span class="box_color txt_color" style=" background-color:{{ getColor($color_id->color) }}">
-                                                                        </span>
-                                                                        @endforeach
-                                                                        @else
-                                                                        {{ trans('message.Not Added') }}
-                                                                        @endif
+                                                                    <label class="fw-bold"> 
+                                                                        {{ getColorName($vehical->color) ?? trans('message.Not Added') }}
                                                                     </label>
                                                                 </div>
                                                                 @if (!empty($tbl_custom_fields))

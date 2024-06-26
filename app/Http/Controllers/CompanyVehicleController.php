@@ -30,6 +30,9 @@ class CompanyVehicleController extends Controller
 		if (!isAdmin(Auth::User()->role_id)) {
 
 			$product = CompanyVehicle::where('Added_by', Auth::user()->id)->latest()->orderBy('id', 'DESC')->get();
+
+    	    $images = DB::table('tbl_vehicle_images')->get();
+
 			
 		} else {
 			$product = CompanyVehicle::latest()->orderBy('id', 'DESC')->get();;
@@ -165,8 +168,16 @@ class CompanyVehicleController extends Controller
     {
         $p_date = $request->p_date;
 		$p_no = $request->p_no;
-		$name = $request->name;
-		$p_type = $request->p_type;
+		$branch = $request->branch;
+		$chassis_no = $request->chassis_no;
+		$number_plate = $request->number_plate;
+		$model_year = $request->model_year;
+		$engine_no = $request->engine_no;
+		$modelname = $request->modelname;
+		$fueltype = $request->fueltype;
+		$color = $request->color;
+		$name = $request->vehicabrand;
+		$p_type = $request->vehical_id;
 		$price = $request->price;
 		$quantity = $request->quantity;
 		$warranty = $request->warranty;
@@ -183,29 +194,34 @@ class CompanyVehicleController extends Controller
 		$vehicle->code = $p_no;
 		$vehicle->DateAdded = $dates;
 
+		$vehicle->name = $name;
+		// $vehicle->vehicle_brand = $request->vehicabrand;
+		$vehicle->manufacturer = $p_type;
+		$vehicle->price = $price;
+		$vehicle->warranty = $warranty;
+		$vehicle->chassis_no = $chassis_no;
+		$vehicle->model_name = $modelname;
+		$vehicle->plate_number = $number_plate;
+		$vehicle->engine_no = $engine_no;
+		$vehicle->color = $color;
+		$vehicle->fuel = $fueltype;
+		$vehicle->quantity = $quantity;
+		$vehicle->branch_id = $branch;
+
+		$vehicle->quantity = $request->quantity;
+
+
 		if (!empty($request->image)) {
 			$file = $request->image;
 			$filename = $file->getClientOriginalName();
 			$file->move(public_path() . '/companyvehicle/', $file->getClientOriginalName());
 			$vehicle->image = $filename;
-
 		} else {
 			$vehicle->image = 'avtar.png';
 		}
 
-		$vehicle->name = $name;
-		$vehicle->vehicle_brand = $request->vehicabrand;
-		$vehicle->manufacturer = $p_type;
-		$vehicle->price = $price;
-		$vehicle->warranty = $warranty;
-		$vehicle->quantity = $quantity;
-		$vehicle->branch_id = $request->branch;
 
-		$vehicle->quantity = $request->quantity;
-
-
-
-		$vehicle->year = $request->modelyear;
+		$vehicle->year = $model_year;
 		$vehicle->dealer_price = $dealer_price;
 
 		$vehicle->Added_by = Auth::User()->id;
@@ -233,7 +249,7 @@ class CompanyVehicleController extends Controller
 		}
 
 		$vehicle->save();
-
+		
 		return redirect('/company_vehicle/list')->with('message', 'Vehicle Submitted Successfully');
 	
     }
@@ -262,12 +278,17 @@ class CompanyVehicleController extends Controller
 		}
         $vehical_type = DB::table('tbl_vehicle_types')->where('soft_delete', '=', 0)->get()->toArray();
 		
+		
 		$vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
+		$fuel_type = DB::table('tbl_fuel_types')->where('soft_delete', '=', 0)->get()->toArray();
+		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
+		$model_name = DB::table('tbl_model_names')->where('soft_delete', '=', 0)->get()->toArray();
+		// $vehical_brand = DB::table('tbl_vehicle_brands')->where('soft_delete', '=', 0)->get()->toArray();
 
 		$company_vehicle = CompanyVehicle::where('id', '=', $id)->latest()->first();
 
 		// Return the view for adding a new company vehicle
-        return view('company_vehicle.edit', compact('vehical_type', 'vehical_brand', 'code', 'tbl_custom_fields', 'branchDatas','company_vehicle'));
+        return view('company_vehicle.edit', compact('color','vehical_type', 'vehical_brand', 'code', 'tbl_custom_fields', 'branchDatas','company_vehicle', 'fuel_type', 'model_name'));
     }
 
 	public function sell($id)
@@ -325,6 +346,9 @@ class CompanyVehicleController extends Controller
 		$sales->bill_no = $request->bill_no;
 		$sales->date = $s_date;
 		$sales->quantity = $qty;
+		$sales->vehicle_brand = $company_vehicle->name;
+		$sales->vehicle_id = $company_vehicle->manufacturer;
+		$sales->vehiclemodel = $company_vehicle->model_name;
 		$sales->price = $company_vehicle->Price;
 		$sales->total_price = $qty * $company_vehicle->Price;
 		$sales->salesmanname = $request->salesmanname;
@@ -366,11 +390,21 @@ class CompanyVehicleController extends Controller
 
 	public function update(Request $request, $id)
     {
-        $p_date = $request->p_date;
+        dd($request->all());
+		$p_date = $request->p_date;
 		$p_no = $request->p_no;
-		$name = $request->name;
-		$p_type = $request->p_type;
+		$branch = $request->branch;
+		$chassis_no = $request->chassis_no;
+		$number_plate = $request->number_plate;
+		$model_year = $request->model_year;
+		$engine_no = $request->engine_no;
+		$modelname = $request->modelname;
+		$fueltype = $request->fueltype;
+		$color = $request->color;
+		$name = $request->vehicabrand;
+		$p_type = $request->vehical_id;
 		$price = $request->price;
+		$quantity = $request->quantity;
 		$warranty = $request->warranty;
 
 		$dealer_price = $request->dealer_price;
@@ -381,9 +415,31 @@ class CompanyVehicleController extends Controller
 			$dates = date('Y-m-d', strtotime($p_date));
 		}
 
+
 		$vehicle = CompanyVehicle::find($id);;
 		$vehicle->code = $p_no;
 		$vehicle->DateAdded = $dates;
+
+		$vehicle->name = $name;
+		// $vehicle->vehicle_brand = $request->vehicabrand;
+		$vehicle->manufacturer = $p_type;
+		$vehicle->price = $price;
+		$vehicle->warranty = $warranty;
+		$vehicle->chassis_no = $chassis_no;
+		$vehicle->model_name = $modelname;
+		$vehicle->plate_number = $number_plate;
+		$vehicle->engine_no = $engine_no;
+		$vehicle->color = $color;
+		$vehicle->fuel = $fueltype;
+		$vehicle->quantity = $quantity;
+		$vehicle->branch_id = $branch;
+
+		$vehicle->quantity = $request->quantity;
+
+		$vehicle->year = $model_year;
+		$vehicle->dealer_price = $dealer_price;
+
+		$vehicle->Added_by = Auth::User()->id;
 
 		if (!empty($request->image)) {
 			$file = $request->image;
@@ -394,18 +450,7 @@ class CompanyVehicleController extends Controller
 			$vehicle->image = 'avtar.png';
 		}
 
-		$vehicle->name = $name;
-		$vehicle->vehicle_brand = $request->vehicabrand;
-		$vehicle->manufacturer = $p_type;
-		$vehicle->price = $price;
-		$vehicle->warranty = $warranty;
-		$vehicle->branch_id = $request->branch;
-		$vehicle->quantity = $request->quantity;
-
-		$vehicle->year = $request->modelyear;
-		$vehicle->dealer_price = $dealer_price;
-
-		$vehicle->Added_by = Auth::User()->id;
+		
 
 		$custom = $request->custom;
 		$custom_fileld_value = array();
@@ -435,14 +480,9 @@ class CompanyVehicleController extends Controller
 	
 
         // Return the view for editing a company vehicle
-        return view('company_vehicle.edit', compact('id'));
+        // return view('company_vehicle.edit', compact('id'));
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     // Handle updating the company vehicle
-    //     // Validation and updating logic here
-    // }
 
     public function destroy($id)
     {

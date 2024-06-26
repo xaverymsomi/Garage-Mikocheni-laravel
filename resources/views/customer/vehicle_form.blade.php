@@ -18,7 +18,7 @@
             <div class="row col-md-6">
                 <label class="control-label col-md-4" for="vehicabrand">{{ trans('Make') }} <label class="text-danger">*</label></label>
                 <div class="col-md-8">
-                    <select class="form-control select_make" name="vehicles[0][vehicabrand]" id="vehicabrand" onchange="filterModels(this)">
+                    <select class="form-control select_make" name="vehicles[0][vehicabrand]" id="vehicabrand" onchange="filterModels()">
                         <option value="">{{ trans('Select Make') }}</option>
                         @foreach ($vehical_brand as $vehical_brands)
                             <option value="{{ $vehical_brands->id }}">{{ $vehical_brands->vehicle_brand }}</option>
@@ -37,7 +37,7 @@
             <div class="row col-md-6">
                 <label class="control-label col-md-4" for="vehical_id">{{ trans('Body Type') }} <label class="text-danger">*</label></label>
                 <div class="col-md-8">
-                    <select class="form-control select_body_type" name="vehicles[0][vehical_id]" id="vehical_id" onchange="filterModels(this)">
+                    <select class="form-control select_body_type" name="vehicles[0][vehical_id]" id="vehical_id" onchange="filterModels()">
                         <option value="">{{ trans('message.Select Type') }}</option>
                         @foreach ($vehical_type as $vehical_types)
                             <option value="{{ $vehical_types->id }}">{{ $vehical_types->vehicle_type }}</option>
@@ -58,9 +58,7 @@
                 <div class="col-md-8">
                     <select class="form-control select_model_name" name="vehicles[0][modelname]" id="modelname">
                         <option value="">{{ trans('message.Select Model') }}</option>
-                        @foreach ($model_name as $model_names)
-                            <option value="{{ $model_names->model_name }}">{{ $model_names->model_name }}</option>
-                        @endforeach
+                        
                     </select>
                 </div>
             </div>
@@ -70,11 +68,10 @@
                     <select class="form-control select_fuel" name="vehicles[0][fueltype]">
                         <option value="">{{ trans('message.Select fuel') }}</option>
                         @if (!empty($fuel_type))
-                                     @foreach ($fuel_type as $fuel_types)
-                                     <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}
-                                     </option>
-                                     @endforeach
-                                     @endif
+                            @foreach ($fuel_type as $fuel_types)
+                                <option value="{{ $fuel_types->id }}">{{ $fuel_types->fuel_type }}</option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
             </div>
@@ -114,30 +111,26 @@
 </div>
 
 <script>
-    // JavaScript to filter model names based on selected make and body type
-    $(document).ready(function() {
-        $('#vehicabrand, #vehical_id').on('change', function() {
-            let selectedMakeId = vehicleBrandSelect.value;
-            let selectedVehicleType = vehicleTypeSelect.value;
+    function filterModels() {
+        var brand_id = $('#vehicabrand').val();
+        var vehicleType_id = $('#vehical_id').val();
 
-            // Show all options initially
-            $('#modelname option').hide();
-
-            // Filter and show only relevant options
-            $('#modelname option').each(function() {
-                let makeId = $(this).data('make-id');
-                var vehicleType = $(this).data('vehicle-type');
-
-                if (makeId == selectedMakeId && vehicleType == selectedVehicleType) {
-                    $(this).show();
-                }
-            });
-
-            // Select the first visible option if available
-            var firstVisibleOption = $('#modelname option:visible:first');
-            if (firstVisibleOption.length) {
-                firstVisibleOption.prop('selected', true);
+        $.ajax({
+            url: '{{ route('filterModelNames') }}',  // Ensure you have this route defined in your Laravel routes file
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                brand_id: brand_id,
+                vehicleType_id: vehicleType_id
+            },
+            success: function(response) {
+                var modelSelect = $('#modelname');
+                modelSelect.empty();
+                modelSelect.append('<option value="">{{ trans('message.Select Model') }}</option>');
+                $.each(response.model_names, function(index, model) {
+                    modelSelect.append('<option value="' + model.model_name + '">' + model.model_name + '</option>');
+                });
             }
         });
-    });
+    }
 </script>

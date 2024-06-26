@@ -364,8 +364,9 @@
                   @endif
                   <!-- End Custom Field -->
                   <div class="row">
+                    <!-- Add another vehicle button -->
                     <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6 my-1 mx-0">
-                        <button type="button" class="btn btn-success customerAddSubmitButton" url="{!! url('customer_vehicle/add/getanother_vehicle') !!}" id="add-more-vehicles">
+                        <button type="button" class="btn btn-success customerAddSubmitButton" id="add-more-vehicles">
                             {{ trans('Add another Vehicle') }}
                         </button>
                     </div>
@@ -2012,87 +2013,71 @@
 </script>
 
 
-<script>
-    $(document).ready(function() {
-    // Initialize row_id
-    var row_id = $("#vehicle-info-container .vehicle-info-template").length;
-
-    $("#add-more-vehicles").click(function() {
-        var url = $(this).attr('url');
-
-        // Increment row_id
-        row_id++;
-
-        // Define the error message (assuming Laravel's translation method)
-        var msg16 = "{{ trans('app.An error occurred :') }}";
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: {
-                row_id: row_id
-            },
-            beforeSend: function() {
-                // Optionally disable the button to prevent multiple clicks
-                $("#add-more-vehicles").prop('disabled', true);
-            },
-            success: function(response) {
-                // Assuming the response contains the HTML for the new vehicle form
-                $("#vehicle-info-container").append(response.html);
-                // Reset form data of the cloned vehicle form
-                $("#vehicle-info-container .vehicle-info-template:last").find('input[type=text], select').val('');
-                // Re-enable the button
-                $("#add-more-vehicles").prop('disabled', false);
-            },
-            error: function(e) {
-                alert(msg16 + " " + e.responseText);
-                console.log(e);
-                // Re-enable the button
-                $("#add-more-vehicles").prop('disabled', false);
-            }
-        });
-    });
-});
-
-</script>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!-- Include all model data in JSON format -->
 <script>
     const allModels = @json($model_name);
-</script>
 
-<script>
     document.addEventListener('DOMContentLoaded', function () {
-        const vehicleBrandSelect = document.getElementById('vehicabrand');
-        const vehicleTypeSelect = document.getElementById('vehical_id');
-        const modelNameSelect = document.getElementById('modelname');
-        const allModels = @json($model_name);
+        let vehicleCount = 1; // Start from 1 since 0 is used for the first vehicle
 
-        function filterModels() {
-            const selectedBrand = vehicleBrandSelect.value;
-            const selectedType = vehicleTypeSelect.value;
+        function setupFiltering(container) {
+            const vehicleBrandSelect = container.querySelector('.select_make');
+            const vehicleTypeSelect = container.querySelector('.select_body_type');
+            const modelNameSelect = container.querySelector('.select_model_name');
 
-            // Clear the model name select options
-            modelNameSelect.innerHTML = '<option value="">{{ trans('message.Select Model') }}</option>';
+            function filterModels() {
+                const selectedBrand = vehicleBrandSelect.value;
+                const selectedType = vehicleTypeSelect.value;
 
-            // Filter and populate the model name select
-            allModels.forEach(function (model) {
-                if (model.vehicleType_id == selectedType && model.brand_id == selectedBrand) {
-                    const option = document.createElement('option');
-                    option.value = model.id;
-                    option.textContent = model.model_name;
-                    modelNameSelect.appendChild(option);
-                }
-            });
+                // Clear the model name select options
+                modelNameSelect.innerHTML = '<option value="">{{ trans('message.Select Model') }}</option>';
+
+                // Filter and populate the model name select
+                allModels.forEach(function (model) {
+                    if (model.vehicleType_id == selectedType && model.brand_id == selectedBrand) {
+                        const option = document.createElement('option');
+                        option.value = model.model_name;
+                        option.textContent = model.model_name;
+                        modelNameSelect.appendChild(option);
+                    }
+                });
+            }
+
+            vehicleBrandSelect.addEventListener('change', filterModels);
+            vehicleTypeSelect.addEventListener('change', filterModels);
         }
 
-        vehicleBrandSelect.addEventListener('change', filterModels);
-        vehicleTypeSelect.addEventListener('change', filterModels);
+        // Initial setup for existing vehicle info
+        const existingTemplate = document.querySelector('.vehicle-info-template');
+        setupFiltering(existingTemplate);
+
+        // Handle dynamically added vehicles
+        document.getElementById('add-more-vehicles').addEventListener('click', function () {
+            const container = document.getElementById('vehicle-info-container');
+            const newTemplate = existingTemplate.cloneNode(true);
+
+            // Update input names to be unique
+            newTemplate.querySelectorAll('input, select').forEach(function (element) {
+                if (element.name) {
+                    element.name = element.name.replace('[0]', '[' + vehicleCount + ']');
+                }
+                element.value = ''; // Clear the value
+            });
+
+            vehicleCount++;
+
+            // Append the new template
+            container.appendChild(newTemplate);
+
+            // Setup filtering for the newly added template
+            setupFiltering(newTemplate);
+        });
     });
 </script>
+
 <!-- Form field validation -->
 {!! JsValidator::formRequest('App\Http\Requests\VehicleAddEditFormRequest', '#vehicleAdd-Form') !!}
 <script type="text/javascript" src="{{ asset('public/vendor/jsvalidation/js/jsvalidation.js') }}"></script>

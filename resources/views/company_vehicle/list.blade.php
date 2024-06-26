@@ -81,7 +81,7 @@
                 <td>{{ getVehicleType($products->manufacturer) }} 
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Type" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                 </td>
-                <td>{{ $products->name }}&nbsp;
+                <td>{{ getVehicleBrand($products->name) }}&nbsp;
                   <!-- <a data-toggle="tooltip" data-placement="bottom" title="Product Name" class="text-primary">
                     <i class="fa fa-info-circle" style="color:#D9D9D9"></i>
                   </a> -->

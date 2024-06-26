@@ -32,6 +32,23 @@ class Customercontroller extends Controller
 		$this->middleware('auth');
 	}
 
+	
+	public function getFilteredModelNames(Request $request)
+	{
+		$brand_id = $request->input('brand_id');  // Get the brand ID from the request
+		$vehicleType_id = $request->input('vehicleType_id');  // Get the vehicle type ID from the request
+	
+		$model_names = DB::table('tbl_model_names')
+			->join('tbl_vehicle_brands', 'tbl_vehicle_brands.id', '=', 'tbl_model_names.brand_id')
+			->join('tbl_vehicle_types', 'tbl_vehicle_types.id', '=', 'tbl_model_names.vehicleType_id')
+			->where('tbl_model_names.brand_id', $brand_id)
+			->where('tbl_model_names.vehicleType_id', $vehicleType_id)
+			->select('tbl_model_names.model_name')
+			->get();
+	
+		return response()->json(['model_names' => $model_names]);
+	}
+
 	public function getAnotherVehicle(Request $request)
 {
     $row_id = $request->input('row_id');
@@ -188,6 +205,7 @@ class Customercontroller extends Controller
 	//customer store
 	public function storecustomer(CustomerAddEditFormRequest $request)
 	{
+	
 		$customerType = $request->customer_type;
 
 		$vehicla = $request->input('vehicles');
@@ -204,7 +222,7 @@ class Customercontroller extends Controller
 			$email = $request->email;
 			$mobile = $request->mobile;
 
-			$address = $request->addressname;
+			$address = $request->customer_address;
 			$country_id = $request->country_id;
 			$state_id = $request->state_id;
 			$city = $request->city;
@@ -235,7 +253,7 @@ class Customercontroller extends Controller
 			$customer->password = bcrypt($password);
 			$customer->mobile_no = $mobile;
 
-			$customer->address = $request->addressname;
+			$customer->address = $request->customer_address;
 			$customer->country_id = $country_id;
 			$customer->state_id = $state_id;
 			$customer->city_id = $city;
@@ -407,7 +425,7 @@ class Customercontroller extends Controller
 			$nida_no= $request->nida_no;
 			$tin_no = $request->tin_no;
 
-			$address = $request->addressname;
+			$address = $request->customer_address;
 
 			$country_id = $request->country_id;
 			$state_id = $request->state_id;
@@ -422,7 +440,7 @@ class Customercontroller extends Controller
 			$customer->email = $email;
 			$customer->password = bcrypt($password);
 			$customer->mobile_no = $mobile;
-			$customer->address = $address;
+			$customer->address = $request->customer_address;
 			$customer->country_id = $country_id;
 			$customer->state_id = $state_id;
 			$customer->city_id = $city;
@@ -578,9 +596,8 @@ class Customercontroller extends Controller
 		return redirect('/customer/list')->with('message', 'Customer Submitted Successfully');
 	
 	}
-		// dd($customerType);
 		
-}
+	}
 
 			//customer list
 	public function index()

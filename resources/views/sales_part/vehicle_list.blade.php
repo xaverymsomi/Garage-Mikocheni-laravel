@@ -60,9 +60,11 @@ ler
                             <tr>
                                 <th>{{ trans('message.Bill Number') }}</th>
                                 <th>{{ trans('message.Customer Name') }}</th>
-                                <th>{{ trans('message.Date') }}</th>
                                 <th>{{ trans('message.Salesman') }}</th>
-                                <th>{{ trans('message.Action') }}</th>
+                                <th>{{ trans('Vehicle Name') }}</th>
+                                <th>{{ trans('Body Type') }}</th>
+                                <th>{{ trans('Model Name') }}</th>
+                                <th>{{ trans('message.Date') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,65 +77,25 @@ ler
                                 <td>{{ getCustomerName($sale->customer_id) }} 
                                     <!-- <a data-toggle="tooltip" data-placement="bottom" title="Customer Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                                 </td>
-                                <td>{{ date(getDateFormat(), strtotime($sale->date)) }} 
-                                    <!-- <a data-toggle="tooltip" data-placement="bottom" title="Date" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-                                </td>
+                                
                                 <!-- <td>{{ getPart($sale->product_id)->name ?? '' }} <a data-toggle="tooltip" data-placement="bottom" title="Part Brand" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a></td> -->
                                 <td>{{ getAssignedName($sale->salesmanname) }} 
                                     <!-- <a data-toggle="tooltip" data-placement="bottom" title="Salesman" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                                 </td>
-                                <td>
-                                    <div class="dropdown_toggle">
-                                        <img src="{{ URL::asset('public/img/list/dots.png') }}" class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 
-                                        <ul class="dropdown-menu heder-dropdown-menu action_dropdown shadow py-2" aria-labelledby="dropdownMenuButton1">
-                                            @if (getUserRoleFromUserTable(Auth::User()->id) == 'admin' || getUserRoleFromUserTable(Auth::User()->id) == 'supportstaff' || getUserRoleFromUserTable(Auth::User()->id) == 'accountant' || getUserRoleFromUserTable(Auth::User()->id) == 'employee' || getUserRoleFromUserTable(Auth::User()->id) == 'branch_admin')
-                                            <?php $sales_invoice = getInvoiceNumbers($sale->id); ?>
-
-                                            @if ($sales_invoice == 'No data')
-                                            @if (Gate::allows('salespart_add'))
-                                            @can('salespart_add')
-                                            <li><a href="{!! url('invoice/sale_part_invoice/add/' . $sale->id) !!}" class="dropdown-item ms-2"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3">{{ trans('message.Create Invoice') }}</a></li>
-                                            @endcan
-                                            @else
-                                            @can('salespart_view')
-                                            <li><a href="{!! url('invoice/add/') !!}" class="dropdown-item ms-2"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3">&nbsp;{{ trans('message.View Invoices') }}</a></li>
-                                            @endcan
-                                            @endif
-                                            @else
-                                            @can('salespart_view')
-                                            <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" saleid="{{ $sale->id }}" invoice_number="{{ getInvoiceNumbers($sale->id) }}" url="{!! url('/sales_part/list/modal') !!}" class="dropdown-item save ms-2"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3">&nbsp;{{ trans('message.View Invoices') }}</button></li>
-                                            @endcan
-                                            @endif
-
-                                            @can('salespart_edit')
-                                            <li><a href="{!! url('sales_part/edit/' . $sale->id) !!}" class="dropdown-item ms-2"><img src="{{ URL::asset('public/img/list/Edit.png') }}" class="me-3">&nbsp;{{ trans('message.Edit') }}</a></li>
-                                            @endcan
-                                            @else
-                                            <?php $sales_invoice = getInvoiceNumbers($sale->id); ?>
-                                            @if ($sales_invoice == 'No data')
-                                            @if (Gate::allows('salespart_add'))
-                                            @can('salespart_add')
-                                            <li><a href="{!! url('invoice/sale_part_invoice/add/' . $sale->id) !!}" class="dropdown-item ms-2"><img src="{{ URL::asset('public/img/list/create.png') }}" class="me-3">{{ trans('message.Create Invoice') }}</a></li>
-                                            @endcan
-                                            @else
-                                            @can('salespart_view')
-                                            <li><a href="{!! url('invoice/add/') !!}" class="dropdown-item ms-2"><img src="{{ URL::asset('public/img/list/Vector.png') }}" class="me-3">&nbsp;{{ trans('message.View Invoices') }}</a></li>
-                                            @endcan
-                                            @endif
-                                            @else
-                                            @can('salespart_view')
-                                            <li><button type="button" data-bs-toggle="modal" data-bs-target="#myModal" saleid="{{ $sale->id }}" invoice_number="{{ getInvoiceNumbers($sale->id) }}" url="{!! url('/sales_part/list/modal') !!}" class="dropdown-item save ms-2">{{ trans('message.View Invoices') }}</button></li>
-                                            @endcan
-                                            @endif
-
-                                            @can('salespart_edit')
-                                            <li><a href="{!! url('sales_part/edit/' . $sale->id) !!}" class="dropdown-item"><img src="{{ URL::asset('public/img/list/Edit.png') }}" class="me-3">&nbsp;{{ trans('message.Edit') }}</a></li>
-                                            @endcan
-                                            @endif
-                                        </ul>
-                                    </div>
+                                <td>{{ getvehicleBrand($sale->vehicle_brand) }} 
+                                    <!-- <a data-toggle="tooltip" data-placement="bottom" title="Date" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                                 </td>
+                                <td>{{ getVehicleType($sale->vehicle_id) }} 
+                                    <!-- <a data-toggle="tooltip" data-placement="bottom" title="Date" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
+                                </td>
+                                <td>{{ $sale->vehiclemodel }} 
+                                    <!-- <a data-toggle="tooltip" data-placement="bottom" title="Date" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
+                                </td>
+                                <td>{{ date(getDateFormat(), strtotime($sale->date)) }} 
+                                    <!-- <a data-toggle="tooltip" data-placement="bottom" title="Date" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
+                                </td>
+                                
                             </tr>
                             <?php $i++; ?>
                             @endforeach
