@@ -333,6 +333,19 @@ use Illuminate\Support\Str;
          display: none
          }
          }
+         .fa-solid--receipt {
+            display: inline-block;
+            width: 0.75em;
+            height: 1em;
+            --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%23000' d='M358.4 3.2L320 48L265.6 3.2a15.9 15.9 0 0 0-19.2 0L192 48L137.6 3.2a15.9 15.9 0 0 0-19.2 0L64 48L25.6 3.2C15-4.7 0 2.8 0 16v480c0 13.2 15 20.7 25.6 12.8L64 464l54.4 44.8a15.9 15.9 0 0 0 19.2 0L192 464l54.4 44.8a15.9 15.9 0 0 0 19.2 0L320 464l38.4 44.8c10.5 7.9 25.6.4 25.6-12.8V16c0-13.2-15-20.7-25.6-12.8M320 360c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h240c4.4 0 8 3.6 8 8zm0-96c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h240c4.4 0 8 3.6 8 8zm0-96c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h240c4.4 0 8 3.6 8 8z'/%3E%3C/svg%3E");
+            background-color: currentColor;
+            -webkit-mask-image: var(--svg);
+            mask-image: var(--svg);
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+         }
       </style>
       <!-- colorpicker links -->
       <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -396,6 +409,7 @@ use Illuminate\Support\Str;
                               </div>
                            </li>
                            @endcanany
+
                            @php
                            $inventoryRoutes = ['/quotation/list', '/quotation/add'];
                            $companyVehicleRoutes = ['/company_vehicle/list', '/company_vehicle/add'];
@@ -407,6 +421,20 @@ use Illuminate\Support\Str;
                               </a>
                            </li>
                            @endcan
+
+
+                           @php
+                           $inventoryRoutes = ['/receipt/list', '/receipt/add'];
+                           @endphp
+                           @can('quotation_view')
+                           <li class="{{ in_array($currentRoute, $inventoryRoutes) || Str::startsWith($currentRoute, '/receipt/list/') ? 'active' : '' }}">
+                              <a href="{!! url('/receipt/list') !!}">
+                                 <span class="fa-solid--receipt"></span> {{ trans('Capture Receipt') }}
+                              </a>
+                           </li>
+                           @endcan
+                            
+
                            @php
                            $inventoryRoutes = ['/labor_hour/add','/labor_hour/list'];
                            @endphp

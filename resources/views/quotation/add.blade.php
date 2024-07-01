@@ -427,15 +427,9 @@
                                                                         <div class="panel-body">
 
 
-                                                                            @php
-                                                                            $a = $b = '';
-                                                                            $count = count($inspection_points_library_data);
-                                                                            $count = $count / 2;
-                                                                            @endphp
+                                                                            
 
-                                                                            @foreach ($inspection_points_library_data as $key => $inspection_library)
-                                                                            @if ($inspection_library->inspection_type == 1)
-                                                                            @if ($key % 2 != 1)
+                                                                            
                                                                             <?php
                                                                             $a .= "<tr>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <td>$inspection_library->code</td>
@@ -518,15 +512,8 @@
                                                                     </div>
                                                                     <div id="collapse6" class="panel-collapse collapse">
                                                                         <div class="panel-body">
-                                                                            @php
-                                                                            $a = $b = '';
-                                                                            $count = count($inspection_points_library_data);
-                                                                            $count = $count / 2;
-                                                                            @endphp
+                                                                            
 
-                                                                            @foreach ($inspection_points_library_data as $key => $inspection_library)
-                                                                            @if ($inspection_library->inspection_type == 2)
-                                                                            @if ($key % 2 != 0)
                                                                             <?php
                                                                             $a .= "<tr>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <td>$inspection_library->code</td>
@@ -623,10 +610,8 @@
                                                                         </th>
                                                                         <th><b>{{ trans('message.Answer') }}</b></th>
                                                                     <tr>
-                                                                </thead>
-
-                                                                @foreach ($inspection_points_library_data as $key => $value)
-                                                                <thead>
+                                    
+                                                                        
                                                                     <tr style="display: none;" id="tr_{{ $value->id }}">
                                                                         <td id="">
                                                                             {{ $value->id }}

@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
 use App\Sale;
 use App\User;
-use App\Service;
 use App\Product;
+use App\Service;
 use App\BranchSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+
+
 
 class Reportcontroller extends Controller
 {
@@ -177,7 +181,7 @@ class Reportcontroller extends Controller
 
 				$salesreport = Sale::whereBetween('date', array($s_date, $e_date))->where([['salesmanname', '=', $all_salesman], ['customer_id', '=', $all_customer]])->get();
 			}
-		} elseif (Auth::User()->role_id === 6) {{
+		} elseif (Auth::User()->role_id === 6) {
 			$Select_salesman = User::where([['role', '=', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
 			if ($s_date == "" && $e_date == "" && $all_customer == 'all' && $all_salesman == 'all') {
 				$Sales = DB::select("SELECT count(*) as counts, RIGHT(YEAR(`date`),4) as date FROM tbl_sales where customer_id='$all_customer' group by YEAR(`date`) ORDER BY date ASC");
@@ -227,8 +231,7 @@ class Reportcontroller extends Controller
 
 				$salesreport = Sale::whereBetween('date', array($s_date, $e_date))->where([['salesmanname', '=', $all_salesman], ['customer_id', '=', $all_customer]])->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
 			}
-		} 
-		else {
+		} else {
 			$Select_salesman = User::where([['role', '=', 'employee'], ['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
 			if ($s_date == "" && $e_date == "" && $all_customer == 'all' && $all_salesman == 'all') {
 				$Sales = DB::select("SELECT count(*) as counts, RIGHT(YEAR(`date`),4) as date FROM tbl_sales where customer_id='$all_customer' group by YEAR(`date`) ORDER BY date ASC");
@@ -279,6 +282,7 @@ class Reportcontroller extends Controller
 				$salesreport = Sale::whereBetween('date', array($s_date, $e_date))->where([['salesmanname', '=', $all_salesman], ['customer_id', '=', $all_customer]])->where([['soft_delete', 0], ['branch_id', $currentUser->branch_id]])->get();
 			}
 		}
+		
 
 		$Select_customer = User::where([['role', '=', 'Customer'], ['soft_delete', 0]])->get();
 

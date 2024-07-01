@@ -314,6 +314,13 @@ Route::group(['prefix' => 'service'], function () {
 	Route::get('/customer_autocomplete_search', 'ServicesControler@get_customer_name');
 });
 
+Route::group(['prefix' => 'receipt'], function () {
+	Route::get('list', ['as' => 'receipt/list', 'uses' => 'ReceiptController@list'])->middleware('can:quotation_view');
+	Route::get('list/view', ['as' => 'receipt/list/view', 'uses' => 'ReceiptController@quotationView'])->middleware('can:quotation_view');
+	Route::get('add', ['as' => 'receipt/add', 'uses' => 'ReceiptController@addReceipt'])->middleware('can:quotation_add');
+	Route::post('store', ['as' => 'receipt/store', 'uses' => 'ReceiptController@store'])->middleware('can:quotation_add');
+
+});
 
 /*Quotation Module Add by Mukesh*/
 Route::group(['prefix' => 'quotation'], function () {

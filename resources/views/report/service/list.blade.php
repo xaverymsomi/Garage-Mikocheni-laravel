@@ -149,19 +149,14 @@ foreach ($service as $services) {
                         </div>
                         <div class="row row-mb-0">
                             <div class="row col-md-6 col-lg-6 col-xl-6 col-xxl-6 col-sm-6 col-xs-6">
-                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="option">{{ trans('message.Select Service') }} </label>
+                                <label class="control-label col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-4 col-xs-4" for="option">{{ trans('Services') }} </label>
                                 <div class="col-md-8 col-lg-8 col-xl-8 col-xxl-8 col-sm-8 col-xs-8">
                                     <select class="form-control form-select" name="service_select">
                                         <option value="all" <?php if ($all_service == 'all') {
                                                                 echo 'selected';
                                                             } ?>>{{ trans('message.All') }}</option>
 
-                                        <option value="free" <?php if ($all_service == 'free') {
-                                                                    echo 'selected';
-                                                                } ?>>{{ trans('message.Free') }}</option>
-                                        <option value="paid" <?php if ($all_service == 'paid') {
-                                                                    echo 'selected';
-                                                                } ?>>{{ trans('message.Paid') }}</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -226,7 +221,6 @@ foreach ($service as $services) {
                             <th>{{ trans('message.Customer Name') }}</th>
                             <th>{{ trans('message.Date') }}</th>
                             <th>{{ trans('message.Vehicle Name') }}</th>
-                            <th>{{ trans('message.Service Type') }}</th>
                             <th>{{ trans('message.Paid Amount') }} ({{ getCurrencySymbols() }})</th>
                             <th>{{ trans('message.Assign To') }}</th>
                         </tr>
@@ -250,9 +244,7 @@ foreach ($service as $services) {
                             <td>{{ getVehicleName($servicereports->vehicle_id) }} 
                                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Vehicle Name" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                             </td>
-                            <td>{{ ucfirst($servicereports->service_type) }} 
-                                <!-- <a data-toggle="tooltip" data-placement="bottom" title="Service Type" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
-                            </td>
+                           
                             <td>{{ number_format(getPaidAmount($servicereports->job_no), 2) }} 
                                 <!-- <a data-toggle="tooltip" data-placement="bottom" title="Paid Amount( <?php echo getCurrencySymbols(); ?> )" class="text-primary"><i class="fa fa-info-circle" style="color:#D9D9D9"></i></a> -->
                             </td>

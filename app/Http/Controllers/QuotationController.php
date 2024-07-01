@@ -126,8 +126,7 @@ class QuotationController extends Controller
 
 		$tbl_custom_fields = DB::table('tbl_custom_fields')->where([['form_name', '=', 'service'], ['always_visable', '=', 'yes'], ['soft_delete', '=', 0]])->get()->toArray();
 		$tax = DB::table('tbl_account_tax_rates')->where([['soft_delete', '=', 0]])->get()->toArray();
-		$inspection_points_library_data = DB::table('inspection_points_library')->get();
-
+		
 		$color = DB::table('tbl_colors')->where('soft_delete', '=', 0)->get()->toArray();
 
 
@@ -189,7 +188,7 @@ class QuotationController extends Controller
 
 		$repairCategoryList = DB::table('table_repair_category')->where([['soft_delete', 0]])->get()->toArray();
 
-		return view('quotation.add', compact('stockQuantities','customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas','employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'tbl_custom_fields', 'inspection_points_library_data', 'tax', 'branchDatas', 'repairCategoryList','vehicle_name', 'cat_name','job_cartegory', 'model_name'));
+		return view('quotation.add', compact('stockQuantities','customer', 'employee', 'code', 'color', 'taxes', 'payment', 'brand', 'manufacture_name', 'tbl_custom_fields', 'branchDatas','employee', 'customer', 'code', 'country', 'onlycustomer', 'vehical_brand', 'vehical_type', 'fuel_type', 'color', 'tbl_custom_fields', 'tax', 'branchDatas', 'repairCategoryList','vehicle_name', 'cat_name','job_cartegory', 'model_name'));
 	}
 
 
